@@ -1,0 +1,1 @@
+<p class="text-info">Sorry, no threads found.</p>

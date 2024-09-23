@@ -1,0 +1,71 @@
+html {
+    color-scheme: dark;
+}
+
+@media (max-width: 575.98px) {
+    .app-cover {
+        background: rgb(15, 1, 1);
+    }
+}
+
+.app-cover .form-control {
+    background-color: transparent;
+    color: darkgray;
+    background-clip: border-box;
+    border: 1px solid #dddddd14;
+}
+
+.app-cover .form-control:focus-visible,
+.app-cover .form-control:active,
+.app-cover .form-control:focus {
+    border: 1px solid;
+    outline: none;
+    border-color: #dddddd52 !important;
+}
+
+div.card.intro {
+    border: none;
+}
+
+div.page-content.app-cover {
+    background-color: rgb(35 39 53);
+}
+
+.card {
+    background-color: transparent !important;
+    box-shadow: 0px 0px 20px 20px #121212 inset;
+}
+
+div.app-cover .alert-danger {
+    color: #f44336;
+    background-color: transparent;
+    border-color: #f5524624;
+}
+
+@media (max-width: 991.98px) {
+    .navbar-dark.login ul {
+        display: contents;
+    }
+}
+
+.navbar-dark.login .nav-item a {
+    display: flex;
+}
+
+.font-small {
+    font-size: small;
+}
+
+.text-green {
+    color: green;
+}
+
+.box-shadow-none {
+    box-shadow: none;
+}
+
+@media (min-width: 576px) {
+    .mw-sm-25em {
+        max-width: 25em;
+    }
+}

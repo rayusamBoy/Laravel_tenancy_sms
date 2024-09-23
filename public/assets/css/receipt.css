@@ -1,0 +1,96 @@
+.container {
+    margin: 10px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+@media (min-width: 768px) {
+    .container {
+        width: 750px;
+    }
+}
+
+@media (min-width: 992px) {
+    .container {
+        width: 970px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        width: 1170px;
+    }
+}
+
+@media print {
+
+    td,
+    th {
+        padding: 2px;
+        text-align: center;
+    }
+
+    @page {
+        /*size: auto;    auto is the initial value */
+        /* margin: 0;   this affects the margin in the printer settings */
+    }
+
+    html {
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+        background-color: #ffffff;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        /* margin: 10px;  this affects the margin on the html before sending to printer */
+    }
+
+    body {
+        margin: 0 10mm;
+    }
+}
+
+td {
+    text-align: center;
+}
+
+table.td-left td {
+    text-align: left !important;
+    padding: 5px;
+}
+
+.arial {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.clear {
+    clear: both;
+}
+
+@page {
+    margin: 25px 20px;
+}
+
+#print {
+    position: absolute;
+    left: 0;
+    width: 700px;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.float-left {
+    float: left;
+}
+
+.signature .border {
+    border-bottom: 1px solid;
+    width: 100px;
+    padding-bottom: 2em;
+    display: block;
+}

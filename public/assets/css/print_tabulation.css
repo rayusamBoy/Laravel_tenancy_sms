@@ -1,0 +1,153 @@
+@media print {
+
+    td,
+    th {
+        padding: 2px;
+        text-align: center;
+        font-size: 12px;
+    }
+
+    .hide {
+        visibility: hidden;
+        display: none;
+    }
+
+    @page {
+        size: auto;
+        /* auto is the initial value */
+        margin-bottom: 2.5em;
+        /* this affects the margin in the printer settings */
+    }
+
+    html {
+        background-color: #ffffff;
+        margin: 10px;
+        /* this affects the margin on the html before sending to printer */
+    }
+
+    body {
+        margin: 0 10mm;
+        /* margin you want for the content */
+    }
+
+    .copyright {
+        display: block !important;
+        padding-bottom: 0.5em;
+        opacity: 0.6;
+    }
+}
+
+.hide {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.bg-lightblue {
+    background-color: lightblue;
+}
+
+.bg-logo {
+    max-width: 500px;
+    max-height: 600px;
+    position: absolute;
+    opacity: 0.1;
+    margin: auto;
+    top: auto;
+    transform: translateY(50%);
+    bottom: auto;
+    left: 0;
+    right: 0;
+}
+
+.copyright {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    display: none;
+}
+
+td {
+    text-align: center;
+}
+
+table.td-left td {
+    text-align: left !important;
+    padding: 5px;
+}
+
+.table-styled {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px auto;
+}
+
+.table-styled,
+.table-styled th,
+.table-styled td:not(.unstyled) {
+    border: 1px solid;
+    border-collapse: collapse;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-underline {
+    text-decoration: underline;
+}
+
+.w-1pcnt {
+    width: 1%;
+    max-width: 2em;
+    min-width: 1em;
+}
+
+.hfull {
+    height: 4.6em;
+}
+
+.br {
+    border-right: 1px solid;
+}
+
+.bl {
+    border-left: 1px solid;
+}
+
+.w-60 {
+    min-width: 20%;
+}
+
+.wrdbrk {
+    word-break: break-all;
+}
+
+.styled {
+    width: 100% !important;
+    max-width: 500px !important;
+    border-collapse: collapse !important;
+    border: 1px solid #000 !important;
+    margin: 10px auto !important;
+}
+
+.text-vertical {
+    writing-mode: vertical-lr;
+    transform: rotate(180deg);
+    text-transform: uppercase;
+}
+
+.hide .btn {
+    position: fixed;
+    cursor: pointer;
+}
+
+.hide p {
+    border: 1px solid #00800026;
+    padding: 0.3em;
+    color: #00626e;
+    background-color: #d6f4f8;
+    /* border-color: #14c1d7; */
+}
+
+.float-right {
+    float: right;
+}
