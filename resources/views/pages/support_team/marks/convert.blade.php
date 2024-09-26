@@ -60,7 +60,7 @@
                 </div>
                 <div class="col-2 col-sm-2 material-symbols-rounded m-auto">line_end_arrow</div>
 
-                <div class="col-2 col-sm-5 m-auto text-blue-800 text-center"><span class="item-output"></span><button disabled data-toggle="tooltip" title="Copy" class="item-copy d-none d-md-block material-symbols-rounded btn bg-transparent float-right font-size-xl p-0">content_copy</button></div>
+                <div class="col-2 col-sm-5 m-auto text-blue-800 text-center"><span class="item-output"></span><button disabled data-toggle="tooltip" title="Copy" class="item-copy material-symbols-rounded btn bg-transparent float-right font-size-xl p-0">content_copy</button></div>
             </div>
         </div>
 

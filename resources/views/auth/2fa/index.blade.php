@@ -41,7 +41,7 @@
                             <div class="text-center">
 
                                 @if(!$google2FAIsActive)
-                                <p class="mb-4">Set up your two factor authentication by scanning the barcode below. Alternatively, you can use the code <strong class="text-danger spacing-3 ml-2 item-output">{{ $twofa_secret_code }}</strong><button data-toggle="tooltip" title="Copy code" data-title="Copy code" class="item-copy d-none d-md-block material-symbols-rounded btn bg-transparent float-right font-size-xl p-0">content_copy</button></p>
+                                <p class="mb-4">Set up your two factor authentication by scanning the barcode below. Alternatively, you can use the code <strong class="text-danger spacing-3 ml-2 item-output">{{ $twofa_secret_code }}</strong><button data-toggle="tooltip" title="Copy code" data-title="Copy code" class="item-copy material-symbols-rounded btn bg-transparent float-right font-size-xl p-0">content_copy</button></p>
                                 <div class="d-inline-flex">
                                     {!! $QR_Image !!}
                                 </div>
@@ -96,7 +96,7 @@
                     <div class="row">
                         <div class="col-12" id="ajax-codes">
                             <ul class="list-style-circle">
-                                <button data-toggle="tooltip" title="Copy codes" data-title="Copy codes" class="item-copy d-none d-md-block material-symbols-rounded btn bg-transparent float-right font-size-xl p-0">content_copy</button>
+                                <button data-toggle="tooltip" title="Copy codes" data-title="Copy codes" class="item-copy material-symbols-rounded btn bg-transparent float-right font-size-xl p-0">content_copy</button>
                                 @foreach($recovery_codes as $code)
                                 <li class="spacing-2 font-size-xl item-output">{{ $code }}</li>
                                 @endforeach
