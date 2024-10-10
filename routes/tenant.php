@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 use App\Http\Requests\CustomEmailVerificationRequest;
-use LaravelPWA\Http\Controllers\LaravelPWAController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,13 +31,6 @@ Route::middleware([
 ])->group(function () {
 
     Auth::routes();
-
-    /* 
-     * Override the default route. 
-     * Since we access in tenant scope the default route will result to 
-     * "SQLSTATE[42S02]: Base table or view not found: 1146 Table 'test.users' doesn't exist" exception.
-     */
-    Route::get('/offline_tenancy', [LaravelPWAController::class, 'offline']);
 
     Route::group(['middleware' => ['auth', 'checkForPassUpdate']], function () {
         /*************** Two factor authentication *****************/
