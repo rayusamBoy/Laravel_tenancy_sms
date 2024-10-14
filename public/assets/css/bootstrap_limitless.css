@@ -3810,6 +3810,26 @@ a.breadcrumb-elements-item:focus,
     transition: all ease-in-out 0.15s;
 }
 
+[data-theme=dark] .page-item.disabled .page-link {
+    color: #999;
+    pointer-events: none;
+    border-color: #273034;
+    cursor: auto;
+    opacity: .3;
+    background-color: #273034;
+}
+
+[data-theme=dark] .page-link {
+    background: #324148;
+    border: 1px solid #37525f;
+    opacity: .6;
+    color: white;
+}
+
+[data-theme=dark] .page-link:hover {
+    opacity: 1 !important;
+}
+
 @media screen and (prefers-reduced-motion: reduce) {
     .page-link {
         transition: none;
