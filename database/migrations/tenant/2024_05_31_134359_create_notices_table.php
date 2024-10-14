@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title', 150);
             $table->longText('body');
             $table->unsignedBigInteger('from_id')->index('from_id');
-            $table->unsignedBigInteger('editor_id')->index('editor_id');
+            $table->unsignedBigInteger('editor_id')->index('editor_id')->nullable();
             $table->longText('viewers_ids')->nullable();
             $table->timestamps();
         });
