@@ -1,10 +1,11 @@
 <?php
+use App\Helpers\Qs;
 
 return [
     'name' => 'LaravelPWA',
     'manifest' => [
-        'name' => env('APP_NAME', 'SMS'),
-        'short_name' => 'HMSSMS',
+        'name' => env('APP_NAME', 'School Management System'),
+        'short_name' => Qs::getStringAbbreviation(env('APP_NAME', 'School Management System')),
         'start_url' => '/',
         'background_color' => '#ffffff',
         'theme_color' => '#000000',
