@@ -159,6 +159,12 @@ body {
     margin-bottom: 0.1em;
 }
 
+.notices .title {
+    word-break: break-all;
+    text-align: left;
+    white-space: break-spaces;
+}
+
 div.card-columns .card:hover {
     -webkit-transform: scale(1.02);
     -ms-transform: scale(1.02);
