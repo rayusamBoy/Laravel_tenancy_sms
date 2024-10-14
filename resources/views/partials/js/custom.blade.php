@@ -31,7 +31,16 @@
             toast.addEventListener('mouseleave', Swal.resumeTimer)
         }
     });
-    
+
+    /**
+     *-------------------------------------------------------------
+     * Captilize first letter of a string
+     *-------------------------------------------------------------
+     */
+    function capitalize(string){
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
     /**
      *-------------------------------------------------------------
      * Handle notices
@@ -73,9 +82,11 @@
     });
 
     function getNoticesData(url){
-        const notices = $('.notices');
-        notices.empty().append(`<div class="notices-loading">${noticesLoadingSkin(2)}</div>`);
-        
+        var status = url.includes('unviewed') ? 'unviewed' : 'viewed';
+        const notices = $('.notices').find('#' + status);
+
+        notices.empty().append(`<div class="notices-loading">${noticesLoadingSkin(4, status)}</div>`);
+
         $.ajax(
         {
             url: url,
@@ -85,7 +96,7 @@
             notices.empty().append(data);
             window.location.hash = url;
         }).fail(function(jqXHR, ajaxOptions, thrownError){
-              flash({msg: "Sorry, something went wrong.", type: 'error'});
+            flash({msg: "Sorry, something went wrong.", type: 'error'});
         });
     }
 
@@ -97,17 +108,17 @@
         }
     });
 
-    function noticesLoadingSkin(duplicate_times) {
+    function noticesLoadingSkin(duplicate_times, status) {
     let template = "";
     // Starting codes - two opening div's reserved
     var a = `<div class="card m-0 border-bottom-0 text-muted">
                 <div class="card-header position-relative">
-                    <span class="float-left pr-10 status skeleton"></span><i class="text-muted float-right name skeleton"></i>
+                    <span class="float-left pr-10 status-styled">` + capitalize(status) + `</span><i class="text-muted float-right name skeleton"></i>
                 </div>
                 <div class="card-body p-1">
                     <div id="accordion-">`;
     // With iteration indicator
-    var b = `       <div class="card mb-1">
+    var bb = `       <div class="card mb-1">
                             <div class="card-header">
                                 <h5 class="mb-0 d-flex">
                                 <span class="text-muted iteration skeleton mr-1"></span>
@@ -118,7 +129,7 @@
                          </div>
                     </div>`;
     // Without iteration indicator
-    var c = `  <div class="card mb-1">
+    var cc = `  <div class="card mb-1">
                     <div class="card-header">
                         <h5 class="mb-0 d-flex">
                             <button class="btn btn-link w-100 pl-1 p-0 border-left-1 border-left-info">
@@ -144,15 +155,20 @@
                     </div>
                 </div>
             </div>`;
-
-    for (let i = 0; i < duplicate_times; i++) {
-        b += b;
-        c += c;
+            
+        var b = c = "";
+        for (let i = 0; i < duplicate_times; i++) {
+            b += bb;
+            c += cc;
         }
+        
         // With iteration indicator - unviewed notices loading skeleton
-        template += a + b + d;
+        if (status === "unviewed")
+            template += a + b + d;
         // Without iteration indicator - viewed notices loading skeleton
-        template += a + c + d;
+        else 
+            template += a + c + d;
+
         return template;
     }
     

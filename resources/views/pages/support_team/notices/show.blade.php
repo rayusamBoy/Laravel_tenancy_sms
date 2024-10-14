@@ -1,6 +1,6 @@
 {{--Unviewed Notices--}}
 @if($unviewed_notices->isNotEmpty())
-<div class="card m-0 border-bottom-0">
+<div class="card m-0 border-bottom-0" id="unviewed">
     @foreach($unviewed_notices->groupBy('user.name') as $name => $values)
     <div class="card-header">
         <span class="float-left pr-10 status-styled">Unviewed</span><i class="text-muted float-right">By - {{ ucwords($name) }}</i>
@@ -13,7 +13,7 @@
                     <h5 class="mb-0 d-flex">
                         <span class="pr-1 text-muted iteration font-size-xs">{{ $loop->iteration }}</span>
                         <button id="{{ $untc->id }}" class="btn btn-link w-100 pl-1 p-0 border-left-1 border-left-info unviewed" data-toggle="collapse" data-target="#collapseOne-{{ $untc->id }}" aria-expanded="true" aria-controls="collapseOne">
-                            <span class="float-left pr-10">{{ $untc->title }}</span><i class="text-muted float-right">about {{ $untc->created_at->diffForHumans() }}.</i>
+                            <span class="float-left pr-10 title">{{ $untc->title }}</span><i class="text-muted float-right">about {{ $untc->created_at->diffForHumans() }}.</i>
                         </button>
                     </h5>
                 </div>
@@ -37,7 +37,7 @@
 
 {{--Viewed Notices--}}
 @if($viewed_notices->isNotEmpty())
-<div class="card m-0 border-bottom-0">
+<div class="card m-0 border-bottom-0" id="viewed">
     @foreach($viewed_notices->groupBy('user.name') as $name => $values)
     <div class="card-header">
         <span class="float-left pr-10 status-styled">Viewed</span><i class="text-muted float-right">By - {{ ucwords($name) }}</i>
@@ -49,7 +49,7 @@
                 <div class="card-header" id="headingOne-{{ $untc->id }}">
                     <h5 class="mb-0 d-flex">
                         <button id="{{ $untc->id }}" class="btn btn-link w-100 pl-1 p-0 border-left-1 border-left-info" data-toggle="collapse" data-target="#collapseOne-{{ $untc->id }}" aria-expanded="true" aria-controls="collapseOne">
-                            <span class="float-left pr-10">{{ $untc->title }}</span><i class="text-muted float-right">about {{ $untc->created_at->diffForHumans() }}.</i>
+                            <span class="float-left pr-10 title">{{ $untc->title }}</span><i class="text-muted float-right">about {{ $untc->created_at->diffForHumans() }}.</i>
                         </button>
                     </h5>
                 </div>
