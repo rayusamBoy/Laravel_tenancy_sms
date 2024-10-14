@@ -51,9 +51,10 @@ class TenantController extends Controller implements HasMiddleware
         try {
             $tenant = $this->tenant->create($data);
         } catch (\Exception $e) {
-            // When creating tenant, database, and seeding will be operating among others.
-            // If there was any exception ie., error. Delete the created one and return with the error.
+            // When creating tenant, database, and seeding the database etc., operations will proceed as usual.
+            // If there was any exception ie., error. Delete the created ones and return the error.
             // The session's key 'created_tenant_id' is defined in TenancyServiceProvider.
+            // Can't access the '$tenant' variable in try block above, since it is in different scope.
             if (session()->has("created_tenant_id"))
                 $this->tenant->delete(session()->get("created_tenant_id"));
             
