@@ -11,6 +11,7 @@ use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Stancl\Tenancy\Contracts\TenantWithDatabase;
+use File;
 
 class DeleteIDCardsThemeDir implements ShouldQueue
 {
@@ -35,7 +36,7 @@ class DeleteIDCardsThemeDir implements ShouldQueue
 
         $dir = Qs::getTenancyAwareIDCardsThemeDir();
         if (is_dir($dir))
-            Qs::removeDir($dir); // Delete tenant's students id cards theme file's specific dir.
+            File::deleteDirectory($dir); // Delete tenant's students id cards theme file's specific dir.
 
         event(new TenantIDCardsThemeDirDeleted($this->tenant, ['msg' => 'Tenant ID Cards Theme Directory Deleted.', 'url' => request()->url()]));
     }

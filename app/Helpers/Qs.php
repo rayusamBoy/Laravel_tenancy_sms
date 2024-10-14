@@ -928,23 +928,4 @@ class Qs
     {
         return storage_path() . config('tenancy.database.prefix') . tenant('id') . '/';
     }
-
-    public static function removeDir(string $dir): void
-    {
-        $iterator = new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS);
-        $files = new RecursiveIteratorIterator(
-            $iterator,
-            RecursiveIteratorIterator::CHILD_FIRST
-        );
-        
-        foreach ($files as $file) {
-            if ($file->isDir()) {
-                rmdir($file->getPathname());
-            } else {
-                unlink($file->getPathname());
-            }
-        }
-
-        rmdir($dir);
-    }
 }

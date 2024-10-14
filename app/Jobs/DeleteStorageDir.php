@@ -11,6 +11,7 @@ use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Stancl\Tenancy\Contracts\TenantWithDatabase;
+use File;
 
 class DeleteStorageDir implements ShouldQueue
 {
@@ -35,7 +36,7 @@ class DeleteStorageDir implements ShouldQueue
 
         $path = Qs::getTenantStoragePath();
         if (is_dir($path))
-            Qs::removeDir($path); // Delete the tenant's storage folder.
+            File::deleteDirectory($path); // Delete the tenant's storage folder.
 
         event(new TenantStorageDirDeleted($this->tenant, ['msg' => 'Tenant Storage Directory Deleted.', 'url' => request()->url()]));
     }
