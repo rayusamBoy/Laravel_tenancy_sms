@@ -250,9 +250,11 @@ class TimeTableController extends Controller
         switch ($exam_id) {
             case 'default':
                 $data['exam_id'] = NULL;
+                break;
             default:
                 $data['exam_id'] = $exam_id;
                 $data['section_id'] = NULL;
+                break;
         }
 
         $this->tt->updateRecord($id, $data);

@@ -66,8 +66,10 @@ class SettingController extends Controller
                 switch ($req->texts_and_bg_colors) {
                     case 'from_img':
                         $this->setting->update('login_and_related_pgs_txts_and_bg_colors', $colors);
-                    case 'default':
+                        break;
+                    default:
                         $this->setting->update('login_and_related_pgs_txts_and_bg_colors', NULL);
+                        break;
                 }
 
                 Session::flash('show_login_and_related_pgs_preview', true);

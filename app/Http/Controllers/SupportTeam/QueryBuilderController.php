@@ -164,6 +164,7 @@ class QueryBuilderController extends Controller
                             ->limit($limit)
                             ->orderBy('users.' . $orderby_column, $orderby_direction)
                             ->get();
+                    break;
                 case "staff_records":
                     $d["records"] = ($where_two != NULL or $input_two != NULL)
                         ? DB::table("staff_records")
@@ -189,6 +190,7 @@ class QueryBuilderController extends Controller
                             ->limit($limit)
                             ->orderBy($orderby_column, $orderby_direction)
                             ->get();
+                    break;
                 case "exam_records":
                     $d["records"] = ($where_two != NULL or $input_two != NULL)
                         ? DB::table("exam_records")
@@ -244,6 +246,7 @@ class QueryBuilderController extends Controller
                             ->limit($limit)
                             ->orderBy($orderby_column, $orderby_direction)
                             ->get();
+                    break;
                 case "grades":
                     $d["records"] = ($where_two != NULL or $input_two != NULL)
                         ? DB::table("grades")
@@ -269,6 +272,7 @@ class QueryBuilderController extends Controller
                             ->limit($limit)
                             ->orderBy($orderby_column, $orderby_direction)
                             ->get();
+                    break;
                 case "subjects":
                     $d["records"] = ($where_two != NULL or $input_two != NULL)
                         ? DB::table("subjects")
@@ -294,6 +298,7 @@ class QueryBuilderController extends Controller
                             ->limit($limit)
                             ->orderBy($orderby_column, $orderby_direction)
                             ->get();
+                    break;
                 default:
                     $d["records"] = ($where_two != NULL or $input_two != NULL)
                         ? DB::table($from)
@@ -313,6 +318,7 @@ class QueryBuilderController extends Controller
                             ->limit($limit)
                             ->orderBy($orderby_column, $orderby_direction)
                             ->get();
+                    break;
             }
         } elseif ($where != 'none' && ($where_two != 'none' || $input_two != NULL))
             return [
@@ -346,6 +352,7 @@ class QueryBuilderController extends Controller
                         ->limit($limit)
                         ->orderBy($orderby_column, $orderby_direction)
                         ->get();
+                    break;
                 case "student_records":
                     $d["records"] = DB::table("student_records")
                         ->join('users', function ($join) {
@@ -369,6 +376,7 @@ class QueryBuilderController extends Controller
                         ->orderBy($orderby_column, $orderby_direction)
                         ->distinct()
                         ->get();
+                    break;
                 case "staff_records":
                     $d["records"] = DB::table("staff_records")
                         ->join('users', function ($join) {
@@ -379,6 +387,7 @@ class QueryBuilderController extends Controller
                         ->limit($limit)
                         ->orderBy($orderby_column, $orderby_direction)
                         ->get();
+                    break;
                 case "grades":
                     $d["records"] = DB::table("grades")
                         ->join('class_types', function ($join) {
@@ -389,6 +398,7 @@ class QueryBuilderController extends Controller
                         ->limit($limit)
                         ->orderBy($orderby_column, $orderby_direction)
                         ->get();
+                    break;
                 case "subjects":
                     $d["records"] = DB::table("subjects")
                         ->join('my_classes', function ($join) {
@@ -399,6 +409,7 @@ class QueryBuilderController extends Controller
                         ->limit($limit)
                         ->orderBy($orderby_column, $orderby_direction)
                         ->get();
+                    break;
                 default:
                     $d["records"] = DB::table($from)
                         ->select($expression)
@@ -406,6 +417,7 @@ class QueryBuilderController extends Controller
                         ->limit($limit)
                         ->orderBy($orderby_column, $orderby_direction)
                         ->get();
+                    break;
             }
 
             $orderby_direction_extended = $orderby_direction . "ending";
