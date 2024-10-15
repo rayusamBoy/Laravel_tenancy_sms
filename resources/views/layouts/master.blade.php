@@ -34,7 +34,7 @@
     @stack('css')
 </head>
 
-<body class="{{ in_array(Route::currentRouteName(), ['payments.invoice', 'marks.tabulation', 'marks.manage', 'assessments.manage', 'assessments.index', 'assessments.show', 'assessments.progressive', 'assessments.bulk', 'marks.show', 'ttr.manage', 'ttr.show', 'bin', 'events.manage', 'events.edit', 'query_builder.index', 'query_builder.select', 'notices.index', 'notices.edit', 'users.index', 'books.index', 'logs.index', 'students.promotion_manage', 'tenants.index', 'settings.index', 'settings_non_tenancy.index']) || auth()->user()->sidebar_minimized ? 'sidebar-xs' : '' }}">
+<body class="{{ in_array(Route::currentRouteName(), ['payments.invoice', 'marks.tabulation', 'marks.manage', 'assessments.manage', 'assessments.index', 'assessments.show', 'assessments.progressive', 'assessments.bulk', 'marks.show', 'ttr.manage', 'ttr.show', 'bin', 'events.manage', 'events.edit', 'query_builder.index', 'query_builder.select', 'notices.index', 'notices.edit', 'users.index', 'books.index', 'logs.index', 'students.promotion_manage', 'tenants.index', 'settings.index', 'settings_non_tenancy.index', 'analytics.index', 'analytics.fetch_data']) || auth()->user()->sidebar_minimized ? 'sidebar-xs' : '' }}">
     {{-- Block UI -- Loading page indicator; Will be removed by js script on page load; Copied from Block UI interface implementation --}}
     <div class="blockUI blockOverlay custom" style="z-index: 1000;border: none;margin: 0px;padding: 0px;width: 100%;height: 100%;background-color: rgb(0, 0, 0);opacity: 0.6;cursor: wait;position: fixed;"></div>
     <div class="blockUI blockMsg blockPage custom">
