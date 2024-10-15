@@ -143,12 +143,17 @@
                                 <input name="logo" accept="image/*" type="file" class="file-input" data-show-caption="false" data-show-upload="false" data-fouc>
                             </div>
                         </div>
-                        {{-- Login and related page background--}}
+                        {{-- Login and related page background --}}
+                        @php
+                            use Database\Seeders\NonTenancySettingsTableSeeder;
+                            $settings_table_seeder = new NonTenancySettingsTableSeeder();
+                            $bg = $settings->where('type', 'login_and_related_pages_bg')->value('description');
+                        @endphp
                         <div class="col-lg-6">
                             <div class="form-group text-center">
                                 <label class="col-form-label font-weight-semibold">Change Login And related Pages Background:</label>
                                 <div class="mb-3">
-                                    <img id="login-and-related-pgs-bg" style="width: 100px" height="100px" src="{{ tenant_asset($settings->where('type' , 'login_and_related_pages_bg')->value('description')) }}" alt="">
+                                    <img id="login-and-related-pgs-bg" style="width: 100px" height="100px" src="{{ !is_null($bg) ? tenant_asset($bg) : asset($settings_table_seeder->getLoginAndRelatedPagesBgDescription()) }}" alt="">
                                 </div>
                                 <input id="login-and-related-pgs-bg-input" name="login_and_related_pages_bg" accept="image/*" type="file" class="file-input" data-show-caption="false" data-show-upload="false" data-fouc>
                             </div>
