@@ -134,7 +134,7 @@
     <!-- Visitors page view -->
     <div class="card card-body bg-violet-400">
         <div class="media">
-            <div class="media-body">
+            <div class="media-body w-100">
                 <div class="row">
                     <div class="col-12">
                         <div class="row">
@@ -178,7 +178,7 @@
     <!-- Visitors page view by date -->
     <div class="card card-body bg-warning-400">
         <div class="media">
-            <div class="media-body">
+            <div class="media-body w-100">
                 <div class="row">
                     <div class="col-12">
                         <div class="row">
@@ -228,7 +228,7 @@
     <!-- Total visitors and page view -->
     <div class="card card-body bg-success-400">
         <div class="media">
-            <div class="media-body">
+            <div class="media-body w-100">
                 <div class="row">
                     <div class="col-12">
                         <div class="row">
@@ -272,7 +272,7 @@
     <!-- Most visited pages -->
     <div class="card card-body bg-pink-400">
         <div class="media">
-            <div class="media-body">
+            <div class="media-body w-100">
                 <div class="row">
                     <div class="col-12">
                         <div class="row">
@@ -316,7 +316,7 @@
     <!-- Visitors page view by date -->
     <div class="card card-body bg-indigo-400">
         <div class="media">
-            <div class="media-body">
+            <div class="media-body w-100">
                 <div class="row">
                     <div class="col-12">
                         <div class="row">
@@ -354,7 +354,7 @@
     <!-- User types -->
     <div class="card card-body bg-purple-400">
         <div class="media">
-            <div class="media-body">
+            <div class="media-body w-100">
                 <div class="row">
                     <div class="col-12">
                         <div class="row">
@@ -392,7 +392,7 @@
     <!-- Top browsers -->
     <div class="card card-body bg-orange-400">
         <div class="media">
-            <div class="media-body">
+            <div class="media-body w-100">
                 <div class="row">
                     <div class="col-12">
                         <div class="row">
@@ -430,7 +430,7 @@
     <!-- Top countries -->
     <div class="card card-body bg-primary-400">
         <div class="media">
-            <div class="media-body">
+            <div class="media-body w-100">
                 <div class="row">
                     <div class="col-12">
                         <div class="row">
@@ -468,7 +468,7 @@
     <!-- Top OSes -->
     <div class="card card-body bg-info-400">
         <div class="media">
-            <div class="media-body">
+            <div class="media-body w-100">
                 <div class="row">
                     <div class="col-12">
                         <div class="row">
