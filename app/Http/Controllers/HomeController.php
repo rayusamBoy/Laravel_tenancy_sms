@@ -60,7 +60,7 @@ class HomeController extends Controller
     public function dashboard(HttpReq $request)
     {
         $unviewed_notices = $viewed_notices = $d = [];
-        $unviewed_count = 0;
+        $unviewed_count = 0; // Unviewed notices count
 
         if (Qs::userIsAdministrative() or Qs::userIsLibrarian()) {
             $d['users'] = $this->user->all();
@@ -92,14 +92,20 @@ class HomeController extends Controller
         $vn_paginated = $this->get_paginator($request, $viewed_notices, "viewed-notices-page");
 
         $d["unviewed_count"] = $unviewed_count;
-        $d["unviewed_notices"] = $un_paginated;
-        $d["viewed_notices"] = $vn_paginated;
 
         if ($request->ajax()) {
+            if (str_contains($request->fullUrl(), 'unviewed'))
+                $d["unviewed_notices"] = $un_paginated;
+            else
+                $d["viewed_notices"] = $vn_paginated;
+
             $d['current_url'] = $request->url();
 
             return view('pages/support_team/notices/show', $d);
         }
+
+        $d["unviewed_notices"] = $un_paginated;
+        $d["viewed_notices"] = $vn_paginated;
 
         return view('pages.support_team.dashboard', $d);
     }

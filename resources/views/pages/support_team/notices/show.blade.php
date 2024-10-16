@@ -1,5 +1,5 @@
 {{--Unviewed Notices--}}
-@if($unviewed_notices->isNotEmpty())
+@if(isset($unviewed_notices) && $unviewed_notices->isNotEmpty())
 <div class="card m-0 border-bottom-0" id="unviewed">
     @foreach($unviewed_notices->groupBy('user.name') as $name => $values)
     <div class="card-header">
@@ -36,7 +36,7 @@
 @endif
 
 {{--Viewed Notices--}}
-@if($viewed_notices->isNotEmpty())
+@if(isset($viewed_notices) && $viewed_notices->isNotEmpty())
 <div class="card m-0 border-bottom-0" id="viewed">
     @foreach($viewed_notices->groupBy('user.name') as $name => $values)
     <div class="card-header">
