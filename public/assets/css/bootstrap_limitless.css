@@ -1600,7 +1600,7 @@ input[class*="bg-"]:not(.bg-light):not(.bg-white):not(.bg-transparent)+.form-con
 
 [data-theme="dark"] .dropdown-divider,
 [data-theme="dark"] hr.divider {
-    border-top: 1px solid #262626;
+    border-top: 1px solid #333333;
 }
 
 .dropdown-item.form-check {
@@ -1716,12 +1716,12 @@ input[class*="bg-"]:not(.bg-light):not(.bg-white):not(.bg-transparent)+.form-con
 [data-theme="dark"] .navbar-nav .dropdown-menu,
 [data-theme="dark"] .dropdown-menu,
 [data-theme="dark"] .select2-dropdown {
-    background-color: #181818 !important;
+    background-color: #1c1c1c !important;
     border: 1px solid #333333;
 }
 
 [data-theme="dark"] .dt-button-collection {
-    background-color: #181818 !important;
+    background-color: #1c1c1c !important;
 }
 
 [data-theme="dark"] .nav-tabs .dropdown-item,
@@ -2026,8 +2026,8 @@ input[class*="bg-"]:not(.bg-light):not(.bg-white):not(.bg-transparent)+.form-con
     color: #777;
 }
 
-[data-theme="dark"] .nav-tabs .nav-link:hover,
-.nav-tabs .nav-link:focus {
+[data-theme="dark"] .nav-tabs .nav-link:not(.active):hover,
+.nav-tabs .nav-link:not(.active):focus {
     opacity: 0.8;
 }
 
@@ -2291,7 +2291,7 @@ input[class*="bg-"]:not(.bg-light):not(.bg-white):not(.bg-transparent)+.form-con
 [data-theme="dark"] .modal .nav-tabs .nav-link.active {
     color: #fff;
     background-color: transparent;
-    border-color: #575757 #575757 #373737;
+    border-color: #575757 #575757 #1e1e1e;
 }
 
 .nav-pills {
@@ -3082,7 +3082,7 @@ input[class*="bg-"]:not(.bg-light):not(.bg-white):not(.bg-transparent)+.form-con
 
 [data-theme="dark"] .navbar {
     color: rgba(255, 255, 255, 0.9);
-    background-color: #2b2b2b;
+    background-color: #171717;
     border-bottom-color: #333333;
 }
 
@@ -3744,8 +3744,9 @@ a.breadcrumb-elements-item:focus,
 }
 
 [data-theme="dark"] .breadcrumb-line:not(.breadcrumb-line-component) {
-    border-top-width: 0;
-    background-color: #1e1e1e;
+    border-bottom: 1px solid #333333;
+    border-top: 1px solid #333333;
+    background-color: #181818;
 }
 
 [data-theme="dark"] .page-header .breadcrumb-line:not(.breadcrumb-line-component):first-child {
@@ -4685,7 +4686,7 @@ a.badge[class*="bg-"]:not(.bg-transparent):not(.bg-white):not(.bg-light):focus,
 
 [data-theme="dark"] .modal-content,
 [data-theme="dark"] .swal2-container.swal2-center>.swal2-popup {
-    background-color: #373737;
+    background-color: #1e1e1e;
     color: lightgray;
 }
 

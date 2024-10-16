@@ -180,6 +180,7 @@ div.card-columns .card:hover {
 
 [data-theme=dark] .card:not(.card.card-body) {
     background-color: #171717;
+    border: 1px solid #333333;
     color: initial;
 }
 
@@ -727,7 +728,8 @@ div.cards-row .card {
 }
 
 [data-theme=dark] .sidebar {
-    background-color: #2b2b2b;
+    background-color: #171717;
+    border-right: 1px solid #333333;
     color: #fff;
 }
 
@@ -761,7 +763,7 @@ div.cards-row .card {
 [data-theme=dark] .sidebar .nav-sidebar .nav-link:not(.disabled):hover,
 [data-theme=light] .sidebar .card[class*=bg-]:not(.bg-light):not(.bg-white):not(.bg-transparent) .nav-sidebar .nav-link:not(.disabled):hover {
     color: #fff;
-    background-color: rgba(0, 0, 0, 0.15);
+    background-color: rgba(0, 0, 0, 0.2);
 }
 
 [data-theme=dark] .nav-sidebar .nav-item>.nav-link.active,
@@ -783,6 +785,7 @@ div.cards-row .card {
 [data-theme=light] .sidebar .card[class*=bg-]:not(.bg-light):not(.bg-white):not(.bg-transparent) .nav-sidebar>.nav-item-open>.nav-link:not(.disabled),
 [data-theme=light] .sidebar .card[class*=bg-]:not(.bg-light):not(.bg-white):not(.bg-transparent) .nav-sidebar>.nav-item>.nav-link.active {
     background-color: #26A69A;
+    margin-right: -1px;
     color: #fff;
 }
 

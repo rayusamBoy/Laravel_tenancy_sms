@@ -40,7 +40,7 @@
         <!-- /user menu -->
 
         <!-- Main navigation -->
-        <div class="card card-sidebar-mobile">
+        <div class="card card-sidebar-mobile border-0">
             <ul class="nav nav-sidebar" data-nav-type="accordion">
 
                 <!-- Main -->
