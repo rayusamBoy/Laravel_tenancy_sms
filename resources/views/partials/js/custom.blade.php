@@ -93,7 +93,7 @@
             type: "get",
             datatype: "html"
         }).done(function(data){
-            notices.empty().append(data);
+            notices.replaceWith(data);
             window.location.hash = url;
         }).fail(function(jqXHR, ajaxOptions, thrownError){
             flash({msg: "Sorry, something went wrong.", type: 'error'});
