@@ -49,7 +49,7 @@
                 <div class="card-header" id="headingOne-{{ $untc->id }}">
                     <h5 class="mb-0 d-flex">
                         <button id="{{ $untc->id }}" class="btn btn-link w-100 pl-1 p-0 border-left-1 border-left-info" data-toggle="collapse" data-target="#collapseOne-{{ $untc->id }}" aria-expanded="true" aria-controls="collapseOne">
-                            <span class="float-left pr-10 title">{{ $untc->title }}</span><i class="text-muted float-right">about {{ $untc->created_at->diffForHumans() }}.</i>
+                            <span class="float-left pr-10 break-all title break-spaces text-left">{{ $untc->title }}</span><i class="text-muted float-right">about {{ $untc->created_at->diffForHumans() }}.</i>
                         </button>
                     </h5>
                 </div>
