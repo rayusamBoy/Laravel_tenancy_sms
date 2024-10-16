@@ -33,8 +33,8 @@
                         @foreach($events as $evt)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $evt->name }}</td>
-                            <td>{{ $evt->description }}</td>
+                            <td class="break-all break-spaces">{{ $evt->name }}</td>
+                            <td class="break-all break-spaces">{{ $evt->description }}</td>
                             <td>{{ $evt->year }}</td>
                             <td>{{ $evt->month }}</td>
                             <td>{{ $evt->day }}</td>
