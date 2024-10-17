@@ -32,5 +32,6 @@ class DatabaseSeeder extends Seeder
         $this->call(TenancyMyClassesTableSeeder::class);
         $this->call(TenancySectionsTableSeeder::class);
         $this->call(TenancyStudentRecordsTableSeeder::class);
+        $this->call(ParentRelativesTableSeeder::class);
     }
 }
