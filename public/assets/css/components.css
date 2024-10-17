@@ -6849,19 +6849,26 @@ and below; since some of the menu options are obscured by the data table footer.
 }
 
 .notices-loading .status,
-.notices-loading .title,
 .notices-loading .body,
 .notices-loading .name,
 .notices-loading .time,
 .notices-loading .showing {
-    width: 10em;
+    width: 25%;
+    background: whitesmoke;
+    border-radius: 0.15em;
+    height: 15px;
+}
+
+.notices-loading .title {
+    width: 55%;
     background: whitesmoke;
     border-radius: 0.15em;
     height: 15px;
 }
 
 .notices-loading .name {
-    width: 15em;
+    width: 50%;
+    max-width: 15em;
 }
 
 .notices-loading .showing {
