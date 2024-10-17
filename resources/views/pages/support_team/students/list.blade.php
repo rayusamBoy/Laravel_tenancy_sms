@@ -53,7 +53,7 @@
                         @foreach($students->sortBy('user.gender') as $s)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td><img class="rounded-circle" style="height: 40px; width: 40px;" src="{{ tenant_asset($s->user->photo) }}" alt="photo"></td>
+                            <td><img class="rounded-circle" style="height: 40px; width: 40px;" src="{{ Usr::getTenantAwarePhoto($s->user->photo) }}" alt="photo"></td>
                             <td>{{ $s->user->name }}</td>
                             <td>{{ $s->adm_no }}</td>
                             <td>{{ $s->section->name }}</td>
@@ -113,7 +113,7 @@
                         @foreach($students->where('section_id', $se->id) as $sr)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td><img class="rounded-circle" style="height: 40px; width: 40px;" src="{{ tenant_asset($sr->user->photo) }}" alt="photo"></td>
+                            <td><img class="rounded-circle" style="height: 40px; width: 40px;" src="{{ Usr::getTenantAwarePhoto($sr->user->photo) }}" alt="photo"></td>
                             <td>{{ $sr->user->name }}</td>
                             <td>{{ $sr->adm_no }}</td>
                             <td>@if(!is_null($sr->my_parent))<a href="{{ route('users.show', Qs::hash($sr->my_parent_id)) }}">{{ $sr->my_parent->name }}</a> @else - @endif</td>
