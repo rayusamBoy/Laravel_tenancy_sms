@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Helpers\Qs;
-use Auth;
+use App\Rules\StartsWithProperPhoneCode;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -35,8 +35,8 @@ class UserRequest extends FormRequest
             'password' => 'nullable|string|min:3|max:50',
             'user_type' => 'required',
             'gender' => 'required|string',
-            'phone' => 'sometimes|nullable|string|min:6|max:20',
-            'phone2' => 'sometimes|nullable|string|min:6|max:20',
+            'phone' => ['sometimes', 'nullable', 'string', 'min:6', 'max:20', new StartsWithProperPhoneCode],
+            'phone2' => ['sometimes', 'nullable', 'string', 'min:6', 'max:20', new StartsWithProperPhoneCode],
             'email' => 'sometimes|nullable|email|max:100|unique:users',
             'username' => 'sometimes|nullable|alpha_dash|min:8|max:100|unique:users',
             'photo' => 'sometimes|nullable|image|mimes:jpeg,gif,png,jpg|max:2048',
@@ -47,8 +47,8 @@ class UserRequest extends FormRequest
             'work' => 'sometimes|required|string|max:150',
             'name2' => 'sometimes|required|string|min:6|max:150',
             'relation' => 'sometimes|required|string|min:4|max:150',
-            'phone3' => 'sometimes|required|string|min:10|max:20',
-            'phone4' => 'sometimes|nullable|string|min:10|max:20',
+            'phone3' => ['sometimes', 'nullable', 'string', 'min:6', 'max:20', new StartsWithProperPhoneCode],
+            'phone4' => ['sometimes', 'nullable', 'string', 'min:6', 'max:20', new StartsWithProperPhoneCode],
             'primary_id' => 'sometimes|nullable|string|unique:users|min:9|max:9',
             'secondary_id' => 'sometimes|nullable|string|unique:users|min:23|max:23',
             'file_number' => 'sometimes|nullable|string|max:15',
@@ -64,8 +64,8 @@ class UserRequest extends FormRequest
         $update =  [
             'name' => 'required|string|min:6|max:150',
             'gender' => 'required|string',
-            'phone' => 'sometimes|nullable|string|min:6|max:20',
-            'phone2' => 'sometimes|nullable|string|min:6|max:20',
+            'phone' => ['sometimes', 'nullable', 'string', 'min:6', 'max:20', new StartsWithProperPhoneCode],
+            'phone2' => ['sometimes', 'nullable', 'string', 'min:6', 'max:20', new StartsWithProperPhoneCode],
             'email' => 'sometimes|nullable|email|max:100|unique:users,email,' . $this->user,
             'photo' => 'sometimes|nullable|image|mimes:jpeg,gif,png,jpg|max:2048',
             'address' => 'required|string|min:3|max:120',
@@ -75,8 +75,8 @@ class UserRequest extends FormRequest
             'work' => 'sometimes|required|string|max:150',
             'name2' => 'sometimes|required|string|min:6|max:150',
             'relation' => 'sometimes|required|string|min:4|max:150',
-            'phone3' => 'sometimes|required|string|min:10|max:20',
-            'phone4' => 'sometimes|nullable|string|min:10|max:20',
+            'phone3' => ['sometimes', 'nullable', 'string', 'min:6', 'max:20', new StartsWithProperPhoneCode],
+            'phone4' => ['sometimes', 'nullable', 'string', 'min:6', 'max:20', new StartsWithProperPhoneCode],
             'bank_name' => 'sometimes|nullable|required_with:bank_acc_no',
             'file_number' => 'sometimes|nullable|string|max:15',
             'primary_id' => ['sometimes', 'nullable', 'string', 'min:9', 'max:9', Rule::unique('users', 'primary_id')->ignore($this->getRouteUserIdParameter(), 'id')],
