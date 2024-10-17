@@ -13,7 +13,7 @@
                 <div class="card-body p-1">
                     <ul class="nav nav-tabs nav-tabs-highlight">
                         @foreach(unserialize($rec->students_ids) as $id)
-                        <li class="nav-item"><a target="_blank" href="{{ route('students.show', Qs::hash($id)) }}">{{ $loop->iteration }} - {{ $students->where('id', $id)->first()->id }}</a></li><hr />
+                        <li class="nav-item"><a target="_blank" href="{{ route('students.show', Qs::hash($id)) }}">{{ $loop->iteration }} - {{ $students->where('id', $id)->first()->name }}</a></li><hr />
                         @endforeach
                     </ul>
                 </div>
