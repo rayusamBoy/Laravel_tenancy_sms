@@ -1,4 +1,5 @@
 @extends('layouts.master')
+
 @section('page_title', 'Student Information - '.$my_class->name)
 @section('content')
 
@@ -12,7 +13,7 @@
         <ul class="nav nav-tabs nav-tabs-highlight">
             <li class="nav-item"><a href="#all-students" class="nav-link active" data-toggle="tab">All {{ $my_class->name }} Students</a></li>
             <li class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Sections</a>
+                <a href="javascript:;" class="nav-link dropdown-toggle" data-toggle="dropdown">Sections</a>
                 <div class="dropdown-menu dropdown-menu-right">
                     @foreach($sections as $s)
                     <a href="#s{{ $s->id }}" class="dropdown-item" data-toggle="tab">{{ $my_class->name.' '.$s->name }}</a>
@@ -64,9 +65,7 @@
                             <td class="text-center">
                                 <div class="list-icons">
                                     <div class="dropdown">
-                                        <a href="#" data-toggle="dropdown">
-                                            <i class="material-symbols-rounded">lists</i>
-                                        </a>
+                                        <a href="javascript:;" data-toggle="dropdown" class="material-symbols-rounded">lists</a>
 
                                         <div class="dropdown-menu dropdown-menu-left">
                                             <a href="{{ route('students.show', Qs::hash($s->id)) }}" class="dropdown-item"><i class="material-symbols-rounded">visibility</i> View Profile</a>
@@ -123,9 +122,7 @@
                             <td class="text-center">
                                 <div class="list-icons">
                                     <div class="dropdown">
-                                        <a href="#" data-toggle="dropdown">
-                                            <i class="material-symbols-rounded">lists</i>
-                                        </a>
+                                        <a href="javascript:;" data-toggle="dropdown" class="material-symbols-rounded">lists</a>
 
                                         <div class="dropdown-menu dropdown-menu-right">
                                             <a href="{{ route('students.show', Qs::hash($sr->id)) }}" class="dropdown-item"><i class="material-symbols-rounded">visibility</i> View Info</a>
@@ -133,11 +130,11 @@
                                             <a href="{{ route('students.edit', Qs::hash($sr->id)) }}" class="dropdown-item"><i class="material-symbols-rounded">edit</i> Edit</a>
                                             <a href="{{ route('st.reset_pass', Qs::hash($sr->user->id)) }}" class="dropdown-item"><i class="material-symbols-rounded">lock_reset</i> Reset password</a>
                                             @endif
-                                            <a href="#" class="dropdown-item"><i class="material-symbols-rounded">bottom_sheets</i> Marksheet</a>
+                                            <a href="javascript:;" class="dropdown-item"><i class="material-symbols-rounded">bottom_sheets</i> Marksheet</a>
 
                                             {{--Delete--}}
                                             @if(Qs::userIsSuperAdmin())
-                                            <a id="{{ Qs::hash($sr->user->id) }}" onclick="confirmDelete(this.id)" href="#" class="dropdown-item text-danger"><i class="material-symbols-rounded">delete</i> Delete</a>
+                                            <a id="{{ Qs::hash($sr->user->id) }}" onclick="confirmDelete(this.id)" href="javascript:;" class="dropdown-item text-danger"><i class="material-symbols-rounded">delete</i> Delete</a>
                                             <form method="post" id="item-delete-{{ Qs::hash($sr->user->id) }}" action="{{ route('students.destroy', Qs::hash($sr->user->id)) }}" class="hidden">@csrf @method('delete')</form>
                                             @endif
                                         </div>
