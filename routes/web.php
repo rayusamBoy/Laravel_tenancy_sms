@@ -63,9 +63,9 @@ Route::group(['middleware' => ['auth', 'checkForPassUpdate', 'itGuy']], function
 
             /************* Logs ************/
             Route::group(['prefix' => 'logs'], function () {
-                Route::get('index', 'ActivityLogController@index')->name('logs.index')->middleware('headSA');
-                Route::get('login_history/reset/{user_id}', 'ActivityLogController@reset_login_hist')->name('logs.login_history_reset');
-                Route::post('delete_activity/{log_id}', 'ActivityLogController@delete_activity')->name('logs.activity_log_delete');
+                Route::get('index', 'LogController@index')->name('logs.index')->middleware('headSA');
+                Route::get('login_history/reset/{user_id}', 'LogController@reset_login_hist')->name('logs.login_history_reset');
+                Route::post('delete_activity/{log_id}', 'LogController@delete_activity')->name('logs.activity_log_delete');
             });
 
             /************* Settings ************/

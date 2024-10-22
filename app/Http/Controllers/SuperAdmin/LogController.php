@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\ItGuy;
+namespace App\Http\Controllers\SuperAdmin;
 
 use App\Helpers\Qs;
 use App\Http\Controllers\Controller;
@@ -8,8 +8,9 @@ use App\Repositories\MyClassRepo;
 use App\Repositories\UserRepo;
 use App\Repositories\LogRepo;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Artisan;
 
-class ActivityLogController extends Controller
+class LogController extends Controller
 {
     protected $user, $my_class, $log;
 
@@ -26,7 +27,7 @@ class ActivityLogController extends Controller
         $d['login_histories'] = $this->log->getLoginHistories()->sortBy('last_login', SORT_REGULAR, TRUE);
         $d['user_types'] = $this->user->getAllTypes();
 
-        return view('pages.it_guy.activity_log', $d);
+        return view('pages.super_admin.logs', $d);
     }
 
     public function reset_login_hist($user_id)
@@ -43,7 +44,22 @@ class ActivityLogController extends Controller
     public function delete_activity($log_id)
     {
         $this->log->deleteActivityLog($log_id);
-        
+
         return back()->with('flash_success', __('msg.del_ok'));
+    }
+
+    // Clean activity log
+    public function activity_log_clean()
+    {
+        $status = Artisan::call('activitylog:clean --force');
+        if ($status === 0) {
+            $ok = true;
+            $message = 'All recorded activity older than ' . config('activitylog.delete_records_older_than_days') . ' deleted successfully.';
+        } else {
+            $ok = false;
+            $message = 'Activity log cleaning failed.';
+        }
+
+        return Qs::json($message, $ok);
     }
 }

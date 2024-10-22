@@ -357,10 +357,10 @@ Route::middleware([
 
                 /************* Logs ************/
                 Route::group(['prefix' => 'logs'], function () {
-                    Route::get('index', 'ActivityLogController@index')->name('tenancy_logs.index')->middleware('headSA');
-                    Route::get('login_history/reset/{user_id}', 'ActivityLogController@reset_login_hist')->name('login_histories.reset');
-                    Route::post('delete_activity/{log_id}', 'ActivityLogController@delete_activity')->name('activity_log.delete');
-                    Route::post('activity_log/clean', 'ActivityLogController@activity_log_clean')->name('activity_log.clean');
+                    Route::get('index', 'LogController@index')->name('tenancy_logs.index')->middleware('headSA');
+                    Route::get('login_history/reset/{user_id}', 'LogController@reset_login_hist')->name('login_histories.reset');
+                    Route::post('delete_activity/{log_id}', 'LogController@delete_activity')->name('activity_log.delete');
+                    Route::post('activity_log/clean', 'LogController@activity_log_clean')->name('activity_log.clean');
                 });
             });
 
