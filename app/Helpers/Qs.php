@@ -2,8 +2,6 @@
 
 namespace App\Helpers;
 
-use RecursiveDirectoryIterator;
-use RecursiveIteratorIterator;
 use App\Models\ExamAnnounce;
 use App\Models\Setting;
 use App\Models\StudentRecord;
@@ -919,13 +917,13 @@ class Qs
         return public_path("images/icons/icon-rounded.png");
     }
 
-    public static function getTenancyAwareIDCardsThemeDir()
+    public static function getTenancyAwareIDCardsThemeDir($tenant_id = null)
     {
-        return resource_path() . '/views/pages/support_team/students/id_cards/themes/' . config('tenancy.database.prefix') . tenant('id') . '/';
+        return resource_path() . '/views/pages/support_team/students/id_cards/themes/' . $tenant_id ?? config('tenancy.database.prefix') . tenant('id') . '/';
     }
 
-    public static function getTenantStoragePath()
+    public static function getTenantStoragePath($tenant_id = null)
     {
-        return storage_path() . config('tenancy.database.prefix') . tenant('id') . '/';
+        return storage_path() . '/' . config('tenancy.database.prefix') . $tenant_id ?? tenant('id') . '/';
     }
 }
