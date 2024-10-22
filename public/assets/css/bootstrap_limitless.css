@@ -428,6 +428,10 @@ pre {
     margin-bottom: 0;
 }
 
+[data-theme=dark] .table .table {
+    background-color: transparent !important;
+}
+
 .table th,
 .table td {
     vertical-align: middle;
