@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('event')->nullable();
             $table->unsignedBigInteger('subject_id')->nullable();
             $table->string('causer_type')->nullable();
-            $table->unsignedBigInteger('causer_id')->nullable();
+            $table->unsignedBigInteger('causer_id')->nullable()->index('causer_id');
             $table->json('properties')->nullable();
             $table->char('batch_uuid', 36)->nullable();
             $table->timestamps();
