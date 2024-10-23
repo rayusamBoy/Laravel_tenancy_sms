@@ -1,11 +1,12 @@
 @extends('layouts.master')
 @section('page_title', 'User Profile - ' . $user->name)
+
 @section('content')
 <div class="row">
     <div class="col-md-3 text-center">
         <div class="card">
             <div class="card-body">
-                <img style="width: 90%; height:90%" src="{{ Usr::tenancyInitilized() ? tenant_asset(auth()->user()->photo) : asset($user->photo) }}" alt="photo" class="rounded-circle">
+                <img style="width: 90%; height:90%" src="{{ asset($user->photo) }}" alt="photo" class="rounded-circle">
                 <br>
                 <h3 class="mt-3">{{ $user->name }}</h3>
             </div>
@@ -18,7 +19,7 @@
                     <li class="nav-item">
                         <a href="#basic-info" class="nav-link active" data-toggle="tab">Basic Info</a>
                     </li>
-                    @if((isset($staff_rec) && Qs::isNotNull($staff_rec)) && (Qs::userIsTeamSA() || $user->id == Auth::id()))
+                    @if((isset($staff_rec) && Qs::isNotNull($staff_rec)) && (Qs::userIsHead() || $user->id == Auth::id()))
                     <li class="nav-item">
                         <a href="#staff-info" class="nav-link" data-toggle="tab">Staff Info</a>
                     </li>
@@ -108,25 +109,6 @@
                                     <td class="font-weight-bold">Address</td>
                                     <td class="break-all">{{ $user->address }}</td>
                                 </tr>
-                                @if($user->user_type == 'parent')
-                                <tr>
-                                    <td class="font-weight-bold">Children</td>
-                                    <td>
-                                        @php $my_childrens = Qs::findMyChildren($user->id) @endphp
-                                        @if($my_childrens->count() > 0)
-                                        @foreach($my_childrens as $sr)
-                                        <span> - <a href="{{ route('students.show', Qs::hash($sr->id)) }}">{{ $sr->user->name.' - '.$sr->my_class->name. ' '.$sr->section->name }}</a></span><br>
-                                        @endforeach
-                                        @else
-                                        None
-                                        @endif
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="font-weight-bold">Relative</td>
-                                    <td><a href="#" data-toggle="modal" data-target="#parent-relative-modal">View Info</a></td>
-                                </tr>
-                                @endif
 
                                 @if($user->user_type == 'teacher')
                                 <tr>
@@ -144,7 +126,7 @@
                     </div>
 
                     {{--Staff Info--}}
-                    @if((isset($staff_rec) && Qs::isNotNull($staff_rec)) && (Qs::userIsTeamSA() || $user->id == Auth::id()))
+                    @if((isset($staff_rec) && Qs::isNotNull($staff_rec)) && (Qs::userIsHead() || $user->id == Auth::id()))
                     <div class="tab-pane fade" id="staff-info">
                         <table class="table table-bordered">
                             <tbody>
@@ -220,10 +202,6 @@
         </div>
     </div>
 </div>
-
-@if($user->user_type == 'parent')
-@include('pages/modals/parent_relative')
-@endif
 
 {{--User Profile Ends--}}
 

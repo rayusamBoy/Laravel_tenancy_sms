@@ -23,7 +23,7 @@
 
         <div class="tab-content">
             <div class="tab-pane fade show active" id="new-user">
-                <form method="post" enctype="multipart/form-data" class="wizard-form steps-validation ajax-stcore" action="{{ route('users.store') }}" data-fouc>
+                <form method="post" enctype="multipart/form-data" class="wizard-form steps-validation ajax-store" action="{{ route('users.store') }}" data-fouc>
                     @csrf
                     {{-- PERSONAL DATA --}}
                     <h6>Personal Data</h6>
@@ -428,7 +428,7 @@
                         @foreach ($users->where('user_type', $ut->title) as $u)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td><img class="rounded-circle" style="height: 40px; width: 40px;" src="{{ Usr::tenancyInitilized() ? tenant_asset(auth()->user()->photo) : asset($u->photo) }}" alt="photo"></td>
+                            <td><img class="rounded-circle" style="height: 40px; width: 40px;" src="{{ asset($u->photo) }}" alt="photo"></td>
                             <td>{{ $u->name }}</td>
                             <td>{{ $u->username }}</td>
                             <td><a href="tel: {{ $u->phone }}">{{ $u->phone }}</a></td>
@@ -460,7 +460,7 @@
                                             @if (Qs::userIsHead())
                                             <a href="javascript:;" data-default_pass="user" data-href="{{ route('users.reset_pass', Qs::hash($u->id)) }}" class="dropdown-item needs-reset-pass-confirmation"><i class="material-symbols-rounded">lock_reset</i> Reset password</a>
                                             {{-- Delete --}}
-                                            <a id="{{ Qs::hash($u->id) }}" onclick="confirmDelete(this.id)" href="javascript:;" class="dropdown-item text-danger"><i class="material-symbols-rounded">delete</i> Delete</a>
+                                            <a id="{{ Qs::hash($u->id) }}" onclick="confirmPermanentDelete(this.id)" href="javascript:;" class="dropdown-item text-danger"><i class="material-symbols-rounded">delete</i> Delete</a>
                                             <form method="post" id="item-delete-{{ Qs::hash($u->id) }}" action="{{ route('users.destroy', Qs::hash($u->id)) }}" class="hidden">@csrf @method('delete')</form>
                                             @endif
                                         </div>

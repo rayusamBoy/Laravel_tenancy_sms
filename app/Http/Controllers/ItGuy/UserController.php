@@ -34,8 +34,7 @@ class UserController extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            new Middleware('itGuy', only: ['reset_pass', 'destroy', 'update_staff_data_edit_state', 'update_user_blocked_state']),
-            new middleware('itGuy', only: ['index', 'store', 'edit', 'update']),
+            new Middleware('itGuy'),
         ];
     }
 
@@ -95,14 +94,10 @@ class UserController extends Controller implements HasMiddleware
 
         $user_is_staff = in_array($user_type, Qs::getStaff());
         $user_is_teamSA = in_array($user_type, Qs::getTeamSA());
-        $user_is_parent = in_array($user_type, Qs::getParent());
 
         $emp_date = $req->emp_date ?? now();
         $staff_id = Qs::getAppCode() . '/STAFF/' . date('Y/m', strtotime($emp_date)) . '/' . mt_rand(1000, 9999);
         $data['username'] = $uname = ($user_is_teamSA || Qs::userIsItGuy()) ? $req->username : $staff_id;
-
-        // If user a parent get the work he/she does
-        $data['work'] = ($user_is_parent) ? $req->work : 'NULL';
 
         $pass = $req->password ?: $user_type;
         $data['password'] = Hash::make($pass);
@@ -137,16 +132,6 @@ class UserController extends Controller implements HasMiddleware
             $this->user->createStaffRecord($d2);
         }
 
-        /* CREATE PARENT RELATIVE RECORD */
-        if ($user_is_parent) {
-            $d3 = $req->only(Qs::getParentRelativeRecord(['name2']));
-            $d3['user_id'] = $user->id;
-            // Use name2 from the request (removed above) as name
-            $d3['name'] = ucwords(strtolower($req->name2));
-            $d3['relation'] = $req->relation;
-            $this->user->createParentRelativeRecord($d3);
-        }
-
         return Qs::jsonStoreOk();
     }
 
@@ -166,14 +151,12 @@ class UserController extends Controller implements HasMiddleware
         $user_type = $this->user->findType($user_type_id)->title ?? $user->user_type;
         $user_was_staff = in_array($user->user_type, Qs::getStaff());
         $user_is_staff = in_array($user_type, Qs::getStaff());
-        $user_is_parent = in_array($user_type, Qs::getParent());
 
         $except = array_merge(Qs::getStaffRecord(), Qs::getParentRelativeRecord());
         $data = $req->except($except);
         unset($data["_token"], $data["_method"]); // Remove token and method values from requested data
         $data['name'] = $name = ucwords(strtolower($req->name));
         $data['user_type'] = $user_type;
-        $data['work'] = ($user_is_parent) ? $req->work : 'NULL';
         $data['message_media_heading_color'] = '#' . substr(md5($name), 0, 6); // Use a unique text color based on the name
 
         if ($req->hasFile('photo')) {
@@ -209,14 +192,6 @@ class UserController extends Controller implements HasMiddleware
             $this->user->updateStaffRecord(['user_id' => $id], $d2);
         }
 
-        /* UPDATE PARENT RELATIVE RECORD */
-        if ($user_is_parent) {
-            $d3 = $req->only(Qs::getParentRelativeRecord(['user_id', 'name2']));
-            $d3['name'] = ucwords(strtolower($req->name2));
-            $d3['relation'] = $req->relation;
-            $this->user->updateParentRelativeRec(['user_id' => $id], $d3);
-        }
-
         return Qs::jsonUpdateOk();
     }
 
@@ -229,7 +204,7 @@ class UserController extends Controller implements HasMiddleware
         $data['user'] = $this->user->find($user_id);
 
         /* Prevent Other Students from viewing Profile of others*/
-        if (Auth::user()->id != $user_id && !Qs::userIsTeamSA() && !Qs::userIsMyChild(Auth::user()->id, $user_id) && !Qs::userIsItGuy())
+        if (Auth::user()->id != $user_id && !Qs::userIsTeamSA() && !Qs::userIsItGuy())
             return redirect(route('dashboard'))->with('pop_error', __('msg.denied'));
 
         if (Qs::userIsTeamSATCL())
@@ -250,7 +225,7 @@ class UserController extends Controller implements HasMiddleware
 
         $path = Qs::getUploadPath($user->user_type) . $user->code;
         Storage::exists($path) ? Storage::deleteDirectory($path) : true;
-        $this->user->delete($user->id);
+        $this->user->forceDelete($user->id);
 
         return back()->with('flash_success', __('msg.del_ok'));
     }
