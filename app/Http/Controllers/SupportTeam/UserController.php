@@ -179,8 +179,6 @@ class UserController extends Controller implements HasMiddleware
             $photo->storeAs('public/' . $f['path']);
         }
 
-        // $data['photo'] = Usr::createAvatar($data['name'], $user->code, $user->user_type);
-
         $this->user->update($id, $data);   /* UPDATE USER RECORD */
 
         /* UPDATE OR CREATE STAFF RECORD */
