@@ -43,7 +43,7 @@
                         @foreach ($login_histories->where('user.user_type', $ut->title) as $lh)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td><img class="rounded-circle" style="height: 40px; width: 40px;" src="{{ tenant_asset($lh->user->photo) }}" alt="photo"></td>
+                            <td><img class="rounded-circle" style="height: 40px; width: 40px;" src="{{ asset($lh->user->photo) }}" alt="photo"></td>
                             <td>{{ $lh->user->name }}</td>
                             <td>{{ $lh->login_times }}</td>
                             <td>{{ Qs::fullDateTimeFormat($lh->created_at) }}</td>
@@ -73,7 +73,6 @@
                 </table>
             </div>
             @endforeach
-
         </div>
     </div>
 </div>
@@ -93,7 +92,7 @@
                             <th>#</th>
                             <th>Event</th>
                             <th>Subject Type</th>
-                            <th>Causer Type</th>
+                            {{-- <th>Causer Type</th> --}}
                             <th>Causer</th>
                             <th>Properties</th>
                             <th>Created At</th>
@@ -101,21 +100,29 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($activities as $a)
+                        @foreach($activities->chunk(800) as $chunk)
+                        @foreach($chunk as $chk)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $a->event }}</td>
-                            <td>{{ $a->subject_type }}</td>
-                            <td>{{ $a->causer_type }}</td>
-                            <td>{{ $a->user->name ?? $a->causer_id }}</td>
-                            <td>{{ $a->properties }}</td>
-                            <td>{{ Qs::onlyDateFormat($a->created_at) }}</td>
+                            <td>{{ $chk->event }}</td>
+                            @php
+                            $exploded = explode("\\", $chk->subject_type);
+                            @endphp
+                            <td>{{ end($exploded) }}</td>
+                            {{-- <td>{{ $chk->causer_type }}</td> --}}
+                            <td>{{ $chk->user->name }}</td>
+                            <td>
+                                @include('pages/modals/activity_log_properties')
+                                <a href="javascript:;" data-toggle="modal" data-target="#activity-log-properties-{{ $chk->id }}">show</a>
+                            </td>
+                            <td>{{ Qs::onlyDateFormat($chk->created_at) }}</td>
                             <td class="text-center">
                                 {{--Delete--}}
-                                <a id="{{ $a->id }}" onclick="confirmDelete(this.id)" href="javascript:;" class="btn btn-danger"><i class="material-symbols-rounded">delete</i> Delete</a>
-                                <form class="d-none" method="post" id="item-delete-{{ $a->id }}" action="{{ route('logs.activity_log_delete', $a->id) }}" class="hidden">@csrf</form>
+                                <a id="{{ $chk->id }}" onclick="confirmDelete(this.id)" href="javascript:;" class="btn btn-danger"><i class="material-symbols-rounded">delete</i> Delete</a>
+                                <form class="d-none" method="post" id="item-delete-{{ $chk->id }}" action="{{ route('logs.activity_log_delete', $chk->id) }}" class="hidden">@csrf</form>
                             </td>
                         </tr>
+                        @endforeach
                         @endforeach
                     </tbody>
                 </table>

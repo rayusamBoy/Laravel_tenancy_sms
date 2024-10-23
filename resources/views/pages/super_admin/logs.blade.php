@@ -73,7 +73,6 @@
                 </table>
             </div>
             @endforeach
-
         </div>
     </div>
 </div>
@@ -101,7 +100,6 @@
                         </tr>
                     </thead>
                     <tbody>
-
                         @foreach($activities->chunk(800) as $chunk)
                         @foreach($chunk as $chk)
                         <tr>

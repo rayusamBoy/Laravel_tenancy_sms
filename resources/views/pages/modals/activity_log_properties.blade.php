@@ -1,6 +1,6 @@
 <!-- Modal -->
 @php
-$attributes = $chk->properties['attributes'];
+$attributes = $chk->properties['attributes'] ?? [];
 $old = $chk->properties['old'] ?? [];
 $keys = array_keys($attributes)
 @endphp
@@ -17,17 +17,13 @@ $keys = array_keys($attributes)
                     <tr>
                         <td>Key</td>
                         <td>Attribute</td>
-                        @if($chk->event != 'created')
                         <td>Old</td>
-                        @endif
                     </tr>
                     @foreach ($keys as $key)
                     <tr>
                         <td>{{ $key }}</td>
                         <td class="break-all break-spaces">{{ $attributes[$key] ?? '' }}</td>
-                        @if($chk->event != 'created')
                         <td class="break-all break-spaces">{{ $old[$key] ?? '' }}</td>
-                        @endif
                     </tr>
                     @endforeach
                 </table>

@@ -22,11 +22,11 @@ class LogController extends Controller
 
     public function index()
     {
-        $d['activities'] = $this->log->getActivites();
+        $d['activities'] = $this->log->getActivites()->sortBy('id', SORT_REGULAR, TRUE);
         $d['login_histories'] = $this->log->getLoginHistories()->sortBy('last_login', SORT_REGULAR, TRUE);
         $d['user_types'] = $this->user->getAllTypes();
 
-        return view('pages.it_guy.activity_log', $d);
+        return view('pages.it_guy.logs', $d);
     }
 
     public function reset_login_hist($user_id)
