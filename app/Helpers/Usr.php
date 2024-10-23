@@ -312,7 +312,7 @@ class Usr
         if (!file_exists($dir_for_store))
             mkdir($dir_for_store);
         // Save the image to a file
-        $avatar_path = $dir_for_db . '/' . 'photo.png';
+        $avatar_path = 'storage' . '/' . $dir_for_db . '/' . 'photo.png';
         $img_path = $dir_for_store . '/' . 'photo.png';
 
         imagepng($image, $img_path);
