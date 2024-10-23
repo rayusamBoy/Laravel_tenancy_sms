@@ -2,7 +2,7 @@
  *-------------------------------------------------------------
  * Block UI method
  *-------------------------------------------------------------
- */
+*/
 function blockUI(message = "Please wait...", text_color = "orange") {
     return $.blockUI({
         message: '<i class="mr-1 m-auto material-symbols-rounded spinner">progress_activity</i> ' + message,
@@ -19,14 +19,14 @@ function blockUI(message = "Please wait...", text_color = "orange") {
  *-------------------------------------------------------------
  * Initialize auto size plugin for textarea
  *-------------------------------------------------------------
- */
+*/
 autosize($('textarea'));
 
 /**
  *-------------------------------------------------------------
  * Unblock UI method
  *-------------------------------------------------------------
- */
+*/
 function unblockUI() {
     return $.unblockUI();
 }
@@ -52,7 +52,7 @@ $(document).ready(function () {
      *-------------------------------------------------------------
      * Handle user type change on select.
      *-------------------------------------------------------------
-     */
+    */
     $("select#user_type").on("change", function () {
         let parent_data = $(this).parents("fieldset").find("#parent-data");
         let parent_data_inputs = $("#parent-data input");
@@ -91,7 +91,7 @@ $(document).ready(function () {
      *-------------------------------------------------------------
      * Handle marks conversion
      *-------------------------------------------------------------
-     */
+    */
     const wrapper = $(".items-wrapper");
 
     $(document).on("click", "#add-item", function (e) {
@@ -288,7 +288,7 @@ $(document).ready(function () {
  *-------------------------------------------------------------
  * Toggle full screen handler
  *-------------------------------------------------------------
- */
+*/
 $(".full-screen-handle").on("click", function (event) {
     event.preventDefault();
     if (
@@ -321,7 +321,7 @@ $(".full-screen-handle").on("click", function (event) {
  *-------------------------------------------------------------
  * Dashboard couter up for numbers (counts)
  *-------------------------------------------------------------
- */
+*/
 const counterUp = window.counterUp.default;
 const callback = (entries) => {
     entries.forEach((entry) => {
@@ -366,7 +366,7 @@ initializeTooltip();
  *-------------------------------------------------------------
  * Student ID Card print chexboxes
  *-------------------------------------------------------------
- */
+*/
 $(".st-id-checkbox").click(function () {
     // Get form
     const form = $("form.print-selected");
@@ -412,7 +412,7 @@ function show(selector, duration = 0) {
  *-------------------------------------------------------------
  * Message form (hide & show)
  *-------------------------------------------------------------
- */
+*/
 function showFormCard() {
     show(".card#create-message", 500);
     hide("button#new-message", 50);
@@ -427,7 +427,7 @@ function hideFormCard() {
  *-------------------------------------------------------------
  * Toggle element disabled state method
  *-------------------------------------------------------------
- */
+*/
 function toggleElementDisabledState(value, target_el) {
     if (value.length) {
         $(target_el).attr("disabled", true);
@@ -440,7 +440,7 @@ function toggleElementDisabledState(value, target_el) {
  *-------------------------------------------------------------
  * Validate students selection when creating or sending msgs
  *-------------------------------------------------------------
- */
+*/
 $(document).on("change", "select#user_types-ids", function (e) {
     validateStudentsSelection(this);
 });
@@ -470,7 +470,7 @@ function validateStudentsSelection(el) {
  *-------------------------------------------------------------
  * Add has editable option to the options list
  *-------------------------------------------------------------
- */
+*/
 $(document).ready(function () {
     appendEditableOption();
 });
@@ -486,7 +486,7 @@ function appendEditableOption(selector = ".has-editable-option") {
  *-------------------------------------------------------------
  * Inline function attached above to the select element
  *-------------------------------------------------------------
- */
+*/
 function handleEditableOption(el) {
     var selected = $(el).children("option:selected", this).attr("class");
 
@@ -507,7 +507,7 @@ function handleEditableOption(el) {
  *-------------------------------------------------------------
  * Promotion - Graduates
  *-------------------------------------------------------------
- */
+*/
 $("button.opt-all-as-graduate").on("click", function (ev) {
     // Select form
     const form = $(this).siblings("form.page-block");
@@ -523,10 +523,19 @@ $("button.opt-all-as-graduate").on("click", function (ev) {
  * The codes will apply necessary changes to any element 
  * with class 'has-do-not-show-again-button'
  *-------------------------------------------------------------
- */
-$(".has-do-not-show-again-button").append('<button type="button" class="btn btn-sm btn-info pt-0 pb-0 pr-1 pl-1 position-absolute right-0 bottom-0 font-size-xs do-not-show-again" onclick="doNotShowAgain(this)">Do not show again</button>');
+*/
+const do_not_show_again_button = document.createElement('button');
+// Set attributes
+do_not_show_again_button.type = 'button';
+do_not_show_again_button.className = 'btn btn-sm btn-info pt-0 pb-0 pr-1 pl-1 position-absolute right-0 font-size-xs do-not-show-again';
+do_not_show_again_button.textContent = 'Do not show again';
+do_not_show_again_button.style.bottom = '-10px';
+do_not_show_again_button.setAttribute("onclick", "doNotShowAgain(this)");
+
+$(".has-do-not-show-again-button").append(do_not_show_again_button);
 
 function doNotShowAgain(el) {
+    $(el).hide(); // Hide the clicked button
     var parent_el = $(el).parents('.has-do-not-show-again-button');
 
     var id = $(parent_el).attr("id");
@@ -554,7 +563,7 @@ function doNotShowAgain(el) {
  * Update do not show again state method.
  * Hide elements that needs not to be shown again.
  *-------------------------------------------------------------
- */
+*/
 function updatedoNotShowAgainElsState() {
     $(document).ready(function () {
         var values = JSON.parse(window.localStorage.getItem("do_not_show_els_with_these_ids_again")) ?? [];
@@ -571,7 +580,7 @@ updatedoNotShowAgainElsState();
  *-------------------------------------------------------------
  * Remove element method - with animation
  *-------------------------------------------------------------
- */
+*/
 function removeElement(el) {
     $(el).animate({
         'height': "0px"
@@ -584,7 +593,7 @@ function removeElement(el) {
  *-------------------------------------------------------------
  * Handle load go to bottom btn click event
  *-------------------------------------------------------------
- */
+*/
 const go_to_bottom_btn = $('.go-to-bottom button');
 
 go_to_bottom_btn.on('click', function (e) {
@@ -607,7 +616,7 @@ $(window).scroll(function () {
  *-------------------------------------------------------------
  * Handle exam number formats displaying on class type change
  *-------------------------------------------------------------
- */
+*/
 $(document).on("change", "select#class-type", function (e) {
     let value = this.value;
     $('.number-formats div').removeClass('d-flex').addClass('d-none');
@@ -618,7 +627,7 @@ $(document).on("change", "select#class-type", function (e) {
  *-------------------------------------------------------------
  * Handle CA displaying on exam category change
  *-------------------------------------------------------------
- */
+*/
 $(document).on("change", "select#category", function (e) {
     let value = this.value;
     let ids = $(this).data('summative_exm_cat_ids');
@@ -636,7 +645,7 @@ $(document).on("change", "select#category", function (e) {
  *-------------------------------------------------------------
  * System Sound Notification
  *-------------------------------------------------------------
- */
+*/
 function playNotificationSound(sound_name, condition = false) {
     if (condition && $(error_sound).data('allow_system_sounds') === 1) {
         const sound = new Audio(`${$(error_sound).data('base_url')}/${sound_name}`);
@@ -648,7 +657,7 @@ function playNotificationSound(sound_name, condition = false) {
  *-------------------------------------------------------------
  * Handle CA and Exam marks savings on page refresh
  *-------------------------------------------------------------
- */
+*/
 const error_sound = document.getElementById('notification-sounds');
 
 $(document).on("input", "table.data-table input", function (e) {
@@ -697,7 +706,7 @@ if ($("table.data-table input").length > 0) {
  *-------------------------------------------------------------
  * Handle auth pages texts and bg preview buttons
  *-------------------------------------------------------------
- */
+*/
 var auth_pages_bg_file_input = $('#login-and-related-pgs-bg-input');
 var auth_pages_preview_btns = $('div.auth-pages-preview');
 
@@ -716,7 +725,7 @@ $(auth_pages_bg_file_input).change(function (ev) {
  *-------------------------------------------------------------
  * Refresh button click event (target; show on standalone mode)
  *-------------------------------------------------------------
- */
+*/
 $(document).on("click", ".refresh", function (e) {
     $(this).html('<i class="material-symbols-rounded mt-auto mb-auto spinner">refresh</i>');
     return window.location.reload();
