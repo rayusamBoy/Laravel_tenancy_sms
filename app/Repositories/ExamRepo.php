@@ -169,6 +169,11 @@ class ExamRepo
         return Exam::whereId($id)->value('locked') === 1;
     }
 
+    public function getYears()
+    {
+        return Exam::select('year')->distinct()->get();
+    }
+
     /*********** Exam Record ***************/
 
     public function createRecord($data)
@@ -336,7 +341,7 @@ class ExamRepo
         return DB::table($this->marks_table)->find($id, 'id')->update($data);
     }
 
-    public function getExamYears($student_id)
+    public function getStudentExamYears($student_id)
     {
         return Mark::where('student_id', $student_id)->select('year')->distinct()->get();
     }

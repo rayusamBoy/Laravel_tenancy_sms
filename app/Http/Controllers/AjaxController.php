@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Qs;
 use App\Helpers\Usr;
+use App\Repositories\ExamRepo;
 use App\Repositories\LocationRepo;
 use App\Repositories\MyClassRepo;
 use App\Repositories\StudentRepo;
@@ -11,19 +12,20 @@ use Illuminate\Support\Facades\Auth;
 
 class AjaxController extends Controller
 {
-    protected $loc, $my_class, $student;
+    protected $loc, $my_class, $student, $exam;
 
-    public function __construct(LocationRepo $loc, MyClassRepo $my_class, StudentRepo $student)
+    public function __construct(LocationRepo $loc, MyClassRepo $my_class, StudentRepo $student, ExamRepo $exam)
     {
         $this->loc = $loc;
         $this->student = $student;
         $this->my_class = $my_class;
+        $this->exam = $exam;
     }
 
     public function get_table_columns($table_name)
     {
         $columns = Qs::getTableCols($table_name);
-        
+
         return $columns;
     }
 
@@ -80,6 +82,15 @@ class AjaxController extends Controller
         $sections = $this->my_class->getTeacherClassSections($class_id, Auth::id());
 
         return $sections->map(function ($q) {
+            return ['id' => $q->id, 'name' => $q->name];
+        })->all();
+    }
+
+    public function get_year_exams($year)
+    {
+        $exams = $this->exam->getExam(['year' => $year], false);
+
+        return $exams->map(function ($q) {
             return ['id' => $q->id, 'name' => $q->name];
         })->all();
     }

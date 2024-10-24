@@ -214,9 +214,10 @@ Route::middleware([
                         Route::get('batch/template', 'MarkController@batch_template')->name('marks.batch_template');
                         Route::post('batch/delete', 'MarkController@batch_delete')->name('marks.batch_delete');
                         Route::put('batch/upload', 'MarkController@batch_upload')->name('marks.batch_upload');
-                        Route::get('tabulation/{exam?}/{class?}/{sec_id?}', 'MarkController@tabulation')->name('marks.tabulation');
+                        Route::get('tabulation/{exam?}/{class?}/{sec_id?}/{year?}', 'MarkController@tabulation')->name('marks.tabulation');
                         Route::post('tabulation/select', 'MarkController@tabulation_select')->name('marks.tabulation_select');
-                        Route::get('tabulation/print/{exam}/{class}/{sec_id}', 'MarkController@print_tabulation')->name('marks.print_tabulation');
+                        Route::get('tabulation/print/{exam}/{class}/{sec_id}/{year}', 'MarkController@print_tabulation')->name('marks.print_tabulation');
+                        Route::post('tabulation/select/year', 'MarkController@select_year')->name('marks.tabulation.select_year');
                     });
 
                     // FOR teamSAT
@@ -326,6 +327,7 @@ Route::middleware([
                 Route::get('get_subject_section_teacher/{subject_id}/{section_id}', 'AjaxController@get_subject_section_teacher')->name('get_subject_section_teacher');
                 Route::get('get_class_subjects/{class_id}', 'AjaxController@get_class_subjects')->name('get_class_subjects');
                 Route::get('get_table_columns/{table_name}', 'AjaxController@get_table_columns')->name('get_table_columns');
+                Route::get('get_year_exams/{year}', 'AjaxController@get_year_exams')->name('get_year_exams');
             });
 
             /************************ SUPER ADMIN ****************************/

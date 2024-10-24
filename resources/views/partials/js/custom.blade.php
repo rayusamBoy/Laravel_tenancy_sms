@@ -472,6 +472,34 @@
 
     /**
      *-------------------------------------------------------------
+     * Get exams of the particular year
+     *-------------------------------------------------------------
+     */
+     function getYearExams(year){
+        var url = "{{ route('get_year_exams', [':year']) }}";
+        url = url.replace(':year', year);
+        var exam = $('#exam_id');
+
+        $.ajax({
+            dataType: 'json',
+            url: url,
+            success: function (resp) {console.log(resp)
+                exam.empty();
+                $.each(resp, function (i, data) {
+                    exam.append($('<option>', {
+                        value: data.id,
+                        text: data.name
+                    }));
+                });
+            },
+            error: function(errorThrown){
+                exam.empty();
+            }
+        })
+    }
+
+    /**
+     *-------------------------------------------------------------
      * Get class subjects
      *-------------------------------------------------------------
      */

@@ -12,6 +12,7 @@
 @endPushOnce
 
 @section('content')
+
 {{-- Selector --}}
 <div class="card">
     <div class="card-header header-elements-inline">
@@ -23,19 +24,33 @@
         <form method="post" class="page-block" action="{{ route('marks.tabulation_select') }}">
             @csrf
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-2">
                     <div class="form-group">
-                        <label for="exam_id" class="col-form-label font-weight-bold">Exam:</label>
-                        <select required id="exam_id" name="exam_id" class="form-control select-search" data-placeholder="Select Exam">
-                            <option value="">Select Exam</option>
-                            @foreach ($exams as $exm)
-                            <option {{ $selected && $exam_id == $exm->id ? 'selected' : '' }} value="{{ $exm->id }}">{{ $exm->name }}</option>
+                        <label for="year" class="col-form-label font-weight-bold">Select Year:</label>
+                        <select onchange="getYearExams(this.value)" data-placeholder="Select Year" required id="year" name="year" class="form-control select">
+                            <option value="">Select Year</option>
+                            @foreach($years as $yr)
+                            <option {{ ($selected && $yr->year == $year) ? 'selected' : '' }} value="{{ $yr->year }}">{{ $yr->year }}</option>
                             @endforeach
                         </select>
                     </div>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="exam_id" class="col-form-label font-weight-bold">Exam:</label>
+                        <select required id="exam_id" name="exam_id" class="form-control select-search" data-placeholder="Select Year First">
+                            <option value="">Select Year First</option>
+                            @if($selected)
+                            @foreach ($exams as $exm)
+                            <option {{ $selected && $exam_id == $exm->id ? 'selected' : '' }} value="{{ $exm->id }}">{{ $exm->name }}</option>
+                            @endforeach
+                            @endif
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
                     <div class="form-group">
                         <label for="my_class_id" class="col-form-label font-weight-bold">Class:</label>
                         <select onchange="getClassSections(this.value)" required id="my_class_id" name="my_class_id" class="form-control select" data-placeholder="Select Class">
@@ -47,11 +62,11 @@
                     </div>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div class="form-group">
                         <label for="section_id" class="col-form-label font-weight-bold">Section:</label>
                         <select required id="section_id" name="section_id" data-placeholder="Select Class First" class="form-control select">
-                            @if ($selected)
+                            @if($selected)
                             @foreach ($sections->where('my_class_id', $my_class->id) as $s)
                             <option {{ $section_id == $s->id ? 'selected' : '' }} value="{{ $s->id }}">
                                 {{ $s->name }}
@@ -218,7 +233,7 @@
 
         {{-- Print Button --}}
         <div class="text-center mt-4">
-            <a target="_blank" href="{{ route('marks.print_tabulation', [$exam_id, $my_class->id, $section_id]) }}" class="btn btn-danger btn-lg print-tabulation"><i class="material-symbols-rounded mr-2">print</i> Print Tabulation Sheet</a>
+            <a target="_blank" href="{{ route('marks.print_tabulation', [$exam_id, $my_class->id, $section_id, $year]) }}" class="btn btn-danger print-tabulation"><i class="material-symbols-rounded mr-2">print</i> Print Tabulation Sheet</a>
         </div>
     </div>
 </div>
