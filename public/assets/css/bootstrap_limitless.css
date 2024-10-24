@@ -3939,6 +3939,10 @@ a.breadcrumb-elements-item:focus,
  *
  * ---------------------------------------------------------------------------- */
 
+.badge {
+    padding: 0.3em 0.6em !important;
+}
+
 .badge.dropdown-toggle:after {
     font-size: 85%;
     vertical-align: baseline;
