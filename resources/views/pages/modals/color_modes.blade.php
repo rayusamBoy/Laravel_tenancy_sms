@@ -13,19 +13,19 @@
                         <div class="col-4">
                             <div class="d-flex mb-2">
                                 <span><input type="radio" id="auto" name="color_mode" value="auto" class="form-input-styled text-center" data-fouc></span>
-                                <label for="auto" class="ml-2 w-50 m-auto-0 cursor-pointer"><i class="material-symbols-rounded mr-1">mode_standby</i>Auto</label>
+                                <label for="auto" class="ml-2 w-50 m-auto-0 cursor-pointer"><i class="material-symbols-rounded mr-1">mode_standby</i><span class="d-none d-sm-inline">Auto</span></label>
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="d-flex mb-2">
                                 <span><input type="radio" id="dark" name="color_mode" value="auto" class="form-input-styled text-center" data-fouc></span>
-                                <label for="dark" class="ml-2 w-50 m-auto-0 cursor-pointer"><i class="material-symbols-rounded mr-1">dark_mode</i>Dark</label>
+                                <label for="dark" class="ml-2 w-50 m-auto-0 cursor-pointer"><i class="material-symbols-rounded mr-1">dark_mode</i><span class="d-none d-sm-inline">Dark</span></label>
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="d-flex mb-2">
                                 <span><input type="radio" id="light" name="color_mode" value="auto" class="form-input-styled text-center" data-fouc></span>
-                                <label for="light" class="ml-2 w-50 m-auto-0 cursor-pointer"><i class="material-symbols-rounded mr-1">light_mode</i>Light</label>
+                                <label for="light" class="ml-2 w-50 m-auto-0 cursor-pointer"><i class="material-symbols-rounded mr-1">light_mode</i><span class="d-none d-sm-inline">Light</span></label>
                             </div>
                         </div>
                     </div>
