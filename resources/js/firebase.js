@@ -173,7 +173,7 @@ function updateUI(payload) {
     }
 
     if (payload.data.type === "tenancy") {
-        flash({msg: payload.data.body, type: 'info'});
+        pop({ title: payload.data.title, msg: payload.data.body, type: 'info', timer: 0 });
     }
 }
 

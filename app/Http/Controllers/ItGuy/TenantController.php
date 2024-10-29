@@ -66,7 +66,7 @@ class TenantController extends Controller implements HasMiddleware
 
         session()->forget("created_tenant_id");
 
-        return Qs::json(null, null, ['msg' => __('msg.store_ok'), 'ok' => TRUE, 'pop' => TRUE]);
+        return back()->with('pop_success', __('msg.store_ok'))->with('pop_timer', 0);
     }
 
     /**
@@ -111,6 +111,6 @@ class TenantController extends Controller implements HasMiddleware
         $id = Qs::decodeHash($id);
         $this->tenant->delete($id);
 
-        return back()->with('pop_success', __('msg.del_ok'));
+        return back()->with('pop_success', __('msg.del_ok'))->with('pop_timer', 0);
     }
 }

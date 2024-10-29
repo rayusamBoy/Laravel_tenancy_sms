@@ -22,8 +22,6 @@
      */
     const Toast = Swal.mixin({
         toast: true,
-        focusConfirm: false,
-        returnFocus: false,
         reverseButtons: true,
         timerProgressBar: true,
         didOpen: (toast) => {
@@ -619,21 +617,21 @@
     function pop(data){
         Toast.fire({
             position: "top-right",
-            title: data.title ? data.title : 'Oops...',
+            title: data.title ?? 'Oops...',
             text: data.msg,
             icon: data.type,
-            timer: data.timer ? data.timer : 20000,
+            timer: data.timer ?? {{ session('pop_timer') ?? 20000 }}, // You can set timer to 0 to prevent autohide
             showConfirmButton: false,
         });
     }
-
+    
     function popConfirm(data){
         // If the message does not exist in localStorage; show the message.
         // Otherwise; marked as never show it again. Thus, do not show it.
         if(!sessionStorage.getItem(data.msg))
         Toast.fire({
             position: "top-right",
-            title: data.title ? data.title : 'Oops...',
+            title: data.title ?? 'Oops...',
             text: data.msg,
             icon: data.type,
             showConfirmButton: true,
@@ -655,20 +653,19 @@
     });
 
     function flash(data){
-        var type = '.' + data.type;
-          toastr.options = {
-                "closeButton": true,
-                "closeMethod": 'hide',
-                "closeDuration": 500,
-                "showEasing": getRandomEasingMethod(),
-                "hideEasing": getRandomEasingMethod(),
-                "closeEasing": getRandomEasingMethod(),
-                "showMethod": getRandomShowMethod(),
-                "hideMethod": getRandomHideMethod(),
-                "positionClass": 'toast-top-right',
-                "preventDuplicates": true,
-                "progressBar": true,
-            }
+        toastr.options = {
+            "closeButton": true,
+            "closeMethod": 'hide',
+            "closeDuration": 500,
+            "showEasing": getRandomEasingMethod(),
+            "hideEasing": getRandomEasingMethod(),
+            "closeEasing": getRandomEasingMethod(),
+            "showMethod": getRandomShowMethod(),
+            "hideMethod": getRandomHideMethod(),
+            "positionClass": 'toast-top-right',
+            "preventDuplicates": true,
+            "progressBar": true,
+        }
         // Unblock UI if any
         $.unblockUI();
         displayToast(data.type, data.msg);
@@ -1037,7 +1034,7 @@
             if (result.isConfirmed) {
                 if (href)
                     return window.location = href;
-                return flash({msg: 'Ooops! Invalid URL', type: 'info'});
+                return flash({msg: 'Oops! Invalid URL', type: 'info'});
             } 
         });
     }
@@ -1161,8 +1158,9 @@
             enableBtn(btn);
 
             (resp.ok && resp.msg) 
-            ? (resp.pop ? pop({msg:resp.msg, type:'success'}) : flash({msg:resp.msg, type:'success'})) 
-            : (resp.pop ? pop({msg:resp.msg, type:'error'}) : flash({msg:resp.msg, type:'error'}));
+            ? (resp.pop ? (typeof resp.pop_timer != 'undefined' ? pop({msg:resp.msg, type:'success', timer:resp.pop_timer}) : pop({msg:resp.msg, type:'success'})) : flash({msg:resp.msg, type:'success'})) 
+            : (resp.pop ? (typeof resp.pop_timer != 'undefined' ? pop({msg:resp.msg, type:'success', timer:resp.pop_timer}) : pop({msg:resp.msg, type:'success'})) : flash({msg:resp.msg, type:'error'}));
+            
             formType == 'store' ? clearForm(form) : '';
             btn.html(btn_html);
 
@@ -1329,7 +1327,7 @@
      * Print this plugin elements handler
      *-------------------------------------------------------------
      */
-    $('.print-this').addClass('position-relative').append('<button class="position-absolute btn btn-sm pb-1 pt-1 right-0 bottom-0 print-none this" type="button">Print This</button>');
+    $('.print-this').addClass('position-relative').append('<button class="position-absolute btn btn-sm pb-1 pt-1 right-0 bottom-0 print-none this" type="button">Print</button>');
     $('.print-this button.this').on("click", function () {
         //resizeChartInstances();
         var parent = $(this).parents('.print-this');
