@@ -914,7 +914,7 @@ class Qs
 
     public static function getAppIcon(): string
     {
-        return public_path("images/icons/icon-rounded.png");
+        return asset("images/icons/icon-rounded.png");
     }
 
     public static function getTenancyAwareIDCardsThemeDir($tenant_id = null)
