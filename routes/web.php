@@ -97,7 +97,7 @@ Route::group(['middleware' => ['auth', 'checkForPassUpdate', 'itGuy']], function
             return redirect('/home')->with('pop_success', __('msg.email_verified'));
         })->middleware(['signed'])->name('verification.verify');
 
-        Route::get('email/verification_notification', function (Request $request) {
+        Route::get('email/verification/notification', function (Request $request) {
             $request->user()->sendEmailVerificationNotification();
             return back()->with('flash_success', __('msg.verification_sent'));
         })->middleware(['throttle:6,1'])->name('verification.send');
