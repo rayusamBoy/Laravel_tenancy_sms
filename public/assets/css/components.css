@@ -3239,6 +3239,10 @@ button.toast-close-button {
     background: rgba(0, 0, 0, 0.2);
 }
 
+[data-theme=dark] .swal2-timer-progress-bar {
+    background: rgba(0, 0, 0, 0.3) !important;
+}
+
 .swal2-image {
     max-width: 100%;
     margin: 2em auto 1em;
@@ -4554,8 +4558,13 @@ body.swal2-toast-shown .swal2-container.swal2-bottom-right {
 [data-theme=dark] .file-input .btn:not(.btn-default),
 [data-theme=dark] .input-group-text:not(.default) {
     color: #fff;
-    background-color: #324148 !important;
     border: 0;
+}
+
+[data-theme=dark] .dt-button.buttons-html5,
+[data-theme=dark] .file-input .btn:not(.btn-default):not(.bg-transparent),
+[data-theme=dark] .input-group-text:not(.default):not(.bg-transparent) {
+    background-color: #324148 !important;
 }
 
 [data-theme=dark] .dt-button.buttons-html5:hover,
