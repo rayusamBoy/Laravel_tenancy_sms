@@ -16,7 +16,7 @@
 
         <div class="tab-content">
             <div class="tab-pane fade show active" id="new-tenant">
-                <form class="ajax-store" method="post" action="{{ route('tenants.store') }}">
+                <form class="page-block" method="post" action="{{ route('tenants.store') }}">
                     @csrf
                     <div class="row">
                         <div class="col-md-3">
