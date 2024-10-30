@@ -110,7 +110,7 @@ This is a multi-tenant school management system powered by technologies includin
    - `DB_DATABASE` - Database name (make sure you have created one). *Default connection:*`mysql`.
    - `DB_USERNAME` - Database username.
    - `DB_PASSWORD` - Database password.
-   - `BROADCAST_CONNECTION` - *Default:* `pusher`. You can also opt for `reverb`. For `pusher`, make sure to set the appropriate values for any keys that start with `PUSHER_`. The values for `reverb` are already configured, but you will need to activate the credentials. [See how](resources/js/bootstrap.js).
+   - `BROADCAST_CONNECTION` - *Default:* `reverb`. You can also opt for `pusher`. For `pusher`, make sure to set the appropriate values for any keys that start with `PUSHER_`, then you will need to activate the credentials [in this file](resources/js/bootstrap.js).
    - `APP_URL` - Your full qulified domain with protocol `https://` included. *Default:* `http://localhost`
    - `VITE_VAPID_KEY` - **(optional)**. Firebase Cloud Messaging (FCM) push services access token. To get a key and more [check this out](https://firebase.google.com/docs/cloud-messaging).
 9. Migrate the database.
@@ -120,24 +120,29 @@ This is a multi-tenant school management system powered by technologies includin
    ```
 10. Seed the database.
 
-      ```
-      php artisan db:seed --class=DatabaseSeederNonTenancy
-      ```
+    ```
+    php artisan db:seed --class=DatabaseSeederNonTenancy
+    ```
 11. **(optional)**. If you have set the optional value for `VITE_VAPID_KEY`, you must also configure the Firebase [in this file](public/assets/js/firebase-config.js) and provide the Firebase service account credentials [in this file](storage/app/firebase/service-account-credentials.json). The app will work perfectly fine even if you do not set these values.
 12. **(optional)**. If you have set either or both of the options above, you must rebuild the node packages by running:
 
     ```
     npm run build
     ```
-13. **(locally)**. Serve the `app` and access it via the link `http://localhost:8000` by running:
+13. Start the `reverb` by running:
+
+    ```
+    php artisan reverb:start
+    ```
+14. **(locally)**. Open a new terminal, then serve the `app` and access it via the link `http://localhost:8000` by running:
 
     ```
     php artisan serve
     ```
-14. **(production - live)**. Try searching Google for information on how to deploy a Laravel app based on your hosting plan.
+15. **(production - live)**. Try searching Google for information on how to deploy a Laravel app based on your hosting plan.
 
 > [!IMPORTANT]
-> Whenever you set or update any value in the `.env` file for keys that start with `VITE_`, you must rebuild the node packages by running:
+> Whenever you set or update any value in the `.env` file for keys that start with `VITE_` and/or change the `BROADCAST_CONNECTION`, you must rebuild the node packages by running:
 >
 > ```
 > npm run build
