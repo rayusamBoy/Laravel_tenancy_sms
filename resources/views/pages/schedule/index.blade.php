@@ -18,7 +18,4 @@
 @include('pages.schedule.calendar.manage')
 @endif
 
-{{--Calendar js--}}
-@include('partials/js/calendar')
-
 @endsection

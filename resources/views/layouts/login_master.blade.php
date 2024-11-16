@@ -32,7 +32,7 @@
         </script>
     @endif
 
-    <title>{{ Qs::getStringAbbreviation() ?? 'SMS' }} &#183; @yield('page_title')</title>
+    <title>{{ Qs::getStringAbbreviation(config('app.name')) }} &#183; @yield('page_title')</title>
 
     @laravelPWA
 
@@ -42,7 +42,7 @@
 <body>
     @include('partials.login.header')
     @include('partials.login.exam_announce')
-    @include('partials.login.admin')
+    @include('pages.modals.admin')
 
     @yield('content')
 

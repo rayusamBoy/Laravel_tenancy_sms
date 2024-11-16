@@ -6,11 +6,11 @@ use App\Helpers\Mk;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
-use Maatwebsite\Excel\Concerns\WithStyles;
-use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
-use PhpOffice\PhpSpreadsheet\Style\Protection;
-use \PhpOffice\PhpSpreadsheet\Cell\DataValidation;
 use Maatwebsite\Excel\Concerns\WithProperties;
+use Maatwebsite\Excel\Concerns\WithStyles;
+use PhpOffice\PhpSpreadsheet\Cell\DataValidation;
+use PhpOffice\PhpSpreadsheet\Style\Protection;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class MarksExport implements FromView, ShouldAutoSize, WithStyles, WithProperties
 {
@@ -84,7 +84,7 @@ class MarksExport implements FromView, ShouldAutoSize, WithStyles, WithPropertie
 
         // Set bg color and font color for heading data
         $headers_arr_range = [1, 1, $end_col_index, $titles_and_subject_names_initial_rows];
-        $sheet->getStyle($headers_arr_range)->getFill()->applyFromArray(['fillType' => 'solid', 'color' => ['rgb' => '2b2b2b']]);
+        $sheet->getStyle($headers_arr_range)->getFill()->applyFromArray(['fillType' => 'solid', 'color' => ['rgb' => '171717']]);
         $sheet->getStyle($headers_arr_range)->getFont()->applyFromArray(['color' => ['rgb' => 'FFFFFF']]);
 
         // Set bg color and font color for side protected data

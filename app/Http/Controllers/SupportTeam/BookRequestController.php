@@ -4,9 +4,9 @@ namespace App\Http\Controllers\SupportTeam;
 
 use App\Helpers\Qs;
 use App\Http\Controllers\Controller;
-use App\Repositories\BookRepo;
 use App\Http\Requests\Book\BookRequestCreate;
 use App\Http\Requests\Book\BookRequestUpdate;
+use App\Repositories\BookRepo;
 use App\Repositories\UserRepo;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;

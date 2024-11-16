@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\ItGuy;
 
 use App\Helpers\Qs;
-use App\Repositories\UserRepo;
 use App\Http\Controllers\Controller;
 use App\Repositories\TenantRepo;
+use App\Repositories\UserRepo;
 use Illuminate\Http\Request as HttpReq;
 
 class HomeController extends Controller

@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Qs;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Notifications\NotificationMarkedAsRead;
 use App\Repositories\UserRepo;
+use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
@@ -53,7 +53,7 @@ class NotificationController extends Controller
     {
         $notification = auth()->user()->unreadNotifications()->where('id', $id)->first();
 
-        if (is_null($notification))
+        if ($notification === null)
             return back()->with('flash_error', 'Notification not found.');
 
         $notification->markAsRead();
@@ -86,10 +86,10 @@ class NotificationController extends Controller
         }
 
         // Get token or tokens (in case the user uses multiple devices) from the DB 
-        $current_tokens = is_null(auth()->user()->firebase_device_token) ? [] : unserialize(auth()->user()->firebase_device_token);
+        $current_tokens = auth()->user()->firebase_device_token === null ? [] : unserialize(auth()->user()->firebase_device_token);
         $incoming_token = $request->token;
 
-        if (is_null($current_tokens) or !in_array($incoming_token, $current_tokens)) {
+        if ($current_tokens === null or !in_array($incoming_token, $current_tokens)) {
             $current_tokens[] = $incoming_token; // Add a new one
 
             $data = ['firebase_device_token' => serialize($current_tokens)];

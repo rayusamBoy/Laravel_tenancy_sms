@@ -12,7 +12,7 @@
         <ul class="nav nav-tabs nav-tabs-highlight">
             <li class="nav-item"><a href="#new-user" class="nav-link active" data-toggle="tab">Create New User</a></li>
             <li class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Manage Users</a>
+                <a href="javascript:;" class="nav-link dropdown-toggle" data-toggle="dropdown">Manage Users</a>
                 <div class="dropdown-menu dropdown-menu-right">
                     @foreach ($user_types as $ut)
                     <a href="#ut-{{ Qs::hash($ut->id) }}" class="dropdown-item" data-toggle="tab">{{ $ut->name }}s</a>
@@ -449,9 +449,7 @@
                             <td class="text-center">
                                 <div class="list-icons">
                                     <div class="dropdown">
-                                        <a href="#" data-toggle="dropdown">
-                                            <i class="material-symbols-rounded">lists</i>
-                                        </a>
+                                        <a class="material-symbols-rounded" href="javascript:;" data-toggle="dropdown">lists</a>
 
                                         <div class="dropdown-menu dropdown-menu-left">
                                             {{-- Edit --}}

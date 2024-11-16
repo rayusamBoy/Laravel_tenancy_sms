@@ -5,9 +5,9 @@ namespace App\Http\Controllers\SupportTeam;
 use App\Helpers\Qs;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Book\BookCreate;
+use App\Http\Requests\Book\BookUpdate;
 use App\Repositories\BookRepo;
 use App\Repositories\MyClassRepo;
-use App\Http\Requests\Book\BookUpdate;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 

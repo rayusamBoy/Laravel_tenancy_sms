@@ -1,7 +1,4 @@
 @extends('layouts.app')
-
-@section('page_title', 'Confirm Access')
-
 @section('page_title', 'Confirm Access')
 
 @pushOnce('css')

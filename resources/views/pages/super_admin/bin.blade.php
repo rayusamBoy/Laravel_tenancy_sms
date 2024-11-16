@@ -34,7 +34,7 @@
 </div>
 @else
 
-<div class="alert alert-info border-0 alert-dismissible">
+<div class="alert alert-info border-0 alert-dismissible has-do-not-show-again-button" id="bin-info">
     <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
     <span>Please Choose a record from the categories listed below, to restore it.<br /><strong>NB:</strong> Permanently deleting the record, will erase with all its associated data. Be very careful!</span>
 </div>

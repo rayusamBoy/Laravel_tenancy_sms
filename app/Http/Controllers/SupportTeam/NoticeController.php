@@ -4,12 +4,11 @@ namespace App\Http\Controllers\SupportTeam;
 
 use App\Helpers\Qs;
 use App\Http\Controllers\Controller;
-use App\Repositories\NoticeRepo;
-use App\Repositories\UserRepo;
 use App\Http\Requests\Notice\NoticeCreate;
 use App\Http\Requests\Notice\NoticeSetAsViewed;
 use App\Http\Requests\Notice\NoticeUpdate;
-use Illuminate\Support\Facades\Auth;
+use App\Repositories\NoticeRepo;
+use App\Repositories\UserRepo;
 
 class NoticeController extends Controller
 {
@@ -33,7 +32,7 @@ class NoticeController extends Controller
     public function store(NoticeCreate $req)
     {
         $data = $req->all();
-        $data['from_id'] = Auth::id();
+        $data['from_id'] = auth()->id();
         $this->notice->create($data);
 
         return Qs::jsonStoreOk();
@@ -42,7 +41,7 @@ class NoticeController extends Controller
     public function update_record(NoticeUpdate $req, $id)
     {
         $data = $req->all();
-        $data['editor_id'] = Auth::id();
+        $data['editor_id'] = auth()->id();
         $this->notice->update($id, $data);
 
         return Qs::jsonUpdateOk();
@@ -63,7 +62,7 @@ class NoticeController extends Controller
         $ntc_id = $req->id;
         $viewers_ids = json_decode($this->notice->getById($ntc_id)->value("viewers_ids"));
         // Push auth user id to viewers ids
-        $viewers_ids[] = Auth::id();
+        $viewers_ids[] = auth()->id();
         // Update the viewers ids
         $this->notice->update($ntc_id, ["viewers_ids" => json_encode($viewers_ids)]);
 

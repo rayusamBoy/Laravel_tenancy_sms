@@ -27,7 +27,7 @@
                 <div class="dropdown">
                     @if(Qs::getSetting('allow_assessmentsheet_print') || Qs::userIsSuperAdmin())
                     @if(Qs::userIsTeamSAT())
-                    <a href="#" class="btn btn-secondary btn-lg" data-toggle="dropdown">
+                    <a href="javascript:;" class="btn btn-secondary btn-lg" data-toggle="dropdown">
                         Print Assessment<i class="material-symbols-rounded ml-2">print</i>
                     </a>
 

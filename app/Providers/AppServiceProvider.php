@@ -5,12 +5,12 @@ namespace App\Providers;
 use App\Helpers\Qs;
 use App\Listeners\TenantEventSubscriber;
 use Illuminate\Cache\RateLimiting\Limit;
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {

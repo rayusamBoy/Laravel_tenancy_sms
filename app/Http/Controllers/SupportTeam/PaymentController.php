@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers\SupportTeam;
 
-use Dompdf\Dompdf;
-use App\Helpers\Qs;
 use App\Helpers\Pay;
+use App\Helpers\Qs;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\NotificationController;
 use App\Http\Requests\Payment\PaymentCreate;
 use App\Http\Requests\Payment\PaymentUpdate;
+use App\Notifications\StudentPaymentPaid;
 use App\Repositories\MyClassRepo;
 use App\Repositories\PaymentRepo;
 use App\Repositories\StudentRepo;
-use App\Notifications\StudentPaymentPaid;
-use App\Http\Controllers\NotificationController;
+use Dompdf\Dompdf;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Http\Request;
 
 class PaymentController extends Controller implements HasMiddleware
 {
@@ -132,7 +132,7 @@ class PaymentController extends Controller implements HasMiddleware
         $d['sr'] = $this->student->getRecord(['user_id' => $pr->student_id])->first();
         $d['settings'] = Qs::getSettings();
 
-        if (!is_null($notification_id)){
+        if ($notification_id !== null){
             app(NotificationController::class)->mark_as_read($notification_id);
         }
 
@@ -155,7 +155,7 @@ class PaymentController extends Controller implements HasMiddleware
         $d['sr'] = $this->student->getRecord(['user_id' => $pr->student_id])->first();
         $d['settings'] = Qs::getSettings();
 
-        $pdf_name = 'Receipt_' . $pr->ref_no;
+        $pdf_name = "Receipt_{$pr->ref_no}";
         $dompdfhtml = view('pages.support_team.payments.receipt', $d)->render();
         $options = [
             'chroot' => public_path(),
@@ -258,7 +258,7 @@ class PaymentController extends Controller implements HasMiddleware
     {
         $d['payment'] = $pay = $this->pay->find($id);
 
-        return is_null($pay) ? Qs::goWithDanger('payments.index') : view('pages.support_team.payments.edit', $d);
+        return $pay === null ? Qs::goWithDanger('payments.index') : view('pages.support_team.payments.edit', $d);
     }
 
     public function update(PaymentUpdate $req, $id)

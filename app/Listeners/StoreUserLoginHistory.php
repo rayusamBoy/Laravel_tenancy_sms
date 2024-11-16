@@ -2,9 +2,9 @@
 
 namespace App\Listeners;
 
-use Carbon\Carbon;
 use App\Events\UserLoggedIn;
 use App\Models\LoginHistory;
+use Carbon\Carbon;
 
 class StoreUserLoginHistory
 {

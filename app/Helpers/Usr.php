@@ -199,7 +199,7 @@ class Usr
         $collection = '';
         foreach (self::getClasses($id) as $class) {
             foreach ($class->section as $section) {
-                $collection .= '<td>' . $section->name . '</td>';
+                $collection .= "<td>{$section->name}</td>";
             }
         }
         return $collection;
@@ -312,8 +312,8 @@ class Usr
         if (!file_exists($dir_for_store))
             mkdir($dir_for_store);
         // Save the image to a file
-        $avatar_path = 'storage' . '/' . $dir_for_db . '/' . 'photo.png';
-        $img_path = $dir_for_store . '/' . 'photo.png';
+        $avatar_path = "storage/$dir_for_db/photo.png";
+        $img_path = "$dir_for_store/photo.png";
 
         imagepng($image, $img_path);
         imagedestroy($image);

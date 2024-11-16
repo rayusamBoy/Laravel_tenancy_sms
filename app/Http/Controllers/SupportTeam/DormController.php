@@ -49,7 +49,7 @@ class DormController extends Controller implements HasMiddleware
     {
         $d['dorm'] = $dorm = $this->dorm->find($id);
 
-        return !is_null($dorm) ? view('pages.support_team.dorms.edit', $d) : Qs::goWithDanger('dorms.index');
+        return $dorm !== null ? view('pages.support_team.dorms.edit', $d) : Qs::goWithDanger('dorms.index');
     }
 
     public function update(DormUpdate $req, $id)

@@ -3,8 +3,8 @@
 namespace App\Repositories;
 
 use App\Models\Assessment;
-use App\Models\Grade;
 use App\Models\AssessmentRecord;
+use App\Models\Grade;
 use Illuminate\Support\Facades\DB;
 
 class AssessmentRepo
@@ -123,7 +123,7 @@ class AssessmentRepo
     {
         $d = ['student_id' => $st_id, 'exam_id' => $exam->id, 'my_class_id' => $class_id, 'year' => $year];
 
-        $tex = 'tex' . $exam->term;
+        $tex = "tex{$exam->term}";
         $mk = AssessmentRecord::where($d);
 
         return $mk->select($tex)->sum($tex);
@@ -133,7 +133,7 @@ class AssessmentRepo
     {
         $d = ['student_id' => $st_id, 'exam_id' => $exam->id, 'my_class_id' => $class_id, 'section_id' => $sec_id, 'year' => $year];
 
-        $tex = 'tex' . $exam->term;
+        $tex = "tex{$exam->term}";
 
         $mk = AssessmentRecord::where($d)->where($tex, '>=', 0);
         $avg = $mk->select($tex)->avg($tex);
@@ -144,7 +144,7 @@ class AssessmentRepo
     public function getClassAvg($exam, $class_id, $year)
     {
         $d = ['exam_id' => $exam->id, 'my_class_id' => $class_id, 'year' => $year];
-        $tex = 'tex' . $exam->term;
+        $tex = "tex{$exam->term}";
 
         $avg = AssessmentRecord::where($d)->select($tex)->avg($tex);
 
@@ -155,7 +155,7 @@ class AssessmentRepo
     {
         $d = ['student_id' => $st_id, 'exam_id' => $exam->id, 'my_class_id' => $class_id, 'section_id' => $sec_id, 'year' => $year];
         $all_mks = [];
-        $tex = 'tex' . $exam->term;
+        $tex = "tex{$exam->term}";
 
         $my_mk = AssessmentRecord::where($d)->select($tex)->sum($tex);
 
@@ -165,7 +165,7 @@ class AssessmentRepo
         foreach ($students as $s) {
             $all_mks[] = $this->getAssessmentTotalTerm($exam, $s->student_id, $class_id, $year);
         }
-        
+
         rsort($all_mks);
 
         return array_search($my_mk, $all_mks) + 1;
@@ -193,9 +193,8 @@ class AssessmentRepo
 
     public function getGrade($total, $class_type_id)
     {
-        if ($total < 0) {
+        if ($total < 0 or $total === null)
             return NULL;
-        }
 
         $grades = Grade::where(['class_type_id' => $class_type_id])->get();
 
@@ -219,7 +218,7 @@ class AssessmentRepo
     public function getSubjectMark($exam, $class_id, $sub_id, $st_id, $year)
     {
         $d = ['exam_id' => $exam->id, 'my_class_id' => $class_id, 'subject_id' => $sub_id, 'student_id' => $st_id, 'year' => $year];
-        $tex = 'tex' . $exam->term;
+        $tex = "tex{$exam->term}";
 
         return AssessmentRecord::where($d)->select($tex)->get()->first()->$tex;
     }
@@ -227,13 +226,12 @@ class AssessmentRepo
     public function getSubPos($st_id, $exam, $class_id, $sub_id, $year)
     {
         $d = ['exam_id' => $exam->id, 'my_class_id' => $class_id, 'subject_id' => $sub_id, 'year' => $year];
-        $tex = 'tex' . $exam->term;
+        $tex = "tex{$exam->term}";
 
         $sub_mk = $this->getSubjectMark($exam, $class_id, $sub_id, $st_id, $year);
-
         $sub_mks = AssessmentRecord::where($d)->whereNotNull($tex)->orderBy($tex, 'DESC')->select($tex)->get()->pluck($tex);
-        
-        return $sub_pos = $sub_mks->count() > 0 ? $sub_mks->search($sub_mk) + 1 : NULL;
+
+        return $sub_mks->count() > 0 ? $sub_mks->search($sub_mk) + 1 : NULL;
     }
 
     public function firstOrCreateRec($sid, $class_id, $sec_id, $exam_id, $year, $sub_id, $mark_id, $assessment_id)

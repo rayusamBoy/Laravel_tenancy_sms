@@ -5,16 +5,15 @@ namespace App\Http\Controllers;
 use App\Helpers\Qs;
 use App\Repositories\AssessmentRepo;
 use App\Repositories\BookRepo;
-use App\Repositories\UserRepo;
-use App\Repositories\MyClassRepo;
 use App\Repositories\ExamRepo;
-use App\Repositories\PaymentRepo;
-use App\Repositories\NoticeRepo;
-use App\Repositories\StudentRepo;
 use App\Repositories\MarkRepo;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Auth;
+use App\Repositories\MyClassRepo;
+use App\Repositories\NoticeRepo;
+use App\Repositories\PaymentRepo;
+use App\Repositories\StudentRepo;
+use App\Repositories\UserRepo;
 use Illuminate\Http\Request as HttpReq;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class HomeController extends Controller
 {
@@ -80,7 +79,7 @@ class HomeController extends Controller
         // Count all users who did not view notice(s) - whose id not in viewers_ids.
         foreach ($notices as $ntc) {
             $v_ids = $ntc->viewers_ids;
-            if ($v_ids == NULL || !in_array(Auth::id(), json_decode($v_ids))) {
+            if ($v_ids == NULL || !in_array(auth()->id(), json_decode($v_ids))) {
                 $unviewed_count++;
                 $unviewed_notices[] = $ntc;
             } else {

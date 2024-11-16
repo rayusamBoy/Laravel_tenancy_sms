@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Eloquent;
 use App\User;
+use Eloquent;
 use Iksaku\Laravel\MassUpdate\MassUpdatable;
 
 class ExamRecord extends Eloquent

@@ -7,6 +7,8 @@ use App\Events\TenantDeletingStorageDir;
 use App\Events\TenantIDCardsThemeDirDeleted;
 use App\Events\TenantStorageDirDeleted;
 use App\Notifications\SendTenantEvent;
+use Illuminate\Events\Dispatcher;
+use Illuminate\Support\Facades\Notification;
 use Stancl\Tenancy\Events\CreatingDatabase;
 use Stancl\Tenancy\Events\CreatingDomain;
 use Stancl\Tenancy\Events\CreatingTenant;
@@ -22,8 +24,6 @@ use Stancl\Tenancy\Events\MigratingDatabase;
 use Stancl\Tenancy\Events\SeedingDatabase;
 use Stancl\Tenancy\Events\TenantCreated;
 use Stancl\Tenancy\Events\TenantDeleted;
-use Illuminate\Support\Facades\Notification;
-use Illuminate\Events\Dispatcher;
 
 class TenantEventSubscriber
 {

@@ -2,11 +2,11 @@
 
     <!-- Sidebar mobile toggler -->
     <div class="sidebar-mobile-toggler text-center">
-        <a href="#" class="sidebar-mobile-main-toggle">
+        <a href="javascript:;" class="sidebar-mobile-main-toggle">
             <i class="material-symbols-rounded">arrow_back</i>
         </a>
         Navigation
-        <a href="#" class="sidebar-mobile-expand">
+        <a href="javascript:;" class="sidebar-mobile-expand">
             <i class="material-symbols-rounded">format_indent_increase</i>
             <i class="material-symbols-rounded">format_indent_decrease</i>
         </a>
@@ -54,7 +54,7 @@
                 {{--Academics--}}
                 @if(Qs::userIsAcademic())
                 <li class="nav-item nav-item-submenu {{ in_array(Route::currentRouteName(), ['tt.index', 'ttr.edit', 'ttr.show', 'ttr.manage']) ? 'nav-item-expanded nav-item-open' : '' }} ">
-                    <a href="#" class="nav-link"><i class="material-symbols-rounded">school</i> <span> Academics</span></a>
+                    <a href="javascript:;" class="nav-link"><i class="material-symbols-rounded">school</i> <span> Academics</span></a>
 
                     <ul class="nav nav-group-sub" data-submenu-title="Manage Academics">
                         {{--Timetables--}}
@@ -66,7 +66,7 @@
                 {{--Administrative--}}
                 @if(Qs::userIsAdministrative())
                 <li class="nav-item nav-item-submenu {{ in_array(Route::currentRouteName(), ['payments.index', 'payments.create', 'payments.invoice', 'payments.receipts', 'payments.edit', 'payments.manage', 'payments.show',]) ? 'nav-item-expanded nav-item-open' : '' }} ">
-                    <a href="#" class="nav-link"><i class="material-symbols-rounded">apartment</i> <span> Administrative</span></a>
+                    <a href="javascript:;" class="nav-link"><i class="material-symbols-rounded">apartment</i> <span> Administrative</span></a>
 
                     <ul class="nav nav-group-sub" data-submenu-title="Administrative">
 
@@ -74,7 +74,7 @@
                         @if(Qs::userIsTeamAccount())
                         <li class="nav-item nav-item-submenu {{ in_array(Route::currentRouteName(), ['payments.index', 'payments.create', 'payments.edit', 'payments.manage', 'payments.show', 'payments.invoice']) ? 'nav-item-expanded' : '' }}">
 
-                            <a href="#" class="nav-link {{ in_array(Route::currentRouteName(), ['payments.index', 'payments.edit', 'payments.create', 'payments.manage', 'payments.show', 'payments.invoice']) ? 'active' : '' }}">Payments</a>
+                            <a href="javascript:;" class="nav-link {{ in_array(Route::currentRouteName(), ['payments.index', 'payments.edit', 'payments.create', 'payments.manage', 'payments.show', 'payments.invoice']) ? 'active' : '' }}">Payments</a>
 
                             <ul class="nav nav-group-sub">
                                 <li class="nav-item"><a href="{{ route('payments.create') }}" class="nav-link {{ Route::is('payments.create') ? 'active' : '' }}">Create Payment</a></li>
@@ -91,7 +91,7 @@
                 {{--Manage Students--}}
                 @if(Qs::userIsTeamSATCL())
                 <li class="nav-item nav-item-submenu {{ in_array(Route::currentRouteName(), ['students.create', 'students.list', 'students.edit', 'students.show', 'students.promotion', 'students.promotion_manage', 'students.graduated', 'students.id_cards', 'students.id_cards_manage', 'students.manage_permissions']) ? 'nav-item-expanded nav-item-open' : '' }} ">
-                    <a href="#" class="nav-link"><i class="material-symbols-rounded">groups</i> <span> Students</span></a>
+                    <a href="javascript:;" class="nav-link"><i class="material-symbols-rounded">groups</i> <span> Students</span></a>
 
                     <ul class="nav nav-group-sub" data-submenu-title="Manage Students">
                         {{--Admit Student--}}
@@ -103,7 +103,7 @@
 
                         {{--Student Information--}}
                         <li class="nav-item nav-item-submenu {{ in_array(Route::currentRouteName(), ['students.list', 'students.edit', 'students.show']) ? 'nav-item-expanded' : '' }}">
-                            <a href="#" class="nav-link {{ in_array(Route::currentRouteName(), ['students.list', 'students.edit', 'students.show']) ? 'active' : '' }}">Student Information</a>
+                            <a href="javascript:;" class="nav-link {{ in_array(Route::currentRouteName(), ['students.list', 'students.edit', 'students.show']) ? 'active' : '' }}">Student Information</a>
                             <ul class="nav nav-group-sub">
                                 @foreach(App\Models\MyClass::orderBy('name')->get() as $c)
                                 <li class="nav-item"><a href="{{ route('students.list', $c->id) }}" class="nav-link ">{{ $c->name }}</a></li>
@@ -113,7 +113,7 @@
 
                         @if(Qs::userIsTeamSA())
                         {{--Student Promotion--}}
-                        <li class="nav-item nav-item-submenu {{ in_array(Route::currentRouteName(), ['students.promotion', 'students.promotion_manage']) ? 'nav-item-expanded' : '' }}"><a href="#" class="nav-link {{ in_array(Route::currentRouteName(), ['students.promotion', 'students.promotion_manage' ]) ? 'active' : '' }}">Student Promotion</a>
+                        <li class="nav-item nav-item-submenu {{ in_array(Route::currentRouteName(), ['students.promotion', 'students.promotion_manage']) ? 'nav-item-expanded' : '' }}"><a href="javascript:;" class="nav-link {{ in_array(Route::currentRouteName(), ['students.promotion', 'students.promotion_manage' ]) ? 'active' : '' }}">Student Promotion</a>
                             <ul class="nav nav-group-sub">
                                 <li class="nav-item"><a href="{{ route('students.promotion') }}" class="nav-link {{ in_array(Route::currentRouteName(), ['students.promotion']) ? 'active' : '' }}">Promote Students</a></li>
                                 <li class="nav-item"><a href="{{ route('students.promotion_manage') }}" class="nav-link {{ in_array(Route::currentRouteName(), ['students.promotion_manage']) ? 'active' : '' }}">Manage Promotions</a></li>
@@ -162,7 +162,7 @@
                 {{--Exam--}}
                 @if(Qs::userIsTeamSAT())
                 <li class="nav-item nav-item-submenu {{ in_array(Route::currentRouteName(), ['exams.index', 'exams.edit', 'grades.index', 'grades.edit', 'marks.index', 'marks.convert', 'marks.manage', 'marks.bulk', 'marks.tabulation', 'marks.show', 'marks.batch', 'divisions.index', 'divisions.edit']) ? 'nav-item-expanded nav-item-open' : '' }} ">
-                    <a href="#" class="nav-link"><i class="material-symbols-rounded">article</i> <span> Exams</span></a>
+                    <a href="javascript:;" class="nav-link"><i class="material-symbols-rounded">article</i> <span> Exams</span></a>
 
                     <ul class="nav nav-group-sub" data-submenu-title="Manage Exams">
                         @if(Qs::userIsTeamSA())
@@ -190,7 +190,7 @@
 
                         {{--Marks Manage--}}
                         <li class="nav-item nav-item-submenu {{ in_array(Route::currentRouteName(), ['marks.index', 'marks.convert', 'marks.batch', 'marks.manage']) ? 'nav-item-expanded nav-item-open' : '' }}">
-                            <a href="#" class="nav-link {{ in_array(Route::currentRouteName(), ['marks.index', 'marks.convert']) ? 'active' : '' }}">Marks</a>
+                            <a href="javascript:;" class="nav-link {{ in_array(Route::currentRouteName(), ['marks.index', 'marks.convert']) ? 'active' : '' }}">Marks</a>
                             <ul class="nav nav-group-sub">
                                 {{--Marks Batch--}}
                                 @if(Qs::userIsTeamSAT())
@@ -214,7 +214,7 @@
                 {{--Continous Assessments (CA)--}}
                 @if(Qs::userIsTeamSAT())
                 <li class="nav-item nav-item-submenu {{ in_array(Route::currentRouteName(), ['assessments.list', 'assessments.index', 'assessments.manage', 'assessments.progressive', 'assessments.bulk',  'assessments.year_selector', 'assessments.show']) ? 'nav-item-expanded nav-item-open' : '' }} ">
-                    <a href="#" class="nav-link"><i class="material-symbols-rounded">folder</i> <span>Assessments</span></a>
+                    <a href="javascript:;" class="nav-link"><i class="material-symbols-rounded">folder</i> <span>Assessments</span></a>
 
                     <ul class="nav nav-group-sub" data-submenu-title="Manage Assessments">
                         @if(Qs::userIsTeamSA())
@@ -247,7 +247,7 @@
                 @if(Qs::userIsTeamLibrary())
                 {{--Books--}}
                 <li class="nav-item nav-item-submenu {{ in_array(Route::currentRouteName(), ['books.index', 'book_requests.index', 'books.edit', 'book_requests.edit']) ? 'nav-item-expanded nav-item-open' : '' }} ">
-                    <a href="#" class="nav-link"><i class="material-symbols-rounded">library_books</i> <span> Books</span></a>
+                    <a href="javascript:;" class="nav-link"><i class="material-symbols-rounded">library_books</i> <span> Books</span></a>
 
                     <ul class="nav nav-group-sub" data-submenu-title="Manage Books">
                         {{-- Manage Books  --}}

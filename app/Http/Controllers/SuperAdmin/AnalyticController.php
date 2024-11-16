@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\SuperAdmin;
 
-use App\Repositories\SettingRepo;
+use App\Helpers\Qs;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Analytic\GoogleSetup;
 use App\Http\Requests\Analytic\Request as AnalyticRequest;
-use App\Helpers\Qs;
+use App\Repositories\SettingRepo;
 use Spatie\Analytics\Facades\Analytics;
 use Spatie\Analytics\Period;
 
@@ -94,9 +94,9 @@ class AnalyticController extends Controller
         $google_analytic_property_id = $req->google_analytic_property_id;
         $google_analytic_tag_id = rtrim($req->google_analytic_tag_id, "_"); // Remove any '_' data mask residue character
 
-        if (!is_null($google_analytic_property_id))
+        if ($google_analytic_property_id !== null)
             $this->setting->update('google_analytic_property_id', $google_analytic_property_id);
-        if (!is_null($google_analytic_tag_id))
+        if ($google_analytic_tag_id !== null)
             $this->setting->update('google_analytic_tag_id', $google_analytic_tag_id);
 
         if ($req->hasFile('service_acc_credential_file')) {

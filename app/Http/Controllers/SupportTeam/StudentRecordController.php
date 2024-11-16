@@ -4,23 +4,23 @@ namespace App\Http\Controllers\SupportTeam;
 
 use App\Helpers\Qs;
 use App\Helpers\Usr;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Student\StudentRecordCreate;
 use App\Http\Requests\Student\StudentRecordUpdate;
 use App\Repositories\LocationRepo;
 use App\Repositories\MyClassRepo;
 use App\Repositories\StudentRepo;
 use App\Repositories\UserRepo;
-use App\Http\Controllers\Controller;
 use App\Rules\StartsWithProperPhoneCode;
 use App\Rules\Uppercase;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+use File;
 use Illuminate\Http\Request as HttpReq;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use File;
 
 class StudentRecordController extends Controller implements HasMiddleware
 {
@@ -126,7 +126,7 @@ class StudentRecordController extends Controller implements HasMiddleware
         $data['students'] = $this->student->findStudentsByClass($class_id);
         $data['sections'] = $this->my_class->getClassSections($class_id);
 
-        return is_null($mc) ? Qs::goWithDanger() : view('pages.support_team.students.list', $data);
+        return $mc === null ? Qs::goWithDanger() : view('pages.support_team.students.list', $data);
     }
 
     public function graduated()
@@ -246,23 +246,24 @@ class StudentRecordController extends Controller implements HasMiddleware
     private function getThemeFilesNames()
     {
         $dir = Qs::getTenancyAwareIDCardsThemeDir();
+        $file_names_to_copy = ['0001.blade.php'];
+        $dir_names_to_copy = ['backgrounds', 'others'];
 
         if (!File::isDirectory($dir)) {
             File::makeDirectory($dir, 0755, true); // Make it a directory if not yet there
             $default_dir = resource_path() . '/views/pages/support_team/students/id_cards/themes/samples/';
 
-            $file_names_to_copy = ['0001.blade.php'];
             foreach ($file_names_to_copy as $fname) {
-                File::copy($default_dir . $fname, $dir . $fname);
+                File::copy("$default_dir$fname", "$dir$fname");
             }
 
-            $dir_names_to_copy = ['backgrounds', 'others'];
             foreach ($dir_names_to_copy as $dname) {
-                File::copyDirectory($default_dir . $dname, storage_path() . '/app/public/' . $dname);
+                File::copyDirectory("$default_dir$dname", "$dir$dname");
             }
         }
 
-        $files = array_diff(scandir($dir), ['.', '..']);
+        $exclude = array_merge(['.', '..'], $dir_names_to_copy);
+        $files = array_diff(scandir($dir), $exclude);
         array_walk_recursive($files, function (&$arr) {
             $arr = explode(".", $arr)[0]; // Leave out '.blade.php' part
         });
@@ -294,7 +295,7 @@ class StudentRecordController extends Controller implements HasMiddleware
         $d = $req->except('_token');
         $d['my_classes'] = $this->my_class->all();
 
-        if ($req->filled('my_class_id') && $req->filled('issued_date') && $req->filled('expire_date') && $req->filled('id_theme')) {
+        if ($req->filled(['my_class_id', 'issued_date', 'expire_date', 'id_theme'])) {
             // Exclude students with soft deleted user record
             $d['students'] = $st = $this->student->getRecord(['my_class_id' => $req->my_class_id])->get()->whereNotNull('user')->sortBy('user.name');
             if ($st->count() < 1)

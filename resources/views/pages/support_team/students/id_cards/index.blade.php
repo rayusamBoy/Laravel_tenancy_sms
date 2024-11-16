@@ -16,7 +16,7 @@
                     <select required id="my_class_id" name="my_class_id" class="form-control select">
                         <option value="">Select Class</option>
                         @foreach($my_classes as $c)
-                        <option {{ ($selected && $my_class_id == $c->id || old('my_class_id') == $c->id) ? 'selected' : '' }} value="{{ $c->id }}">{{ $c->name }}</option>
+                        <option {{ ($selected && $my_class_id == $c->id or old('my_class_id') == $c->id) ? 'selected' : '' }} value="{{ $c->id }}">{{ $c->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -28,27 +28,27 @@
 
                 <div class="col-md-2 form-group">
                     <label for="expire_date" class="col-form-label font-weight-bold">Expire Date: <span class="text-danger">*</span></label>
-                    <input name="expire_date" value="{{ ($selected) ? $expire_date : old('expire_date') }}" type="text" class="form-control date-pick-day-none" placeholder="Select Date..." required>
+                    <input name="expire_date" value="{{ $selected ? $expire_date : old('expire_date') }}" type="text" class="form-control date-pick-day-none" placeholder="Select Date..." required>
                 </div>
 
                 <div class="form-group col-md-2">
                     <label for="id_theme" class="col-form-label font-weight-bold">Theme: </label>
                     <select required id="id_theme" name="id_theme" data-placeholder="Select Theme" class="form-control select">
-                        <option selected value="">Select Theme</option>
+                        <option value="">Select Theme</option>
                         @foreach ($theme_names as $name)
-                            <option @if(old('id_theme') === $name) selected @endif value="{{ $name }}">theme {{ $loop->iteration }}</option>
+                        <option {{ ($selected && $id_theme == $name or old('id_theme') == $name) ? 'selected' : '' }} value="{{ $name }}">theme {{ $loop->iteration }}</option>
                         @endforeach
                     </select>
                 </div>
 
                 <div class="form-group col-md-2">
                     <label for="brightness" class="col-form-label font-weight-bold">Brightness: <span class="text-info">*</span></label>
-                    <input class="form-control" type="number" value="{{ old('brightness') }}" name="brightness" step=".01" placeholder="Type a number" min="1" max="100">
+                    <input class="form-control" type="number" value="{{ $brightness ?? old('brightness') }}" name="brightness" step=".01" placeholder="Type a number" min="1" max="100">
                 </div>
 
                 <div class="form-group col-md-2">
                     <label for="phone" class="col-form-label font-weight-bold">Phone number: <span class="text-danger">*</span></label>
-                    <input required type="text" value="{{ ($selected) ? $phone : old('phone') }}" name="phone" data-mask="+999 999 999 999" placeholder="+255 123 456 789" class="form-control">
+                    <input required type="text" value="{{ $phone ?? old('phone') }}" name="phone" data-mask="+999 999 999 999" placeholder="+255 123 456 789" class="form-control">
                 </div>
             </div>
 
@@ -81,9 +81,9 @@
                     </div>
                 </div>
 
-                 <div class="form-group col-md-3">
+                <div class="form-group col-md-3">
                     <label for="web-link" class="col-form-label font-weight-bold">Website Link:</label>
-                    <input id="web-link" type="text" name="web_link" class="form-control">
+                    <input id="web-link" type="text" value="{{ $web_link ?? '' }}" name="web_link" class="form-control">
                 </div>
 
                 <div class="form-group col-md-4">

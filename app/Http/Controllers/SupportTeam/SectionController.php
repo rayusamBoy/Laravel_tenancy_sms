@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\SupportTeam;
 
 use App\Helpers\Qs;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Section\SectionCreate;
 use App\Http\Requests\Section\SectionUpdate;
 use App\Repositories\MyClassRepo;
-use App\Http\Controllers\Controller;
 use App\Repositories\UserRepo;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -54,7 +54,7 @@ class SectionController extends Controller implements HasMiddleware
         $d['s'] = $s = $this->my_class->findSection($id);
         $d['teachers'] = $this->user->getUserByTypes(['teacher', 'admin', 'super_admin']);
 
-        return is_null($s) ? Qs::goWithDanger('sections.index') : view('pages.support_team.sections.edit', $d);
+        return $s === null ? Qs::goWithDanger('sections.index') : view('pages.support_team.sections.edit', $d);
     }
 
     public function update(SectionUpdate $req, $id)

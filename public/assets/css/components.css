@@ -136,11 +136,11 @@ input[type="file"].form-control-sm[data-fouc] {
 [data-theme=dark] .wizard>.steps>ul>li.current:after,
 [data-theme=dark] .wizard>.steps>ul>li.current~li:before,
 [data-theme=dark] .wizard>.steps>ul>li.current~li:after {
-    background-color: #ffffff30;
+    background-color: #333333;
 }
 
 [data-theme=dark] .wizard>.steps .number {
-    border: 1px solid #eee;
+    border: 1px solid #333333;
 }
 
 input[type="text"].colorpicker-flat-full[data-fouc] {
@@ -5354,7 +5354,7 @@ div.go-to-bottom button {
 
 [data-theme=dark] div.go-to-bottom button {
     background: radial-gradient(rgb(56 56 56), transparent);
-    color: white;
+    color: lightslategray;
 }
 
 /* ------------------------------------------------------------------------------
@@ -7108,6 +7108,16 @@ and below; since some of the menu options are obscured by the data table footer.
     margin: 0 -15px;
 }
 
+.messages .action-btn {
+    background: #f0f8ff96;
+    padding: 1px;
+    border-radius: 0.15px;
+}
+
+[data-theme=dark] .messages .action-btn {
+    background: #1b1f2396;
+}
+
 /* ------------------------------------------------------------------------------
  *
  *  # Calendar Events (Calendar js)
@@ -7187,7 +7197,6 @@ and below; since some of the menu options are obscured by the data table footer.
 .event-cancelled,
 .event-completed {
     display: inline;
-    padding: 0 10px;
 }
 
 @media (max-width: 372px) {
@@ -7209,23 +7218,7 @@ and below; since some of the menu options are obscured by the data table footer.
 }
 
 .event-name {
-    color: darkgray;
     padding-right: 0;
-    text-align: right;
-}
-
-.event-cancelled {
-    color: red;
-    text-align: right;
-}
-
-.event-active {
-    color: #cd4dcc;
-    text-align: right;
-}
-
-.event-completed {
-    color: green;
     text-align: right;
 }
 
@@ -9070,6 +9063,11 @@ body:has(.newspaper) .modal-backdrop,
 
 body:has(.just-me) .modal-backdrop {
     background: white;
+    opacity: 1 !important;
+}
+
+[data-theme=dark] body:has(.just-me) .modal-backdrop {
+    background: #121212;
     opacity: 1 !important;
 }
 

@@ -56,7 +56,7 @@
                                 @endif
 
                                 @if($google2FAIsActive)
-                                <a id="google-2fa" onclick="confirmOperation(this.id)" href="#" class="btn btn-danger"> Deactivate</a>
+                                <a id="google-2fa" onclick="confirmOperation(this.id)" href="javascript:;" class="btn btn-danger"> Deactivate</a>
                                 <form method="post" id="item-confirm-operation-google-2fa" action="{{ route('2fa.null_secret_code') }}" class="hidden">@csrf @method('patch')</form>
                                 @endif
 
@@ -163,7 +163,7 @@
                             @endif
                             <td class="text-center">
                                 {{--Deactivate--}}
-                                <a id="{{ $user->id }}" onclick="confirmOperation(this.id)" href="#" class="btn btn-danger"> Deactivate</a>
+                                <a id="{{ $user->id }}" onclick="confirmOperation(this.id)" href="javascript:;" class="btn btn-danger"> Deactivate</a>
                                 <form method="post" id="item-confirm-operation-{{ $user->id }}" action="{{ route('2fa.null_secret_code', $user->id) }}" class="hidden">@csrf @method('patch')</form>
                             </td>
                         </tr>

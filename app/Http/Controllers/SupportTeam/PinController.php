@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\SupportTeam;
 
 use App\Helpers\Qs;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Pin\PinCreate;
 use App\Http\Requests\Pin\PinVerify;
 use App\Repositories\PinRepo;
-use App\Http\Controllers\Controller;
 use App\Repositories\UserRepo;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;

@@ -17,7 +17,6 @@
 
 <!-- Theme JS files -->
 <script src="{{ asset('assets/js/app.js') }} "></script>
-<script src="{{ asset('global_assets/js/main/login.js') }} "></script>
 <script src="{{ asset('global_assets/js/plugins/forms/styling/uniform.min.js') }} "></script>
 <script src="{{ asset('global_assets/js/plugins/scrollers/jquery.marquee.min.js') }}"></script>
 

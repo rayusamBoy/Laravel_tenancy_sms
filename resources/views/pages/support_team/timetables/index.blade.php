@@ -14,7 +14,7 @@
             <li class="nav-item"><a href="#add-tt" class="nav-link active" data-toggle="tab">Create Timetable</a></li>
             @endif
             <li class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Show TimeTables</a>
+                <a href="javascript:;" class="nav-link dropdown-toggle" data-toggle="dropdown">Show TimeTables</a>
                 <div class="dropdown-menu dropdown-menu-right">
                     @foreach($my_classes as $mc)
                     <a href="#ttr{{ $mc->id }}" class="dropdown-item" data-toggle="tab">{{ $mc->name }}</a>
@@ -102,9 +102,7 @@
                             <td class="text-center">
                                 <div class="list-icons">
                                     <div class="dropdown">
-                                        <a href="#" data-toggle="dropdown">
-                                            <i class="material-symbols-rounded">lists</i>
-                                        </a>
+                                        <a class="material-symbols-rounded" href="javascript:;" data-toggle="dropdown">lists</a>
 
                                         <div class="dropdown-menu dropdown-menu-right">
                                             {{--View--}}
@@ -119,7 +117,7 @@
 
                                             {{--Delete--}}
                                             @if(Qs::userIsSuperAdmin())
-                                            <a id="{{ $ttr->id }}" onclick="confirmPermanentDelete(this.id)" href="#" class="dropdown-item text-danger"><i class="material-symbols-rounded">delete</i> Delete</a>
+                                            <a id="{{ $ttr->id }}" onclick="confirmPermanentDelete(this.id)" href="javascript:;" class="dropdown-item text-danger"><i class="material-symbols-rounded">delete</i> Delete</a>
                                             <form method="post" id="item-delete-{{ $ttr->id }}" action="{{ route('ttr.destroy', $ttr->id) }}" class="hidden">@csrf @method('delete')</form>
                                             @endif
 

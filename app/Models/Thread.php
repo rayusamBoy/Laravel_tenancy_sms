@@ -6,8 +6,8 @@ use App\Models\Message;
 use Cmgmyr\Messenger\Models\Models;
 use Cmgmyr\Messenger\Models\Participant;
 use Cmgmyr\Messenger\Models\Thread as OriginalThread;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Thread extends OriginalThread
 {
@@ -81,17 +81,17 @@ class Thread extends OriginalThread
         $userPrimaryKey = Models::user()->getKeyName();
         $tablePrefix = $this->getConnection()->getTablePrefix();
 
-        $columnString = implode(", ' ', " . $tablePrefix . $usersTable . '.', $columns);
-        $selectString = $tablePrefix . $usersTable . '.' . $columnString;
+        $columnString = implode(", ' ', $tablePrefix$usersTable.", $columns);
+        $selectString = "$tablePrefix$usersTable.$columnString";
 
         $participantNames = $this->getConnection()->table($usersTable)
-            ->join($participantsTable, $usersTable . '.' . $userPrimaryKey, '=', $participantsTable . '.user_id')
-            ->where($participantsTable . '.thread_id', $this->id)
-            ->where($participantsTable . '.deleted_at', '=', NULL)
+            ->join($participantsTable, "$usersTable.$userPrimaryKey", '=', "$participantsTable.user_id")
+            ->where("$participantsTable.thread_id", $this->id)
+            ->where("$participantsTable.deleted_at", '=', NULL)
             ->select($this->getConnection()->raw($selectString));
 
         if ($userId !== null) {
-            $participantNames->where($usersTable . '.' . $userPrimaryKey, '!=', $userId);
+            $participantNames->where("$usersTable.$userPrimaryKey", '!=', $userId);
         }
 
         return $participantNames->get();
@@ -108,7 +108,7 @@ class Thread extends OriginalThread
     {
         $trashed = Participant::onlyTrashed()->where('thread_id', $threadId)->get();
 
-        return (count($trashed) > 0 ? true : false);
+        return count($trashed) > 0 ? true : false;
     }
 
     /**

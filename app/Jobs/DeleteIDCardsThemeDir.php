@@ -2,16 +2,16 @@
 
 namespace App\Jobs;
 
-use App\Helpers\Qs;
 use App\Events\TenantDeletingIDCardsThemeDir;
 use App\Events\TenantIDCardsThemeDirDeleted;
+use App\Helpers\Qs;
+use File;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Stancl\Tenancy\Contracts\TenantWithDatabase;
-use File;
 
 class DeleteIDCardsThemeDir implements ShouldQueue
 {

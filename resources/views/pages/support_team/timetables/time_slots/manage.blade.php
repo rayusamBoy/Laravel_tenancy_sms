@@ -23,9 +23,7 @@
                     <td class="text-center">
                         <div class="list-icons">
                             <div class="dropdown">
-                                <a href="#" data-toggle="dropdown">
-                                    <i class="material-symbols-rounded">lists</i>
-                                </a>
+                                <a class="material-symbols-rounded" href="javascript:;" data-toggle="dropdown">lists</a>
 
                                 <div class="dropdown-menu dropdown-menu-right">
                                     {{--Edit--}}
@@ -33,7 +31,7 @@
 
                                     {{--Delete--}}
                                     @if(Qs::userIsSuperAdmin())
-                                    <a id="{{ $tms->id }}" onclick="confirmPermanentDelete(this.id)" href="#" class="dropdown-item text-danger"><i class="material-symbols-rounded">delete</i> Delete</a>
+                                    <a id="{{ $tms->id }}" onclick="confirmPermanentDelete(this.id)" href="javascript:;" class="dropdown-item text-danger"><i class="material-symbols-rounded">delete</i> Delete</a>
                                     <form method="post" id="item-delete-{{ $tms->id }}" action="{{ route('ts.destroy', $tms->id) }}" class="hidden">@csrf @method('delete')</form>
                                     @endif
                                 </div>

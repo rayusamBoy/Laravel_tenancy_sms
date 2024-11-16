@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\SupportTeam;
 
-use Dompdf\Dompdf;
-use App\Http\Controllers\Controller;
 use App\Helpers\Qs;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\QueryBuilderRequest;
 use App\Repositories\UserRepo;
+use Dompdf\Dompdf;
 use Illuminate\Http\Request as HttpRequest;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class QueryBuilderController extends Controller
 {
@@ -93,9 +93,9 @@ class QueryBuilderController extends Controller
 
         // If the condition or condition_two is 'like'. Finds any values that have "input or input_two" text in any position
         if ($condition === "like")
-            $input = "%" . $input . "%";
+            $input = "%$input%";
         if ($condition_two === "like")
-            $input = "%" . $input_two . "%";
+            $input = "%$input_two%";
 
         if ($where != 'none' || $input != NULL) {
             // Explode space separated string. Here the target is for the where columns that uses aliases.
@@ -112,316 +112,292 @@ class QueryBuilderController extends Controller
                 $d["query2"] = "select distinct placeholder from $from where $where $condition '$input' and $where_two $condition_two '$input_two'"; // Same as the one above
             }
 
-            switch ($from) {
-                case "student_records":
-                    $d["records"] = ($where_two != NULL or $input_two != NULL)
-                        ? DB::table("student_records")
-                            ->join('users', function ($join) {
-                                $join->on('users.id', '=', 'student_records.user_id');
-                            })
-                            ->leftJoin("users as parents", function ($leftjoin) {
-                                $leftjoin->on('parents.id', '=', 'student_records.my_parent_id');
-                            })
-                            ->join('my_classes', function ($join) {
-                                $join->on('my_classes.id', '=', 'student_records.my_class_id');
-                            })
-                            ->join('sections', function ($join) {
-                                $join->on('sections.id', '=', 'student_records.section_id');
-                            })
-                            ->join('dorms', function ($join) {
-                                $join->on('dorms.id', '=', 'student_records.dorm_id');
-                            })
-                            ->where($where, $condition, "?")
-                            ->where($where_two, $condition_two, "?")
-                            ->setBindings([$input, $input_two])
-                            ->select($expression)
-                            ->whereNull('users.deleted_at')
-                            ->distinct()
-                            ->limit($limit)
-                            ->orderBy('users.' . $orderby_column, $orderby_direction)
-                            ->get()
-                        : DB::table("student_records")
-                            ->join('users', function ($join) {
-                                $join->on('users.id', '=', 'student_records.user_id');
-                            })
-                            ->leftJoin("users as parents", function ($leftjoin) {
-                                $leftjoin->on('parents.id', '=', 'student_records.my_parent_id');
-                            })
-                            ->join('my_classes', function ($join) {
-                                $join->on('my_classes.id', '=', 'student_records.my_class_id');
-                            })
-                            ->join('sections', function ($join) {
-                                $join->on('sections.id', '=', 'student_records.section_id');
-                            })
-                            ->join('dorms', function ($join) {
-                                $join->on('dorms.id', '=', 'student_records.dorm_id');
-                            })
-                            ->where($where, $condition, "?")
-                            ->setBindings([$input])
-                            ->select($expression)
-                            ->whereNull('users.deleted_at')
-                            ->distinct()
-                            ->limit($limit)
-                            ->orderBy('users.' . $orderby_column, $orderby_direction)
-                            ->get();
-                    break;
-                case "staff_records":
-                    $d["records"] = ($where_two != NULL or $input_two != NULL)
-                        ? DB::table("staff_records")
-                            ->join('users', function ($join) {
-                                $join->on('users.id', '=', 'staff_records.user_id');
-                            })
-                            ->where($where, $condition, "?")
-                            ->where($where_two, $condition_two, "?")
-                            ->setBindings([$input, $input_two])
-                            ->select($expression)
-                            ->distinct()
-                            ->limit($limit)
-                            ->orderBy($orderby_column, $orderby_direction)
-                            ->get()
-                        : DB::table("staff_records")
-                            ->join('users', function ($join) {
-                                $join->on('users.id', '=', 'staff_records.user_id');
-                            })
-                            ->where($where, $condition, "?")
-                            ->setBindings([$input])
-                            ->select($expression)
-                            ->distinct()
-                            ->limit($limit)
-                            ->orderBy($orderby_column, $orderby_direction)
-                            ->get();
-                    break;
-                case "exam_records":
-                    $d["records"] = ($where_two != NULL or $input_two != NULL)
-                        ? DB::table("exam_records")
-                            ->join('users', function ($join) {
-                                $join->on('users.id', '=', 'exam_records.student_id');
-                            })
-                            ->join('my_classes', function ($join) {
-                                $join->on('my_classes.id', '=', 'exam_records.my_class_id');
-                            })
-                            ->join('exams', function ($join) {
-                                $join->on('exams.id', '=', 'exam_records.exam_id');
-                            })
-                            ->join('sections', function ($join) {
-                                $join->on('sections.id', '=', 'exam_records.section_id');
-                            })
-                            ->join('divisions', function ($join) {
-                                $join->on('divisions.id', '=', 'exam_records.division_id');
-                            })
-                            ->join('grades', function ($join) {
-                                $join->on('grades.id', '=', 'exam_records.grade_id');
-                            })
-                            ->where($where, $condition, "?")
-                            ->where($where_two, $condition_two, "?")
-                            ->setBindings([$input, $input_two])
-                            ->select($expression)
-                            ->distinct()
-                            ->limit($limit)
-                            ->orderBy($orderby_column, $orderby_direction)
-                            ->get()
-                        : DB::table("exam_records")
-                            ->join('users', function ($join) {
-                                $join->on('users.id', '=', 'exam_records.student_id');
-                            })
-                            ->join('my_classes', function ($join) {
-                                $join->on('my_classes.id', '=', 'exam_records.my_class_id');
-                            })
-                            ->join('exams', function ($join) {
-                                $join->on('exams.id', '=', 'exam_records.exam_id');
-                            })
-                            ->join('sections', function ($join) {
-                                $join->on('sections.id', '=', 'exam_records.section_id');
-                            })
-                            ->join('divisions', function ($join) {
-                                $join->on('divisions.id', '=', 'exam_records.division_id');
-                            })
-                            ->join('grades', function ($join) {
-                                $join->on('grades.id', '=', 'exam_records.grade_id');
-                            })
-                            ->where($where, $condition, "?")
-                            ->setBindings([$input])
-                            ->select($expression)
-                            ->distinct()
-                            ->limit($limit)
-                            ->orderBy($orderby_column, $orderby_direction)
-                            ->get();
-                    break;
-                case "grades":
-                    $d["records"] = ($where_two != NULL or $input_two != NULL)
-                        ? DB::table("grades")
-                            ->join('class_types', function ($join) {
-                                $join->on('grades.class_type_id', '=', 'class_types.id');
-                            })
-                            ->where($where, $condition, "?")
-                            ->where($where_two, $condition_two, "?")
-                            ->setBindings([$input, $input_two])
-                            ->select($expression)
-                            ->distinct()
-                            ->limit($limit)
-                            ->orderBy($orderby_column, $orderby_direction)
-                            ->get()
-                        : DB::table("grades")
-                            ->join('class_types', function ($join) {
-                                $join->on('grades.class_type_id', '=', 'class_types.id');
-                            })
-                            ->where($where, $condition, "?")
-                            ->setBindings([$input])
-                            ->select($expression)
-                            ->distinct()
-                            ->limit($limit)
-                            ->orderBy($orderby_column, $orderby_direction)
-                            ->get();
-                    break;
-                case "subjects":
-                    $d["records"] = ($where_two != NULL or $input_two != NULL)
-                        ? DB::table("subjects")
-                            ->join('my_classes', function ($join) {
-                                $join->on('subjects.my_class_id', '=', 'my_classes.id');
-                            })
-                            ->where($where, $condition, "?")
-                            ->where($where_two, $condition_two, "?")
-                            ->setBindings([$input, $input_two])
-                            ->select($expression)
-                            ->distinct()
-                            ->limit($limit)
-                            ->orderBy($orderby_column, $orderby_direction)
-                            ->get()
-                        : DB::table("subjects")
-                            ->join('my_classes', function ($join) {
-                                $join->on('subjects.my_class_id', '=', 'my_classes.id');
-                            })
-                            ->where($where, $condition, "?")
-                            ->setBindings([$input])
-                            ->select($expression)
-                            ->distinct()
-                            ->limit($limit)
-                            ->orderBy($orderby_column, $orderby_direction)
-                            ->get();
-                    break;
-                default:
-                    $d["records"] = ($where_two != NULL or $input_two != NULL)
-                        ? DB::table($from)
-                            ->select($expression)
-                            ->where($where, $condition, "?")
-                            ->where($where_two, $condition_two, "?")
-                            ->setBindings([$input, $input_two])
-                            ->distinct()
-                            ->limit($limit)
-                            ->orderBy($orderby_column, $orderby_direction)
-                            ->get()
-                        : DB::table($from)
-                            ->select($expression)
-                            ->where($where, $condition, "?")
-                            ->setBindings([$input])
-                            ->distinct()
-                            ->limit($limit)
-                            ->orderBy($orderby_column, $orderby_direction)
-                            ->get();
-                    break;
-            }
+            $d["records"] = match ($from) {
+                "student_records" => ($where_two != NULL or $input_two != NULL)
+                ? DB::table("student_records")
+                    ->join('users', function ($join) {
+                            $join->on('users.id', '=', 'student_records.user_id');
+                        })
+                    ->leftJoin("users as parents", function ($leftjoin) {
+                            $leftjoin->on('parents.id', '=', 'student_records.my_parent_id');
+                        })
+                    ->join('my_classes', function ($join) {
+                            $join->on('my_classes.id', '=', 'student_records.my_class_id');
+                        })
+                    ->join('sections', function ($join) {
+                            $join->on('sections.id', '=', 'student_records.section_id');
+                        })
+                    ->join('dorms', function ($join) {
+                            $join->on('dorms.id', '=', 'student_records.dorm_id');
+                        })
+                    ->where($where, $condition, "?")
+                    ->where($where_two, $condition_two, "?")
+                    ->setBindings([$input, $input_two])
+                    ->select($expression)
+                    ->whereNull('users.deleted_at')
+                    ->distinct()
+                    ->limit($limit)
+                    ->orderBy("users.$orderby_column", $orderby_direction)
+                    ->get()
+                : DB::table("student_records")
+                    ->join('users', function ($join) {
+                            $join->on('users.id', '=', 'student_records.user_id');
+                        })
+                    ->leftJoin("users as parents", function ($leftjoin) {
+                            $leftjoin->on('parents.id', '=', 'student_records.my_parent_id');
+                        })
+                    ->join('my_classes', function ($join) {
+                            $join->on('my_classes.id', '=', 'student_records.my_class_id');
+                        })
+                    ->join('sections', function ($join) {
+                            $join->on('sections.id', '=', 'student_records.section_id');
+                        })
+                    ->join('dorms', function ($join) {
+                            $join->on('dorms.id', '=', 'student_records.dorm_id');
+                        })
+                    ->where($where, $condition, "?")
+                    ->setBindings([$input])
+                    ->select($expression)
+                    ->whereNull('users.deleted_at')
+                    ->distinct()
+                    ->limit($limit)
+                    ->orderBy("users.$orderby_column", $orderby_direction)
+                    ->get(),
+                "staff_records" => ($where_two != NULL or $input_two != NULL)
+                ? DB::table("staff_records")
+                    ->join('users', function ($join) {
+                            $join->on('users.id', '=', 'staff_records.user_id');
+                        })
+                    ->where($where, $condition, "?")
+                    ->where($where_two, $condition_two, "?")
+                    ->setBindings([$input, $input_two])
+                    ->select($expression)
+                    ->distinct()
+                    ->limit($limit)
+                    ->orderBy($orderby_column, $orderby_direction)
+                    ->get()
+                : DB::table("staff_records")
+                    ->join('users', function ($join) {
+                            $join->on('users.id', '=', 'staff_records.user_id');
+                        })
+                    ->where($where, $condition, "?")
+                    ->setBindings([$input])
+                    ->select($expression)
+                    ->distinct()
+                    ->limit($limit)
+                    ->orderBy($orderby_column, $orderby_direction)
+                    ->get(),
+                "exam_records" => ($where_two != NULL or $input_two != NULL)
+                ? DB::table("exam_records")
+                    ->join('users', function ($join) {
+                            $join->on('users.id', '=', 'exam_records.student_id');
+                        })
+                    ->join('my_classes', function ($join) {
+                            $join->on('my_classes.id', '=', 'exam_records.my_class_id');
+                        })
+                    ->join('exams', function ($join) {
+                            $join->on('exams.id', '=', 'exam_records.exam_id');
+                        })
+                    ->join('sections', function ($join) {
+                            $join->on('sections.id', '=', 'exam_records.section_id');
+                        })
+                    ->join('divisions', function ($join) {
+                            $join->on('divisions.id', '=', 'exam_records.division_id');
+                        })
+                    ->join('grades', function ($join) {
+                            $join->on('grades.id', '=', 'exam_records.grade_id');
+                        })
+                    ->where($where, $condition, "?")
+                    ->where($where_two, $condition_two, "?")
+                    ->setBindings([$input, $input_two])
+                    ->select($expression)
+                    ->distinct()
+                    ->limit($limit)
+                    ->orderBy($orderby_column, $orderby_direction)
+                    ->get()
+                : DB::table("exam_records")
+                    ->join('users', function ($join) {
+                            $join->on('users.id', '=', 'exam_records.student_id');
+                        })
+                    ->join('my_classes', function ($join) {
+                            $join->on('my_classes.id', '=', 'exam_records.my_class_id');
+                        })
+                    ->join('exams', function ($join) {
+                            $join->on('exams.id', '=', 'exam_records.exam_id');
+                        })
+                    ->join('sections', function ($join) {
+                            $join->on('sections.id', '=', 'exam_records.section_id');
+                        })
+                    ->join('divisions', function ($join) {
+                            $join->on('divisions.id', '=', 'exam_records.division_id');
+                        })
+                    ->join('grades', function ($join) {
+                            $join->on('grades.id', '=', 'exam_records.grade_id');
+                        })
+                    ->where($where, $condition, "?")
+                    ->setBindings([$input])
+                    ->select($expression)
+                    ->distinct()
+                    ->limit($limit)
+                    ->orderBy($orderby_column, $orderby_direction)
+                    ->get(),
+                "grades" => ($where_two != NULL or $input_two != NULL)
+                ? DB::table("grades")
+                    ->join('class_types', function ($join) {
+                            $join->on('grades.class_type_id', '=', 'class_types.id');
+                        })
+                    ->where($where, $condition, "?")
+                    ->where($where_two, $condition_two, "?")
+                    ->setBindings([$input, $input_two])
+                    ->select($expression)
+                    ->distinct()
+                    ->limit($limit)
+                    ->orderBy($orderby_column, $orderby_direction)
+                    ->get()
+                : DB::table("grades")
+                    ->join('class_types', function ($join) {
+                            $join->on('grades.class_type_id', '=', 'class_types.id');
+                        })
+                    ->where($where, $condition, "?")
+                    ->setBindings([$input])
+                    ->select($expression)
+                    ->distinct()
+                    ->limit($limit)
+                    ->orderBy($orderby_column, $orderby_direction)
+                    ->get(),
+                "subjects" => ($where_two != NULL or $input_two != NULL)
+                ? DB::table("subjects")
+                    ->join('my_classes', function ($join) {
+                            $join->on('subjects.my_class_id', '=', 'my_classes.id');
+                        })
+                    ->where($where, $condition, "?")
+                    ->where($where_two, $condition_two, "?")
+                    ->setBindings([$input, $input_two])
+                    ->select($expression)
+                    ->distinct()
+                    ->limit($limit)
+                    ->orderBy($orderby_column, $orderby_direction)
+                    ->get()
+                : DB::table("subjects")
+                    ->join('my_classes', function ($join) {
+                            $join->on('subjects.my_class_id', '=', 'my_classes.id');
+                        })
+                    ->where($where, $condition, "?")
+                    ->setBindings([$input])
+                    ->select($expression)
+                    ->distinct()
+                    ->limit($limit)
+                    ->orderBy($orderby_column, $orderby_direction)
+                    ->get(),
+                default => ($where_two != NULL or $input_two != NULL)
+                ? DB::table($from)
+                    ->select($expression)
+                    ->where($where, $condition, "?")
+                    ->where($where_two, $condition_two, "?")
+                    ->setBindings([$input, $input_two])
+                    ->distinct()
+                    ->limit($limit)
+                    ->orderBy($orderby_column, $orderby_direction)
+                    ->get()
+                : DB::table($from)
+                    ->select($expression)
+                    ->where($where, $condition, "?")
+                    ->setBindings([$input])
+                    ->distinct()
+                    ->limit($limit)
+                    ->orderBy($orderby_column, $orderby_direction)
+                    ->get(),
+            };
         } elseif ($where != 'none' && ($where_two != 'none' || $input_two != NULL))
             return [
                 "msg" => "The first where clause is empty. You must use it first before using the second where clause."
             ];
         else {
-            switch ($from) {
-                case "exam_records":
-                    $d["records"] = DB::table("exam_records")
-                        ->join('users', function ($join) {
+            $d["records"] = match ($from) {
+                "exam_records" => DB::table("exam_records")
+                    ->join('users', function ($join) {
                             $join->on('users.id', '=', 'exam_records.student_id');
                         })
-                        ->join('my_classes', function ($join) {
+                    ->join('my_classes', function ($join) {
                             $join->on('my_classes.id', '=', 'exam_records.my_class_id');
                         })
-                        ->join('exams', function ($join) {
+                    ->join('exams', function ($join) {
                             $join->on('exams.id', '=', 'exam_records.exam_id');
                         })
-                        ->join('sections', function ($join) {
+                    ->join('sections', function ($join) {
                             $join->on('sections.id', '=', 'exam_records.section_id');
                         })
-                        ->join('divisions', function ($join) {
+                    ->join('divisions', function ($join) {
                             $join->on('divisions.id', '=', 'exam_records.division_id');
                         })
-                        ->join('grades', function ($join) {
+                    ->join('grades', function ($join) {
                             $join->on('grades.id', '=', 'exam_records.grade_id');
                         })
-                        ->where("exam_records.year", Qs::getCurrentSession()) // Limit only this year records
-                        ->select($expression)
-                        ->distinct()
-                        ->limit($limit)
-                        ->orderBy($orderby_column, $orderby_direction)
-                        ->get();
-                    break;
-                case "student_records":
-                    $d["records"] = DB::table("student_records")
-                        ->join('users', function ($join) {
+                    ->where("exam_records.year", Qs::getCurrentSession()) // Limit only this year records
+                    ->select($expression)
+                    ->distinct()
+                    ->limit($limit)
+                    ->orderBy($orderby_column, $orderby_direction)
+                    ->get(),
+                "student_records" => DB::table("student_records")
+                    ->join('users', function ($join) {
                             $join->on('users.id', '=', 'student_records.user_id');
                         })
-                        ->leftJoin("users as parents", function ($leftjoin) {
+                    ->leftJoin("users as parents", function ($leftjoin) {
                             $leftjoin->on('parents.id', '=', 'student_records.my_parent_id');
                         })
-                        ->join('my_classes', function ($join) {
+                    ->join('my_classes', function ($join) {
                             $join->on('my_classes.id', '=', 'student_records.my_class_id');
                         })
-                        ->join('sections', function ($join) {
+                    ->join('sections', function ($join) {
                             $join->on('sections.id', '=', 'student_records.section_id');
                         })
-                        ->join('dorms', function ($join) {
+                    ->join('dorms', function ($join) {
                             $join->on('dorms.id', '=', 'student_records.dorm_id');
                         })
-                        ->select($expression)
-                        ->whereNull('users.deleted_at')
-                        ->limit($limit)
-                        ->orderBy($orderby_column, $orderby_direction)
-                        ->distinct()
-                        ->get();
-                    break;
-                case "staff_records":
-                    $d["records"] = DB::table("staff_records")
-                        ->join('users', function ($join) {
+                    ->select($expression)
+                    ->whereNull('users.deleted_at')
+                    ->limit($limit)
+                    ->orderBy($orderby_column, $orderby_direction)
+                    ->distinct()
+                    ->get(),
+                "staff_records" => DB::table("staff_records")
+                    ->join('users', function ($join) {
                             $join->on('users.id', '=', 'staff_records.user_id');
                         })
-                        ->select($expression)
-                        ->distinct()
-                        ->limit($limit)
-                        ->orderBy($orderby_column, $orderby_direction)
-                        ->get();
-                    break;
-                case "grades":
-                    $d["records"] = DB::table("grades")
-                        ->join('class_types', function ($join) {
+                    ->select($expression)
+                    ->distinct()
+                    ->limit($limit)
+                    ->orderBy($orderby_column, $orderby_direction)
+                    ->get(),
+                "grades" => DB::table("grades")
+                    ->join('class_types', function ($join) {
                             $join->on('grades.class_type_id', '=', 'class_types.id');
                         })
-                        ->select($expression)
-                        ->distinct()
-                        ->limit($limit)
-                        ->orderBy($orderby_column, $orderby_direction)
-                        ->get();
-                    break;
-                case "subjects":
-                    $d["records"] = DB::table("subjects")
-                        ->join('my_classes', function ($join) {
+                    ->select($expression)
+                    ->distinct()
+                    ->limit($limit)
+                    ->orderBy($orderby_column, $orderby_direction)
+                    ->get(),
+                "subjects" => DB::table("subjects")
+                    ->join('my_classes', function ($join) {
                             $join->on('subjects.my_class_id', '=', 'my_classes.id');
                         })
-                        ->select($expression)
-                        ->distinct()
-                        ->limit($limit)
-                        ->orderBy($orderby_column, $orderby_direction)
-                        ->get();
-                    break;
-                default:
-                    $d["records"] = DB::table($from)
-                        ->select($expression)
-                        ->distinct()
-                        ->limit($limit)
-                        ->orderBy($orderby_column, $orderby_direction)
-                        ->get();
-                    break;
-            }
+                    ->select($expression)
+                    ->distinct()
+                    ->limit($limit)
+                    ->orderBy($orderby_column, $orderby_direction)
+                    ->get(),
+                default => DB::table($from)
+                    ->select($expression)
+                    ->distinct()
+                    ->limit($limit)
+                    ->orderBy($orderby_column, $orderby_direction)
+                    ->get(),
+            };
 
-            $orderby_direction_extended = $orderby_direction . "ending";
-            $limit = empty($limit) ? '' : 'limit ' . $limit;
+            $orderby_direction_extended = "{$orderby_direction}ending";
+            $limit = empty($limit) ? '' : "limit $limit";
 
             $d["query2"] = "select distinct placeholder from $from orderby $orderby_column $orderby_direction_extended $limit";
         }

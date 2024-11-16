@@ -50,7 +50,7 @@
         <ul class="nav nav-tabs nav-tabs-highlight">
             <li class="nav-item"><a href="#all-payments" class="nav-link active" data-toggle="tab">All Classes</a></li>
             <li class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Class Payments</a>
+                <a href="javascript:;" class="nav-link dropdown-toggle" data-toggle="dropdown">Class Payments</a>
                 <div class="dropdown-menu dropdown-menu-right">
                     @foreach($my_classes as $mc)
                     <a href="#pc-{{ $mc->id }}" class="dropdown-item" data-toggle="tab">{{ $mc->name }}</a>
@@ -89,9 +89,7 @@
                             <td class="text-center">
                                 <div class="list-icons">
                                     <div class="dropdown">
-                                        <a href="#" data-toggle="dropdown">
-                                            <i class="material-symbols-rounded">lists</i>
-                                        </a>
+                                        <a class="material-symbols-rounded" href="javascript:;" data-toggle="dropdown">lists</a>
 
                                         <div class="dropdown-menu dropdown-menu-left">
                                             {{--Edit--}}
@@ -141,16 +139,14 @@
                             <td class="text-center">
                                 <div class="list-icons">
                                     <div class="dropdown">
-                                        <a href="#" data-toggle="dropdown">
-                                            <i class="material-symbols-rounded">lists</i>
-                                        </a>
+                                        <a class="material-symbols-rounded" href="javascript:;" data-toggle="dropdown">lists</a>
 
                                         <div class="dropdown-menu dropdown-menu-left">
                                             {{--Edit--}}
                                             <a href="{{ route('payments.edit', $p->id) }}" class="dropdown-item"><i class="material-symbols-rounded">edit</i> Edit</a>
                                             {{--Delete--}}
                                             @if (Qs::userIsSuperAdmin() or Qs::userIsAccountant())
-                                            <a id="{{ $p->id }}" onclick="confirmDelete(this.id)" href="#" class="dropdown-item text-danger"><i class="material-symbols-rounded">delete</i> Delete</a>
+                                            <a id="{{ $p->id }}" onclick="confirmDelete(this.id)" href="javascript:;" class="dropdown-item text-danger"><i class="material-symbols-rounded">delete</i> Delete</a>
                                             <form method="post" id="item-delete-{{ $p->id }}" action="{{ route('payments.destroy', $p->id) }}" class="hidden">@csrf @method('delete')</form>
                                             @endif
                                         </div>

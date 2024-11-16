@@ -100,7 +100,7 @@ class PaymentRepo
 
     public static function getRecordValue($id, $col_name)
     {
-        Payment::where('id', $id)->value($col_name);
+        return Payment::where('id', $id)->value($col_name);
     }
 
     public function updateRecord($id, $data)

@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use Eloquent;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class ExamAnnounce extends Eloquent
 {

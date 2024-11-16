@@ -7,4 +7,5 @@ use App\Events\Contracts\CustomTenantEvent;
 
 class TenantDeletingIDCardsThemeDir extends CustomTenantEvent
 {
+    //
 }

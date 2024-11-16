@@ -4,9 +4,9 @@ namespace App\Http\Controllers\ItGuy;
 
 use App\Helpers\Qs;
 use App\Http\Controllers\Controller;
+use App\Repositories\LogRepo;
 use App\Repositories\MyClassRepo;
 use App\Repositories\UserRepo;
-use App\Repositories\LogRepo;
 use Carbon\Carbon;
 
 class LogController extends Controller

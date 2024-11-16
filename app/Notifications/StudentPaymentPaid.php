@@ -2,12 +2,12 @@
 
 namespace App\Notifications;
 
+use App\Helpers\Qs;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use NotificationChannels\Fcm\FcmChannel;
 use NotificationChannels\Fcm\FcmMessage;
-use App\Helpers\Qs;
 
 class StudentPaymentPaid extends Notification
 {

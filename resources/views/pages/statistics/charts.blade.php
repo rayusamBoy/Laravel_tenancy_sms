@@ -283,13 +283,13 @@
         </button>
 
         <div class="bg-dark-alpha bg-white dropdown-menu">
-            <a href="#" id="line" class="dropdown-item chart-option">Line Chart</a>
-            <a href="#" id="pie" class="dropdown-item chart-option">Pie Chart</a>
-            <a href="#" id="polarArea" class="dropdown-item chart-option">PolarArea</a>
-            <a href="#" id="bar" class="dropdown-item chart-option">Bar Chart</a>
-            <a href="#" id="radar" class="dropdown-item chart-option">Radar Chart</a>
-            <a href="#" id="horizontal_bar" class="dropdown-item chart-option">Horizontal Bar Chart</a>
-            <a href="#" id="horizontal_line" class="dropdown-item chart-option">Horizontal Line Chart</a>
+            <a href="javascript:;" id="line" class="dropdown-item chart-option">Line Chart</a>
+            <a href="javascript:;" id="pie" class="dropdown-item chart-option">Pie Chart</a>
+            <a href="javascript:;" id="polarArea" class="dropdown-item chart-option">PolarArea</a>
+            <a href="javascript:;" id="bar" class="dropdown-item chart-option">Bar Chart</a>
+            <a href="javascript:;" id="radar" class="dropdown-item chart-option">Radar Chart</a>
+            <a href="javascript:;" id="horizontal_bar" class="dropdown-item chart-option">Horizontal Bar Chart</a>
+            <a href="javascript:;" id="horizontal_line" class="dropdown-item chart-option">Horizontal Line Chart</a>
         </div>
 
         <script type="text/javascript">

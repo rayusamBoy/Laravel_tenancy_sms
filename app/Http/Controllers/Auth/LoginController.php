@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\Middleware;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\CookieController;
 use App\Events\UserLoggedIn;
 use App\Helpers\Qs;
 use App\Helpers\Usr;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\CookieController;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
 class LoginController extends Controller implements HasMiddleware
 {
@@ -47,7 +46,7 @@ class LoginController extends Controller implements HasMiddleware
         $account_status = tenant('account_status');
 
         $data['colors'] = $colors = $settings->where('type', 'login_and_related_pgs_txts_and_bg_colors')->value('description');
-        if (!is_null($colors)) {
+        if ($colors !== null) {
             $colors_exploaded = explode(Qs::getDelimiter(), $colors);
             $data['texts_color'] = $colors_exploaded[0];
             $data['bg_color'] = $colors_exploaded[1];
@@ -98,7 +97,7 @@ class LoginController extends Controller implements HasMiddleware
         $identity = request()->identity;
         $field = filter_var($identity, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
         request()->merge([$field => $identity]);
-        
+
         return $field;
     }
 
@@ -125,9 +124,9 @@ class LoginController extends Controller implements HasMiddleware
      */
     protected function authenticated(Request $request, $user)
     {
-        $user = Auth::user();
+        $user = auth()->user();
         if ($user->blocked) {
-            Auth::logout();
+            auth()->logout();
             return redirect()->route('login')->with('access_denied', __('msg.restricted') . ' ACCOUNT BLOCKED.');
         }
 

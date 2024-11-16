@@ -44,7 +44,7 @@ class ResetPasswordController extends Controller
         $settings = Qs::getSettings();
         $data['colors'] = $colors = $settings->where('type', 'login_and_related_pgs_txts_and_bg_colors')->value('description');
 
-        if (!is_null($colors)) {
+        if ($colors !== null) {
             $colors_exploaded = explode(Qs::getDelimiter(), $colors);
             $data['texts_color'] = $colors_exploaded[0];
             $data['bg_color'] = $colors_exploaded[1];

@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\SupportTeam;
 
-use App\Repositories\UserRepo;
-use App\Repositories\MyClassRepo;
-use App\Repositories\ExamRepo;
-use App\Repositories\StudentRepo;
-use App\Repositories\MarkRepo;
-use App\Http\Controllers\Controller;
 use App\Helpers\Mk;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
+use App\Repositories\ExamRepo;
+use App\Repositories\MarkRepo;
+use App\Repositories\MyClassRepo;
+use App\Repositories\StudentRepo;
+use App\Repositories\UserRepo;
 use Illuminate\Support\Facades\Validator;
 
 class StatisticsController extends Controller
@@ -25,31 +24,30 @@ class StatisticsController extends Controller
         $this->year = Mk::getSetting('current_session');
     }
 
-    public function index($exam_id = '')
+    public function index($exam_id)
     {
         $exams = $this->exam->getPublishedOrderByLatest();
         if ($exams->isEmpty())
             return redirect()->back()->with('flash_error', __('msg.ernf'));
 
+        $exam_id = Mk::decodeHash($exam_id);
+
         if (!empty($exam_id)) {
-            $exam_id = Mk::decodeHash($exam_id);
+            $input = ['exam_id' => $exam_id];
+            Validator::make($input, [
+                'exam_id' => 'sometimes|nullable|exists:exams,id',
+            ], [], ['exam_id' => 'exam'])->validate();
             $d['last_exam'] = $last_exm = $this->exam->getById($exam_id);
         } else {
             $d['last_exam'] = $last_exm = $exams->first();
             $exam_id = $last_exm->id;
         }
 
-        $input = ['exam_id' => $exam_id];
-
-        Validator::make($input, [
-            'exam_id' => 'sometimes|nullable|exists:exams,id',
-        ], [], ['exam_id' => 'exam'])->validate();
-
         $d['prev_exam_id'] = $exams->where('id', '<', $exam_id)->first()->id ?? null;
         $d['next_exam_id'] = $exams->where('id', '>', $exam_id)->first()->id ?? null;
 
         if (Mk::userIsParent()) {
-            $s_ids = $this->student->getStudentsRecs()->where('my_parent_id', Auth::id())->pluck('user_id');
+            $s_ids = $this->student->getStudentsRecs()->where('my_parent_id', auth()->id())->pluck('user_id');
 
             $d['exams_recs'] = $this->exam->getRecordsByIds($s_ids)->where('year', $this->year)->get();
             $marks = $this->mark->getByIds($s_ids)->where('year', $this->year)->get();
@@ -59,8 +57,8 @@ class StatisticsController extends Controller
                 $d['last_exm_marks'] = $marks->where('exam_id', $last_exm->id);
             }
         } elseif (Mk::userIsStudent()) {
-            $d['exams_recs'] = $this->exam->getRecordsByStudentId(Auth::id())->where('year', $this->year)->get();
-            $d['last_exm_marks'] = $this->mark->getById(Auth::id())->where('exam_id', $last_exm->id)->get();
+            $d['exams_recs'] = $this->exam->getRecordsByStudentId(auth()->id())->where('year', $this->year)->get();
+            $d['last_exm_marks'] = $this->mark->getById(auth()->id())->where('exam_id', $last_exm->id)->get();
         } elseif (Mk::userIsTeamSATCL()) {
             $exams_recs = $this->exam->getRecordsById($last_exm->id)->get()->unique('my_class.id')->sortBy('my_class.id');
 

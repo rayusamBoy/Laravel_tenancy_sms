@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\SupportTeam;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Grade\GradeCreate;
 use App\Http\Requests\Grade\GradeUpdate;
 use App\Repositories\ExamRepo;
-use App\Http\Controllers\Controller;
 use App\Repositories\MyClassRepo;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;

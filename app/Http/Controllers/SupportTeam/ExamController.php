@@ -3,20 +3,20 @@
 namespace App\Http\Controllers\SupportTeam;
 
 use App\Helpers\Mk;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Exam\ExamAnnounce;
 use App\Http\Requests\Exam\ExamCreate;
 use App\Http\Requests\Exam\ExamUpdate;
 use App\Http\Requests\Exam\ExamUpdateEditState;
-use App\Repositories\ExamRepo;
-use App\Repositories\AssessmentRepo;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Exam\ExamAnnounce;
 use App\Http\Requests\Exam\ExamUpdateLockState;
+use App\Repositories\AssessmentRepo;
+use App\Repositories\ExamRepo;
 use App\Repositories\MyClassRepo;
 use App\Rules\HasStudentExamNumberPlaceholder;
 use App\Rules\Uppercase;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Validator;
 
 class ExamController extends Controller implements HasMiddleware
 {
@@ -74,18 +74,18 @@ class ExamController extends Controller implements HasMiddleware
             Validator::make(
                 $req->toArray(),
                 [
-                    'class_id_' . $class->id => 'filled|required_unless:exam_number_format_' . $class->id . ', null',
-                    'exam_number_format_' . $class->id => ['nullable', 'regex:/^[\p{L}\p{N}\/\\-*]+$/u', 'required_unless:class_id_' . $class->id . ', null', new Uppercase, new HasStudentExamNumberPlaceholder]
+                    "class_id_{$class->id}" => "filled|required_unless:exam_number_format_{$class->id}, null",
+                    "exam_number_format_{$class->id}" => ['nullable', 'regex:/^[\p{L}\p{N}\/\\-*]+$/u', "required_unless:class_id_{$class->id}, null", new Uppercase, new HasStudentExamNumberPlaceholder]
                 ],
                 [],
                 [
-                    'class_id_' . $class->id => $class->name . ' class',
-                    'exam_number_format_' . $class->id => $class->name . ' exam number format'
+                    "class_id_{$class->id}" => "{$class->name} class",
+                    "exam_number_format_{$class->id}" => "{$class->name} exam number format"
                 ]
             )->validate();
 
             // If exam_number_format field is not null (Note: class_id field will always be filled)
-            $format = $req->only('exam_number_format_' . $class->id)['exam_number_format_' . $class->id];
+            $format = $req->only("exam_number_format_{$class->id}")["exam_number_format_{$class->id}"];
             if ($format != null)
                 $this->exam->createNumberFormat(['exam_id' => $exam->id, 'my_class_id' => $class->id, 'format' => $format]);
         }
@@ -114,7 +114,7 @@ class ExamController extends Controller implements HasMiddleware
         $exam = $this->exam->getExam(['id' => $id])->first();
         $keys = (Mk::isTerminalExam($exam->category_id) || Mk::isAnnualExam($exam->category_id)) ? Mk::getExamData() : Mk::getExamData(['ca_student_position_by_value', 'cw_denominator', 'hw_denominator', 'tt_denominator', 'tdt_denominator']);
         $data = $req->only($keys);
-  
+
         $this->exam->update($id, $data);
 
         $classes = $this->my_class->get(["class_type_id" => $exam->class_type_id]);
@@ -124,19 +124,19 @@ class ExamController extends Controller implements HasMiddleware
             Validator::make(
                 $req->toArray(),
                 [
-                    'class_id_' . $class->id => 'filled|required_unless:exam_number_format_' . $class->id . ',null',
-                    'exam_number_format_' . $class->id => ['nullable', 'regex:/^[\p{L}\p{N}\/\\-*]+$/u', 'required_unless:class_id_' . $class->id . ',null', new Uppercase, new HasStudentExamNumberPlaceholder]
+                    "class_id_{$class->id}" => "filled|required_unless:exam_number_format_{$class->id},null",
+                    "exam_number_format_{$class->id}" => ['nullable', 'regex:/^[\p{L}\p{N}\/\\-*]+$/u', "required_unless:class_id_{$class->id},null", new Uppercase, new HasStudentExamNumberPlaceholder]
                 ],
                 [],
                 [
-                    'class_id_' . $class->id => $class->name . ' class',
-                    'exam_number_format_' . $class->id => $class->name . ' exam number format'
+                    "class_id_{$class->id}" => "{$class->name} class",
+                    "exam_number_format_{$class->id}" => "{$class->name} exam number format"
                 ]
             )->validate();
 
             // If exam_number_format field is not null (Note: class_id field will always be filled)
-            $format = $req->only('exam_number_format_' . $class->id)['exam_number_format_' . $class->id] ?? null;
-            $number_format_id = $req->only('number_format_' . $class->id)['number_format_' . $class->id] ?? null;
+            $format = $req->only("exam_number_format_{$class->id}")["exam_number_format_{$class->id}"] ?? null;
+            $number_format_id = $req->only("number_format_{$class->id}")["number_format_{$class->id}"] ?? null;
 
             if ($format != null)
                 $this->exam->updateOrCreateNumberFormat(["id" => $number_format_id], ['exam_id' => $exam->id, 'my_class_id' => $class->id, 'format' => $format]);
@@ -186,7 +186,9 @@ class ExamController extends Controller implements HasMiddleware
 
     public function announce(ExamAnnounce $req)
     {
-        $this->exam->announce($req->only(['exam_id', 'message', 'duration']));
+        $data = $req->only(['exam_id', 'message', 'duration']);
+        $data['duration'] += time();
+        $this->exam->announce($data);
 
         return Mk::jsonStoreOk();
     }

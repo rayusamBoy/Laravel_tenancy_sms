@@ -2,9 +2,9 @@
 
 namespace App\Http\Middleware\Custom;
 
+use App\Helpers\Qs;
 use Closure;
 use Illuminate\Support\Facades\Auth;
-use App\Helpers\Qs;
 
 class MyParent
 {

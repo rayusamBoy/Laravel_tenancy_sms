@@ -79,7 +79,7 @@
                     <td class="text-center">
                         <div class="list-icons">
                             <div class="dropdown">
-                                <a class="material-symbols-rounded" href="#" data-toggle="dropdown">lists</a>
+                                <a class="material-symbols-rounded" href="javascript:;" data-toggle="dropdown">lists</a>
 
                                 <div class="dropdown-menu dropdown-menu-left">
                                     {{-- Mark as read --}}

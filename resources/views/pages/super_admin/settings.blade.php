@@ -65,7 +65,7 @@
                             <input name="term_ends" value="{{ $settings->where('type' , 'term_ends')->value('description') }}" type="text" class="form-control date-pick" placeholder="Date Term Ends">
                         </div>
                         <div class="col-lg-3 mt-2">
-                            <span class="font-weight-bold font-italic">M-D-Y or M/D/Y </span>
+                            <span class="font-weight-bold font-italic">MM/DD/YYYY </span>
                         </div>
                     </div>
                     {{-- Next term begins --}}
@@ -75,7 +75,7 @@
                             <input name="term_begins" value="{{ $settings->where('type' , 'term_begins')->value('description') }}" type="text" class="form-control date-pick" placeholder="Date Term Ends">
                         </div>
                         <div class="col-lg-3 mt-2">
-                            <span class="font-weight-bold font-italic">M-D-Y or M/D/Y </span>
+                            <span class="font-weight-bold font-italic">MM/DD/YYYY </span>
                         </div>
                     </div>
                     {{-- Lock exam --}}
@@ -175,6 +175,18 @@
                                         <input disabled type="checkbox" name="show_login_and_related_pgs_preview" class="form-input-styled" data-fouc>
                                     </label>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="divider">
+                    
+                    {{-- Reveal all hiden alert messages --}}
+                    <div class="form-group row">
+                        <label class="col-lg-8 col-form-label font-weight-semibold">Reveall all hidden alert messages</label>
+                        <div class="col-lg-4">
+                            <div class="form-group text-center">
+                                <button type="button" id="clear-do-not-show-again-alert-msgs" class="btn btn-warning btn-sm">Click to show</button>
                             </div>
                         </div>
                     </div>

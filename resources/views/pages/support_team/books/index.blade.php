@@ -14,7 +14,7 @@
 
             @if(count($books) > 0)
             <li class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Manage Books</a>
+                <a href="javascript:;" class="nav-link dropdown-toggle" data-toggle="dropdown">Manage Books</a>
                 <div class="dropdown-menu dropdown-menu-right">
                     @foreach ($books->groupBy("my_class.id") as $group)
                     <a href="#grp-{{ $group->first()->id }}" class="dropdown-item" data-toggle="tab">{{ $group->first()->my_class->name }}</a>
@@ -148,9 +148,7 @@
                             <td class="text-center">
                                 <div class="list-icons">
                                     <div class="dropdown">
-                                        <a href="#" data-toggle="dropdown">
-                                            <i class="material-symbols-rounded">lists</i>
-                                        </a>
+                                        <a class="material-symbols-rounded" href="javascript:;" data-toggle="dropdown">lists</a>
 
                                         <div class="dropdown-menu dropdown-menu-left">
                                             {{-- Edit --}}

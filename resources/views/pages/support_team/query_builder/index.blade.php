@@ -204,9 +204,9 @@
         <ul class="nav nav-tabs nav-tabs-highlight">
             <li class="nav-item"><a href="#all-payments" class="nav-link active" data-toggle="tab">Results</a></li>
             <li class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Actions</a>
+                <a href="javascript:;" class="nav-link dropdown-toggle" data-toggle="dropdown">Actions</a>
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a href="#" id="return-to-query" class="dropdown-item" data-toggle="tab">Return to Query Box</a>
+                    <a href="javascript:;" id="return-to-query" class="dropdown-item" data-toggle="tab">Return to Query Box</a>
                     <button id="display-count" onclick="alertInfo(this.value)" value="{{ $count }}" class="btn dropdown-item" data-toggle="tab">Get Records Count</button>
                 </div>
             </li>

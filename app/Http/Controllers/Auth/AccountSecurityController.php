@@ -3,18 +3,17 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Helpers\Qs;
-use App\Repositories\UserRepo;
 use App\Http\Controllers\Controller;
+use App\Repositories\UserRepo;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use PragmaRX\Recovery\Recovery;
-use PragmaRX\Google2FALaravel\Google2FA;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 use Jenssegers\Agent\Agent;
+use PragmaRX\Google2FALaravel\Google2FA;
+use PragmaRX\Recovery\Recovery;
 
 class AccountSecurityController extends Controller
 {
@@ -94,7 +93,7 @@ class AccountSecurityController extends Controller
         if ($twofarc === null)
             return redirect()->route('account_security.index')->with('flash_danger', 'The system did not catch the recovery codes correctly. Please try again.');
 
-        $this->user->update(Auth::id(), $data);
+        $this->user->update(auth()->id(), $data);
 
         // Remove recovery codes from session after update/store
         session()->forget('twofa_recovery_codes');
@@ -107,7 +106,7 @@ class AccountSecurityController extends Controller
 
     public function null_secret_code(Request $request)
     {
-        $id = $request->user_id ?? Auth::id();
+        $id = $request->user_id ?? auth()->id();
         $this->user->update($id, ['twofa_secret_code' => NULL]);
 
         return back()->with('flash_success', __('msg.update_ok'));
@@ -117,7 +116,7 @@ class AccountSecurityController extends Controller
     {
         $secret = auth()->user()->twofa_secret_code;
 
-        return !is_null($secret) && !empty($secret);
+        return $secret !== null && !empty($secret);
     }
 
     /* 
@@ -137,13 +136,12 @@ class AccountSecurityController extends Controller
 
     public function get_browser_sessions(): Collection
     {
-        if (config(key: 'session.driver') !== 'database') {
+        if (config(key: 'session.driver') !== 'database')
             return collect();
-        }
 
         return collect(
             value: $this->get_session_connection()
-                ->where(column: 'user_id', operator: Auth::user()->getAuthIdentifier())
+                ->where(column: 'user_id', operator: auth()->user()->getAuthIdentifier())
                 ->latest(column: 'last_activity')
                 ->get()
         )->map(callback: function ($session): object {
@@ -177,7 +175,7 @@ class AccountSecurityController extends Controller
         Validator::make(request()->toArray(), ['password' => ['required', 'current_password:web']])->validate();
 
         $password = request()->password;
-        Auth::logoutOtherDevices($password);
+        auth()->logoutOtherDevices($password);
 
         $this->delete_other_session_records();
 
@@ -190,7 +188,7 @@ class AccountSecurityController extends Controller
             return;
 
         $this->get_session_connection()
-            ->where(column: 'user_id', operator: '=', value: Auth::user()->getAuthIdentifier())
+            ->where(column: 'user_id', operator: '=', value: auth()->user()->getAuthIdentifier())
             ->where(column: 'id', operator: '!=', value: request()->session()->getId())
             ->delete();
     }
@@ -198,7 +196,7 @@ class AccountSecurityController extends Controller
     public function get_user_last_activity(bool $human = false): Carbon|string
     {
         $lastActivity = $this->get_session_connection()
-            ->where(column: 'user_id', operator: '=', value: Auth::user()->getAuthIdentifier())
+            ->where(column: 'user_id', operator: '=', value: auth()->user()->getAuthIdentifier())
             ->latest(column: 'last_activity')
             ->first();
 

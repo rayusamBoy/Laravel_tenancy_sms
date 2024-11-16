@@ -64,11 +64,12 @@ $calendar_events = json_encode(['events' => Evt::all() ]);
             <h2 class="dialog-header"> Add New Event </h2>
 
             <form class="form" id="form" style="font-size: inherit; font-family: inherit">
+                {{-- If you change maxlength attribute of name and/or description elements in this form; you must also change the ones in the edit form. --}}
                 <div class="form-container">
                     <label class="form-label" id="valueFromMyButton" for="name">Event name</label>
-                    <input class="input" type="text" width="100%" id="name" maxlength="36">
+                    <input class="input" type="text" width="100%" id="name" maxlength="50">
                     <label class="form-label" id="valueFromMyButton" for="count">Event Description</label>
-                    <textarea class="input" placeholder="Try to make it short, and clear as possible..." id="count" rows="3" cols="auto" style="word-wrap: break-word !important;"></textarea>
+                    <textarea maxlength="150" class="input break-all" placeholder="Try to make it short, and clear as possible..." id="count" rows="3" cols="auto"></textarea>
                     <input type="button" value="Cancel" class="btn btn-warning mr-2" id="cancel-button">
                     <input type="button" value="Submit" class="btn btn-primary mb-0" id="ok-button">
                 </div>

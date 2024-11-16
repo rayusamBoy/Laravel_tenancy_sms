@@ -12,7 +12,7 @@
         <ul class="nav nav-tabs nav-tabs-highlight">
             <li class="nav-item"><a href="#all-students" class="nav-link active" data-toggle="tab">All Graduated Students</a></li>
             <li class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Select Class</a>
+                <a href="javascript:;" class="nav-link dropdown-toggle" data-toggle="dropdown">Select Class</a>
                 <div class="dropdown-menu dropdown-menu-right">
                     @foreach($my_classes as $c)
                     <a href="#c{{ $c->id }}" class="dropdown-item" data-toggle="tab">{{ $c->name }}</a>
@@ -65,9 +65,7 @@
                             <td class="text-center">
                                 <div class="list-icons">
                                     <div class="dropdown">
-                                        <a href="#" data-toggle="dropdown">
-                                            <i class="material-symbols-rounded">lists</i>
-                                        </a>
+                                        <a class="material-symbols-rounded" href="javascript:;" data-toggle="dropdown">lists</a>
 
                                         <div class="dropdown-menu dropdown-menu-left">
                                             <a href="{{ route('students.show', Qs::hash($gs->student_id)) }}" class="dropdown-item"><i class="material-symbols-rounded">visibility</i> View Profile</a>
@@ -76,7 +74,7 @@
                                             <a href="javascript:;" data-default_pass="student" data-href="{{ route('st.reset_pass', Qs::hash($gs->student_id)) }}" class="dropdown-item needs-reset-pass-confirmation"><i class="material-symbols-rounded">lock_reset</i> Reset password</a>
 
                                             {{--Not Graduated--}}
-                                            <a id="{{ Qs::hash($gs->student_id) }}" href="#" onclick="confirmReset(this.id)" class="dropdown-item"><i class="material-symbols-rounded">close</i> Not Graduated</a>
+                                            <a id="{{ Qs::hash($gs->student_id) }}" href="javascript:;" onclick="confirmReset(this.id)" class="dropdown-item"><i class="material-symbols-rounded">close</i> Not Graduated</a>
                                             <form method="post" id="item-reset-{{ Qs::hash($gs->student_id) }}" action="{{ route('st.not_graduated', [Qs::hash($gs->student_id), $gs->id]) }}" class="hidden">@csrf @method('put')</form>
                                             @endif
 
@@ -123,9 +121,7 @@
                             <td class="text-center">
                                 <div class="list-icons">
                                     <div class="dropdown">
-                                        <a href="#" data-toggle="dropdown">
-                                            <i class="material-symbols-rounded">lists</i>
-                                        </a>
+                                        <a class="material-symbols-rounded" href="javascript:;" data-toggle="dropdown">lists</a>
 
                                         <div class="dropdown-menu dropdown-menu-left">
                                             <a href="{{ route('students.show', Qs::hash($gs->student_id)) }}" class="dropdown-item"><i class="material-symbols-rounded">visibility</i> View Profile</a>
@@ -134,7 +130,7 @@
                                             <a href="{{ route('st.reset_pass', Qs::hash($gs->student_id)) }}" class="dropdown-item"><i class="material-symbols-rounded">lock_reset</i> Reset password</a>
 
                                             {{--Not Graduated--}}
-                                            <a id="{{ Qs::hash($gs->student_id) }}" href="#" onclick="confirmReset(this.id)" class="dropdown-item"><i class="material-symbols-rounded">close</i> Not Graduated</a>
+                                            <a id="{{ Qs::hash($gs->student_id) }}" href="javascript:;" onclick="confirmReset(this.id)" class="dropdown-item"><i class="material-symbols-rounded">close</i> Not Graduated</a>
                                             <form method="post" id="item-reset-{{ Qs::hash($gs->student_id) }}" action="{{ route('st.not_graduated', [Qs::hash($gs->student_id), $gs->id]) }}" class="hidden">@csrf @method('put')</form>
                                             @endif
 
@@ -142,7 +138,7 @@
 
                                             {{--Delete--}}
                                             @if(Qs::userIsSuperAdmin())
-                                            <a id="{{ Qs::hash($gs->student_id) }}" onclick="confirmDelete(this.id)" href="#" class="dropdown-item text-danger"><i class="material-symbols-rounded">delete</i> Delete</a>
+                                            <a id="{{ Qs::hash($gs->student_id) }}" onclick="confirmDelete(this.id)" href="javascript:;" class="dropdown-item text-danger"><i class="material-symbols-rounded">delete</i> Delete</a>
                                             <form method="post" id="item-delete-{{ Qs::hash($gs->student_id) }}" action="{{ route('students.destroy', Qs::hash($gs->student_id)) }}" class="hidden">@csrf @method('delete')</form>
                                             @endif
                                         </div>

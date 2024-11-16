@@ -2,25 +2,23 @@
 
 namespace App\Http\Controllers\SupportTeam;
 
-use App\User;
-use App\Helpers\Qs;
-use Carbon\Carbon;
-use App\Models\Thread;
-use App\Models\Message;
-use App\Events\NewMessage;
 use App\Events\MessageDeleted;
+use App\Events\NewMessage;
 use App\Http\Controllers\Controller;
+use App\Models\Message;
 use App\Models\StudentRecord;
-use App\Notifications\MessageSent;
+use App\Models\Thread;
 use App\Models\UserType;
+use App\Notifications\MessageSent;
+use App\User;
+use Carbon\Carbon;
 use Cmgmyr\Messenger\Models\Participant;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Validator;
 use Throwable;
 
 class MessageController extends Controller implements HasMiddleware
@@ -52,10 +50,10 @@ class MessageController extends Controller implements HasMiddleware
         $threads = Thread::getAllLatest()->get();
 
         // All threads that user is participating in
-        // $threads = Thread::forUser(Auth::id())->latest('updated_at')->get();
+        // $threads = Thread::forUser(auth()->id())->latest('updated_at')->get();
 
         // All threads that user is participating in, with new messages
-        // $threads = Thread::forUserWithNewMessages(Auth::id())->latest('updated_at')->get();
+        // $threads = Thread::forUserWithNewMessages(auth()->id())->latest('updated_at')->get();
 
         $users = self::get_users();
         $user_types = UserType::all();
@@ -84,14 +82,14 @@ class MessageController extends Controller implements HasMiddleware
         // $users = User::whereNotIn('id', $thread->participantsUserIds())->get();
 
         // don't show the current user in list
-        $userId = Auth::id();
-        $users = User::whereNotIn('id', $thread->participantsUserIds($userId))->get();
+        $user_id = auth()->id();
+        $users = User::whereNotIn('id', $thread->participantsUserIds($user_id))->get();
         $extra_messages_to_count = $this->extra_messages_to_count;
-        $unread_messages_count = $thread->userUnreadMessagesCount(auth()->id());
+        $unread_messages_count = $thread->userUnreadMessagesCount($user_id);
 
-        $user_as_participant = Participant::where(['thread_id' => $thread->id, 'user_id' => Auth::id()])->get();
+        $user_as_participant = Participant::where(['thread_id' => $thread->id, 'user_id' => $user_id])->get();
 
-        $thread->markAsRead($userId);
+        $thread->markAsRead($user_id);
         $settings = Qs::getSettings();
 
         return view('messenger.show', compact('thread', 'users', 'user_as_participant', 'extra_messages_to_count', 'unread_messages_count', 'settings'));
@@ -104,7 +102,7 @@ class MessageController extends Controller implements HasMiddleware
      */
     public function get_users()
     {
-        $users = User::where('id', '!=', Auth::id())->get();
+        $users = User::where('id', '!=', auth()->id())->get();
 
         return $users;
     }
@@ -116,7 +114,7 @@ class MessageController extends Controller implements HasMiddleware
      */
     public function create()
     {
-        $users = User::where('id', '!=', Auth::id())->get();
+        $users = User::where('id', '!=', auth()->id())->get();
 
         return view('messenger.create', compact('users'));
     }
@@ -144,14 +142,14 @@ class MessageController extends Controller implements HasMiddleware
         // Message
         Message::create([
             'thread_id' => $thread->id,
-            'user_id' => Auth::id(),
+            'user_id' => auth()->id(),
             'body' => $input['message'],
         ]);
 
         // Sender
         Participant::create([
             'thread_id' => $thread->id,
-            'user_id' => Auth::id(),
+            'user_id' => auth()->id(),
             'last_read' => new Carbon(),
         ]);
 
@@ -164,12 +162,11 @@ class MessageController extends Controller implements HasMiddleware
         if (Request::has('user_types')) {
             foreach ($input['user_types'] as $type) {
                 // If active students
-                if ($type == 0)
-                    $ids = StudentRecord::where('grad', 0)->with('user')->get()->where('user.user_type', 'student')->pluck('user_id')->toArray();
-                elseif ($type == 1)
-                    $ids = StudentRecord::where('grad', 1)->with('user')->get()->where('user.user_type', 'student')->pluck('user_id')->toArray();
-                else
-                    $ids = User::whereUserType($type)->get()->pluck('id')->toArray();
+                $ids = match ($type) {
+                    0 => StudentRecord::where('grad', 0)->with('user')->get()->where('user.user_type', 'student')->pluck('user_id')->toArray(),
+                    1 => StudentRecord::where('grad', 1)->with('user')->get()->where('user.user_type', 'student')->pluck('user_id')->toArray(),
+                    default => User::whereUserType($type)->get()->pluck('id')->toArray(),
+                };
 
                 $thread->addParticipant($ids);
             }
@@ -203,14 +200,14 @@ class MessageController extends Controller implements HasMiddleware
             // Message
             $message = Message::create([
                 'thread_id' => $thread->id,
-                'user_id' => Auth::id(),
+                'user_id' => auth()->id(),
                 'body' => Request::input('message'),
             ]);
 
             // Add replier as a participant
             $participant = Participant::firstOrCreate([
                 'thread_id' => $thread->id,
-                'user_id' => Auth::id(),
+                'user_id' => auth()->id(),
             ]);
 
             $participant->last_read = new Carbon();
@@ -249,7 +246,8 @@ class MessageController extends Controller implements HasMiddleware
      */
     public function update_participant_last_read($thread_id)
     {
-        Participant::where(['thread_id' => $thread_id, 'user_id' => Auth::id()])->update(['last_read' => new Carbon()]);
+        $thread = Thread::withTrashed()->findOrFail($thread_id);
+        $thread->markAsRead(auth()->id());
         return Qs::jsonUpdateOk();
     }
 
@@ -314,7 +312,7 @@ class MessageController extends Controller implements HasMiddleware
         }
 
         try {
-            $message->updateMessage($msg_id, ['deleted_by' => Auth::id()]);
+            $message->updateMessage($msg_id, ['deleted_by' => auth()->id()]);
             $message->deleteMessage($msg_id);
             $message = Message::onlyTrashed()->with(['user', 'deletor'])->find($message->id);
             // Update user photo path to full asset url

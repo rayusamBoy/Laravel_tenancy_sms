@@ -4,16 +4,15 @@ namespace App\Http\Controllers\SupportTeam;
 
 use App\Helpers\Qs;
 use App\Helpers\Usr;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\UserBlockedState;
 use App\Http\Requests\UserRequest;
+use App\Http\Requests\UserStaffDataEditState;
 use App\Repositories\LocationRepo;
 use App\Repositories\MyClassRepo;
 use App\Repositories\UserRepo;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\UserBlockedState;
-use App\Http\Requests\UserStaffDataEditState;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -103,7 +102,7 @@ class UserController extends Controller implements HasMiddleware
         $data['username'] = $uname = ($user_is_teamSA || Qs::userIsItGuy()) ? $req->username : $staff_id;
 
         // If user a parent get the work he/she does
-        $data['work'] = ($user_is_parent) ? $req->work : 'NULL';
+        $data['work'] = $user_is_parent ? $req->work : NULL;
 
         $pass = $req->password ?: $user_type;
         $data['password'] = Hash::make($pass);
@@ -128,7 +127,7 @@ class UserController extends Controller implements HasMiddleware
             $d2 = $req->only(Qs::getStaffRecord());
             $d2['user_id'] = $user->id;
             $d2['code'] = $staff_id;
-            $d2['subjects_studied'] = (isset($d2['subjects_studied'])) ? json_encode($d2['subjects_studied']) : NULL;
+            $d2['subjects_studied'] = isset($d2['subjects_studied']) ? json_encode($d2['subjects_studied']) : NULL;
             $this->user->createStaffRecord($d2);
         }
 
@@ -151,9 +150,9 @@ class UserController extends Controller implements HasMiddleware
         $user_type_id = (int) Qs::decodeHash($req->user_type);
 
         // Redirect if Making Changes to Head of Super Admins
-        if (Qs::headSA($id) && !Qs::headSA(Auth::id()))
+        if (Qs::headSA($id) && !Qs::headSA(auth()->id()))
             return Qs::json(__('msg.denied'), FALSE);
-        elseif (Qs::headSA(Auth::id()) && !Qs::userIsHead())
+        elseif (Qs::headSA(auth()->id()) && !Qs::userIsHead())
             return Qs::json(__('msg.denied'), FALSE);
 
         $user = $this->user->find($id);
@@ -168,7 +167,7 @@ class UserController extends Controller implements HasMiddleware
         unset($data["_token"], $data["_method"]); // Remove token and method values from requested data
         $data['name'] = $name = ucwords(strtolower($req->name));
         $data['user_type'] = $user_type;
-        $data['work'] = ($user_is_parent) ? $req->work : 'NULL';
+        $data['work'] = $user_is_parent ? $req->work : NULL;
         $data['message_media_heading_color'] = '#' . substr(md5($name), 0, 6); // Use a unique text color based on the name
 
         if ($req->hasFile('photo')) {
@@ -192,7 +191,7 @@ class UserController extends Controller implements HasMiddleware
         } elseif ($user_is_staff || Qs::userIsItGuy()) {
             $d2 = $req->only(Qs::getStaffRecord());
             $d2['code'] = $user->code;
-            $d2['subjects_studied'] = (isset($d2['subjects_studied'])) ? json_encode($d2['subjects_studied']) : NULL;
+            $d2['subjects_studied'] = isset($d2['subjects_studied']) ? json_encode($d2['subjects_studied']) : NULL;
             $this->user->updateStaffRecord(['user_id' => $id], $d2);
         }
 
@@ -216,7 +215,7 @@ class UserController extends Controller implements HasMiddleware
         $data['user'] = $this->user->find($user_id);
 
         /* Prevent Other Students from viewing Profile of others*/
-        if (Auth::user()->id != $user_id && !Qs::userIsTeamSA() && !Qs::userIsMyChild(Auth::user()->id, $user_id) && !Qs::userIsItGuy())
+        if (auth()->id() != $user_id && !Qs::userIsTeamSA() && !Qs::userIsMyChild(auth()->id(), $user_id) && !Qs::userIsItGuy())
             return redirect(route('dashboard'))->with('pop_error', __('msg.denied'));
 
         if (Qs::userIsTeamSATCL())

@@ -1,5 +1,6 @@
-<html>
+<!DOCTYPE html>
 <head>
+    <meta charset="utf-8">
     <title>TimeTable - {{ $ttr->name.' - '.$ttr->year }}</title>
     <style>
         @media print {
@@ -47,11 +48,10 @@
                 <tr>
                     <td>
                         <strong><span style="color: #1b0c80; font-size: 25px;">{{ strtoupper(config('app.name')) }}</span></strong><br />
-                        {{-- <strong><span style="color: #1b0c80; font-size: 20px;">MINNA, NIGER STATE</span></strong><br/>--}}
                         <strong><span style="color: #000; font-size: 15px;"><i>{{ ucwords($settings->where('type', 'address')->value('description')) }}</i></span></strong><br />
                         <strong><span style="color: #000; text-decoration: underline; font-size: 15px;"><i>{{ config('app.url') }}</i></span></strong>
                         <br /> <br />
-                        <strong><span style="color: #000; font-size: 15px;"> TIMETABLE FOR {{ strtoupper($my_class->name. ' ('.$ttr->year.')' ) }}</span></strong>
+                        <strong><span style="color: #000; font-size: 15px;"> TIMETABLE FOR {{ strtoupper($my_class->name . ' ' . $ttr->section?->name . ' ') . ' ('.$ttr->year.')'  }}</span></strong>
                     </td>
                 </tr>
             </table>
@@ -65,7 +65,7 @@
             <table cellpadding="20" style="width:100%; border-collapse:collapse; border: 1px solid #000; margin: 10px auto;" border="1">
                 <thead>
                     <tr>
-                        <th rowspan="2">Time <i class="material-symbols-rounded ml-2">line_end_arrow</i> <br> Date<i class="icon-arrow-down7 ml-2"></i></th>
+                        <th rowspan="2">Time <br> Date<i class="icon-arrow-down7 ml-2"></i></th>
                         @foreach($time_slots as $tms)
                         <th rowspan="2">{{ $tms->time_from }} <br>
                             {{ $tms->time_to }}

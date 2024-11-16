@@ -7,7 +7,9 @@
     </div>
 
     <div class="d-flex d-md-none">
-        <a class="m-auto pr-3" data-toggle="tooltip" title="Notifications" href="javascript:;">@include('pages.notifications.status')</a>
+        <div class="m-auto pr-3">
+            @include('pages.notifications.badge')
+        </div>
 
         @if(Usr::tenancyInitilized())
         <a class="m-auto pr-3" data-toggle="tooltip" title="Messages" href="/messages">@include('messenger.unread-count')</a>
@@ -31,14 +33,14 @@
         {{-- If side bar is not minimzed by the user, show this element --}}
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a href="#" class="{{ (auth()->user()->sidebar_minimized) ? 'navbar-nav-link sidebar-control sidebar-main-toggle d-none d-md-block disabled pointer-events-none' : 'navbar-nav-link sidebar-control sidebar-main-toggle d-none d-md-block' }}">
+                <a href="javascript:;" class="{{ (auth()->user()->sidebar_minimized) ? 'navbar-nav-link sidebar-control sidebar-main-toggle d-none d-md-block disabled pointer-events-none' : 'navbar-nav-link sidebar-control sidebar-main-toggle d-none d-md-block' }}">
                     <i class="material-symbols-rounded align-middle">menu</i>
                 </a>
             </li>
         </ul>
 
         <li class="d-none d-md-block full-screen-handle">
-            <a href="#" title="Request Full Screen" class="material-symbols-rounded d-flex navbar-nav-link">fullscreen</a>
+            <a href="javascript:;" title="Request Full Screen" class="material-symbols-rounded d-flex navbar-nav-link">fullscreen</a>
         </li>
 
         <span class="navbar-text ml-md-3 mr-md-auto"></span>
@@ -50,7 +52,7 @@
 
         <ul class="navbar-nav">
             <li class="nav-item dropdown dropdown-user">
-                <a href="#" class="navbar-nav-link" data-toggle="dropdown">
+                <a href="javascript:;" class="navbar-nav-link" data-toggle="dropdown">
                     <img style="width: 38px; height: 38px;" src="{{ Usr::getTenantAwarePhoto(auth()->user()->photo) }}" class="rounded-circle" alt="photo">
                     <span>{{ auth()->user()->name }}</span><i class="material-symbols-rounded ml-1">keyboard_arrow_down</i>
                 </a>

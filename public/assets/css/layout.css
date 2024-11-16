@@ -1056,8 +1056,8 @@ div.cards-row .card {
     }
 
     [data-theme=dark] .sidebar-xs .sidebar-main .nav-sidebar>.nav-item-submenu>.nav-group-sub {
-        background-color: #304047;
-        border-left: 1px solid rgba(255, 255, 255, 0.1);
+        background-color: #171717;
+        border: 1px solid rgba(255,255,255,0.1);
     }
 
     [data-theme=light] .sidebar-xs .sidebar-main .nav-sidebar>.nav-item:not(.nav-item-open):hover>.nav-link:not(.active):not(.disabled) {

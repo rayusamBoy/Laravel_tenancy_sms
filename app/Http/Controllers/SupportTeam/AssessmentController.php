@@ -3,18 +3,17 @@
 namespace App\Http\Controllers\SupportTeam;
 
 use App\Helpers\Mk;
-use App\Repositories\ExamRepo;
-use App\Repositories\AssessmentRepo;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Assessment\AssessmentSelector;
+use App\Repositories\AssessmentRepo;
+use App\Repositories\ExamRepo;
+use App\Repositories\MarkRepo;
 use App\Repositories\MyClassRepo;
 use App\Repositories\StudentRepo;
-use App\Repositories\MarkRepo;
-use App\Http\Requests\Assessment\AssessmentSelector;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Session;
 
 class AssessmentController extends Controller implements HasMiddleware
 {
@@ -59,10 +58,8 @@ class AssessmentController extends Controller implements HasMiddleware
 
     public function selector(AssessmentSelector $req)
     {
-        $data = $req->only(['exam_id', 'my_class_id', 'section_id', 'subject_id']);
-        $d2 = $req->only(['exam_id', 'my_class_id', 'section_id']);
         $d = $req->only(['my_class_id', 'section_id']);
-        $d['session'] = $data['year'] = $d2['year'] = $this->year;
+        $d['session'] = $this->year;
 
         $sub_recs = $this->my_class->getSubjectRecord(['subject_id' => $req->subject_id])->where('subject.my_class_id', $req->my_class_id)->first();
 
@@ -81,10 +78,9 @@ class AssessmentController extends Controller implements HasMiddleware
 
     public function manage($exam_id, $class_id, $subject_id, $section_id = NULL)
     {
-        if ($section_id == NULL)
-            $d = ['exam_id' => $exam_id, 'my_class_id' => $class_id, 'subject_id' => $subject_id, 'year' => $this->year];
-        else
-            $d = ['exam_id' => $exam_id, 'my_class_id' => $class_id, 'section_id' => $section_id, 'subject_id' => $subject_id, 'year' => $this->year];
+        $d = $section_id == null
+            ? ['exam_id' => $exam_id, 'my_class_id' => $class_id, 'subject_id' => $subject_id, 'year' => $this->year]
+            : $d = ['exam_id' => $exam_id, 'my_class_id' => $class_id, 'section_id' => $section_id, 'subject_id' => $subject_id, 'year' => $this->year];
 
         $asmnts_created_at = $this->assessment->getRecordValue($d, 'created_at');
         $asmnts_updated_at = $this->assessment->getRecordValue($d, 'updated_at');
@@ -100,7 +96,7 @@ class AssessmentController extends Controller implements HasMiddleware
         $d['my_classes'] = $this->my_class->all();
         $d['sections'] = $this->my_class->getAllSections();
 
-        (Mk::userIsTeacher()) ? $d['subjects'] = $this->my_class->findSubjectByRecord(Auth::id(), $class_id) : $d['subjects'] = $this->my_class->getSubject(['my_class_id' => $class_id])->get();
+        (Mk::userIsTeacher()) ? $d['subjects'] = $this->my_class->findSubjectByRecord(auth()->id(), $class_id) : $d['subjects'] = $this->my_class->getSubject(['my_class_id' => $class_id])->get();
 
         $d['selected'] = true;
         $d['class_type'] = $this->my_class->findTypeByClass($class_id);
@@ -141,7 +137,7 @@ class AssessmentController extends Controller implements HasMiddleware
     {
         set_time_limit(300); // Extend excecution time from normal 1 minute to 3 minutes
 
-        $d['my_classes'] = (Mk::userIsClassSectionTeacher()) ? $this->my_class->getMCByIds($this->my_class->getSections(["teacher_id" => Auth::id()])->pluck("my_class_id")) : $this->my_class->all();
+        $d['my_classes'] = (Mk::userIsClassSectionTeacher()) ? $this->my_class->getMCByIds($this->my_class->getSections(["teacher_id" => auth()->id()])->pluck("my_class_id")) : $this->my_class->all();
         $d['assessments'] = $assessments = $this->assessment->get();
         $d['selected'] = FALSE;
 
@@ -158,7 +154,7 @@ class AssessmentController extends Controller implements HasMiddleware
 
             $d['subjects'] = $this->my_class->getSubjectsByIDs($sub_ids);
             $d['students'] = $this->student->getRecordByUserIDs2($st_ids)->get()->whereNotNull('user')->sortBy('user.name')->sortBy('user.gender');
-            $d['sections'] = (Mk::userIsClassSectionTeacher()) ? $this->my_class->getTeacherClassSections($class_id, Auth::id()) : $this->my_class->getAllSections();
+            $d['sections'] = Mk::userIsClassSectionTeacher() ? $this->my_class->getTeacherClassSections($class_id, auth()->id()) : $this->my_class->getAllSections();
             $d['selected'] = TRUE;
             $d['my_class_id'] = $class_id;
             $d['section_id'] = $section_id;
@@ -172,7 +168,7 @@ class AssessmentController extends Controller implements HasMiddleware
             $d['my_class'] = $this->my_class->find($class_id);
             $d['section'] = $this->my_class->findSection($section_id);
             $d['ex'] = $exam = $this->exam->find($exam_id);
-            $d['tex'] = 'tex' . $exam->term;
+            $d['tex'] = "tex{$exam->term}";
             $d['grades'] = $this->exam->getGrades()->pluck("name");
         }
 
@@ -186,7 +182,7 @@ class AssessmentController extends Controller implements HasMiddleware
     {
         set_time_limit(300); // Extend excecution time from normal 1 minute to 3 minutes
 
-        $d['my_classes'] = (Mk::userIsClassSectionTeacher()) ? $this->my_class->getMCByIds($this->my_class->getSections(["teacher_id" => Auth::id()])->pluck("my_class_id")) : $this->my_class->all();
+        $d['my_classes'] = Mk::userIsClassSectionTeacher() ? $this->my_class->getMCByIds($this->my_class->getSections(["teacher_id" => auth()->id()])->pluck("my_class_id")) : $this->my_class->all();
         $d['assessments'] = $this->assessment->get();
         $d['selected'] = FALSE;
 
@@ -208,11 +204,11 @@ class AssessmentController extends Controller implements HasMiddleware
             $d['section_id'] = $section_id;
             $d['exam_id'] = $exam_id;
             $d['year'] = $this->year;
-            $d['asr'] = $asr = $this->assessment->getRecords($wh);
-            $d['my_class'] = $mc = $this->my_class->find($class_id);
+            $d['asr'] = $this->assessment->getRecords($wh);
+            $d['my_class'] = $this->my_class->find($class_id);
             $d['section'] = $this->my_class->findSection($section_id);
             $d['ex'] = $exam = $this->exam->find($exam_id);
-            $d['tex'] = 'tex' . $exam->term;
+            $d['tex'] = "tex{$exam->term}";
             $d['grades'] = $this->exam->getGrades()->pluck("name");
         }
 
@@ -259,7 +255,7 @@ class AssessmentController extends Controller implements HasMiddleware
         $student_id = Mk::hash($student_id);
 
         if ($this->assessment->getAssessments([])->where(['exam.year' => $year])->count() <= 0)
-            return redirect()->route('assessments.year_selector', $student_id)->with("flash_info", "Oops! There are no published exams assessment(s) for the selected year " . $year);
+            return redirect()->route('assessments.year_selector', $student_id)->with("flash_info", "Oops! There are no published exams assessment(s) for the selected year $year");
 
         return redirect()->route('assessments.show', [$student_id, $req->year]);
     }
@@ -267,7 +263,7 @@ class AssessmentController extends Controller implements HasMiddleware
     public function show($student_id, $year)
     {
         /* Prevent Other Students/Parents from viewing Result of others */
-        if (Auth::user()->id != $student_id && !Mk::userIsTeamSATCL() && !Mk::userIsMyChild($student_id, Auth::user()->id))
+        if (auth()->id() != $student_id && !Mk::userIsTeamSATCL() && !Mk::userIsMyChild($student_id, auth()->id()))
             return redirect(route('dashboard'))->with('pop_error', __('msg.denied'));
 
         if (Mk::examIsLocked() && !Mk::userIsTeamSA()) {
@@ -307,14 +303,12 @@ class AssessmentController extends Controller implements HasMiddleware
         $exam = $this->exam->find($exam_id);
 
         /** Deny Updating Records, if Exam Edit is Disabled, and user is not team super adnim */
-        if (Mk::isDisabled($exam->editable) && !Mk::userIsTeamSA()) {
+        if (Mk::isDisabled($exam->editable) && !Mk::userIsTeamSA())
             return Mk::jsonUpdateDenied();
-        }
 
-        if ($section_id == NULL)
-            $p = ['exam_id' => $exam_id, 'my_class_id' => $class_id, 'subject_id' => $subject_id, 'year' => $this->year];
-        else
-            $p = ['exam_id' => $exam_id, 'my_class_id' => $class_id, 'section_id' => $section_id, 'subject_id' => $subject_id, 'year' => $this->year];
+        $p = $section_id == NULL
+            ? ['exam_id' => $exam_id, 'my_class_id' => $class_id, 'subject_id' => $subject_id, 'year' => $this->year]
+            : $p = ['exam_id' => $exam_id, 'my_class_id' => $class_id, 'section_id' => $section_id, 'subject_id' => $subject_id, 'year' => $this->year];
 
         $d = $all_st_ids = [];
 
@@ -336,6 +330,7 @@ class AssessmentController extends Controller implements HasMiddleware
             $all_st_ids[] = $as->student_id;
 
             $d['id'] = $as->id;
+            $d['assessment_id'] = $assessment_id;
 
             $d['cw1'] = $cw1 = $mks['cw_'][$as->id + 1] ?? NULL;
             $d['cw2'] = $cw2 = $mks['cw_'][$as->id + 2] ?? NULL;
@@ -347,34 +342,38 @@ class AssessmentController extends Controller implements HasMiddleware
             $d['cw8'] = $cw8 = $mks['cw_'][$as->id + 8] ?? NULL;
             $d['cw9'] = $cw9 = $mks['cw_'][$as->id + 9] ?? NULL;
             $d['cw10'] = $cw10 = $mks['cw_'][$as->id + 10] ?? NULL;
-            $cw_avg = ($cw1 + $cw2 + $cw3 + $cw4 + $cw5 + $cw6 + $cw7 + $cw8 + $cw9 + $cw10) / $number_of_cw;
+            $cw_avg = $cw1 === null && $cw2 === null && $cw3 === null && $cw4 === null && $cw5 === null && $cw6 === null && $cw7 === null && $cw8 === null && $cw9 === null && $cw10 === null
+                ? NULL
+                : ($cw1 + $cw2 + $cw3 + $cw4 + $cw5 + $cw6 + $cw7 + $cw8 + $cw9 + $cw10) / $number_of_cw;
 
             $d['hw1'] = $hw1 = $mks['hw_'][$as->id + 1] ?? NULL;
             $d['hw2'] = $hw2 = $mks['hw_'][$as->id + 2] ?? NULL;
             $d['hw3'] = $hw3 = $mks['hw_'][$as->id + 3] ?? NULL;
             $d['hw4'] = $hw4 = $mks['hw_'][$as->id + 4] ?? NULL;
             $d['hw5'] = $hw5 = $mks['hw_'][$as->id + 5] ?? NULL;
-            $hw_avg = ($hw1 + $hw2 + $hw3 + $hw4 + $hw5) / $number_of_hw;
+            $hw_avg = $hw1 === null && $hw2 === null && $hw3 === null && $hw4 === null && $hw5 === null
+                ? NULL
+                : ($hw1 + $hw2 + $hw3 + $hw4 + $hw5) / $number_of_hw;
 
             $d['tt1'] = $tt1 = $mks['tt_'][$as->id + 1] ?? NULL;
-            $d['tt2'] = $tt2 = $mks['tt_'][$as->id + 1] ?? NULL;
-            $d['tt3'] = $tt3 = $mks['tt_'][$as->id + 1] ?? NULL;
-            $tt_avg = ($tt1 + $tt2 + $tt3) / $number_of_tt;
+            $d['tt2'] = $tt2 = $mks['tt_'][$as->id + 2] ?? NULL;
+            $d['tt3'] = $tt3 = $mks['tt_'][$as->id + 3] ?? NULL;
+            $tt_avg = $tt1 === null && $tt2 === null && $tt3 === null
+                ? NULL
+                : ($tt1 + $tt2 + $tt3) / $number_of_tt;
 
-            $temp_tca = round(($cw_avg + $hw_avg + $tt_avg), 1);
+            $temp_tca = $cw_avg === null && $hw_avg === null && $tt_avg === null
+                ? NULL
+                : round($cw_avg + $hw_avg + $tt_avg, 1);
 
-            if ($temp_tca != 0)
-                $d['tca'] = $tca = $temp_tca;
-            else
-                $d['tca'] = $tca = NULL;
-
-            $d['exm'] = $exm = $mks['exm_' . $as->id] ?? NULL;
-            $d['assessment_id'] = $assessment_id;
-
+            $d['tca'] = $tca = $temp_tca != 0 ? $temp_tca : NULL;
+            $d['exm'] = $exm = $mks["exm_{$as->id}"] ?? NULL;
+            
             // Total
-            $d['tex' . $exam->term] = $total = $tca + $exm;
-            if ($total > 100)
-                $d['tex' . $exam->term] = $d['t1'] = $d['t2'] = $d['t3'] = $d['t4'] = $d['tca'] = $exm = NULL;
+            $total = $tca === null && $exm === null ? NULL : $tca + $exm;
+            $d["tex{$exam->term}"] = $total > 100
+                ? $d['t1'] = $d['t2'] = $d['t3'] = $d['t4'] = $d['tca'] = $exm = NULL
+                : $total;
             // Grade
             $grade = $this->assessment->getGrade($total, $class_type->id);
             $d['grade_id'] = $grade->id ?? NULL;
@@ -391,7 +390,7 @@ class AssessmentController extends Controller implements HasMiddleware
 
         foreach (array_unique($all_st_ids) as $st_id) {
             $d2['student_id'] = $st_id;
-            $d2['ave'] = $ave = $this->assessment->getAssessmentAvgTerm($exam, $st_id, $class_id, $section_id, $this->year);
+            $d2['ave'] = $this->assessment->getAssessmentAvgTerm($exam, $st_id, $class_id, $section_id, $this->year);
             $d2['class_ave'] = $this->assessment->getClassAvg($exam, $class_id, $this->year);
             $d2['total'] = $this->assessment->getAssessmentTotalTerm($exam, $st_id, $class_id, $this->year);
             $d2['pos'] = $this->assessment->getStudentPos($st_id, $exam_id, $class_id, $this->year, $exam->ca_student_position_by_value, $section_id);
@@ -407,12 +406,15 @@ class AssessmentController extends Controller implements HasMiddleware
 
     public function print_assessments($exam_id, $class_id, $subject_id, $year, $section_id = NULL)
     {
-        if ($section_id == NULL) {
-            $d = ['exam_id' => $exam_id, 'my_class_id' => $class_id, 'subject_id' => $subject_id, 'year' => $year];
-            $wh = ['my_class_id' => $class_id, 'exam_id' => $exam_id, 'year' => $this->year];
-        } else {
-            $d = ['exam_id' => $exam_id, 'my_class_id' => $class_id, 'section_id' => $section_id, 'subject_id' => $subject_id, 'year' => $this->year];
-            $wh = ['my_class_id' => $class_id, 'section_id' => $section_id, 'exam_id' => $exam_id, 'year' => $year];
+        switch ($section_id) {
+            case NULL:
+                $d = ['exam_id' => $exam_id, 'my_class_id' => $class_id, 'subject_id' => $subject_id, 'year' => $year];
+                $wh = ['my_class_id' => $class_id, 'exam_id' => $exam_id, 'year' => $this->year];
+                break;
+            default:
+                $d = ['exam_id' => $exam_id, 'my_class_id' => $class_id, 'section_id' => $section_id, 'subject_id' => $subject_id, 'year' => $this->year];
+                $wh = ['my_class_id' => $class_id, 'section_id' => $section_id, 'exam_id' => $exam_id, 'year' => $year];
+                break;
         }
 
         $marks_updated_at = $this->mark->getRecordValue($d, 'updated_at');
@@ -437,7 +439,7 @@ class AssessmentController extends Controller implements HasMiddleware
         $d2['my_class'] = $this->my_class->find($class_id);
         $d2['selected'] = true;
         $d2['asr'] = $this->assessment->getRecords($wh);
-        $d2['tex'] = $tex = 'tex' . $exam->term;
+        $d2['tex'] = $tex = "tex{$exam->term}";
         $d2['ex'] = $this->exam->find($exam_id);
         $d2['stds_texs'] = $this->assessment->getStudentsTotals($d, $tex);
 
@@ -455,7 +457,7 @@ class AssessmentController extends Controller implements HasMiddleware
             return redirect()->back()->with('pop_error', __('msg.denied'));
 
         /* Prevent Other Students/Parents from viewing Result of others */
-        if (Auth::user()->id != $student_id && !Mk::userIsTeamSAT() && !Mk::userIsMyChild($student_id, Auth::user()->id))
+        if (auth()->id() != $student_id && !Mk::userIsTeamSAT() && !Mk::userIsMyChild($student_id, auth()->id()))
             return redirect(route('dashboard'))->with('pop_error', __('msg.denied'));
 
         if (Mk::examIsLocked() && !Mk::userIsTeamSA()) {
@@ -478,8 +480,8 @@ class AssessmentController extends Controller implements HasMiddleware
         $d['my_class'] = $mc = $this->my_class->find($asr->my_class_id);
         $d['section'] = $this->my_class->findSection($asr->section_id);
         $d['ex'] = $exam = $this->exam->find($exam_id);
-        $d['tex'] = 'tex' . $exam->term;
-        $d['sr'] = $sr = $this->student->getRecord(['user_id' => $student_id])->first();
+        $d['tex'] = "tex{$exam->term}";
+        $d['sr'] = $this->student->getRecord(['user_id' => $student_id])->first();
         $d['class_type'] = $this->my_class->findTypeByClass($mc->id);
         $d['subjects'] = $this->my_class->findSubjectByClass($mc->id);
         $d['ct'] = $d['class_type']->code;
@@ -494,7 +496,7 @@ class AssessmentController extends Controller implements HasMiddleware
     public function print_minimal($student_id, $exam_id, $year)
     {
         /* Prevent Other Students/Parents from viewing Result of others */
-        if (Auth::user()->id != $student_id && !Mk::userIsTeamSAT() && !Mk::userIsMyChild($student_id, Auth::user()->id))
+        if (auth()->id() != $student_id && !Mk::userIsTeamSAT() && !Mk::userIsMyChild($student_id, auth()->id()))
             return redirect(route('dashboard'))->with('pop_error', __('msg.denied'));
 
         if (Mk::examIsLocked() && !Mk::userIsTeamSA()) {
@@ -517,7 +519,7 @@ class AssessmentController extends Controller implements HasMiddleware
         $d['my_class'] = $mc = $this->my_class->find($asr->my_class_id);
         $d['section'] = $this->my_class->findSection($asr->section_id);
         $d['ex'] = $exam = $this->exam->find($exam_id);
-        $d['tex'] = 'tex' . $exam->term;
+        $d['tex'] = "tex{$exam->term}";
         $d['sr'] = $this->student->getRecord(['user_id' => $student_id])->first();
         $d['subjects'] = $this->my_class->findSubjectByClass($mc->id);
         $d['year'] = $year;

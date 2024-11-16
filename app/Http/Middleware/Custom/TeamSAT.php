@@ -2,8 +2,8 @@
 
 namespace App\Http\Middleware\Custom;
 
-use Closure;
 use App\Helpers\Qs;
+use Closure;
 use Illuminate\Support\Facades\Auth;
 
 class TeamSAT

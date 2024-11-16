@@ -25,7 +25,7 @@
     </script>
     @endif
 
-    <title>{{ config('app.name') }} &#183; @yield('page_title')</title>
+    <title>{{ Qs::getStringAbbreviation(config('app.name')) }} &#183; @yield('page_title')</title>
 
     @laravelPWA
 
@@ -75,8 +75,6 @@
     <span class="d-none" id="notification-sounds" data-allow_system_sounds="{{ auth()->user()->allow_system_sounds }}" data-base_url="{{ asset('global_assets/sounds') }}"></span>
     {{-- Color Modes Modal --}}
     @include('pages.modals.color_modes')
-    {{-- Notifications modal --}}
-    @include('pages.modals.notifications')
 
     @include('partials.inc_bottom')
 

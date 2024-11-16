@@ -4,12 +4,12 @@ namespace App\Http\Controllers\SuperAdmin;
 
 use App\Helpers\Qs;
 use App\Http\Controllers\Controller;
-use App\Repositories\PaymentRepo;
-use App\Repositories\MyClassRepo;
-use App\Repositories\UserRepo;
-use App\Repositories\ExamRepo;
-use App\Repositories\StudentRepo;
 use App\Models\Thread;
+use App\Repositories\ExamRepo;
+use App\Repositories\MyClassRepo;
+use App\Repositories\PaymentRepo;
+use App\Repositories\StudentRepo;
+use App\Repositories\UserRepo;
 use Illuminate\Support\Facades\Storage;
 
 class SoftDeleteController extends Controller

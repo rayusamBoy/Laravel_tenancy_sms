@@ -36,7 +36,7 @@
                         </div>
 
                         <div class="text-center mb-3">
-                            <span class="d-block text-muted">No email? <a href="#" id="contact-link" data-toggle="modal" data-target="#admin-contact-modal"> {{ ("Contact Admin") }}</a></span>
+                            <span class="d-block text-muted">No email? <a href="javascript:;" id="contact-link" data-toggle="modal" data-target="#admin-contact-modal"> {{ ("Contact Admin") }}</a></span>
                         </div>
 
                         <button type="submit" class="btn bg-blue w-100 d-flex"><i class="material-symbols-rounded ml-auto mr-1">lock_reset</i> <span class="mr-auto">Reset password</span></button>

@@ -404,13 +404,11 @@
                         text: data.name
                     }));
                 });
-                // if destination not set, such as defined as default (look above in this method), append option.
-                // This option will be appended on 'marks' view section: 'marks' and 'tabulation'
-                if(typeof(destination) == 'undefined'){
-                    section.append('<option value="all" title="All Sections">All</option>')
-                }
-                if(destination == "#sec_id_add_not_applicable"){
-                    section.prepend('<option selected value="">Not Applicable</option>');
+                if(destination){
+                    if(destination.includes('add_all'))
+                        section.append('<option value="all" title="All Sections">All</option>');
+                    if(destination.includes('add_not_applicable'))
+                        section.prepend('<option selected value=" ">Not Applicable</option>');
                 }
             }
         });
@@ -501,34 +499,27 @@
      * Get class subjects
      *-------------------------------------------------------------
      */
-    function getClassSubjects(class_id){
+    function getClassSubjects(class_id, destination){
         var url = "{{ route('get_class_subjects', [':id']) }}";
         url = url.replace(':id', class_id);
-        var section = $('#section_id');
-        var subject = $('#subject_id');
+        var subject = destination ? $(destination) : $('#subject_id');
 
         $.ajax({
             dataType: 'json',
             url: url,
             success: function (resp) {
-                section.empty();
                 subject.empty();
-                $.each(resp.sections, function (i, data) {
-                    section.append($('<option>', {
-                        value: data.id,
-                        text: data.name
-                    }));
-                });
-                $.each(resp.subjects, function (i, data) {
+                $.each(resp, function (i, data) {
                     subject.append($('<option>', {
                         value: data.id,
                         text: data.name
                     }));
                 });
-                section.append('<option value=" ">Not Applicable</option>');
+                if(destination && destination.includes('add_not_applicable')){
+                    subject.prepend('<option selected value=" ">Not Applicable</option>');
+                }
             },
             error: function(errorThrown){
-                section.empty();
                 subject.empty();
             }
         })
@@ -540,7 +531,7 @@
      *-------------------------------------------------------------
      */
     function hideShowSection(value, section_id){
-        if(value == 'default')
+        if(value == 'class')
             return unhideSection(section_id);
         return hideSection(section_id);
     }
@@ -1329,10 +1320,9 @@
      */
     $('.print-this').addClass('position-relative').append('<button class="position-absolute btn btn-sm pb-1 pt-1 right-0 bottom-0 print-none this" type="button">Print</button>');
     $('.print-this button.this').on("click", function () {
-        //resizeChartInstances();
         var parent = $(this).parents('.print-this');
 
-        if (getPreferredTheme() === "dark" || window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        if (getPreferredTheme() === "dark" || (getPreferredTheme() === "auto" && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             Modal.fire({
                 text: "Please, print while in light color mode for best visual and print quality.",
                 icon: "warning",
@@ -1364,7 +1354,7 @@
         });
     }
 
-    // Resize chart to available page area before print
+    // Resize chart to available page area
     function resizeChartInstances () {
         for (let id in Chart.instances) {
             Chart.instances[id].resize();
@@ -1376,6 +1366,12 @@
      * Firebase route url
      *-------------------------------------------------------------
      */
-  
     const firebase_url = "{{ route('notifications.firebase.update_device_token') }}";
+
+    /**
+     *-------------------------------------------------------------
+     * Url for adding event to the DB
+     *-------------------------------------------------------------
+     */
+    const event_create_url = "{{ route('events.create') }}";
 </script>

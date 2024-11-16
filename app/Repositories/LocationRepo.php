@@ -2,9 +2,9 @@
 
 namespace App\Repositories;
 
+use App\Models\Lga;
 use App\Models\Nationality;
 use App\Models\State;
-use App\Models\Lga;
 
 class LocationRepo
 {

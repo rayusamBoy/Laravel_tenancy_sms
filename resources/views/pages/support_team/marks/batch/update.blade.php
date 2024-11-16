@@ -8,9 +8,9 @@
         <div class="col-md-12">
             <div class="alert alert-info border-0 alert-dismissible has-do-not-show-again-button" id="attention-info">
                 <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
-                <span><strong class="text-danger">Attention:</strong> This automatic batch marks update (recommended) may take little long (approximate 2 to 15 minutes). Make sure you have enough wait time and strong
-                    internet connection before taking this step. Or, you may update class sections manually in the <a href="{{ route('marks.index') }}"><strong>Manage Exam Marks</strong></a> section,
-                    where you need to update per each subject of the particular class or section. The manual update may take a while, and may be tedious. It is up to you, to decide.
+                <span><strong class="text-danger">Attention:</strong> This automatic batch marks update (recommended) may take a little longer (approximately 2 to 15 minutes). 
+                    Alternatively, you can update class sections manually in the <a href="{{ route('marks.index') }}"><strong>Manage Exam Marks</strong></a> section,
+                    where you will need to update each subject for the particular class or section. The manual update may take some time and could be tedious. In the end, the choice is yours.
                 </span>
             </div>
         </div>

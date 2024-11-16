@@ -8,7 +8,7 @@
                     <span aria-hidden="true">Close</span>
                 </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body p-0">
                 <div class="card-body">
                     <ul class="nav nav-tabs-highlight">
                         @if(count($thread->participantsArray(auth()->id())) <= 0) <i>The message thread has no partitipants</i>

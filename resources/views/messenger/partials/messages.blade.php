@@ -48,7 +48,7 @@
         @if ($message->user->id == Auth::id())
         @if ($message->deleted_at == null)
         <!-- Allow user to delete own message -->
-        <button data-toggle="popover" data-placement="left" data-html="true" class="material-symbols-rounded position-absolute left-neg-25 text-info-400 opacity-75 opacity-100-on-hover bg-transparent border-0 outline-0" data-content='
+        <button data-toggle="popover" data-placement="left" data-html="true" class="material-symbols-rounded position-absolute left-neg-25 text-info-400 opacity-75 opacity-100-on-hover border-0 outline-0 action-btn" data-content='
             <div class="d-flex justify-center">
                 <button type="button" data-text="Deleting..." id="{{ $message->id }}" onclick="prepareDeleteUserMessageForm(this.id)" data-toggle="modal" data-target="#confirm-message-delete" class="btn btn-sm p-0 pr-1 pl-1 m-auto text-danger w-100 text-left bg-transparent"><span class="text-danger">Delete</span></button>
             </div>

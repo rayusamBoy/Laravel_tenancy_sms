@@ -272,8 +272,8 @@
                     <div class="col-md-12">
                         <div class="alert alert-info border-0 alert-dismissible">
                             <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
-                            <span><strong>Note:</strong> You have just Published the exam named "{{ session('exam_name') }}" a while ago, would you like to announce it to the public (ie., being seen on login page)?</span><br />
-                            <span>If <strong>Yes</strong> fill in the form below to proceed, otherwise you can leave it, it's just optional.</span>
+                            You have just published the exam titled "{{ session('exam_name') }}". Would you like to announce it to the public (i.e., have it appear on the login page)?
+                            If <strong>yes</strong>, please fill in the form below to proceed. Otherwise, you can leave it; this step is optional.
                         </div>
                     </div>
                 </div>

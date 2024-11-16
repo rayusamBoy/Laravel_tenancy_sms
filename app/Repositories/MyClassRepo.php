@@ -5,8 +5,8 @@ namespace App\Repositories;
 use App\Models\ClassType;
 use App\Models\MyClass;
 use App\Models\Section;
-use App\Models\Subject;
 use App\Models\StudentRecord;
+use App\Models\Subject;
 use App\Models\SubjectRecord;
 
 class MyClassRepo

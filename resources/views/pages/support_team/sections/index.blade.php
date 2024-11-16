@@ -12,7 +12,7 @@
         <ul class="nav nav-tabs nav-tabs-highlight">
             <li class="nav-item"><a href="#new-section" class="nav-link active" data-toggle="tab">Create New Section</a></li>
             <li class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Manage Sections</a>
+                <a href="javascript:;" class="nav-link dropdown-toggle" data-toggle="dropdown">Manage Sections</a>
                 <div class="dropdown-menu dropdown-menu-right">
                     @foreach($my_classes as $c)
                     <a href="#c{{ $c->id }}" class="dropdown-item" data-toggle="tab">{{ $c->name }}</a>
@@ -93,9 +93,7 @@
                             <td class="text-center">
                                 <div class="list-icons">
                                     <div class="dropdown">
-                                        <a href="#" data-toggle="dropdown">
-                                            <i class="material-symbols-rounded">lists</i>
-                                        </a>
+                                        <a class="material-symbols-rounded" href="javascript:;" data-toggle="dropdown">lists</a>
                                         <div class="dropdown-menu dropdown-menu-left">
                                             {{--edit--}}
                                             @if(Qs::userIsTeamSA())

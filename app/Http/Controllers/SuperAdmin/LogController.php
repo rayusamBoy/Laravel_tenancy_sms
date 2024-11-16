@@ -4,9 +4,9 @@ namespace App\Http\Controllers\SuperAdmin;
 
 use App\Helpers\Qs;
 use App\Http\Controllers\Controller;
+use App\Repositories\LogRepo;
 use App\Repositories\MyClassRepo;
 use App\Repositories\UserRepo;
-use App\Repositories\LogRepo;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Artisan;
 
@@ -52,12 +52,16 @@ class LogController extends Controller
     public function activity_log_clean()
     {
         $status = Artisan::call('activitylog:clean --force');
-        if ($status === 0) {
-            $ok = true;
-            $message = 'All recorded activity older than ' . config('activitylog.delete_records_older_than_days') . ' deleted successfully.';
-        } else {
-            $ok = false;
-            $message = 'Activity log cleaning failed.';
+
+        switch ($status) {
+            case 0:
+                $ok = true;
+                $message = 'All recorded activity older than ' . config('activitylog.delete_records_older_than_days') . ' deleted successfully.';
+                break;
+            default;
+                $ok = false;
+                $message = 'Activity log cleaning failed.';
+                break;
         }
 
         return Qs::json($message, $ok);

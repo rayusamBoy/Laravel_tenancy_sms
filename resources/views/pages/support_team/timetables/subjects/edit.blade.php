@@ -10,7 +10,7 @@
                     <h6 class="card-title font-weight-bold">{{ ($tt->exam_date ? 'Exam ('.date('D\, d/m/Y', strtotime($tt->exam_date)).')' : $tt->day) }} {{ '('.$tt->time_slot->full.')' .' - '.$tt->subject->name }}</h6>
                     <div class="header-elements">
                         <div class="list-icons">
-                            <a onclick="confirmPermanentDelete(this.id)" href="#" id="{{ $tt->id }}" title="DELETE" class="text-danger"><i class="material-symbols-rounded">delete</i></a>
+                            <a onclick="confirmPermanentDelete(this.id)" href="javascript:;" id="{{ $tt->id }}" title="DELETE" class="text-danger"><i class="material-symbols-rounded">delete</i></a>
                             <form method="post" id="item-delete-{{ $tt->id }}" action="{{ route('tt.delete', $tt->id) }}" class="hidden">@csrf @method('delete')</form>
                             <a data-action="collapse"></a>
                             <a data-action="remove"></a>

@@ -1,7 +1,7 @@
 <!-- Admin Modal -->
 <div class="modal fade" id="admin-contact-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog admin modal-dialog-centered">
-        <div class="modal-content">
+        <div class="modal-content border-1">
             <div class="modal-header d-block text-center">
                 <h3 class="modal-title" id="exampleModalLabel"><strong class="text-green">{{ ("Admin Contacts") }}</strong></h3>
             </div>

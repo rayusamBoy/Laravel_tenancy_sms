@@ -3,16 +3,16 @@
 namespace App\Repositories;
 
 use App\Models\ClassType;
+use App\Models\Division;
 use App\Models\Exam;
+use App\Models\ExamAnnounce;
+use App\Models\ExamCategory;
+use App\Models\ExamNumberFormat;
 use App\Models\ExamRecord;
 use App\Models\Grade;
 use App\Models\Mark;
-use App\Models\Skill;
 use App\Models\Section;
-use App\Models\ExamCategory;
-use App\Models\Division;
-use App\Models\ExamAnnounce;
-use App\Models\ExamNumberFormat;
+use App\Models\Skill;
 use Illuminate\Support\Facades\DB;
 use Qs;
 
@@ -24,7 +24,6 @@ class ExamRepo
         $this->marks_table = 'marks';
         $this->exam_records_table = 'exam_records';
     }
-
 
     /*********** Exam category ***************/
 
@@ -66,7 +65,7 @@ class ExamRepo
 
     public function onlyPublished()
     {
-        return  Exam::where('published', true)->orderByDesc('created_at')->orderBy('year', 'desc')->with('category')->get();
+        return Exam::where('published', true)->orderByDesc('created_at')->orderBy('year', 'desc')->with('category')->get();
     }
 
     public function getPublished(mixed $where)
@@ -260,10 +259,9 @@ class ExamRepo
         $where = ['exam_id' => $exam_id, 'my_class_id' => $class_id, 'student_id' => $st_id, 'year' => $year];
         $std_value = $this->getStudentValue($where, $value);
 
-        if ($section_id != NULL)
-            $data = ['exam_id' => $exam_id, 'my_class_id' => $class_id, 'section_id' => $section_id, 'year' => $year];
-        else
-            $data = ['exam_id' => $exam_id, 'my_class_id' => $class_id, 'year' => $year];
+        $data = $section_id != NULL
+            ? ['exam_id' => $exam_id, 'my_class_id' => $class_id, 'section_id' => $section_id, 'year' => $year]
+            : $data = ['exam_id' => $exam_id, 'my_class_id' => $class_id, 'year' => $year];
 
         $std_values = ExamRecord::where($data)->whereNotNull($value)->orderBy($value, 'DESC')->select($value)->get()->pluck($value);
         if ($std_values->count() <= 0)
@@ -271,7 +269,7 @@ class ExamRepo
 
         $Tkey = $std_values->search($std_value);
 
-        return  $Tkey === false ? NULL : $Tkey + 1;
+        return $Tkey === false ? NULL : $Tkey + 1;
     }
 
     /*********** Grades ***************/
@@ -380,7 +378,7 @@ class ExamRepo
 
     public function getSkillByClassType($class_type_id = NULL, $skill_type = NULL)
     {
-        return ($skill_type)
+        return $skill_type
             ? $this->getSkill(['class_type_id' => $class_type_id, 'skill_type' => $skill_type])
             : $this->getSkill(['class_type_id' => $class_type_id]);
     }

@@ -75,7 +75,7 @@ class PromotionController extends Controller implements HasMiddleware
             return redirect()->route('students.promotion')->with('flash_danger', __('msg.srnf'));
 
         foreach ($students as $st) {
-            $p = 'p-' . $st->id;
+            $p = "p-{$st->id}";
             $p = $req->$p;
 
             if ($p === 'P') { // Promote

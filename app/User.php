@@ -3,21 +3,21 @@
 namespace App;
 
 use App\Models\BloodGroup;
+use App\Models\Group;
 use App\Models\Lga;
 use App\Models\Nationality;
 use App\Models\StaffRecord;
 use App\Models\State;
 use App\Models\StudentRecord;
-use App\Models\Group;
 use Cmgmyr\Messenger\Traits\Messagable;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -118,7 +118,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getDeviceTokens()
     {
-        return is_null(auth()->user()->firebase_device_token) ? [] : unserialize(auth()->user()->firebase_device_token);
+        return auth()->user()->firebase_device_token === null ? [] : unserialize(auth()->user()->firebase_device_token);
     }
 
     /**

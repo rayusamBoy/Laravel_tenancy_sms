@@ -2,9 +2,9 @@
 
 namespace App\Rules;
 
+use App\Models\Nationality;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
-use App\Models\Nationality;
 
 class StartsWithProperPhoneCode implements ValidationRule
 {

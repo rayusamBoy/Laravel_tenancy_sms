@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use Cmgmyr\Messenger\Models\Models;
 use Cmgmyr\Messenger\Models\Message as OriginalMessage;
-use Spatie\Activitylog\Traits\LogsActivity;
-use Spatie\Activitylog\LogOptions;
+use Cmgmyr\Messenger\Models\Models;
 use Illuminate\Support\Facades\DB;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Message extends OriginalMessage
 {

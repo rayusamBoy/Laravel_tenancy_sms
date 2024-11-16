@@ -7,7 +7,7 @@
 
     @foreach($exam_announces as $exm_ann)
     <span class="p-1 badge badge-danger text-white">{{ $loop->iteration }}</span>
-    <span class="pr-2 text-lightgray">{{ ucwords(strtolower($exm_ann->message)) }} - <i class="text-info">{{ $exm_ann->created_at->diffForHumans() }}</i>.</span>
+    <span class="pr-2 text-lightgray">{{ ucwords(strtolower($exm_ann->message)) }} &#183; <span class="text-info">{{ $exm_ann->created_at->diffForHumans() }}</span>.</span>
     @endforeach
 
     &nbsp;

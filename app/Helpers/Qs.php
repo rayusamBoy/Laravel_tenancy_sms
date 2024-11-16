@@ -3,18 +3,17 @@
 namespace App\Helpers;
 
 use App\Models\ExamAnnounce;
-use App\Models\Setting;
-use App\Models\StudentRecord;
-use App\Models\UserType;
 use App\Models\ParentRelative;
 use App\Models\Section;
+use App\Models\Setting;
+use App\Models\StudentRecord;
 use App\Models\SubjectRecord;
-use Hashids\Hashids;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\DB;
-use Dompdf\Adapter\CPDF;
+use App\Models\UserType;
 use DateTime;
+use Dompdf\Adapter\CPDF;
+use Hashids\Hashids;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Route;
 
 class Qs
 {
@@ -56,9 +55,7 @@ class Qs
 
     public static function displaySuccess($msg)
     {
-        return
-            '<div class="alert alert-success alert-bordered">
-            <button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button> ' . $msg . '  </div>';
+        return "<div class=\"alert alert-success alert-bordered\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\"><span>&times;</span><span class=\"sr-only\">Close</span></button> $msg </div>";
     }
 
     public static function getTeamSA()
@@ -240,12 +237,12 @@ class Qs
 
     public static function userIsClassSectionTeacher()
     {
-        return (self::userIsTeacher()) ? Section::where("teacher_id", Auth::id())->exists() : 0;
+        return (self::userIsTeacher()) ? Section::where("teacher_id", auth()->id())->exists() : 0;
     }
 
     public static function userIsClassSectionTeacher2($section_id)
     {
-        return (self::userIsTeacher()) ? Section::where(["id" => $section_id, "teacher_id" => Auth::id()])->exists() : 0;
+        return (self::userIsTeacher()) ? Section::where(["id" => $section_id, "teacher_id" => auth()->id()])->exists() : 0;
     }
 
     public static function getUserType()
@@ -410,7 +407,7 @@ class Qs
 
     public static function getUploadPath($user_type)
     {
-        return 'uploads/' . $user_type;
+        return "uploads/$user_type";
     }
 
     public static function getFileMetaData($file)
@@ -470,7 +467,7 @@ class Qs
 
     public static function getStringAbbreviation(string $system_name = NULL)
     {
-        if (is_null($system_name))
+        if ($system_name === null)
             $system_name = self::getSystemName();
         preg_match_all('/(?<=\b)\w/iu', $system_name, $matches);
         return mb_strtoupper(implode('', $matches[0]));
@@ -549,7 +546,7 @@ class Qs
 
     public static function goWithDanger($to = 'dashboard', $msg = NULL)
     {
-        $msg = $msg ?? __('msg.rnf');
+        $msg ??= __('msg.rnf');
         return self::goToRoute($to)->with('flash_danger', $msg);
     }
 
@@ -587,7 +584,7 @@ class Qs
 
     public static function onlyDateFormat($tiemestamp)
     {
-        if (is_null($tiemestamp) || empty($tiemestamp))
+        if ($tiemestamp === null || empty($tiemestamp))
             return;
         $datetime = new DateTime($tiemestamp);
         return $datetime->format('l, j F Y');
@@ -595,7 +592,7 @@ class Qs
 
     public static function fullDateTimeFormat($tiemestamp)
     {
-        if (is_null($tiemestamp) || empty($tiemestamp))
+        if ($tiemestamp === null || empty($tiemestamp))
             return;
         $datetime = new DateTime($tiemestamp);
         return $datetime->format('l, j F Y. h:i A');
@@ -627,8 +624,8 @@ class Qs
 
     public static function getTableCols($table_name)
     {
-        if ($table_name == "users")
-            return [
+        return match ($table_name) {
+            "users" => [
                 "photo" => "photo",
                 "name" => "full name",
                 "religion" => "religion",
@@ -642,16 +639,14 @@ class Qs
                 "dob" => "date of birth",
                 "phone" => "mobile number",
                 "phone2" => "telephone number"
-            ];
-        elseif ($table_name == "subjects")
-            return [
+            ],
+            "subjects" => [
                 "subjects.name as subject_name" => "full name",
                 "slug" => "short name",
                 "my_classes.name as class_name" => "class name",
                 "core" => "core"
-            ];
-        elseif ($table_name == "student_records")
-            return [
+            ],
+            "student_records" => [
                 "users.name as user" => "full name",
                 "users.religion as religion" => "religion",
                 "users.dob as dob" => "date of birth",
@@ -673,9 +668,8 @@ class Qs
                 "parents.phone as phone" => "parent phone",
                 "parents.phone2 as phone2" => "parent phone2",
                 "session" => "session"
-            ];
-        elseif ($table_name == "staff_records")
-            return [
+            ],
+            "staff_records" => [
                 "users.name as user" => "full name",
                 "users.username as username" => "username",
                 "users.email as email" => "email",
@@ -704,36 +698,28 @@ class Qs
                 "college_attended" => "college attended",
                 "year_graduated" => "year graduated",
                 "subjects_studied" => "subjects studied"
-            ];
-        elseif ($table_name == "payments")
-            return [
+            ],
+            "payments" => [
                 "title" => "title",
                 "amount" => "amount paid",
                 "description" => "description",
                 "method" => "payment method",
                 "year" => "year"
-            ];
-        elseif ($table_name == "grades")
-            return [
+            ],
+            "grades" => [
                 "grades.name as grade_name" => "name",
                 "class_types.name as class_type_name" => "class type",
                 "mark_from" => "mark from",
                 "mark_to" => "mark to",
                 "point" => "point",
                 "remark" => "remark"
-            ];
-        elseif ($table_name == "exam_categories")
-            return ["name" => "name"];
-        elseif ($table_name == "exams")
-            return ["name" => "name", "term" => "term", "year" => "year"];
-        elseif ($table_name == "dorms")
-            return ["name" => "name", "description" => "description"];
-        elseif ($table_name == "class_types")
-            return ["name" => "name", "code" => "code", "subjects_considered" => "subjects considered"];
-        elseif ($table_name == "my_classes")
-            return ["name" => "name"];
-        elseif ($table_name == "books")
-            return [
+            ],
+            "exam_categories" => ["name" => "name"],
+            "exams" => ["name" => "name", "term" => "term", "year" => "year"],
+            "dorms" => ["name" => "name", "description" => "description"],
+            "class_types" => ["name" => "name", "code" => "code", "subjects_considered" => "subjects considered"],
+            "my_classes" => ["name" => "name"],
+            "books" => [
                 "name" => "name",
                 "author" => "author",
                 "description" => "description",
@@ -742,9 +728,8 @@ class Qs
                 "location" => "location",
                 "total_copies" => "total copies",
                 "issued_copies" => "issued copies"
-            ];
-        elseif ($table_name == "exam_records")
-            return [
+            ],
+            "exam_records" => [
                 "users.name as student" => "student",
                 "my_classes.name as class" => "class",
                 "sections.name as section" => "section",
@@ -759,9 +744,9 @@ class Qs
                 "p_comment" => "principal comment",
                 "t_comment" => "teacher comment",
                 "exam_records.year as year" => "exam year"
-            ];
-        else
-            return NULL;
+            ],
+            default => NULL,
+        };
     }
 
     public static function getRangeNumbersInclusive(int $start, int $end): array
@@ -810,11 +795,11 @@ class Qs
         $current_page_no = $paginator->currentPage();
         $to = $per_page * $current_page_no;
         // If it is the first page
-        ($current_page_no == 1) ? $from = 1 : $from = ($to - ($per_page - 1));
+        ($current_page_no == 1) ? $from = 1 : $from = $to - ($per_page - 1);
         // If current page is the last - re-assign to as total
         if ($paginator->lastPage() == $current_page_no)
             $to = $total;
-        return $from . " to " . $to . " of " . $total;
+        return "$from to $to of $total";
     }
 
     public static function convertEncoding(string $encoding)
@@ -867,7 +852,7 @@ class Qs
     {
         $credential_file = storage_path('/app/public/' . self::getSetting('google_analytic_service_account_credential_file'));
 
-        return file_exists($credential_file) && !is_null(self::getSetting('google_analytic_property_id')) && !is_null(self::getSetting('google_analytic_tag_id')) && (int) self::getSetting('analytics_enabled') === 1;
+        return file_exists($credential_file) && self::getSetting('google_analytic_property_id') !== null && self::getSetting('google_analytic_tag_id') !== null && (int) self::getSetting('analytics_enabled') === 1;
     }
 
     public static function getSpatieAnalyticsPackagePeriods()
@@ -906,7 +891,7 @@ class Qs
             $igreen = floor((255 - $green) * $brightness);
             $iblue = floor((255 - $blue) * $brightness);
 
-            $color = 'rgb(' . $ired . ',' . $igreen . ',' . $iblue . ')';
+            $color = "rgb($ired,$igreen,$iblue)";
         }
 
         return $color;
@@ -919,11 +904,13 @@ class Qs
 
     public static function getTenancyAwareIDCardsThemeDir($tenant_id = null)
     {
-        return resource_path() . '/views/pages/support_team/students/id_cards/themes/' . $tenant_id ?? config('tenancy.database.prefix') . tenant('id') . '/';
+        $id = $tenant_id ?? tenant('id');
+        return resource_path() . '/views/pages/support_team/students/id_cards/themes/' . config('tenancy.database.prefix') . $id . '/';
     }
 
     public static function getTenantStoragePath($tenant_id = null)
     {
-        return storage_path() . '/' . config('tenancy.database.prefix') . $tenant_id ?? tenant('id') . '/';
+        $id = $tenant_id ?? tenant('id');
+        return storage_path() . '/' . config('tenancy.database.prefix') . $id . '/';
     }
 }

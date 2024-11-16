@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Stancl\Tenancy\Database\Models\Domain as BaseDomain;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Stancl\Tenancy\Database\Models\Domain as BaseDomain;
 
 class TenantDomain extends BaseDomain
 {

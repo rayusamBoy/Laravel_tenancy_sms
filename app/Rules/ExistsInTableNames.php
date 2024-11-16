@@ -2,8 +2,8 @@
 
 namespace App\Rules;
 
-use Closure;
 use App\Helpers\Qs;
+use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 
 class ExistsInTableNames implements ValidationRule

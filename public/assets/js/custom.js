@@ -2,7 +2,7 @@
  *-------------------------------------------------------------
  * Block UI method
  *-------------------------------------------------------------
-*/
+ */
 function blockUI(message = "Please wait...", text_color = "orange") {
     return $.blockUI({
         message: '<i class="mr-1 m-auto material-symbols-rounded spinner">progress_activity</i> ' + message,
@@ -19,14 +19,14 @@ function blockUI(message = "Please wait...", text_color = "orange") {
  *-------------------------------------------------------------
  * Initialize auto size plugin for textarea
  *-------------------------------------------------------------
-*/
+ */
 autosize($('textarea'));
 
 /**
  *-------------------------------------------------------------
  * Unblock UI method
  *-------------------------------------------------------------
-*/
+ */
 function unblockUI() {
     return $.unblockUI();
 }
@@ -52,7 +52,7 @@ $(document).ready(function () {
      *-------------------------------------------------------------
      * Handle user type change on select.
      *-------------------------------------------------------------
-    */
+     */
     $("select#user_type").on("change", function () {
         let parent_data = $(this).parents("fieldset").find("#parent-data");
         let parent_data_inputs = $("#parent-data input");
@@ -91,7 +91,7 @@ $(document).ready(function () {
      *-------------------------------------------------------------
      * Handle marks conversion
      *-------------------------------------------------------------
-    */
+     */
     const wrapper = $(".items-wrapper");
 
     $(document).on("click", "#add-item", function (e) {
@@ -110,7 +110,7 @@ $(document).ready(function () {
         } else {
             for (let i = 0; i < item_input_number; i++) {
                 // Clone the first item and append it to the wrapper
-                var item = $(".item:first").clone(false, false).appendTo(wrapper);
+                let item = $(".item:first").clone(false, false).appendTo(wrapper);
                 // Remove input value
                 item.find(".item-input").val("");
                 // Remove output text
@@ -127,7 +127,7 @@ $(document).ready(function () {
         e.preventDefault();
         var output_els = $(this).siblings(".item-output");
         let combined_text = '';
-        output_els.each(function(index, el) {
+        output_els.each(function (index, el) {
             combined_text += $(el).text() + '\n';
         });
         text = combined_text.trim();
@@ -188,8 +188,8 @@ $(document).ready(function () {
         var to_val = to_out_of.val();
 
         inputs.each(function (index, input) {
-            var output = $(this).parent().siblings().find(".item-output");
-            var item_copier = $(this).parent().siblings().find(".item-copy");
+            let output = $(this).parent().siblings().find(".item-output");
+            let item_copier = $(this).parent().siblings().find(".item-copy");
 
             // If input value has been validated
             if (inputValueIsValid(this, from_val)) {
@@ -279,7 +279,7 @@ $(document).ready(function () {
     }
 
     function convert(mark, from_out_of, to_out_of) {
-        var result = (mark / from_out_of) * to_out_of;
+        let result = (mark / from_out_of) * to_out_of;
         return Math.round(result);
     }
 });
@@ -288,7 +288,7 @@ $(document).ready(function () {
  *-------------------------------------------------------------
  * Toggle full screen handler
  *-------------------------------------------------------------
-*/
+ */
 $(".full-screen-handle").on("click", function (event) {
     event.preventDefault();
     if (
@@ -321,7 +321,7 @@ $(".full-screen-handle").on("click", function (event) {
  *-------------------------------------------------------------
  * Dashboard couter up for numbers (counts)
  *-------------------------------------------------------------
-*/
+ */
 const counterUp = window.counterUp.default;
 const callback = (entries) => {
     entries.forEach((entry) => {
@@ -366,7 +366,7 @@ initializeTooltip();
  *-------------------------------------------------------------
  * Student ID Card print chexboxes
  *-------------------------------------------------------------
-*/
+ */
 $(".st-id-checkbox").click(function () {
     // Get form
     const form = $("form.print-selected");
@@ -412,7 +412,7 @@ function show(selector, duration = 0) {
  *-------------------------------------------------------------
  * Message form (hide & show)
  *-------------------------------------------------------------
-*/
+ */
 function showFormCard() {
     show(".card#create-message", 500);
     hide("button#new-message", 50);
@@ -427,7 +427,7 @@ function hideFormCard() {
  *-------------------------------------------------------------
  * Toggle element disabled state method
  *-------------------------------------------------------------
-*/
+ */
 function toggleElementDisabledState(value, target_el) {
     if (value.length) {
         $(target_el).attr("disabled", true);
@@ -440,7 +440,7 @@ function toggleElementDisabledState(value, target_el) {
  *-------------------------------------------------------------
  * Validate students selection when creating or sending msgs
  *-------------------------------------------------------------
-*/
+ */
 $(document).on("change", "select#user_types-ids", function (e) {
     validateStudentsSelection(this);
 });
@@ -470,7 +470,7 @@ function validateStudentsSelection(el) {
  *-------------------------------------------------------------
  * Add has editable option to the options list
  *-------------------------------------------------------------
-*/
+ */
 $(document).ready(function () {
     appendEditableOption();
 });
@@ -486,7 +486,7 @@ function appendEditableOption(selector = ".has-editable-option") {
  *-------------------------------------------------------------
  * Inline function attached above to the select element
  *-------------------------------------------------------------
-*/
+ */
 function handleEditableOption(el) {
     var selected = $(el).children("option:selected", this).attr("class");
 
@@ -494,7 +494,7 @@ function handleEditableOption(el) {
         $(el).siblings(".edit-option").show(150);
 
         $(".edit-option").keyup(function () {
-            var editText = $(el).siblings(".edit-option").val();
+            let editText = $(el).siblings(".edit-option").val();
             $(el).children("option.editable").val(editText);
             $(el).children("option.editable").html(editText);
         });
@@ -507,7 +507,7 @@ function handleEditableOption(el) {
  *-------------------------------------------------------------
  * Promotion - Graduates
  *-------------------------------------------------------------
-*/
+ */
 $("button.opt-all-as-graduate").on("click", function (ev) {
     // Select form
     const form = $(this).siblings("form.page-block");
@@ -523,7 +523,7 @@ $("button.opt-all-as-graduate").on("click", function (ev) {
  * The codes will apply necessary changes to any element 
  * with class 'has-do-not-show-again-button'
  *-------------------------------------------------------------
-*/
+ */
 const do_not_show_again_button = document.createElement('button');
 // Set attributes
 do_not_show_again_button.type = 'button';
@@ -550,20 +550,40 @@ function doNotShowAgain(el) {
 
     ids.push(id);
     window.localStorage.setItem("do_not_show_els_with_these_ids_again", JSON.stringify(ids));
-    flash({ msg: 'Success, it will not be shown.', type: 'info' });
-
-    const timeout = 5000;
-    window.setTimeout(() => {
-        flash({ msg: 'To see it again, clear this browser local storage data for this site.', type: 'info' });
-    }, timeout);
+    flash({ msg: 'Done. To view this again, go to <strong>Settings</strong> to reveal all hidden items.', type: 'info' });
 };
+
+/**
+ *-------------------------------------------------------------
+ * Handle alert messages reveal on button click action in settings.
+ *-------------------------------------------------------------
+ */
+$("button#clear-do-not-show-again-alert-msgs").click(function (e) {
+    Modal.fire({
+        title: "Are you sure?",
+        text: "This will reveal all hidden alert messages.",
+        icon: "warning",
+        confirmButtonText: "Sure",
+        customClass: {
+            confirmButton: "bg-danger",
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            if (window.localStorage.hasOwnProperty("do_not_show_els_with_these_ids_again")) {
+                window.localStorage.removeItem("do_not_show_els_with_these_ids_again");
+                return flash({ msg: "Success. All alert messages are now displayed.", type: "success" });
+            }
+            return flash({ msg: "Nothing to reveal; all alert messages are on display.", type: "info" });
+        }
+    });
+})
 
 /**
  *-------------------------------------------------------------
  * Update do not show again state method.
  * Hide elements that needs not to be shown again.
  *-------------------------------------------------------------
-*/
+ */
 function updatedoNotShowAgainElsState() {
     $(document).ready(function () {
         var values = JSON.parse(window.localStorage.getItem("do_not_show_els_with_these_ids_again")) ?? [];
@@ -580,7 +600,7 @@ updatedoNotShowAgainElsState();
  *-------------------------------------------------------------
  * Remove element method - with animation
  *-------------------------------------------------------------
-*/
+ */
 function removeElement(el) {
     $(el).animate({
         'height': "0px"
@@ -593,7 +613,7 @@ function removeElement(el) {
  *-------------------------------------------------------------
  * Handle load go to bottom btn click event
  *-------------------------------------------------------------
-*/
+ */
 const go_to_bottom_btn = $('.go-to-bottom button');
 
 go_to_bottom_btn.on('click', function (e) {
@@ -616,7 +636,7 @@ $(window).scroll(function () {
  *-------------------------------------------------------------
  * Handle exam number formats displaying on class type change
  *-------------------------------------------------------------
-*/
+ */
 $(document).on("change", "select#class-type", function (e) {
     let value = this.value;
     $('.number-formats div').removeClass('d-flex').addClass('d-none');
@@ -627,13 +647,13 @@ $(document).on("change", "select#class-type", function (e) {
  *-------------------------------------------------------------
  * Handle CA displaying on exam category change
  *-------------------------------------------------------------
-*/
+ */
 $(document).on("change", "select#category", function (e) {
     let value = this.value;
     let ids = $(this).data('summative_exm_cat_ids');
 
     if (ids) {
-        var has_id = Object.values(ids).includes(parseInt(value))
+        let has_id = Object.values(ids).includes(parseInt(value))
         if (has_id)
             return $('.ca-setup').show(150).find("input[type='number']").attr("required", "required");
         else
@@ -645,7 +665,7 @@ $(document).on("change", "select#category", function (e) {
  *-------------------------------------------------------------
  * System Sound Notification
  *-------------------------------------------------------------
-*/
+ */
 function playNotificationSound(sound_name, condition = false) {
     if (condition && $(error_sound).data('allow_system_sounds') === 1) {
         const sound = new Audio(`${$(error_sound).data('base_url')}/${sound_name}`);
@@ -657,7 +677,7 @@ function playNotificationSound(sound_name, condition = false) {
  *-------------------------------------------------------------
  * Handle CA and Exam marks savings on page refresh
  *-------------------------------------------------------------
-*/
+ */
 const error_sound = document.getElementById('notification-sounds');
 
 $(document).on("input", "table.data-table input", function (e) {
@@ -706,7 +726,7 @@ if ($("table.data-table input").length > 0) {
  *-------------------------------------------------------------
  * Handle auth pages texts and bg preview buttons
  *-------------------------------------------------------------
-*/
+ */
 var auth_pages_bg_file_input = $('#login-and-related-pgs-bg-input');
 var auth_pages_preview_btns = $('div.auth-pages-preview');
 
@@ -725,8 +745,259 @@ $(auth_pages_bg_file_input).change(function (ev) {
  *-------------------------------------------------------------
  * Refresh button click event (target; show on standalone mode)
  *-------------------------------------------------------------
-*/
+ */
 $(document).on("click", ".refresh", function (e) {
     $(this).html('<i class="material-symbols-rounded mt-auto mb-auto spinner">refresh</i>');
     return window.location.reload();
 });
+
+/**
+ *-------------------------------------------------------------
+ * Build and initialize JQuery calendar
+ *-------------------------------------------------------------
+ */
+(function ($) {
+    "use strict";
+
+    const date = new Date();
+    const today = date.getDate();
+    const months = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+
+    // Setup the calendar with the current date
+    $(document).ready(function () {
+        // Event listeners
+        $(".right-button").click(() => nextYear(date));
+        $(".left-button").click(() => prevYear(date));
+        $(".month").click(function () {
+            monthClick($(this), date);
+        });
+        $("#add-button").click(() => newEvent(date));
+
+        // Set the current month as active
+        $(".months-row > div").eq(date.getMonth()).addClass("active-month");
+
+        // Initialize the calendar and show events
+        initCalendar(date);
+        const events = checkEvents(today, date.getMonth() + 1, date.getFullYear());
+        showEvents(events, months[date.getMonth()], today);
+    });
+
+    // Initialize the calendar
+    const initCalendar = (date) => {
+        const tbody = $(".tbody");
+        const eventsContainer = $(".events-container");
+        tbody.empty();
+        eventsContainer.empty();
+
+        const month = date.getMonth();
+        const year = date.getFullYear();
+        const dayCount = daysInMonth(month, year);
+        const today = date.getDate();
+
+        date.setDate(1);
+        const firstDay = date.getDay();
+
+        let row = $("<tr class='table-row'></tr>");
+        for (let i = 0; i < 35 + firstDay; i++) {
+            const day = i - firstDay + 1;
+            const currDate = $("<td class='table-date'></td>");
+
+            if (i % 7 === 0) {
+                tbody.append(row);
+                row = $("<tr class='table-row'></tr>");
+            }
+
+            if (i < firstDay || day > dayCount) {
+                currDate.addClass("nil");
+            } else {
+                currDate.text(day);
+                const events = checkEvents(day, month + 1, year);
+                if (today === day && $(".active-date").length === 0) {
+                    currDate.addClass("active-date");
+                    showEvents(events, months[month], day);
+                }
+
+                if (events.length !== 0) {
+                    currDate.addClass("event-date");
+                }
+
+                currDate.click((e) => dateClick(events, months[month], day, e));
+            }
+
+            row.append(currDate);
+        }
+
+        tbody.append(row);
+        $(".year").text(year);
+    };
+
+    // Get the number of days in a given month/year
+    const daysInMonth = (month, year) => {
+        const monthStart = new Date(year, month, 1);
+        const monthEnd = new Date(year, month + 1, 1);
+        return (monthEnd - monthStart) / (1000 * 60 * 60 * 24);
+    };
+
+    // Event handler for when a date is clicked
+    const dateClick = (events, month, day, e) => {
+        $(".events-container").show(250);
+        $("#dialog").hide(250);
+        $(".active-date").removeClass("active-date");
+        $(e.target).addClass("active-date");
+        showEvents(events, month, day);
+    };
+
+    // Event handler for when a month is clicked
+    const monthClick = (monthElement, date) => {
+        $(".events-container").show(250);
+        $("#dialog").hide(250);
+        $(".active-month").removeClass("active-month");
+        monthElement.addClass("active-month");
+        const newMonth = $(".month").index(monthElement);
+        date.setMonth(newMonth);
+        initCalendar(date);
+    };
+
+    // Event handler for when the year right-button is clicked
+    const nextYear = (date) => {
+        $("#dialog").hide(250);
+        const newYear = date.getFullYear() + 1;
+        $(".year").text(newYear);
+        date.setFullYear(newYear);
+        initCalendar(date);
+    };
+
+    // Event handler for when the year left-button is clicked
+    const prevYear = (date) => {
+        $("#dialog").hide(250);
+        const newYear = date.getFullYear() - 1;
+        $(".year").text(newYear);
+        date.setFullYear(newYear);
+        initCalendar(date);
+    };
+
+    // Event handler for clicking the new event button
+    const newEvent = (date) => {
+        if ($(".active-date").length === 0) return;
+
+        // Remove red error input on click
+        $("input").click(function () {
+            $(this).removeClass("error-input");
+        });
+
+        // Empty inputs and hide events
+        $("#dialog input[type=text]").val("");
+        $("#dialog input[type=textarea]").val("");
+        $(".events-container").hide(250);
+        $("#dialog").show(250);
+
+        // Event handler for cancel button
+        $("#cancel-button").click(() => {
+            $("#name").removeClass("error-input");
+            $("#count").removeClass("error-input");
+            $("#dialog").hide(250);
+            $(".events-container").show(250);
+        });
+
+        // Event handler for ok button
+        $("#ok-button").off().click(() => {
+            const name = $("#name").val().trim();
+            const count = $("#count").val().trim();
+            const day = parseInt($(".active-date").text());
+
+            // Basic form validation
+            if (name.length === 0) {
+                $("#name").addClass("error-input");
+            } else if (count.length === 0) {
+                $("#count").addClass("error-input");
+            } else {
+                $("#dialog").hide(250);
+                newEventJson(name, count, date, day);
+                date.setDate(day);
+                initCalendar(date);
+            }
+        });
+    };
+
+    // Adds a new event to events_data
+    const newEventJson = (name, count, date, day) => {
+        const event = {
+            name,
+            description: count,
+            year: date.getFullYear(),
+            month: date.getMonth() + 1,
+            day
+        };
+
+        events_data.events.push(event);
+        addEventToDb(event);
+    };
+
+    // Add an event to the database
+    const addEventToDb = (event) => {
+        $.ajaxSetup({
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+        });
+
+        $.ajax({
+            type: "POST",
+            url: event_create_url,
+            dataType: "json",
+            data: event,
+            success: (data) => {
+                $(".events-container").html(data.msg).addClass('text-green');
+            },
+            error: (errorThrown) => {
+                console.log(errorThrown);
+                $(".events-container").text("Something went wrong. Event add failed!").addClass('text-danger');
+            },
+        });
+    };
+
+    // Display all events for a selected date
+    const showEvents = (events, month, day) => {
+        $(".events-container").empty().show(250);
+
+        if (events.length === 0) {
+            const eventCard = $("<div class='event-card'></div>");
+            const eventName = $("<div class='event-name'>There are no Events Planned for " + month + " " + day + ".</div>");
+            eventCard.css({ "border-left": "10px solid #FF1744" }).append(eventName);
+            $(".events-container").append(eventCard);
+        } else {
+            events.forEach(event => {
+                const eventCard = $("<div class='event-card'></div>");
+                const eventName = $("<div class='event-name'>" + event.name + ":</div>");
+                const eventDescription = $("<div class='event-description pl-1'>" + event.description + ".</div>");
+                let eventStatus;
+
+                switch (event.status) {
+                    case "cancelled":
+                        eventStatus = $("<div class='event-cancelled text-danger pl-1'>(Cancelled)</div>");
+                        break;
+                    case "active":
+                        eventStatus = $("<div class='event-active text-orange pl-1'>(Active now)</div>");
+                        break;
+                    case "completed":
+                        eventStatus = $("<div class='event-completed text-success pl-1'>(Completed)</div>");
+                        break;
+                    default:
+                        eventStatus = "";
+                        break;
+                }
+
+                eventCard.append(eventName).append(eventStatus).append(eventDescription);
+                $(".events-container").append(eventCard);
+            });
+        }
+    };
+
+    // Checks if a specific date has any events
+    const checkEvents = (day, month, year) => {
+        return typeof events_data != 'undefined' ? events_data.events.filter(event => event.day === day && event.month === month && event.year === year) : [];
+    };
+})(jQuery);

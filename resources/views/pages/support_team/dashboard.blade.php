@@ -42,7 +42,7 @@ $staff = $users->where('user_type', '<>', 'student')->where('user_type', '<>', '
                 </div>
             </div>
             <div class="ml-3 align-self-center">
-                <a href="#" class="material-symbols-rounded symbol-3x opacity-75" data-toggle="modal" data-target="#students-number">groups</a>
+                <a href="javascript:;" class="material-symbols-rounded symbol-3x opacity-75" data-toggle="modal" data-target="#students-number">groups</a>
             </div>
         </div>
     </div>

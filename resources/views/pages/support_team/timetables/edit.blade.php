@@ -23,7 +23,7 @@
                     <label for="exam_id" class="col-lg-3 col-form-label font-weight-semibold">Type (Class or Exam)</label>
                     <div class="col-lg-9">
                         <select class="select form-control" onchange="hideShowSection(this.value, '#section_id');" name="exam_id" id="exam_id">
-                            <option value="default">Class Timetable</option>
+                            <option value="class">Class Timetable</option>
                             @foreach($exams as $ex)
                             <option {{ $ttr->exam_id == $ex->id ? 'selected' : '' }} value="{{ $ex->id }}">{{ $ex->name }}</option>
                             @endforeach

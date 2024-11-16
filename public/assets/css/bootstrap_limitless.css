@@ -4813,6 +4813,16 @@ a.badge[class*="bg-"]:not(.bg-transparent):not(.bg-white):not(.bg-light):focus,
     border-right-color: #303030;
 }
 
+[data-theme=dark] .bs-popover-auto[x-placement^=bottom] .arrow::after,
+[data-theme=dark] .bs-popover-bottom .arrow::after {
+    border-bottom-color: #303030;
+}
+
+[data-theme=dark] .bs-popover-auto[x-placement^=top] .arrow::after,
+[data-theme=dark] .bs-popover-top .arrow::after {
+    border-top-color: #303030;
+}
+
 .bs-popover-top[class*="bg-"]:not(.bg-white):not(.bg-light) .arrow,
 .bs-popover-top[class*="bg-"]:not(.bg-white):not(.bg-light) .arrow:after,
 .bs-popover-top[class*="bg-"]:not(.bg-white):not(.bg-light) .arrow:before,

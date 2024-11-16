@@ -71,11 +71,11 @@
                             <td class="text-center">
                                 <div class="list-icons">
                                     <div class="dropdown">
-                                        <a class="material-symbols-rounded" href="#" data-toggle="dropdown">lists</a>
+                                        <a class="material-symbols-rounded" href="javascript:;" data-toggle="dropdown">lists</a>
 
                                         <div class="dropdown-menu dropdown-menu-left">
                                             {{--Reset Payment--}}
-                                            <a id="{{ Qs::hash($uc->id) }}" onclick="confirmResetTwice(this.id)" href="#" class="dropdown-item"><i class="material-symbols-rounded">restart_alt</i> Reset Payment</a>
+                                            <a id="{{ Qs::hash($uc->id) }}" onclick="confirmResetTwice(this.id)" href="javascript:;" class="dropdown-item"><i class="material-symbols-rounded">restart_alt</i> Reset Payment</a>
                                             <form method="post" id="item-reset-{{ Qs::hash($uc->id) }}" action="{{ route('payments.reset_record', Qs::hash($uc->id)) }}" class="hidden">@csrf @method('delete')</form>
                                             {{--Receipt--}}
                                             <a target="_blank" href="{{ route('payments.receipts', Qs::hash($uc->id)) }}" class="dropdown-item"><i class="material-symbols-rounded">print</i> Print Receipt</a>
@@ -120,12 +120,12 @@
                             <td class="text-center">
                                 <div class="list-icons">
                                     <div class="dropdown">
-                                        <a href="#" class="material-symbols-rounded" data-toggle="dropdown">lists</a>
+                                        <a href="javascript:;" class="material-symbols-rounded" data-toggle="dropdown">lists</a>
 
                                         <div class="dropdown-menu dropdown-menu-left">
                                             {{--Reset Payment--}}
                                             @if (Qs::userIsSuperAdmin() or Qs::userIsAccountant())
-                                            <a id="{{ Qs::hash($cl->id) }}" onclick="confirmReset(this.id)" href="#" class="dropdown-item"><i class="material-symbols-rounded">reset_alt</i> Reset Payment</a>
+                                            <a id="{{ Qs::hash($cl->id) }}" onclick="confirmReset(this.id)" href="javascript:;" class="dropdown-item"><i class="material-symbols-rounded">reset_alt</i> Reset Payment</a>
                                             <form method="post" id="item-reset-{{ Qs::hash($cl->id) }}" action="{{ route('payments.reset_record', Qs::hash($cl->id)) }}" class="hidden">@csrf @method('delete')</form>
                                             @endif
                                             {{--Receipt--}}

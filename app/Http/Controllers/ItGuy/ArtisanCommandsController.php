@@ -16,210 +16,163 @@ class ArtisanCommandsController extends Controller
     // Optimze
     public function optimize()
     {
-        $status = Artisan::call('optimize');
-        if ($status === 0) {
-            $ok = true;
-            $message = 'Framework bootstrap files cached successfully.';
-        } else {
-            $ok = false;
-            $message = 'Framework bootstrap files caching failed.';
-        }
+        $command_name = 'optimize';
+        $response_name = __FUNCTION__;
+        $status = $this->handle_command($command_name, $response_name);
 
-        return Qs::json($message, $ok);
+        return $status;
     }
 
     // Optimze clear
     public function optimize_clear()
     {
-        $status = Artisan::call('optimize:clear');
-        if ($status === 0) {
-            $ok = true;
-            $message = 'Cached bootstrap files removed successfully.';
-        } else {
-            $ok = false;
-            $message = 'Cached bootstrap files removing failed.';
-        }
+        $command_name = 'optimize:clear';
+        $response_name = __FUNCTION__;
+        $status = $this->handle_command($command_name, $response_name);
 
-        return Qs::json($message, $ok);
+        return $status;
     }
 
     // Route cache
     public function route_cache()
     {
-        $status = Artisan::call('route:cache');
-        if ($status === 0) {
-            $ok = true;
-            $message = 'Route cached successfully.';
-        } else {
-            $ok = false;
-            $message = 'Route caching failed.';
-        }
+        $command_name = 'route:cache';
+        $response_name = __FUNCTION__;
+        $status = $this->handle_command($command_name, $response_name);
 
-        return Qs::json($message, $ok);
+        return $status;
     }
 
     // Route cache clear
     public function route_clear()
     {
-        $status = Artisan::call('route:clear');
-        if ($status === 0) {
-            $ok = true;
-            $message = 'Cached routes cleared successfully.';
-        } else {
-            $ok = false;
-            $message = 'Cached route clearing failed.';
-        }
+        $command_name = 'route:clear';
+        $response_name = __FUNCTION__;
+        $status = $this->handle_command($command_name, $response_name);
 
-        return Qs::json($message, $ok);
+        return $status;
     }
 
     // Config cache
     public function config_cache()
     {
-        $status = Artisan::call('config:cache');
-        if ($status === 0) {
-            $ok = true;
-            $message = 'Configuration cached successfully.';
-        } else {
-            $ok = false;
-            $message = 'Configuration caching failed.';
-        }
+        $command_name = 'config:cache';
+        $response_name = __FUNCTION__;
+        $status = $this->handle_command($command_name, $response_name);
 
-        return Qs::json($message, $ok);
+        return $status;
     }
 
     // Config cache clear
     public function config_clear()
     {
-        $status = Artisan::call('config:clear');
-        if ($status === 0) {
-            $ok = true;
-            $message = 'Configuration cleared successfully.';
-        } else {
-            $ok = false;
-            $message = 'Configuration clearing failed.';
-        }
+        $command_name = 'config:clear';
+        $response_name = __FUNCTION__;
+        $status = $this->handle_command($command_name, $response_name);
 
-        return Qs::json($message, $ok);
+        return $status;
     }
 
     // Event cache
     public function event_cache()
     {
-        $status = Artisan::call('event:cache');
-        if ($status === 0) {
-            $ok = true;
-            $message = 'Events cached successfully.';
-        } else {
-            $ok = false;
-            $message = 'Events caching failed.';
-        }
+        $command_name = 'event:cache';
+        $response_name = __FUNCTION__;
+        $status = $this->handle_command($command_name, $response_name);
 
-        return Qs::json($message, $ok);
+        return $status;
     }
 
     // Event cache clear
     public function event_clear()
     {
-        $status = Artisan::call('event:clear');
-        if ($status === 0) {
-            $ok = true;
-            $message = 'Events cleared successfully.';
-        } else {
-            $ok = false;
-            $message = 'Events clearing failed.';
-        }
+        $command_name = 'event:clear';
+        $response_name = __FUNCTION__;
+        $status = $this->handle_command($command_name, $response_name);
 
-        return Qs::json($message, $ok);
+        return $status;
     }
 
     // View cache
     public function view_cache()
     {
-        $status = Artisan::call('view:cache');
-        if ($status === 0) {
-            $ok = true;
-            $message = 'Views cached successfully.';
-        } else {
-            $ok = false;
-            $message = 'Views caching failed.';
-        }
+        $command_name = 'view:cache';
+        $response_name = __FUNCTION__;
+        $status = $this->handle_command($command_name, $response_name);
 
-        return Qs::json($message, $ok);
+        return $status;
     }
 
     // View cache clear
     public function view_clear()
     {
-        $status = Artisan::call('view:clear');
-        if ($status === 0) {
-            $ok = true;
-            $message = 'Views cleared successfully.';
-        } else {
-            $ok = false;
-            $message = 'Views clearing failed.';
-        }
+        $command_name = 'view:clear';
+        $response_name = __FUNCTION__;
+        $status = $this->handle_command($command_name, $response_name);
 
-        return Qs::json($message, $ok);
+        return $status;
     }
 
     // Log viewer publish
     public function log_viewer_publish()
     {
-        $status = Artisan::call('vendor:publish --tag=log-viewer-assets --force');
-        if ($status === 0) {
-            $ok = true;
-            $message = 'Log viewer assets published successfully.';
-        } else {
-            $ok = false;
-            $message = 'Log viewer assets publishing failed.';
-        }
+        $command_name = 'vendor:publish --tag=log-viewer-assets --force';
+        $response_name = __FUNCTION__;
+        $status = $this->handle_command($command_name, $response_name);
 
-        return Qs::json($message, $ok);
+        return $status;
     }
 
     // Clean activity log
     public function activity_log_clean()
     {
-        $status = Artisan::call('activitylog:clean --force');
-        if ($status === 0) {
-            $ok = true;
-            $message = 'All recorded activity older than ' . config('activitylog.delete_records_older_than_days') . ' deleted successfully.';
-        } else {
-            $ok = false;
-            $message = 'Activity log cleaning failed.';
-        }
+        $command_name = 'activitylog:clean --force';
+        $response_name = __FUNCTION__;
+        $status = $this->handle_command($command_name, $response_name);
 
-        return Qs::json($message, $ok);
+        return $status;
     }
 
     // Storage link
     public function storage_link()
     {
-        $status = Artisan::call('storage:link');
-        if ($status === 0) {
-            $ok = true;
-            $message = 'The symlink to storage folder created successfully.';
-        } else {
-            $ok = false;
-            $message = 'Failed to create a symlink.';
-        }
+        $command_name = 'storage:link';
+        $response_name = __FUNCTION__;
+        $status = $this->handle_command($command_name, $response_name);
 
-        return Qs::json($message, $ok);
+        return $status;
     }
 
     // Unlink the storage symlink
     public function storage_unlink()
     {
-        $status = Artisan::call('storage:unlink');
-        if ($status === 0) {
-            $ok = true;
-            $message = 'The symlink to storage folder deleted successfully.';
-        } else {
-            $ok = false;
-            $message = 'Failed to delete a symlink';
-        }
-        
-        return Qs::json($message, $ok);
+        $command_name = 'storage:unlink';
+        $response_name = __FUNCTION__;
+        $status = $this->handle_command($command_name, $response_name);
+
+        return $status;
+    }
+
+    /**
+     * Handle the given command and return appropriate response
+     * @param mixed $command_name
+     * @param mixed $response_name
+     * @return mixed|\Illuminate\Http\JsonResponse
+     */
+    private function handle_command($command_name, $response_name)
+    {
+        // Some commands can be prohibited for some reasons; 
+        // eg., for route:cache; routes with the same name cannot be cached (routes that are used in both tenant and central domains).
+        $prohibited_commands_name = ['route:cache', 'optimize'];
+        $response_name = str_replace("_", " ", $response_name);
+
+        if (in_array($command_name, $prohibited_commands_name))
+            return Qs::json("The $response_name is command prohibited.", false);
+
+        $status = Artisan::call($command_name);
+        if ($status === 0)
+            return Qs::json("The $response_name command run successfully.", true);
+
+        return Qs::json("The $response_name command failed to run.", false);
     }
 }

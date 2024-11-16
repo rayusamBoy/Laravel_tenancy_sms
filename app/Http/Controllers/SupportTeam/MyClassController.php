@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\SupportTeam;
 
 use App\Helpers\Qs;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\MyClass\ClassCreate;
 use App\Http\Requests\MyClass\ClassUpdate;
 use App\Repositories\MyClassRepo;
 use App\Repositories\UserRepo;
-use App\Http\Controllers\Controller;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 
@@ -62,7 +62,7 @@ class MyClassController extends Controller implements HasMiddleware
     {
         $d['c'] = $c = $this->my_class->find($id);
 
-        return is_null($c) ? Qs::goWithDanger('classes.index') : view('pages.support_team.classes.edit', $d);
+        return $c === null ? Qs::goWithDanger('classes.index') : view('pages.support_team.classes.edit', $d);
     }
 
     public function update(ClassUpdate $req, $id)

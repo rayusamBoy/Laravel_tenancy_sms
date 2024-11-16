@@ -29,7 +29,7 @@ var FormWizard = function() {
             transitionEffect: 'fade',
             titleTemplate: '<span class="number">#index#</span> <span class="text-default">#title#</span>',
             labels: {
-                previous: '<i class="material-symbols-rounded ml-2 pb-2px">line_start_arrow_notch</i> Previous',
+                previous: '<i class="material-symbols-rounded pb-2px">line_start_arrow_notch</i> Previous',
                 next: 'Next <i class="material-symbols-rounded ml-2">line_end_arrow_notch</i>',
                 finish: 'Submit form <i class="material-symbols-rounded ml-2">send</i>'
             },
@@ -46,7 +46,7 @@ var FormWizard = function() {
             titleTemplate: '<span class="number">#index#</span> <span class="text-default">#title#</span>',
             loadingTemplate: '<div class="card-body text-center"><i class="material-symbols-rounded spinner mr-2">progress_activity</i>  #text#</div>',
             labels: {
-                previous: '<i class="material-symbols-rounded ml-2 pb-2px">line_start_arrow_notch</i> Previous',
+                previous: '<i class="material-symbols-rounded pb-2px">line_start_arrow_notch</i> Previous',
                 next: 'Next <i class="material-symbols-rounded ml-2">line_end_arrow_notch</i>',
                 finish: 'Submit form <i class="material-symbols-rounded ml-2">send</i>'
             },
@@ -68,7 +68,7 @@ var FormWizard = function() {
             bodyTag: 'fieldset',
             titleTemplate: '<span class="number">#index#</span> <span class="text-default">#title#</span>',
             labels: {
-                previous: '<i class="material-symbols-rounded ml-2 pb-2px">line_start_arrow_notch</i> Previous',
+                previous: '<i class="material-symbols-rounded pb-2px">line_start_arrow_notch</i> Previous',
                 next: 'Next <i class="material-symbols-rounded ml-2">line_end_arrow_notch</i>',
                 finish: 'Submit form <i class="material-symbols-rounded ml-2">send</i>'
             },
@@ -86,7 +86,7 @@ var FormWizard = function() {
             bodyTag: 'fieldset',
             titleTemplate: '<span class="number">#index#</span> <span class="text-default">#title#</span>',
             labels: {
-                previous: '<i class="material-symbols-rounded ml-2 pb-2px">line_start_arrow_notch</i> Previous',
+                previous: '<i class="material-symbols-rounded pb-2px">line_start_arrow_notch</i> Previous',
                 next: 'Next <i class="material-symbols-rounded ml-2">line_end_arrow_notch</i>',
                 finish: 'Submit form <i class="material-symbols-rounded ml-2">send</i>'
             },
@@ -106,7 +106,7 @@ var FormWizard = function() {
             enableAllSteps: true,
             titleTemplate: '<span class="number">#index#</span> <span class="text-default">#title#</span>',
             labels: {
-                previous: '<i class="material-symbols-rounded ml-2 pb-2px">line_start_arrow_notch</i> Previous',
+                previous: '<i class="material-symbols-rounded pb-2px">line_start_arrow_notch</i> Previous',
                 next: 'Next <i class="material-symbols-rounded ml-2">line_end_arrow_notch</i>',
                 finish: 'Submit form <i class="material-symbols-rounded ml-2">send</i>'
             },
@@ -135,7 +135,7 @@ var FormWizard = function() {
             bodyTag: 'fieldset',
             titleTemplate: '<span class="number">#index#</span> <span class="text-default">#title#</span>',
             labels: {
-                previous: '<i class="material-symbols-rounded ml-2 pb-2px">line_start_arrow_notch</i> Previous',
+                previous: '<i class="material-symbols-rounded pb-2px">line_start_arrow_notch</i> Previous',
                 next: 'Next <i class="material-symbols-rounded ml-2">line_end_arrow_notch</i>',
                 finish: 'Submit form <i class="material-symbols-rounded ml-2">send</i>'
             },

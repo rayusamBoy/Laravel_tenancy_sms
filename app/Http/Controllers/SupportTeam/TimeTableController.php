@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\SupportTeam;
 
 use App\Helpers\Qs;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\TimeTable\TSRequest;
 use App\Http\Requests\TimeTable\TTRecordRequest;
 use App\Http\Requests\TimeTable\TTRequest;
 use App\Repositories\ExamRepo;
 use App\Repositories\MyClassRepo;
 use App\Repositories\TimeTableRepo;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -58,8 +58,8 @@ class TimeTableController extends Controller
         $data = $req->all();
         $tms = $this->tt->findTimeSlot($req->ts_id);
         $d_date = $req->exam_date ?? $req->day;
-        $data['timestamp_from'] = strtotime($d_date . ' ' . $tms->time_from);
-        $data['timestamp_to'] = strtotime($d_date . ' ' . $tms->time_to);
+        $data['timestamp_from'] = strtotime("$d_date {$tms->time_from}");
+        $data['timestamp_to'] = strtotime("$d_date {$tms->time_to}");
 
         $this->tt->create($data);
 
@@ -71,8 +71,8 @@ class TimeTableController extends Controller
         $data = $req->all();
         $tms = $this->tt->findTimeSlot($req->ts_id);
         $d_date = $req->exam_date ?? $req->day;
-        $data['timestamp_from'] = strtotime($d_date . ' ' . $tms->time_from);
-        $data['timestamp_to'] = strtotime($d_date . ' ' . $tms->time_to);
+        $data['timestamp_from'] = strtotime("$d_date {$tms->time_from}");
+        $data['timestamp_to'] = strtotime("$d_date {$tms->time_to}");
 
         $this->tt->update($tt_id, $data);
 
@@ -91,11 +91,11 @@ class TimeTableController extends Controller
     public function store_time_slot(TSRequest $req)
     {
         $data = $req->all();
-        $data['time_from'] = $tf = $req->hour_from . ':' . $req->min_from . ' ' . $req->meridian_from;
-        $data['time_to'] = $tt = $req->hour_to . ':' . $req->min_to . ' ' . $req->meridian_to;
+        $data['time_from'] = $tf = "{$req->hour_from}:{$req->min_from} {$req->meridian_from}";
+        $data['time_to'] = $tt = "{$req->hour_to}:{$req->min_to} {$req->meridian_to}";
         $data['timestamp_from'] = strtotime($tf);
         $data['timestamp_to'] = strtotime($tt);
-        $data['full'] = $tf . ' - ' . $tt;
+        $data['full'] = "$tf - $tt";
 
         if ($tf == $tt)
             return response()->json(['msg' => __('msg.invalid_time_slot'), 'ok' => FALSE]);
@@ -131,11 +131,11 @@ class TimeTableController extends Controller
     public function update_time_slot(TSRequest $req, $ts_id)
     {
         $data = $req->all();
-        $data['time_from'] = $tf = $req->hour_from . ':' . $req->min_from . ' ' . $req->meridian_from;
-        $data['time_to'] = $tt = $req->hour_to . ':' . $req->min_to . ' ' . $req->meridian_to;
+        $data['time_from'] = $tf = "{$req->hour_from}:{$req->min_from} {$req->meridian_from}";
+        $data['time_to'] = $tt = "{$req->hour_to}:{$req->min_to} {$req->meridian_to}";
         $data['timestamp_from'] = strtotime($tf);
         $data['timestamp_to'] = strtotime($tt);
-        $data['full'] = $tf . ' - ' . $tt;
+        $data['full'] = "$tf - $tt";
 
         if ($tf == $tt)
             return back()->with('flash_danger', __('msg.invalid_time_slot'));
@@ -221,6 +221,8 @@ class TimeTableController extends Controller
 
         $d['d_time'] = collect($d_time);
 
+        $d['settings'] = Qs::getSettings();
+
         return view('pages.support_team.timetables.print', $d);
     }
 
@@ -248,7 +250,7 @@ class TimeTableController extends Controller
         $data['section_id'] = $section_id == 'all' ? NULL : $section_id;
 
         switch ($exam_id) {
-            case 'default':
+            case 'class':
                 $data['exam_id'] = NULL;
                 break;
             default:

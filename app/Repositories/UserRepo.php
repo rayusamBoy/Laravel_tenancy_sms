@@ -4,9 +4,9 @@ namespace App\Repositories;
 
 use App\Models\BloodGroup;
 use App\Models\Notification;
+use App\Models\ParentRelative;
 use App\Models\StaffRecord;
 use App\Models\UserType;
-use App\Models\ParentRelative;
 use App\User;
 
 class UserRepo

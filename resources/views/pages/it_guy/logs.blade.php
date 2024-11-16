@@ -12,7 +12,7 @@
         <ul class="nav nav-tabs nav-tabs-highlight">
             {{--Login Histories--}}
             <li class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Select User Type</a>
+                <a href="javascript:;" class="nav-link dropdown-toggle" data-toggle="dropdown">Select User Type</a>
                 <div class="dropdown-menu dropdown-menu-right">
                     @foreach ($user_types as $ut)
                     <a href="#ut-{{ Qs::hash($ut->id) }}" class="dropdown-item" data-toggle="tab">{{ $ut->name }}s</a>
@@ -53,7 +53,7 @@
                             <td class="text-center">
                                 <div class="list-icons">
                                     <div class="dropdown">
-                                        <a href="#" class="material-symbols-rounded" data-toggle="dropdown">lists</a>
+                                        <a href="javascript:;" class="material-symbols-rounded" data-toggle="dropdown">lists</a>
 
                                         <div class="dropdown-menu dropdown-menu-left">
                                             {{-- View Profile --}}
@@ -62,7 +62,7 @@
                                             @php
                                             $route = route('logs.login_history_reset', Qs::hash($lh->user->id));
                                             @endphp
-                                            <a href="#" onclick="confirmReset(null, '{{ $route }}')" class="dropdown-item"><i class="material-symbols-rounded">history</i> Reset Login History</a>
+                                            <a href="javascript:;" onclick="confirmReset(null, '{{ $route }}')" class="dropdown-item"><i class="material-symbols-rounded">history</i> Reset Login History</a>
                                         </div>
                                     </div>
                                 </div>

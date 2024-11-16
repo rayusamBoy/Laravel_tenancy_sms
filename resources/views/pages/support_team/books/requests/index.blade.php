@@ -14,7 +14,7 @@
 
             @if(count($requests) > 0)
             <li class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Manage Requests</a>
+                <a href="javascript:;" class="nav-link dropdown-toggle" data-toggle="dropdown">Manage Requests</a>
                 <div class="dropdown-menu dropdown-menu-right">
                     @foreach ($requests->groupBy("book.id") as $group)
                     <a href="#grp-{{ $group->first()->id }}" class="dropdown-item" data-toggle="tab">{{ $group->first()->book->name }}</a>
@@ -106,9 +106,7 @@
                             <td class="text-center">
                                 <div class="list-icons">
                                     <div class="dropdown">
-                                        <a href="#" data-toggle="dropdown">
-                                            <i class="material-symbols-rounded">lists</i>
-                                        </a>
+                                        <a class="material-symbols-rounded" href="javascript:;" data-toggle="dropdown">lists</a>
 
                                         <div class="dropdown-menu dropdown-menu-left">
                                             {{-- Edit --}}

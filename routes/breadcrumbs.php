@@ -200,7 +200,7 @@ Breadcrumbs::for('marks.index', function (BreadcrumbTrail $trail) {
 
 Breadcrumbs::for('marks.tabulation', function (BreadcrumbTrail $trail, $exam, $class, $sec_id) {
     $trail->parent('dashboard');
-    $trail->push('Tabulation Sheet', route('marks.tabulation', $exam, $class, $sec_id));
+    $trail->push('Tabulation Sheet', route('marks.tabulation', [$exam, $sec_id], $class));
 });
 
 Breadcrumbs::for('marks.batch', function (BreadcrumbTrail $trail) {
@@ -210,7 +210,7 @@ Breadcrumbs::for('marks.batch', function (BreadcrumbTrail $trail) {
 
 Breadcrumbs::for('marks.manage', function (BreadcrumbTrail $trail, $exam, $class, $section, $subject) {
     $trail->parent('dashboard');
-    $trail->push('Manage Exam Marks', route('marks.selector', $exam, $class, $section, $subject));
+    $trail->push('Manage Exam Marks', route('marks.selector', [$exam, $section, $subject], $class));
 });
 
 Breadcrumbs::for('marks.bulk', function (BreadcrumbTrail $trail, $class, $section) {
@@ -252,12 +252,12 @@ Breadcrumbs::for('assessments.index', function (BreadcrumbTrail $trail) {
 
 Breadcrumbs::for('assessments.manage', function (BreadcrumbTrail $trail, $exam, $class, $section, $subject) {
     $trail->parent('dashboard');
-    $trail->push('Select Continous Assessments', route('assessments.selector', $exam, $class, $section, $subject));
+    $trail->push('Select Continous Assessments', route('assessments.selector', [$exam, $section, $subject], $class));
 });
 
 Breadcrumbs::for('assessments.progressive', function (BreadcrumbTrail $trail, $exam, $class, $sec_id) {
     $trail->parent('dashboard');
-    $trail->push('Progressive Sheet', route('assessments.progressive', $exam, $class, $sec_id));
+    $trail->push('Progressive Sheet', route('assessments.progressive', [$exam, $sec_id], $class));
 });
 
 Breadcrumbs::for('assessments.bulk', function (BreadcrumbTrail $trail, $class, $section) {

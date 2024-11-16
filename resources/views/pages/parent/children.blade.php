@@ -33,9 +33,7 @@
                     <td class="text-center">
                         <div class="list-icons">
                             <div class="dropdown">
-                                <a href="#" data-toggle="dropdown">
-                                    <i class="material-symbols-rounded">lists</i>
-                                </a>
+                                <a class="material-symbols-rounded" href="javascript:;" data-toggle="dropdown">lists</a>
 
                                 <div class="{{ $students->count() > 3 ? 'dropdown-menu dropdown-menu-left' : 'dropdown-menu dropdown-menu-left dropdown-menu-position-static-md-desc' }}">
                                     <a href="{{ route('students.show', Qs::hash($s->id)) }}" class="dropdown-item"><i class="material-symbols-rounded">visibility</i> View Profile</a>

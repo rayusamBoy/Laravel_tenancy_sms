@@ -43,9 +43,7 @@
                             <td class="text-center">
                                 <div class="list-icons">
                                     <div class="dropdown">
-                                        <a href="#" data-toggle="dropdown">
-                                            <i class="material-symbols-rounded">lists</i>
-                                        </a>
+                                        <a class="material-symbols-rounded" href="javascript:;" data-toggle="dropdown">lists</a>
 
                                         <div class="dropdown-menu dropdown-menu-left">
                                             @if(Qs::userIsTeamSA())
@@ -78,26 +76,26 @@
                             <div class="row">
                                 <div class="form-group col-md-5">
                                     <label for="name" class="col-form-label font-weight-semibold">Name <span class="text-danger">*</span></label>
-                                    <input name="name" required type="text" class="form-control" value="{{ $event->name }}" id="name">
+                                    <input maxlength="50" name="name" required type="text" class="form-control" value="{{ $event->name }}" id="name">
                                 </div>
                                 <div class="form-group col-md-7">
                                     <label for="description" class="col-form-label font-weight-semibold">Description <span class="text-danger">*</span></label>
-                                    <input name="description" required type="text" class="form-control" value="{{ $event->description }}" id="description">
+                                    <input name="description" maxlength="150" required type="text" class="form-control" value="{{ $event->description }}" id="description">
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="form-group col-md-3">
                                     <label for="year" class="col-form-label font-weight-semibold">Year <span class="text-danger">*</span></label>
-                                    <input name="year" required type="number" min="0" class="form-control" value="{{ $event->year }}" id="year">
+                                    <input name="year" required type="number" min="2000" class="form-control" value="{{ $event->year }}" id="year">
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="month" class="col-form-label font-weight-semibold">Month <span class="text-danger">*</span></label>
-                                    <input name="month" required type="number" min="0" class="form-control" value="{{ $event->month }}" id="month">
+                                    <input name="month" required type="number" min="1" max="12" class="form-control" value="{{ $event->month }}" id="month">
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="day" class="col-form-label font-weight-semibold">Day <span class="text-danger">*</span></label>
-                                    <input name="day" required type="number" min="0" class="form-control" value="{{ $event->day }}" id="day">
+                                    <input name="day" required type="number" min="1" max="31" class="form-control" value="{{ $event->day }}" id="day">
                                 </div>
 
                                 <div class="form-group col-md-3">

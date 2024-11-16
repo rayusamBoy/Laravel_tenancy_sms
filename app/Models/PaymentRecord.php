@@ -4,8 +4,8 @@ namespace App\Models;
 
 use App\User;
 use Eloquent;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class PaymentRecord extends Eloquent
 {

@@ -38,7 +38,7 @@
                             <td class="text-center">
                                 <div class="list-icons">
                                     <div class="dropdown">
-                                        <a href="#" class="material-symbols-rounded" data-toggle="dropdown">lists</a>
+                                        <a href="javascript:;" class="material-symbols-rounded" data-toggle="dropdown">lists</a>
 
                                         <div class="dropdown-menu dropdown-menu-left">
                                             @if(Qs::userIsTeamSA())

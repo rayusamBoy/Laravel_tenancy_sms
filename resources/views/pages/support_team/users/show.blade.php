@@ -124,7 +124,7 @@
                                 </tr>
                                 <tr>
                                     <td class="font-weight-bold">Relative</td>
-                                    <td><a href="#" data-toggle="modal" data-target="#parent-relative-modal">View Info</a></td>
+                                    <td><a href="javascript:;" data-toggle="modal" data-target="#parent-relative-modal">View Info</a></td>
                                 </tr>
                                 @endif
 

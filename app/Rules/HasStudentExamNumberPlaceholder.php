@@ -15,8 +15,9 @@ class HasStudentExamNumberPlaceholder implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if (!str_contains($value, Usr::getStudentExamNumberPlaceholder())) {
-            $fail('The :attribute must contains the ' . Usr::getStudentExamNumberPlaceholder() . ' placeholder character.');
+        $placeholder = Usr::getStudentExamNumberPlaceholder();
+        if (!str_contains($value, $placeholder)) {
+            $fail("The :attribute must contains the $placeholder placeholder character.");
         }
     }
 }

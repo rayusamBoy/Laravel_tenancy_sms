@@ -13,6 +13,6 @@ class Evt
 
     public static function getStatuses()
     {
-        return ["new", "completed", "cancelled"];
+        return ["new", "completed", "cancelled", "active"];
     }
 }

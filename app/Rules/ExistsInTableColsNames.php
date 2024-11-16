@@ -2,10 +2,10 @@
 
 namespace App\Rules;
 
-use Closure;
 use App\Helpers\Qs;
-use Illuminate\Contracts\Validation\ValidationRule;
+use Closure;
 use Illuminate\Contracts\Validation\DataAwareRule;
+use Illuminate\Contracts\Validation\ValidationRule;
 
 class ExistsInTableColsNames implements ValidationRule, DataAwareRule
 {

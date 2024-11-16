@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
 use App\Helpers\Qs;
 use App\Repositories\EventRepo;
+use Illuminate\Http\Request;
 
 class ScheduleController extends Controller
 {
@@ -29,7 +28,7 @@ class ScheduleController extends Controller
     public function create_event(Request $request)
     {
         $data = $request->all();
-        $data['user_id'] = Auth::user()->id;
+        $data['user_id'] = auth()->id();
         $this->event->create($data);
 
         return Qs::json('The event ' . '"' . $data['name'] . '"' . ' added successfully.');

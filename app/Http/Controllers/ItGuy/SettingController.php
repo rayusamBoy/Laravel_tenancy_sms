@@ -6,8 +6,8 @@ use App\Helpers\Qs;
 use App\Http\Controllers\Controller;
 use App\Repositories\MyClassRepo;
 use App\Repositories\SettingRepo;
-use Illuminate\Http\Request;
 use ColorThief\ColorThief;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
 class SettingController extends Controller
@@ -44,7 +44,7 @@ class SettingController extends Controller
 
             if ($req->has('show_login_and_related_pgs_preview')) {
                 $dominant_color = ColorThief::getColor($req->file('login_and_related_pages_bg')->getPathname());
-                $bg_color = 'rgb(' . $dominant_color[0] . ',' . $dominant_color[1] . ',' . $dominant_color[2] . ')';
+                $bg_color = "rgb($dominant_color[0],$dominant_color[1],$dominant_color[2])";
                 $texts_color = Qs::get_color_from_color($bg_color);
                 $colors = $texts_color . Qs::getDelimiter() . $bg_color;
 
@@ -70,7 +70,7 @@ class SettingController extends Controller
         $settings = Qs::getSettings();
         $data['colors'] = $colors = $settings->where('type', 'login_and_related_pgs_txts_and_bg_colors')->value('description');
 
-        if (!is_null($colors)) {
+        if ($colors !== null) {
             $colors_exploaded = explode(Qs::getDelimiter(), $colors);
             $data['texts_color'] = $colors_exploaded[0];
             $data['bg_color'] = $colors_exploaded[1];

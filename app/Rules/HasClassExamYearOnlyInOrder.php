@@ -2,10 +2,10 @@
 
 namespace App\Rules;
 
-use Closure;
 use App\Helpers\Mk;
 use App\Models\Exam;
 use App\Models\MyClass;
+use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 
 class HasClassExamYearOnlyInOrder implements ValidationRule

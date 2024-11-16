@@ -80,7 +80,7 @@
                             @endif
                             <td>
                                 @if($ntc->viewers_ids)
-                                <a href="#" data-toggle="modal" data-target="#notice-viewers-{{ $ntc->id }}">show</a>
+                                <a href="javascript:;" data-toggle="modal" data-target="#notice-viewers-{{ $ntc->id }}">show</a>
                                 @else
                                 none
                                 @endif
@@ -89,16 +89,14 @@
                             <td class="text-center">
                                 <div class="list-icons">
                                     <div class="dropdown">
-                                        <a href="#" data-toggle="dropdown">
-                                            <i class="material-symbols-rounded">lists</i>
-                                        </a>
+                                        <a class="material-symbols-rounded" href="javascript:;" data-toggle="dropdown">lists</a>
 
                                         <div class="dropdown-menu dropdown-menu-right">
                                             @if(Qs::userIsAdministrative())
                                             {{--Edit--}}
                                             <a href="{{ route('notices.edit', Qs::hash($ntc->id)) }}" class="dropdown-item"><i class="material-symbols-rounded">edit</i> Edit</a>
                                             {{--Delete--}}
-                                            <a id="{{ $ntc->id }}" onclick="confirmPermanentDelete(this.id)" href="#" class="dropdown-item text-danger"><i class="material-symbols-rounded">delete</i> Delete</a>
+                                            <a id="{{ $ntc->id }}" onclick="confirmPermanentDelete(this.id)" href="javascript:;" class="dropdown-item text-danger"><i class="material-symbols-rounded">delete</i> Delete</a>
                                             <form method="post" id="item-delete-{{ $ntc->id }}" action="{{ route('notices.destroy', $ntc->id) }}" class="hidden">@csrf @method('delete')</form>
                                             @endif
                                         </div>

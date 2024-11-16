@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use Eloquent;
 use App\User;
-use Spatie\Activitylog\Traits\LogsActivity;
+use Eloquent;
 use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Notice extends Eloquent
 {

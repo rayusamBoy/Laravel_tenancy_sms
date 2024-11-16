@@ -60,7 +60,7 @@
                     <td>{{ $s->adm_no }}</td>
                     <td class="text-center">
                         <div class="dropdown">
-                            <a href="#" data-toggle="dropdown">
+                            <a href="javascript:;" data-toggle="dropdown">
                                 <i class="material-symbols-rounded">lists</i>
                             </a>
 
