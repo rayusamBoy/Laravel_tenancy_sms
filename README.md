@@ -173,6 +173,7 @@ This is a multi-tenant school management system powered by technologies includin
    | Companion    | companion  | companion@sms.com  | companion  |
    | Parent       | parent     | parent@sms.com     | parent     |
    | Accountant   | accountant | accountant@sms.com | accountant |
+   | Librarian    | librarian  | librarian@sms.com  | librarian  |
    | Student      | student    | student@sms.com    | student    |
 
 > [!NOTE]
