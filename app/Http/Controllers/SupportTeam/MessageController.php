@@ -4,6 +4,7 @@ namespace App\Http\Controllers\SupportTeam;
 
 use App\Events\MessageDeleted;
 use App\Events\NewMessage;
+use App\Helpers\Qs;
 use App\Http\Controllers\Controller;
 use App\Models\Message;
 use App\Models\StudentRecord;
