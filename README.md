@@ -1,4 +1,4 @@
-<p align="center"><a href="https://github.com/rayusamBoy/laravel_sms" target="_blank"><img src="public/images/icons/icon-rounded.png" width="100" alt="SMS Logo"></a></p>
+<p align="center"><a href="https://github.com/rayusamBoy/Laravel_tenancy_sms" target="_blank"><img src="public/images/icons/icon-rounded.png" width="100" alt="SMS Logo"></a></p>
 
 ## About
 
