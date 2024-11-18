@@ -22,6 +22,6 @@ class TestController extends Controller implements HasMiddleware
      */
     public function index()
     {
-        return view('auth\passwords\reset');
+        return view('test');
     }
 }

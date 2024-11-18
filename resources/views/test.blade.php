@@ -1,48 +1,19 @@
+<!DOCTYPE html>
 <head>
-    <title>Students ID Card Template | {{ config('app.name') }}</title>
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/id_card.css') }}" />
-    <style>
-        .table-back-wrapper {
-            min-height: 54mm;
-            max-height: 54mm;
-            display: table;
-            border: 2px solid #115011;
-            position: relative;
-            max-width: 85.6mm;
-            min-width: 85.6mm;
-            border-radius: 5px;
-        }
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="authors" content="Chinedu Okemiri (4jean) & Rashidi Said (rayusam)">
 
-    </style>
+    <title>{{ config('app.name') }} &#183; Test View</title>
 </head>
 
 <body>
     <div class="content-wrapper">
-        {{-- @foreach($students as $st) --}}
-        <div class="print" xmlns:margin-top="http://www.w3.org/1999/xhtml">
-            <div class="cut-indicator">
-                {{-- School Details--}}
-                <div class="table-back-wrapper">
-                    <table>
-                        <tr>
-                            <td>
-                                This card is the property of {{ ucwords(strtolower(Qs::getSetting('system_name'))) }}, and the policies and procedures of the school govern its use.
-                                The school is not responsible for any loss or expenses resulting from the loss, theft, or misuse of this card.
-                                A replacement fee will be charged if this card is lost, damaged, or stolen.
-                                If found, please return to the school at {{ ucwords(strtolower(Qs::getSetting('address'))) }}
-                            </td>
-                        </tr>
-
-                    </table>
-                </div>
-            </div>
-        </div>
-        {{-- @endforeach --}}
+        <strong>Test View</strong>
+        <p>Use this to test your logic and data.</p>
     </div>
-    <script>
-        // window.print();
-
-    </script>
 </body>
 
 </html>
