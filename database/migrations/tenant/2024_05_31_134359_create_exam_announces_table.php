@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('exam_announces', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('exam_id')->index('exam_id');
+            $table->unsignedInteger('exam_id')->index('exam_id')->unique('exam_id');
             $table->string('message', 100);
             $table->integer('duration');
             $table->timestamps();

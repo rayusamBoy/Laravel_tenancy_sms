@@ -24,7 +24,7 @@ class StatisticsController extends Controller
         $this->year = Mk::getSetting('current_session');
     }
 
-    public function index($exam_id)
+    public function index($exam_id = "")
     {
         $exams = $this->exam->getPublishedOrderByLatest();
         if ($exams->isEmpty())

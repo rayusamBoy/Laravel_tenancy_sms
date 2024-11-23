@@ -4558,7 +4558,7 @@ body.swal2-toast-shown .swal2-container.swal2-bottom-right {
 [data-theme=dark] .file-input .btn:not(.btn-default),
 [data-theme=dark] .input-group-text:not(.default) {
     color: #fff;
-    border: 0;
+    border: 1px solid #333333;
 }
 
 [data-theme=dark] .dt-button.buttons-html5,
@@ -8620,10 +8620,6 @@ and below; since some of the menu options are obscured by the data table footer.
 *
 * ------------------------------------------------------------------------------*/
 
-[data-color-scheme-dark] {
-    color-scheme: dark;
-}
-
 @media (max-width: 575.98px) {
     .login-cover {
         background: rgb(15, 1, 1);
@@ -8631,8 +8627,8 @@ and below; since some of the menu options are obscured by the data table footer.
 }
 
 .login-cover .form-control {
-    background-color: transparent;
-    color: darkgray;
+    background-color: transparent !important;
+    color: darkgray !important;
     background-clip: border-box;
     border: 1px solid #dddddd14;
 }
@@ -8643,6 +8639,10 @@ and below; since some of the menu options are obscured by the data table footer.
     border: 1px solid;
     outline: none;
     border-color: #dddddd52 !important;
+}
+
+#admin-contact-modal .modal-content {
+    border: 1px solid #333333;
 }
 
 @-webkit-keyframes sides-move {
@@ -8779,9 +8779,7 @@ div.login-cover .alert-warning {
 
 .card.contact li i {
     border-radius: 100%;
-    background: #323538 !important;
-    padding: 0.5rem;
-    width: 2em;
+    padding: 0.2rem;
 }
 
 .login-cover .introductory-section .card {

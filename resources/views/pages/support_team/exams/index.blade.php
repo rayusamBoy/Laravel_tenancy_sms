@@ -270,10 +270,10 @@
             <div class="tab-pane fade show active" id="announce-exam">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="alert alert-info border-0 alert-dismissible">
+                        <div class="alert alert-info border-0 alert-dismissible has-do-not-show-again-button" id="announce-exam-info">
                             <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
                             You have just published the exam titled "{{ session('exam_name') }}". Would you like to announce it to the public (i.e., have it appear on the login page)?
-                            If <strong>yes</strong>, please fill in the form below to proceed. Otherwise, you can leave it; this step is optional.
+                            If <strong>yes</strong>, please fill in the form below to proceed. <strong>The form can only be submitted once at this time, and once submitted, the content cannot be edited</strong>. If you prefer not to announce it, you may ignore this step; it is optional.
                         </div>
                     </div>
                 </div>

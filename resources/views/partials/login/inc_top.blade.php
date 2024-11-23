@@ -16,9 +16,10 @@
 <script src="{{ asset('global_assets/js/main/bootstrap.bundle.min.js') }} "></script>
 
 <!-- Theme JS files -->
-<script src="{{ asset('assets/js/app.js') }} "></script>
+<script src="{{ asset('assets/js/app-min.js') }} "></script>
 <script src="{{ asset('global_assets/js/plugins/forms/styling/uniform.min.js') }} "></script>
 <script src="{{ asset('global_assets/js/plugins/scrollers/jquery.marquee.min.js') }}"></script>
+<script src="{{ asset('global_assets/js/main/color-modes.js') }}"></script>
 
 @php
     use Database\Seeders\NonTenancySettingsTableSeeder;
@@ -29,16 +30,24 @@
 @endphp
 
 <style>
+    html, body {
+        color-scheme: dark;
+    }
+
     div.page-content.login-cover {
         background-image: url({{ Usr::tenancyInitilized() ? (is_null($bg) ? asset($settings_table_seeder->getLoginAndRelatedPagesBgDescription()) : tenant_asset($bg)) : asset($bg) }});
         background-repeat: no-repeat;
         background-position: center;
         background-size: cover;
-        background-color: {{ $bg_color }};
+        background-color: {{ $bg_color }} !important;
         background-blend-mode: soft-light;
         animation-name: sides-move;
         animation-duration: 60s;
         animation-iteration-count: infinite;
+    }
+
+    div.exam-announce-wrapper {
+        box-shadow: -4px 5px 10px inset #333333, 4px -5px 10px inset {{ $bg_color }};
     }
 
     .text-color-custom {
@@ -46,6 +55,6 @@
     }
 
     .navbar {
-        background-color: {{ $bg_color }};    
+        background-color: {{ $bg_color }} !important;    
     }
 </style>

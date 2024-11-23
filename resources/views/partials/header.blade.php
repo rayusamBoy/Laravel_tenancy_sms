@@ -56,8 +56,8 @@
                         <i class="material-symbols-rounded m-auto">keyboard_arrow_down</i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-left">
-                        <a href="{{ asset('docs/SMS_DOCS_PARENT_ENGLISH.pdf') }}" class="dropdown-item"><i class="material-symbols-rounded">picture_as_pdf</i> Documentation (EN)</a>
-                        <a href="{{ asset('docs/SMS_DOCS_PARENT_SWAHILI.pdf') }}" class="dropdown-item"><i class="material-symbols-rounded">picture_as_pdf</i> Documentation (SW)</a>
+                        <a target="_blank" href="{{ asset('docs/SMS_DOCS_PARENT_ENGLISH.pdf') }}" class="dropdown-item"><i class="material-symbols-rounded">picture_as_pdf</i> Documentation (EN)</a>
+                        <a target="_blank" href="{{ asset('docs/SMS_DOCS_PARENT_SWAHILI.pdf') }}" class="dropdown-item"><i class="material-symbols-rounded">picture_as_pdf</i> Documentation (SW)</a>
                     </div>
                 </div>
 

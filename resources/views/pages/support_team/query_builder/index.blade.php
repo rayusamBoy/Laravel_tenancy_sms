@@ -21,7 +21,8 @@
     </div>
 
     <div class="card-body">
-        <form method="get" target="_blank" action="{{ route('query_builder.print_staff_data') }}">
+        <form method="POST" target="_blank" action="{{ route('query_builder.print_staff_data') }}">
+            @csrf
             <div class="row">
                 <div class="col-md-3 form-group">
                     <label for="user-types">Select user type(s) below to print the user data</label>

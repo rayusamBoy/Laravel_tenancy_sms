@@ -287,7 +287,7 @@ class QueryBuilderController extends Controller
                     ->select($expression)
                     ->distinct()
                     ->limit($limit)
-                    ->orderBy($orderby_column, $orderby_direction)
+                    ->orderBy("subjects.$orderby_column", $orderby_direction)
                     ->get(),
                 default => ($where_two != NULL or $input_two != NULL)
                 ? DB::table($from)
@@ -297,7 +297,7 @@ class QueryBuilderController extends Controller
                     ->setBindings([$input, $input_two])
                     ->distinct()
                     ->limit($limit)
-                    ->orderBy($orderby_column, $orderby_direction)
+                    ->orderBy("$from.$orderby_column", $orderby_direction)
                     ->get()
                 : DB::table($from)
                     ->select($expression)
@@ -305,7 +305,7 @@ class QueryBuilderController extends Controller
                     ->setBindings([$input])
                     ->distinct()
                     ->limit($limit)
-                    ->orderBy($orderby_column, $orderby_direction)
+                    ->orderBy("$from.$orderby_column", $orderby_direction)
                     ->get(),
             };
         } elseif ($where != 'none' && ($where_two != 'none' || $input_two != NULL))
@@ -386,13 +386,13 @@ class QueryBuilderController extends Controller
                     ->select($expression)
                     ->distinct()
                     ->limit($limit)
-                    ->orderBy($orderby_column, $orderby_direction)
+                    ->orderBy("subjects.$orderby_column", $orderby_direction)
                     ->get(),
                 default => DB::table($from)
                     ->select($expression)
                     ->distinct()
                     ->limit($limit)
-                    ->orderBy($orderby_column, $orderby_direction)
+                    ->orderBy("$from.$orderby_column", $orderby_direction)
                     ->get(),
             };
 
@@ -500,8 +500,6 @@ class QueryBuilderController extends Controller
         $dompdf->loadHtml($dompdfhtml);
         $dompdf->setPaper($paper_size, $paper_orientation);
         $dompdf->render();
-        $dompdf->stream(Qs::getAppCode() . ' Staff.pdf');
-
-        return redirect()->route('query_builder.index');
+        return $dompdf->stream(Qs::getAppCode() . ' Staff.pdf');
     }
 }

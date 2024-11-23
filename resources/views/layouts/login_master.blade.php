@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-color-scheme-dark>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="utf-8">
@@ -47,6 +47,13 @@
     @yield('content')
 
     @include('partials.login.footer')
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Initialize uniform
+            $('.form-input-styled').uniform();
+        }); 
+    </script>
 </body>
 
 </html>

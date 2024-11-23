@@ -9,6 +9,7 @@ This is a multi-tenant school management system powered by technologies includin
 #### Features
 
 * Tenancy capability
+* Progressive Web App (PWA) features including Offline access
 * Color modes (dark and light)
 * Built-in messaging and notifications
 * Eight (8) types of user accounts

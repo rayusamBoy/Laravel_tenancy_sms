@@ -25,11 +25,11 @@
             <div class="tab-pane show  active fade" id="new-subject">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="alert alert-info border-0 alert-dismissible">
+                        <div class="alert alert-info border-0 alert-dismissible has-do-not-show-again-button" id="add-subject-info">
                             <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
                             <span>
                                 If the Subject you are adding applies to all sections or does not apply at all just leave <strong>Not Applicable</strong> in the section field.
-                                Otherwise select the section that the subject applies to. If it only applies to specific student(s), select the student(s) fron the student field.
+                                Otherwise select the section that the subject applies to. If it only applies to specific student(s), select the student(s) fron the <strong>Select Student(s)</strong> field.
                             </span>
                         </div>
                     </div>
@@ -73,7 +73,7 @@
                             <div class="form-group row">
                                 <label for="name" class="col-lg-3 col-form-label font-weight-semibold">Name <span class="text-danger">*</span></label>
                                 <div class="col-lg-9">
-                                    <select required data-placeholder="Select Name of subject" class="form-control select-search append-editable-option" name="name" id="name">
+                                    <select required data-placeholder="Select class first" class="form-control select-search append-editable-option" name="name" id="name">
                                         <option selected value="">Select class first</option>
                                     </select>
                                 </div>
@@ -82,7 +82,7 @@
                             <div class="form-group row">
                                 <label for="slug" class="col-lg-3 col-form-label font-weight-semibold">Short Name <span class="text-danger">*</span></label>
                                 <div class="col-lg-9">
-                                    <input id="slug" required name="slug" value="{{ old('slug') }}" type="text" class="form-control" placeholder="Eg. B.Eng">
+                                    <input id="slug" required name="slug" value="{{ old('slug') }}" type="text" class="form-control" placeholder="Subject short name">
                                 </div>
                             </div>
 

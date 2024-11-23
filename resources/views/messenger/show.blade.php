@@ -41,7 +41,7 @@
                     <div class="row alert-row mb-3 clear">
                         <div class="col-lg-8 offset-lg-2 col-xl-6 offset-xl-3 d-inline">
                             <div class="alert alert-info border-0 text-center position-relative">
-                                <div class="display-none font-size-sm mr-1"></div><i>Not Connected.</i><div class="dot-indicator display-none"></div>
+                                <div class="display-none font-size-sm mr-1"></div><i>Not connected.</i><div class="dot-indicator display-none"></div>
                             </div>
                         </div>
                     </div>

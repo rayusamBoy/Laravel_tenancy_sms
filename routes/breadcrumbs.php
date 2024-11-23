@@ -433,7 +433,7 @@ Breadcrumbs::for('query_builder.index', function (BreadcrumbTrail $trail) {
 
 Breadcrumbs::for('query_builder.select', function (BreadcrumbTrail $trail) {
     $trail->parent('query_builder.index');
-    $trail->push('Query', route('query_builder.select'));
+    $trail->push('Query Results', route('query_builder.select'));
 });
 
 // Notices

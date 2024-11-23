@@ -131,7 +131,7 @@ Route::middleware([
                 Route::group(['prefix' => 'query_bulder'], function () {
                     Route::get('index', 'QueryBuilderController@index')->name('query_builder.index');
                     Route::get('select/query', 'QueryBuilderController@select')->name('query_builder.select');
-                    Route::get('staff/data/print', 'QueryBuilderController@print_staff_data')->name('query_builder.print_staff_data');
+                    Route::post('staff/data/print', 'QueryBuilderController@print_staff_data')->name('query_builder.print_staff_data');
                 });
 
                 /*************** TimeTables *****************/

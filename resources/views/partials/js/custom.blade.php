@@ -262,14 +262,6 @@
         });
     }
 
-    function getRangeNumbersInclusive(start, end){
-        var number = [];
-        for(var i = start; i <= end; i++){
-            number.push(i);
-        }
-        return number;
-    }
-
     function alertInfo(number) {
         Toast.fire({
             position: "top-right",
@@ -286,7 +278,7 @@
      *-------------------------------------------------------------
      */
     function getState(nal_id){
-        var url = '{{ route('get_state', [':id']) }}';
+        var url = '{{ route("get_state", [":id"]) }}';
         url = url.replace(':id', nal_id);
         var state = $('#state_id');
 
@@ -302,7 +294,7 @@
                     }));
                 });
             }
-        })
+        });
     }
 
     /**
@@ -311,7 +303,7 @@
      *-------------------------------------------------------------
      */
     function getLGA(state_id){
-        var url = '{{ route('get_lga', [':id']) }}';
+        var url = '{{ route("get_lga", [":id"]) }}';
         url = url.replace(':id', state_id);
         var lga = $('#lga_id');
 
@@ -327,7 +319,7 @@
                     }));
                 });
             }
-        })
+        });
     }
 
     /**
@@ -436,7 +428,7 @@
                     }));
                 });
             }
-        })
+        });
     }
 
     /**
@@ -461,9 +453,9 @@
                     }
                     else
                       $(this).removeAttr('selected');
-                })
+                });
             }
-        })
+        });
     }
 
     /**
@@ -491,7 +483,7 @@
             error: function(errorThrown){
                 exam.empty();
             }
-        })
+        });
     }
 
     /**
@@ -522,7 +514,7 @@
             error: function(errorThrown){
                 subject.empty();
             }
-        })
+        });
     }
 
     /**

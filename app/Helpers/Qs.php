@@ -749,15 +749,6 @@ class Qs
         };
     }
 
-    public static function getRangeNumbersInclusive(int $start, int $end): array
-    {
-        $numbers = [];
-        for ($i = $start; $i <= $end; $i++) {
-            $numbers[$i] = $i;
-        }
-        return $numbers;
-    }
-
     public static function getSelectedTableCols($columns = [], $name)
     {
         $data = self::getTableCols($name);

@@ -53,27 +53,25 @@ class SettingController extends Controller
             $login_and_related_pages_bg->storeAs('public/' . $f['path']);
             $this->setting->update('login_and_related_pages_bg', $login_page_path);
 
+            switch ($req->texts_and_bg_colors) {
+                case 'from_img':
+                    $dominant_color = ColorThief::getColor($req->file('login_and_related_pages_bg')->getPathname());
+                    $bg_color = "rgb($dominant_color[0],$dominant_color[1],$dominant_color[2])";
+                    $texts_color = Qs::get_color_from_color($bg_color);
+                    $colors = $texts_color . Qs::getDelimiter() . $bg_color;
+                    $this->setting->update('login_and_related_pgs_txts_and_bg_colors', $colors);
+                    break;
+                default:
+                    $this->setting->update('login_and_related_pgs_txts_and_bg_colors', NULL);
+                    break;
+            }
+
             // If text_and_bg_colors not set; always set to default
             if (!isset($req->texts_and_bg_colors))
                 $this->setting->update('login_and_related_pgs_txts_and_bg_colors', NULL);
 
-            if ($req->has('show_login_and_related_pgs_preview')) {
-                $dominant_color = ColorThief::getColor($req->file('login_and_related_pages_bg')->getPathname());
-                $bg_color = "rgb($dominant_color[0],$dominant_color[1],$dominant_color[2])";
-                $texts_color = Qs::get_color_from_color($bg_color);
-                $colors = $texts_color . Qs::getDelimiter() . $bg_color;
-
-                switch ($req->texts_and_bg_colors) {
-                    case 'from_img':
-                        $this->setting->update('login_and_related_pgs_txts_and_bg_colors', $colors);
-                        break;
-                    default:
-                        $this->setting->update('login_and_related_pgs_txts_and_bg_colors', NULL);
-                        break;
-                }
-
+            if ($req->has('show_login_and_related_pgs_preview'))
                 Session::flash('show_login_and_related_pgs_preview', true);
-            }
         }
 
         return redirect()->route('settings.index')->with('flash_success', __('msg.update_ok'));

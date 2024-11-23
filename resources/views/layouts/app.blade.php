@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="authors" content="Chinedu Okemiri (4jean) & Rashidi Said (rayusam)">
 
-    <title>{{ config('app.name') }} &#183; @yield('page_title')</title>
+    <title>{{ Qs::getStringAbbreviation(config('app.name')) }} &#183; @yield('page_title')</title>
 
     @laravelPWA
 

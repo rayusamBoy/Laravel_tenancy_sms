@@ -9,7 +9,7 @@
 <script src="{{ asset('global_assets/js/plugins/forms/validation/validate.min.js') }}"></script>
 <script src="{{ asset('global_assets/js/plugins/extensions/cookie.js') }}"></script>
 
-{{-- Notify --}}
+{{-- Notifications --}}
 <script type="text/javascript" src="{{ asset('global_assets/js/plugins/notifications/sweetalert2.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('global_assets/js/plugins/notifications/toastr.min.js') }}"></script>
 
@@ -32,8 +32,9 @@
 <script src="{{ asset('global_assets/js/plugins/uploaders/fileinput/fileinput.min.js') }}"></script>
 
 {{-- Core app JS file --}}
-<script src="{{ asset('assets/js/app.js') }}"></script>
+<script src="{{ asset('assets/js/app-min.js') }}"></script>
 
+{{-- Plugins --}}
 <script src="{{ asset('global_assets/js/plugins/forms/wizards/form_wizard.js') }}"></script>
 <script src="{{ asset('global_assets/js/plugins/forms/selects/form_select2.js') }}"></script>
 <script src="{{ asset('global_assets/js/plugins/tables/datatables/extensions/datatables_extension_buttons_html5.js') }}"></script>

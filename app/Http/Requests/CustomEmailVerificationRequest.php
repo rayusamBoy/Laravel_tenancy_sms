@@ -17,7 +17,7 @@ class CustomEmailVerificationRequest extends EmailVerificationRequest
         // empty string while the value is actually there in the request. Strangely, the value can be accessed cleanly by the route's
         // originalParameter() method by passing 'id' as an argument. It appears as somehow the parameter value get modified resulting to the
         // parameter different from the original one.
-        // Since we have 'auth' middleware among others, there is no need to check for user authorization/authentication, thus why we comment this clause.
+        // Since we have 'auth' middleware among others, there is no need to check for user authorization/authentication, that's why we comment this clause.
 
         /*
         if (! hash_equals((string) $this->user()->getKey(), (string) $this->route('id'))) {

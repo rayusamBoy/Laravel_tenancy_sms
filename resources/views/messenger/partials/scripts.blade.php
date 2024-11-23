@@ -17,7 +17,7 @@
      *-------------------------------------------------------------
      * Initiate client indicator event on input
      *-------------------------------------------------------------
-    */
+     */
     textarea.on('keydown', function() {
         //console.log('e');
         if (can_publish)
@@ -36,7 +36,7 @@
      *-------------------------------------------------------------
      * Check for connection
      *-------------------------------------------------------------
-    */
+     */
     Echo.connector.pusher.connection.bind('state_change', (states) => {
         //console.log(states.current)
         checkInternet(states.current);
@@ -46,7 +46,7 @@
      *-------------------------------------------------------------
      * Listen for typing client event
      *-------------------------------------------------------------
-    */
+     */
     channel.listenForWhisper('typing', (e) => {
             //console.log(e);
             typing_status.html(e.user_name + ' is typing');
@@ -63,7 +63,7 @@
      *-------------------------------------------------------------
      * Listen for a new message event
      *-------------------------------------------------------------
-    */
+     */
     channel.listen('NewMessage', (e) => {
             //console.log(e);
             $('#messages-row').append(updateMessage(auth_id, e));
@@ -77,7 +77,7 @@
      *-------------------------------------------------------------
      * Listen for message deleted event
      *-------------------------------------------------------------
-    */
+     */
     channel.listen('MessageDeleted', (e) => {
             //console.log(e);
             $("#confirm-message-delete").find('.close').click(); // Close message action modal if open.
@@ -88,7 +88,7 @@
      *-------------------------------------------------------------
      * Update message - new vs delete
      *-------------------------------------------------------------
-    */
+     */
     function updateMessage(auth_id, e) {
         // Create div item element
         var divItem = document.createElement('div');
@@ -242,7 +242,7 @@
      *-------------------------------------------------------------
      * Set the appropriate form attributes on run time
      *-------------------------------------------------------------
-    */
+     */
     function prepareDeleteUserMessageForm(message_id) {
         hideAllPopover();
         var action = '{{ route("messages.user_delete", ":message_id") }}';
@@ -255,7 +255,7 @@
      *-------------------------------------------------------------
      * Show only current on delete message
      *-------------------------------------------------------------
-    */
+     */
     function popOutIntendedMesg(message_id) {
         $("div#messages-row").find("div.right, div.left").css("z-index", "initial"); // Reset any popped out message's z-index.
         $("div#message-" + message_id).find('div.right, div.left').css("z-index", "99999"); // Pop out the intended one.
@@ -265,7 +265,7 @@
      *-------------------------------------------------------------
      * Handle load previous messages btn click event
      *-------------------------------------------------------------
-    */
+     */
     load_previous_msgs_btn.on('click', function(e){
         e.preventDefault();
         // Id is like 'messages-123'; so we split the id and take the second part (the actual message id)
@@ -286,7 +286,7 @@
      *-------------------------------------------------------------
      * Update participant last read when new message received
      *-------------------------------------------------------------
-    */
+     */
     function updateParticipantLastRead(thread_id) {
         if (document?.hidden) {
             return;
@@ -305,7 +305,7 @@
      *-------------------------------------------------------------
      * Process ajax request method
      *-------------------------------------------------------------
-    */
+     */
     async function processRequest(data){
         var formData = new FormData();
         formData.append('_token', '{{ csrf_token() }}');
@@ -358,7 +358,7 @@
      *-------------------------------------------------------------
      * Check internet connection using pusher states
      *-------------------------------------------------------------
-    */
+     */
     function checkInternet(state) {
         let net_errs = 0;
         var msg_row = $('.message-row');
@@ -401,7 +401,7 @@
      *-------------------------------------------------------------
      * Get random dot indicator class
      *-------------------------------------------------------------
-    */
+     */
     function getRandomDotIndicatorClass() {
         var dot_classes = ["dot-flashing", "dot-elastic", "dot-collision"];
         var dot_class = dot_classes[Math.floor(Math.random() * dot_classes.length)];
