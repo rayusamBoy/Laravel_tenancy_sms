@@ -182,7 +182,7 @@ This is a multi-tenant school management system powered by technologies includin
 
 ## Contributing
 
-Your Contributions & suggestions are welcomed. Please use Pull Request.
+See <a href="/CONTRIBUTING.md">contributing.</a>
 
 ## Security Vulnerabilities
 
