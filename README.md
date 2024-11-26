@@ -194,4 +194,4 @@ This project is based on the [lav_sms](https://github.com/4jean/lav_sms) project
 
 ## License
 
-The School Management System is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+The School Management System is open-sourced software licensed under the [GPL-3.0 license](https://github.com/rayusamBoy/Laravel_tenancy_sms/blob/main/LICENSE).
