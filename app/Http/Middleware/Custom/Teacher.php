@@ -4,7 +4,6 @@ namespace App\Http\Middleware\Custom;
 
 use App\Helpers\Qs;
 use Closure;
-use Illuminate\Support\Facades\Auth;
 
 class Teacher
 {
@@ -17,6 +16,6 @@ class Teacher
      */
     public function handle($request, Closure $next)
     {
-        return (Auth::check() && Qs::userIsTeacher()) ? $next($request) : redirect()->route('login');
+        return (auth()->check() && Qs::userIsTeacher()) ? $next($request) : redirect()->route('login');
     }
 }

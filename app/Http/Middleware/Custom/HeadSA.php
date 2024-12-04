@@ -4,7 +4,6 @@ namespace App\Http\Middleware\Custom;
 
 use App\Helpers\Qs;
 use Closure;
-use Illuminate\Support\Facades\Auth;
 
 class HeadSA
 {
@@ -17,6 +16,6 @@ class HeadSA
      */
     public function handle($request, Closure $next)
     {
-        return (Auth::check() && Qs::headSA(auth()->id())) ? $next($request) : redirect()->route('login');
+        return (auth()->check() && Qs::headSA(auth()->id())) ? $next($request) : redirect()->route('login');
     }
 }

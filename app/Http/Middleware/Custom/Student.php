@@ -4,7 +4,6 @@ namespace App\Http\Middleware\Custom;
 
 use App\Helpers\Qs;
 use Closure;
-use Illuminate\Support\Facades\Auth;
 
 class Student
 {
@@ -17,7 +16,7 @@ class Student
      */
     public function handle($request, Closure $next)
     {
-        return (Auth::check() && Qs::userIsStudent()) ? $next($request) : redirect()->route('login');
+        return (auth()->check() && Qs::userIsStudent()) ? $next($request) : redirect()->route('login');
     }
 
 }

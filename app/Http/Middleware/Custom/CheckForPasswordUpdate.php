@@ -4,7 +4,6 @@ namespace App\Http\Middleware\Custom;
 
 use App\Helpers\Qs;
 use Closure;
-use Illuminate\Support\Facades\Auth;
 
 class CheckForPasswordUpdate
 {
@@ -18,7 +17,7 @@ class CheckForPasswordUpdate
     public function handle($request, Closure $next)
     {
         // If the user is authenticated and did not update password, as well as did not want to logout.
-        if (Auth::check() && Auth::user()->password_updated_at == null && !Qs::isCurrentRoute('logout')) {
+        if (auth()->check() && auth()->user()->password_updated_at == null && !Qs::isCurrentRoute('logout')) {
             // If the user try to submit the change password form, just go as usual; allow for any errors to be shown.
             if (Qs::isCurrentRoute('my_account.change_pass'))
                 return $next($request);

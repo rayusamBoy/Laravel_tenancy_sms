@@ -4,7 +4,6 @@ namespace App\Http\Middleware\Custom;
 
 use App\Helpers\Qs;
 use Closure;
-use Illuminate\Support\Facades\Auth;
 
 class TeamAdministrative
 {
@@ -17,6 +16,6 @@ class TeamAdministrative
      */
     public function handle($request, Closure $next)
     {
-        return (Auth::check() && Qs::userIsAdministrative()) ? $next($request) : redirect()->route('login');
+        return (auth()->check() && Qs::userIsAdministrative()) ? $next($request) : redirect()->route('login');
     }
 }
