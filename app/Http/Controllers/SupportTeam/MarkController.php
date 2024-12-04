@@ -432,7 +432,7 @@ class MarkController extends Controller implements HasMiddleware
     {
         $template = $req->file('template');
         $f = Mk::getFileMetaData($template);
-        // Remove '.' before extension by replacing it with empty string
+        // Remove '.' and extension by replacing it with empty string
         $name = str_replace('.' . $f['ext'], '', $f['name']);
         $req['template_name'] = $name;
 
