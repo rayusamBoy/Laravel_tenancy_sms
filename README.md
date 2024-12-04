@@ -2,7 +2,9 @@
 
 ## About
 
-This is a multi-tenant school management system powered by technologies including the [Laravel framework](https://laravel.com) and the [tenancy package](https://tenancyforlaravel.com), among others. It is developed for educational institutions such as schools and colleges and is built on Laravel 11.
+This is a multi-tenant school management system powered by technologies including the [Laravel framework](https://laravel.com), [Bootstrap](https://getbootstrap.com), [jQuery](https://jquery.com), and the [Tenancy package](https://tenancyforlaravel.com), among others. It is developed for educational institutions such as schools and colleges and is built on Laravel 11.
+
+**Please show your support and appreciation by at least becoming one of the stargazers (starring this project) if you find it useful, or if any part of it is helpful.**
 
 ## Features & Screenshots
 
@@ -61,6 +63,9 @@ This is a multi-tenant school management system powered by technologies includin
 
 `Tenancy` [browse files](/public/images/screenshots/tenancy/).
 
+> [!NOTE]
+> Some of the screenshots may be outdated.
+
 ## Requirements
 
 * [composer](https://getcomposer.org/)
@@ -108,7 +113,7 @@ This is a multi-tenant school management system powered by technologies includin
    ```
 8. Set values for specific keys in the `.env` file you created earlier.
 
-   - `DB_DATABASE` - Database name (make sure you have created one). *Default connection:*`mysql`.
+   - `DB_DATABASE` - Database name (make sure you have created one). *Default connection:* `mysql`.
    - `DB_USERNAME` - Database username.
    - `DB_PASSWORD` - Database password.
    - `BROADCAST_CONNECTION` - *Default:* `reverb`. You can also opt for `pusher`. For `pusher`, make sure to set the appropriate values for any keys that start with `PUSHER_`, then you will need to activate the credentials [in this file](resources/js/bootstrap.js).
@@ -182,11 +187,7 @@ This is a multi-tenant school management system powered by technologies includin
 
 ## Contributing
 
-See <a href="/CONTRIBUTING.md">contributing.</a>
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within this application, please send an e-mail to the maintainer via [rysmtulia07@gmail.com](mailto:rysmtulia07@gmail.com). All security vulnerabilities will be promptly addressed.
+See <a href="/CONTRIBUTING.md">[contributing](https://github.com/rayusamBoy/Laravel_tenancy_sms/blob/main/CONTRIBUTING.md).</a>
 
 ## Appreciation
 
