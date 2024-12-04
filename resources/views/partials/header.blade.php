@@ -11,7 +11,7 @@
                 <a href="javascript:;" data-toggle="popover" data-placement="bottom" data-html="true" data-content="
                     <small>
                         <span class='text-default'>School Management System</span><br />
-                        <i><span class='text-default'>Repository:</span> <a target='_blank' href='https://github.com/rayusamBoy/Laravel_tenancy_sms'>Laravel_tenancy_sms</a></i><br />
+                        <i><span class='text-default'>Source:</span> <a target='_blank' href='https://github.com/rayusamBoy/Laravel_tenancy_sms'>Laravel_tenancy_sms</a></i><br />
                     </small>" class="btn btn-link btn-float text-default">
                     <i class="material-symbols-rounded text-primary">info</i> <span class="d-none d-sm-block">About</span>
                 </a>
@@ -27,7 +27,7 @@
                 
                 {{-- <a href="javascript:;" class="btn btn-link btn-float text-default"><i class="material-symbols-rounded text-primary">calculate</i> <span class="d-none d-sm-block">Invoices</span></a> --}}
                 <a href="{{ route('schedule.index') }}" class="btn btn-link btn-float text-default"><i class="material-symbols-rounded text-primary">calendar_month</i> <span class="d-none d-sm-block">Schedule</span></a>
-                <a href="{{ Qs::userIsSuperAdmin() ? route('settings.index') : '' }}" class="btn btn-link btn-float text-default"><i class="material-symbols-rounded text-primary d-none d-sm-block">arrow_downward_alt</i> <span class="font-weight-semibold d-flex" id="current-session"><span class="d-none d-sm-block pr-1">Current Session:</span>{{ Qs::getSetting('current_session') }}</span></a>
+                <a href="{{ Qs::userIsSuperAdmin() ? route('settings.index') : '' }}" class="btn btn-link btn-float text-default"><i class="material-symbols-rounded text-primary d-none d-sm-block">arrow_downward_alt</i> <span class="font-weight-semibold d-flex" id="current-session"><span class="d-none d-sm-block pr-1">Current Session:</span>{{ Qs::getCurrentSession() }}</span></a>
                 @endif
             </div>
         </div>

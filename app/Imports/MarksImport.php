@@ -19,7 +19,7 @@ class MarksImport implements ToCollection, WithHeadingRow, WithValidation
         $this->year = $year;
         $this->class_id = $class_id;
         $this->exam_id = $exam_id;
-        $this->session =  Mk::getSetting('current_session');
+        $this->session =  Mk::getCurrentSession();
         $this->st_mark = $st_mark;
         $this->marks_table = 'marks';
     }

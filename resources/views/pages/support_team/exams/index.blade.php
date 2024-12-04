@@ -112,7 +112,7 @@
                     <div class="col-md-12">
                         <div class="alert alert-info border-0 alert-dismissible has-do-not-show-again-button" id="exam-alert-info">
                             <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
-                            <span>You are creating an Exam for the Current Session <strong>{{ Qs::getSetting('current_session') }}</strong>.</span>
+                            <span>You are creating an Exam for the Current Session <strong>{{ Qs::getCurrentSession() }}</strong>.</span>
                             <span>
                                 You may set the format for the exam number to be generated. Structure the number however you like. Use <strong>{{ Usr::getStudentExamNumberPlaceholder() }}</strong> character where the students numbers 
                                 need to be generated automatically ie., <strong>{{ Usr::getStudentExamNumberPlaceholder() }} (1 digit), {{ str_repeat(Usr::getStudentExamNumberPlaceholder(), 2) }} (2 digit) etc.</strong>, while other characters will remain constant. Allowed characters are both cases letters, slashes, dash and numbers. 

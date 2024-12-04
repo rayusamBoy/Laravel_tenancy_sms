@@ -10,7 +10,7 @@
                             <label for="exam_id" class="col-form-label font-weight-bold">Assessments for:</label>
                             <select required id="exam_id" name="exam_id" data-placeholder="Select Exam" class="form-control select">
                                 <option selected disabled value="">Select Exam</option>
-                                @foreach ($assessments->where('exam.year', Qs::getSetting('current_session')) as $as)
+                                @foreach ($assessments->where('exam.year', Qs::getCurrentSession()) as $as)
                                 <option {{ $selected && $exam->id == $as->exam->id ? 'selected' : '' }} value="{{ $as->exam->id }}">{{ $as->exam->name }}</option>
                                 @endforeach
                             </select>
