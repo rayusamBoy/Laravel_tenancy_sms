@@ -20,7 +20,7 @@
         {{-- The message box --}}
         <div class="{{ $message->user->id == Auth::id() ? 'right' : 'left' }}">
             <span class="media-body break-all">
-                <small class="media-heading" style="color: {{ auth()->user()->message_media_heading_color }}">{{ $message->user->id == Auth::id() ? 'Me' : $message->user->name . ' (' . str_replace('_', ' ', $message->user->user_type) . ')' }}</small>
+                <small class="media-heading" style="color: {{ $message->user->message_media_heading_color }}">{{ $message->user->id == Auth::id() ? 'Me' : $message->user->name . ' (' . str_replace('_', ' ', $message->user->user_type) . ')' }}</small>
                 <br>
                 @if ($message->deleted_at !== null)
                 <!-- If the message is deleted -->

@@ -1,17 +1,28 @@
 <script type="module">
     const auth_id = {{ auth()->id() }};
     const auth_user_type = "{{ auth()->user()->user_type }}";
-    const auth_user_message_media_heading_color = "{{ auth()->user()->message_media_heading_color }}";
-    const throttle_time = 900; // 0.9 seconds
-    const wait_time = 1100; // 1.1 seconds
     const textarea = $('#message');
     const btn = $(document).find('#send-message-btn');
     const typing_status = $('#user-is-typing');
     const typing_indicator = $('#typing-indicator');
+    const messages_row = $(document).find('#messages-row');
 
-    var can_publish = true;
+    var typing_now = 0, typing_timeout;
 
     let channel = Echo.private('messages.{{ $thread->id }}.{{ tenant("id") }}');
+
+    /**
+     *-------------------------------------------------------------
+     * Trigger typing event
+     *-------------------------------------------------------------
+     */
+    function isTyping(status) {
+        //console.log('e');
+        channel.whisper('typing', {
+            user_name: '{{ auth()->user()->name }}',
+            typing: status
+        });
+    };
 
     /**
      *-------------------------------------------------------------
@@ -20,16 +31,16 @@
      */
     textarea.on('keydown', function() {
         //console.log('e');
-        if (can_publish)
-            channel.whisper('typing', {
-                user_name: '{{ auth()->user()->name }}',
-                typing: true
-            });
+        if (typing_now < 1) {
+            isTyping(true);
+            typing_now = 1;
+        }
 
-        can_publish = false;
-        setTimeout(function() {
-            can_publish = true;
-        }, throttle_time);
+        clearTimeout(typing_timeout);
+            typing_timeout = setTimeout(function () {
+            isTyping(false);
+            typing_now = 0;
+        }, 1000);
     });
 
     /**
@@ -48,16 +59,13 @@
      *-------------------------------------------------------------
      */
     channel.listenForWhisper('typing', (e) => {
-            //console.log(e);
+        if (e.typing == true) {
             typing_status.html(e.user_name + ' is typing');
-            typing_indicator.show();
-            clearTimeout(time_out);
-
-            // Remove is typing indicator ater wait time.
-            var time_out = setTimeout(function() {
-                typing_indicator.hide();
-            }, wait_time);
-        });
+            typing_indicator.css({
+                "display": "inline-block",
+            });
+        } else typing_indicator.hide();
+    });
 
     /**
      *-------------------------------------------------------------
@@ -66,7 +74,7 @@
      */
     channel.listen('NewMessage', (e) => {
             //console.log(e);
-            $('#messages-row').append(updateMessage(auth_id, e));
+            messages_row.append(updateMessage(auth_id, e));
             updateParticipantLastRead(e.message.thread_id);
             playNotificationSound('message-notification.mp3', true);
             initializePopover(); // Actually re-initilize for the new created popover in the new/updated message.
@@ -146,7 +154,7 @@
         var headingText = e.message.user.id == auth_id ? "Me" : e.message.user.name + ' (' + e_mesg_user_type.replace('_', ' ') + ')';
         messageHeading.appendChild(document.createTextNode(headingText));
         messageHeading.appendChild(document.createElement('br'));
-        messageHeading.setAttribute('style', 'color: ' + auth_user_message_media_heading_color);
+        messageHeading.setAttribute('style', 'color: ' + e.message.user.message_media_heading_color);
         messageSpan.appendChild(messageHeading);
 
         // If the message is deleted

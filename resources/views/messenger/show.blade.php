@@ -10,7 +10,7 @@
         </h6>
         {!! Qs::getPanelOptions() !!}
     </div>
-    <div class="card-body">
+    <div class="card-body pt-2">
         <div class="row">
             <div class="col-12 p-0">
                 <div class="messages position-relative">
@@ -20,7 +20,7 @@
                     @endif
 
                     <ul>
-                        <div class="row position-relative h-550 d-block" id="messages-row">
+                        <div class="row position-relative" id="messages-row">
                             @each('messenger.partials.messages', $thread->messagesWithTrashed->take(-($unread_messages_count + $extra_messages_to_count)), 'message')
                             @include('pages/modals/confirm_message_delete')
                         </div>
@@ -47,9 +47,8 @@
                     </div>
 
                     @if (Qs::userIsSuperAdmin())
-                    <button id="{{ $thread->id }}" onclick="confirmDelete(this.id)" class="btn btn-danger position-absolute left-neg-4 bottom-0"><i class="material-symbols-rounded">delete</i> Delete Thread</button>
-                    <form method="post" id="item-delete-{{ $thread->id }}" action="{{ route('messages.destroy', $thread->id) }}" class="hidden">@csrf @method('delete')
-                    </form>
+                    <button id="{{ $thread->id }}" type="button" onclick="confirmDelete(this.id)" class="btn btn-danger position-absolute left-neg-4 bottom-0"><i class="material-symbols-rounded">delete</i> Delete Thread</button>
+                    <form method="post" id="item-delete-{{ $thread->id }}" action="{{ route('messages.destroy', $thread->id) }}" class="hidden">@csrf @method('delete')</form>
                     @endif
 
                 </div>
