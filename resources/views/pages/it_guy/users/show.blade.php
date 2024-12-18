@@ -19,7 +19,7 @@
                     <li class="nav-item">
                         <a href="#basic-info" class="nav-link active" data-toggle="tab">Basic Info</a>
                     </li>
-                    @if((isset($staff_rec) && Qs::isNotNull($staff_rec)) && (Qs::userIsHead() || $user->id == Auth::id()))
+                    @if((isset($staff_rec) && $staff_rec != null) && (Qs::userIsHead() || $user->id == Auth::id()))
                     <li class="nav-item">
                         <a href="#staff-info" class="nav-link" data-toggle="tab">Staff Info</a>
                     </li>
@@ -126,7 +126,7 @@
                     </div>
 
                     {{--Staff Info--}}
-                    @if((isset($staff_rec) && Qs::isNotNull($staff_rec)) && (Qs::userIsHead() || $user->id == Auth::id()))
+                    @if((isset($staff_rec) && $staff_rec != null) && (Qs::userIsHead() || $user->id == Auth::id()))
                     <div class="tab-pane fade" id="staff-info">
                         <table class="table table-bordered">
                             <tbody>

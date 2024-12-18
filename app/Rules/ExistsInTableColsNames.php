@@ -20,7 +20,7 @@ class ExistsInTableColsNames implements ValidationRule, DataAwareRule
         $from = $this->data['from']; // Actual table name
         $special_cols = ['none', 'id'];  // Just for validation.
 
-        if (Qs::isNotNull($value) && !in_array($value, array_merge(array_keys(Qs::getTableCols($from)), $special_cols))) {
+        if ($value != null && !in_array($value, array_merge(array_keys(Qs::getTableCols($from)), $special_cols))) {
             $fail('The :attribute field is invalid.');
         }
     }

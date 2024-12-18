@@ -17,11 +17,6 @@ use Illuminate\Support\Facades\Route;
 
 class Qs
 {
-    public static function isNotNull($data)
-    {
-        return $data !== null;
-    }
-
     public static function displayError($errors)
     {
         foreach ($errors as $err) {

@@ -156,7 +156,7 @@
                                 </div>
                             </div>
 
-                            @if((Qs::userIsSuperAdmin() || (Qs::userIsPTACLA()) && Qs::isNotNull($staff_rec) && $staff_rec->staff_data_edit === 1) || Qs::userIsItGuy())
+                            @if((Qs::userIsSuperAdmin() || (Qs::userIsPTACLA()) && $staff_rec != null && $staff_rec->staff_data_edit === 1) || Qs::userIsItGuy())
 
                             <hr class="divider">
 
@@ -284,7 +284,7 @@
                             @endif
                         </div>
 
-                        @if((Qs::userIsSuperAdmin() || (Qs::userIsPTACLA()) && Qs::isNotNull($staff_rec) && $staff_rec->staff_data_edit === 1) || Qs::userIsItGuy())
+                        @if((Qs::userIsSuperAdmin() || (Qs::userIsPTACLA()) && $staff_rec != null && $staff_rec->staff_data_edit === 1) || Qs::userIsItGuy())
                         <div class="col-md-4">
                             <div class="row m-0">
                                 {{--SUBJECTS STUDIED--}}
