@@ -167,7 +167,7 @@ class ArtisanCommandsController extends Controller
         $response_name = str_replace("_", " ", $response_name);
 
         if (in_array($command_name, $prohibited_commands_name))
-            return Qs::json("The $response_name is command prohibited.", false);
+            return Qs::json("The $response_name command is prohibited.", false);
 
         $status = Artisan::call($command_name);
         if ($status === 0)
