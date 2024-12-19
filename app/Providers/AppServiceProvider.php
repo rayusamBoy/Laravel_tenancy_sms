@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Opcodes\LogViewer\Facades\LogViewer;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -37,6 +38,10 @@ class AppServiceProvider extends ServiceProvider
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
 
+        LogViewer::auth(function ($request) {
+            return $request->user() && $request->user()->user_type === 'it_guy';
+        });
+    
         Event::subscribe(TenantEventSubscriber::class);
 
         Paginator::useBootstrapFour();
