@@ -56,16 +56,6 @@
                         </div>
                     </div>
 
-                    <div class="form-group row">
-                        <label for="can_notify_on_pay" class="col-lg-9 col-form-label font-weight-semibold">Notify Subscribed Parent on Student Payment <span class="text-danger">*</span></label>
-                        <div class="col-lg-3">
-                            <select class="form-control select" name="can_notify_on_pay" id="can_notify_on_pay">
-                                <option value="1">Yes</option>
-                                <option selected value="0">No</option>
-                            </select>
-                        </div>
-                    </div>
-
                     <div class="text-right">
                         <button type="submit" class="btn btn-primary">Submit form <i class="material-symbols-rounded ml-2">send</i></button>
                     </div>

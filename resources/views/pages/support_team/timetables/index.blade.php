@@ -41,7 +41,7 @@
                             <label for="exam_id" class="col-lg-3 col-form-label font-weight-semibold">Type (Class or Exam)</label>
                             <div class="col-lg-9">
                                 <select class="select form-control" onchange="hideShowSection(this.value, '#section_id');" name="exam_id" id="exam_id">
-                                    <option value="default">Class Timetable</option>
+                                    <option value="class">Class Timetable</option>
                                     @foreach($exams as $ex)
                                     <option {{ old('exam_id') == $ex->id ? 'selected' : '' }} value="{{ $ex->id }}">{{ $ex->name }}</option>
                                     @endforeach
@@ -97,12 +97,12 @@
                             <td>{{ $ttr->name }}</td>
                             <td>{{ $ttr->my_class->name }}</td>
                             <td>{{ $ttr->section->name ?? 'All' }}</td>
-                            <td>{{ ($ttr->exam_id) ? $ttr->exam->name : 'Class TimeTable' }}
+                            <td>{{ $ttr->exam_id ? $ttr->exam->name : 'Class TimeTable' }}
                             <td>{{ $ttr->year }}</td>
                             <td class="text-center">
                                 <div class="list-icons">
                                     <div class="dropdown">
-                                        <a class="material-symbols-rounded" href="javascript:;" data-toggle="dropdown">lists</a>
+                                       <a class="material-symbols-rounded" href="javascript:;" data-toggle="dropdown">lists</a>
 
                                         <div class="dropdown-menu dropdown-menu-right">
                                             {{--View--}}

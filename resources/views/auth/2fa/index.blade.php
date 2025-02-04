@@ -106,7 +106,7 @@
 
                     <div class="row">
                         <div class="col-md-8">
-                            <form method="post" class="ajax-update" data-reload="#ajax-codes" action="{{ route('account_security.index') }}">
+                            <form method="get" class="ajax-update" data-reload="#ajax-codes" action="{{ route('account_security.index') }}">
                                 @csrf
                                 <button type="submit" class="btn btn-s btn-primary mt-2 float-right">Regenerate Codes</button>
                             </form> 

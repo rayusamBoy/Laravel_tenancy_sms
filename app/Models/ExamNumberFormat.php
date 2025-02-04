@@ -25,7 +25,7 @@ class ExamNumberFormat extends Eloquent
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logAll()
+            ->logFillable()
             ->dontSubmitEmptyLogs()
             ->logOnlyDirty();
     }

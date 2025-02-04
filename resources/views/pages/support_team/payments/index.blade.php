@@ -71,7 +71,6 @@
                             <th>Class</th>
                             <th>Method</th>
                             <th>Info</th>
-                            <th>Can Nofify</th>
                             <th class="text-center">Action</th>
                         </tr>
                     </thead>
@@ -85,7 +84,6 @@
                             <td>{{ $p->my_class_id ? $p->my_class->name : 'All' }}</td>
                             <td>{{ ucwords($p->method) }}</td>
                             <td>{{ $p->description }}</td>
-                            <td>{{ $p->can_notify_on_pay ? 'Yes' : 'No' }}</td>
                             <td class="text-center">
                                 <div class="list-icons">
                                     <div class="dropdown">
@@ -121,7 +119,6 @@
                             <th>Class</th>
                             <th>Method</th>
                             <th>Info</th>
-                            <th>Can Notify</th>
                             <th class="text-center">Action</th>
                         </tr>
                     </thead>
@@ -135,16 +132,15 @@
                             <td>{{ $p->my_class_id ? $p->my_class->name : '' }}</td>
                             <td>{{ ucwords($p->method) }}</td>
                             <td>{{ $p->description }}</td>
-                            <td>{{ $p->can_notify_on_pay ? 'Yes' : 'No' }}</td>
                             <td class="text-center">
                                 <div class="list-icons">
                                     <div class="dropdown">
                                         <a class="material-symbols-rounded" href="javascript:;" data-toggle="dropdown">lists</a>
 
                                         <div class="dropdown-menu dropdown-menu-left">
-                                            {{--Edit--}}
+                                            {{-- Edit --}}
                                             <a href="{{ route('payments.edit', $p->id) }}" class="dropdown-item"><i class="material-symbols-rounded">edit</i> Edit</a>
-                                            {{--Delete--}}
+                                            {{-- Delete --}}
                                             @if (Qs::userIsSuperAdmin() or Qs::userIsAccountant())
                                             <a id="{{ $p->id }}" onclick="confirmDelete(this.id)" href="javascript:;" class="dropdown-item text-danger"><i class="material-symbols-rounded">delete</i> Delete</a>
                                             <form method="post" id="item-delete-{{ $p->id }}" action="{{ route('payments.destroy', $p->id) }}" class="hidden">@csrf @method('delete')</form>

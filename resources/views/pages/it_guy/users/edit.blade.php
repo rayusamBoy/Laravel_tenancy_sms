@@ -19,7 +19,7 @@
                     <div class="col-md-2">
                         <div class="form-group">
                             <label for="user_type"> Select User: <span class="text-danger">*</span></label>
-                            <select @if(!Qs::headSA(Auth::id())) disabled="disabled" @endif class="form-control select" name="user_type" id="user_type">
+                            <select @if(!Qs::headSA(auth()->id())) disabled="disabled" @endif class="form-control select" name="user_type" id="user_type">
                                 @foreach ($user_types as $ut)
                                 @if ($ut->title == 'parent')
                                 <option class="parent" value="{{ Qs::hash($ut->id) }}" @if($user->user_type == $ut->title) selected @endif>
@@ -46,8 +46,8 @@
                         </div>
                     </div>
                 </div>
-                {{--EMAIL ADDRESS--}}
                 <div class="row">
+                    {{--EMAIL ADDRESS--}}
                     <div class="col-md-3">
                         <div class="form-group">
                             <label>Email address: </label>
@@ -58,14 +58,14 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label>Phone:</label>
-                            <input value="{{ $user->phone }}" type="text" name="phone" data-mask="+999 9999 999 99" class="form-control" placeholder="+255 1234 567 89">
+                            <input value="{{ $user->phone }}" type="text" name="phone" data-mask="+9999?999999999" class="form-control" placeholder="+255 1234 567 89">
                         </div>
                     </div>
                     {{--TELEPHONE--}}
                     <div class="col-md-3">
                         <div class="form-group">
                             <label>Telephone:</label>
-                            <input value="{{ $user->phone2 }}" type="text" name="phone2" data-mask="+999 9999 999 99" class="form-control" placeholder="+255 1234 567 89">
+                            <input value="{{ $user->phone2 }}" type="text" name="phone2" data-mask="+9999?999999999" class="form-control" placeholder="+255 1234 567 89">
                         </div>
                     </div>
                     {{--BLOOD GROUP--}}
@@ -127,14 +127,14 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label class="d-block">Primary ID:</label>
-                            <input value="{{ $user->primary_id ?? '' }}" type="text" name="primary_id" data-mask="999999999" class="form-control" placeholder="123456789">
+                            <input value="{{ $user->primary_id ?? '' }}" type="text" name="primary_id" data-mask="www?wwwwwwwwwwwwwwwww" class="form-control" placeholder="123456789">
                         </div>
                     </div>
                     {{--SECONDARY ID--}}
                     <div class="col-md-3">
                         <div class="form-group">
                             <label class="d-block">Secondary ID:</label>
-                            <input value="{{ $user->secondary_id ?? '' }}" type="text" name="secondary_id" data-mask="99999999-99999-99999-99" class="form-control" placeholder="12345678-12345-12345-12">
+                            <input value="{{ $user->secondary_id ?? '' }}" type="text" name="secondary_id" data-mask="www?wwwwwwwwwwwwwwwww" class="form-control" placeholder="12345678123451234512">
                         </div>
                     </div>
                     {{--RELIGION--}}
@@ -143,7 +143,7 @@
                             <label for="religion">Religion: <span class="text-danger">*</span></label>
                             <select required data-placeholder="Choose..." name="religion" id="religion" class="select-search form-control">
                                 <option value=""></option>
-                                @foreach(Qs::getReligions() as $rel)
+                                @foreach(Usr::getReligions() as $rel)
                                 <option {{ ($user->religion == $rel) ? 'selected' : '' }} value="{{ $rel }}">{{ $rel }}</option>
                                 @endforeach
                             </select>
@@ -309,21 +309,13 @@
                     {{--SUBJECTS STUDIED--}}
                     <div class="col-md-8">
                         <div class="form-group">
-                            <label for="role">Subjects Studied: </label>
+                            <label for="role">Subjects Studied <span class="text-info">(comma (,) separated)</span>: </label>
                             <div>
-                                @foreach (array_unique(array_merge(Usr::getOLevelSubjects(), Usr::getALevelSubjects())) as $sub)
-                                <div class="form-check ml-1">
-                                    <label class="form-check-label">
-                                        {{ $sub }}
-                                        <input type="checkbox" name="subjects_studied[]" value="{{ $sub }}" class="form-input-styled" data-fouc @if(isset($staff_rec->subjects_studied) && $staff_rec->subjects_studied && in_array($sub, json_decode($staff_rec->subjects_studied))) checked @endif>
-                                    </label>
-                                </div>
-                                @endforeach
+                                <textarea name="subjects_studied" class="form-control" placeholder="ie., Subject one, Subject two, ...">{{ implode(",", json_decode($staff_rec->subjects_studied ?? "") ?? []) }}</textarea>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </fieldset>
 
         </form>

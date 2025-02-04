@@ -26,7 +26,6 @@
                             <th>Paid</th>
                             <th>Balance</th>
                             <th>Pay Now</th>
-                            <th>Parent Notify</th>
                             <th>Receipt No</th>
                             <th>Year</th>
                             <th class="text-center">Action</th>
@@ -52,17 +51,11 @@
                                     <div class="row">
                                         <div class="col-12 input-group">
                                             <input min="1" max="{{ $uc->balance ?: $uc->payment->amount }}" id="val-{{ Qs::hash($uc->id) }}" class="form-control form-control-sm w-6rem" required placeholder="Pay Now" title="Pay Now" name="amt_paid" type="number">
-                                            <button data-text="Paying..." class="btn input-group-text border-0" type="submit">Pay</button>
+                                            <button class="btn input-group-text border-0" type="submit">Pay</button>
                                         </div>
                                     </div>
                                 </form>
                             </td>
-                            {{-- Parent Notify --}}
-                            @if($uc->payment->can_notify_on_pay)
-                            <td>{{ $can_notify_parent ? 'Yes' : 'Cannot' }}</td>
-                            @else
-                            <td>Disabled</td>
-                            @endif
                             {{--Receipt No--}}
                             <td>{{ $uc->ref_no }}</td>
                             {{-- Year --}}
@@ -125,7 +118,7 @@
                                         <div class="dropdown-menu dropdown-menu-left">
                                             {{--Reset Payment--}}
                                             @if (Qs::userIsSuperAdmin() or Qs::userIsAccountant())
-                                            <a id="{{ Qs::hash($cl->id) }}" onclick="confirmReset(this.id)" href="javascript:;" class="dropdown-item"><i class="material-symbols-rounded">reset_alt</i> Reset Payment</a>
+                                            <a id="{{ Qs::hash($cl->id) }}" onclick="confirmResetTwice(this.id)" href="javascript:;" class="dropdown-item"><i class="material-symbols-rounded">restart_alt</i> Reset Payment</a>
                                             <form method="post" id="item-reset-{{ Qs::hash($cl->id) }}" action="{{ route('payments.reset_record', Qs::hash($cl->id)) }}" class="hidden">@csrf @method('delete')</form>
                                             @endif
                                             {{--Receipt--}}

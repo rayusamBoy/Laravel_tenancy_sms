@@ -4,7 +4,7 @@ namespace App\Helpers;
 
 use App\Models\PaymentRecord;
 
-class Pay
+class Pay extends Qs
 {
     public static function getYears($st_id)
     {
@@ -23,5 +23,10 @@ class Pay
             'unpaid' => 'Unpaid',
             'in_progress' => 'In Progress',
         ];
+    }
+
+    public static function getCurrencyUnit(): string
+    {
+        return 'TSh';
     }
 }

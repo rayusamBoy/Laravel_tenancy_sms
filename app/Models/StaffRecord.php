@@ -27,6 +27,7 @@ class StaffRecord extends Eloquent
     {
         return LogOptions::defaults()
             ->logFillable()
+            ->dontSubmitEmptyLogs()
             ->logOnlyDirty();
     }
 }

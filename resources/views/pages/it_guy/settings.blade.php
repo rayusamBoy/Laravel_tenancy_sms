@@ -100,14 +100,14 @@
                     <div class="form-group row">
                         <label class="col-lg-3 col-form-label font-weight-semibold">Admin Email <span class="text-danger">*</span></label>
                         <div class="col-lg-9">
-                            <input required name="admin_email" value="{{ $settings->where('type' , 'admin_email')->value('description') }}" type="email" class="form-control" placeholder="Eg., admin@hasnuumakame.sc.tz">
+                            <input required name="admin_email" value="{{ $settings->where('type' , 'admin_email')->value('description') }}" type="email" class="form-control" placeholder="Email">
                         </div>
                     </div>
                     {{-- Admin whatsapp --}}
                     <div class="form-group row">
                         <label class="col-lg-3 col-form-label font-weight-semibold">WhatsApp Link</label>
                         <div class="col-lg-9">
-                            <input name="admin_whatsapp_link" value="{{ $settings->where('type' , 'admin_whatsapp_link')->value('description') }}" type="text" class="form-control" placeholder="Format; https://wa.me/255710355377">
+                            <input name="admin_whatsapp_link" value="{{ $settings->where('type' , 'admin_whatsapp_link')->value('description') }}" type="text" class="form-control" placeholder="Format; https://wa.me/255111222333">
                         </div>
                     </div>
                 </div>
@@ -116,21 +116,21 @@
                     <div class="form-group row">
                         <label class="col-lg-3 col-form-label font-weight-semibold">Facebook Link</label>
                         <div class="col-lg-9">
-                            <input name="admin_facebook_link" value="{{ $settings->where('type' , 'admin_facebook_link')->value('description') }}" type="text" class="form-control" placeholder="Eg., https://www.facebook.com/rysmtulia07">
+                            <input name="admin_facebook_link" value="{{ $settings->where('type' , 'admin_facebook_link')->value('description') }}" type="text" class="form-control" placeholder="Eg., https://www.facebook.com/username">
                         </div>
                     </div>
                     {{-- Admin github link --}}
                     <div class="form-group row">
                         <label class="col-lg-3 col-form-label font-weight-semibold">Github Link</label>
                         <div class="col-lg-9">
-                            <input name="admin_github_link" value="{{ $settings->where('type' , 'admin_github_link')->value('description') }}" type="text" class="form-control" placeholder="Eg., https://github.com/rayusamBoy">
+                            <input name="admin_github_link" value="{{ $settings->where('type' , 'admin_github_link')->value('description') }}" type="text" class="form-control" placeholder="Eg., https://github.com/username">
                         </div>
                     </div>
                     {{-- Admin linkedIn link --}}
                     <div class="form-group row">
                         <label class="col-lg-3 col-form-label font-weight-semibold">LinkedIn Link</label>
                         <div class="col-lg-9">
-                            <input name="admin_linkedin_link" value="{{ $settings->where('type' , 'admin_linkedin_link')->value('description') }}" type="text" class="form-control" placeholder="Eg., https://www.linkedin.com/in/rayusam">
+                            <input name="admin_linkedin_link" value="{{ $settings->where('type' , 'admin_linkedin_link')->value('description') }}" type="text" class="form-control" placeholder="Eg., https://www.linkedin.com/in/username">
                         </div>
                     </div>
                 </div>

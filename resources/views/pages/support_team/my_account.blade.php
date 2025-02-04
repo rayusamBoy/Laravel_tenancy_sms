@@ -8,20 +8,21 @@
         {!! Qs::getPanelOptions() !!}
     </div>
 
-    {{-- Get password substring position from error message --}}
-    @php $get_p_sub_str_pos_from_err_msg = strpos($errors->first(), 'password') @endphp
+    @php
+    $errors_has_password_error = str_contains($errors->first(), 'password');
+    @endphp
 
     <div class="card-body">
         <ul class="nav nav-tabs nav-tabs-highlight">
-            <li class="nav-item"><a href="#change-pass" class="{{ ($get_p_sub_str_pos_from_err_msg != false ? 'nav-link active' : ($errors->any() ? 'nav-link' : 'nav-link active')) }}" data-toggle="tab">Change Password</a></li>
+            <li class="nav-item"><a href="#change-pass" class="{{ $errors_has_password_error ? 'nav-link active' : ($errors->any() ? 'nav-link' : 'nav-link active') }}" data-toggle="tab">Change Password</a></li>
             @if(Qs::userIsPTACLA() || Qs::userIsItGuy())
-            <li class="nav-item"><a href="#edit-profile" class="{{ ($get_p_sub_str_pos_from_err_msg != false ? 'nav-link' : ($errors->any() ? 'nav-link active' : 'nav-link')) }}" data-toggle="tab">Manage Profile</i></a></li>
+            <li class="nav-item"><a href="#edit-profile" class="{{ $errors_has_password_error ? 'nav-link' : ($errors->any() ? 'nav-link active' : 'nav-link') }}" data-toggle="tab">Manage Profile</i></a></li>
             @endif
             <li class="nav-item"><a href="#other" class="nav-link" data-toggle="tab">Other</a></li>
         </ul>
 
         <div class="tab-content">
-            <div class="{{ ($get_p_sub_str_pos_from_err_msg != false ? 'tab-pane fade show active' : ($errors->any() ? 'tab-pane fade show' : 'tab-pane fade show active')) }}" id="change-pass">
+            <div class="{{ $errors_has_password_error ? 'tab-pane fade show active' : ($errors->any() ? 'tab-pane fade show' : 'tab-pane fade show active') }}" id="change-pass">
                 <div class="row">
                     <div class="col-md-8">
                         <form method="post" action="{{ route('my_account.change_pass') }}">
@@ -30,21 +31,21 @@
                             <div class="form-group row">
                                 <label for="current_password" class="col-lg-3 col-form-label font-weight-semibold">Current Password <span class="text-danger">*</span></label>
                                 <div class="col-lg-9">
-                                    <input id="current_password" name="current_password" required type="password" class="form-control">
+                                    <input id="current_password" name="current_password" required type="password" class="form-control" autocomplete="current-password">
                                 </div>
                             </div>
                             {{--NEW PASSWORD--}}
                             <div class="form-group row">
                                 <label for="new_password" class="col-lg-3 col-form-label font-weight-semibold">New Password <span class="text-danger">*</span></label>
                                 <div class="col-lg-9">
-                                    <input id="new_password" name="new_password" required type="password" class="form-control">
+                                    <input id="new_password" name="new_password" required type="password" class="form-control" autocomplete="new-password">
                                 </div>
                             </div>
                             {{--CONFIRM PASSWORD--}}
                             <div class="form-group row">
                                 <label for="new_password_confirmation" class="col-lg-3 col-form-label font-weight-semibold">Confirm Password <span class="text-danger">*</span></label>
                                 <div class="col-lg-9">
-                                    <input id="new_password_confirmation" name="new_password_confirmation" required type="password" class="form-control">
+                                    <input id="new_password_confirmation" name="new_password_confirmation" required type="password" class="form-control" autocomplete="new-password">
                                 </div>
                             </div>
                             {{--SUBMIT BUTTON--}}
@@ -57,11 +58,11 @@
             </div>
 
             @if(Qs::userIsPTACLA() || Qs::userIsItGuy())
-            <div class="{{ ($get_p_sub_str_pos_from_err_msg != false ? 'tab-pane fade' : ($errors->any() ? 'tab-pane fade show' : 'tab-pane fade')) }}" id="edit-profile">
+            <div class="{{ $errors_has_password_error ? 'tab-pane fade' : ($errors->any() ? 'tab-pane fade show active' : 'tab-pane fade') }}" id="edit-profile">
                 <form enctype="multipart/form-data" method="post" action="{{ route('my_account.update') }}">
                     @csrf @method('put')
                     <div class="row">
-                        <div class="col-md-8">
+                        <div class="col-md-10">
                             {{--NAME--}}
                             <div class="form-group row">
                                 <label for="name" class="col-lg-3 col-form-label font-weight-semibold">Name</label>
@@ -108,7 +109,7 @@
                                 <div class="input-group col-lg-9">
                                     <input id="email" value="{{ $my->email ?? old('email') }}" name="email" type="email" class="form-control">
                                     <div class="input-group-append">
-                                        <span class="input-group-text border-0 bg-transparent default"><a href="{{ route('verification.send') }}" class="text-success font-weight-semi-bold">Send Link</a></span>
+                                        <span class="input-group-text border-0 bg-transparent default">@if(auth()->user()->email === null) <span class="text-warning font-weight-semi-bold">No Email</span> @else <a href="{{ route('verification.send') }}" class="text-success font-weight-semi-bold">Send Link</a> @endif</span>
                                     </div>
                                 </div>
                             </div>
@@ -117,28 +118,28 @@
                             <div class="form-group row">
                                 <label for="phone" class="col-lg-3 col-form-label font-weight-semibold">Phone </label>
                                 <div class="col-lg-9">
-                                    <input id="phone" value="{{ $my->phone ?? old('phone') }}" name="phone" type="text" data-mask="+999 9999 999 99" placeholder="+255 1234 567 89" class="form-control">
+                                    <input id="phone" value="{{ $my->phone ?? old('phone') }}" name="phone" type="text" data-mask="+9999?999999999" placeholder="+255 1234 567 89" class="form-control">
                                 </div>
                             </div>
                             {{--TELEPHONE--}}
                             <div class="form-group row">
                                 <label for="phone2" class="col-lg-3 col-form-label font-weight-semibold">Telephone </label>
                                 <div class="col-lg-9">
-                                    <input id="phone2" value="{{ $my->phone2 ?? old('phone2') }}" name="phone2" type="text" data-mask="+999 9999 999 99" placeholder="+255 1234 567 89" class="form-control">
+                                    <input id="phone2" value="{{ $my->phone2 ?? old('phone2') }}" name="phone2" type="text" data-mask="+9999?999999999" placeholder="+255123456789" class="form-control">
                                 </div>
                             </div>
                             {{--PRIMARY ID--}}
                             <div class="form-group row">
                                 <label for="primary_id" class="col-lg-3 col-form-label font-weight-semibold">Primary ID:</label>
                                 <div class="col-lg-9">
-                                    <input value="{{ $my->primary_id ?? old('primary_id') }}" type="text" name="primary_id" data-mask="999999999" class="form-control" placeholder="123456789" id="primary_id">
+                                    <input value="{{ $my->primary_id ?? old('primary_id') }}" type="text" name="primary_id" data-mask="www?wwwwwwwwwwwwwwwww" class="form-control" placeholder="123456789" id="primary_id">
                                 </div>
                             </div>
                             {{--SECONDARY ID--}}
                             <div class="form-group row">
                                 <label for="secondary_id" class="col-lg-3 col-form-label font-weight-semibold">Secondary ID:</label>
                                 <div class="col-lg-9">
-                                    <input value="{{ $my->secondary_id ?? old('secondary_id') }}" type="text" name="secondary_id" data-mask="99999999-99999-99999-99" class="form-control" placeholder="12345678-12345-12345-12">
+                                    <input value="{{ $my->secondary_id ?? old('secondary_id') }}" type="text" name="secondary_id" data-mask="www?wwwwwwwwwwwwwwwww" class="form-control" placeholder="12345678123451234512">
                                 </div>
                             </div>
                             {{--ADDRESS--}}
@@ -230,7 +231,7 @@
                                     <select class="select-search form-control" id="education_level" name="education_level" data-fouc data-placeholder="Choose..">
                                         <option value=""></option>
                                         @foreach(Usr::getEducationLevels() as $lv)
-                                        <option {{ ($staff_rec->education_level == $lv ? 'selected' : '') }} value="{{ $lv ?? old('education_level') }}">{{ $lv }}</option>
+                                        <option {{ $staff_rec->education_level == $lv ? 'selected' : '' }} value="{{ $lv ?? old('education_level') }}">{{ $lv }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -259,7 +260,7 @@
                                     <select class="select-search form-control" id="role" name="role" data-fouc data-placeholder="Choose..">
                                         <option value=""></option>
                                         @foreach(Usr::getStaffRoles() as $role)
-                                        <option {{ ($staff_rec->role == $role ? 'selected' : '') }} value="{{ $role }}">{{ $role ?? old('role') }}</option>
+                                        <option {{ $staff_rec->role == $role ? 'selected' : '' }} value="{{ $role }}">{{ $role ?? old('role') }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -283,39 +284,34 @@
                             </div>
                             @endif
                         </div>
+                    </div>
 
-                        @if((Qs::userIsSuperAdmin() || (Qs::userIsPTACLA()) && $staff_rec != null && $staff_rec->staff_data_edit === 1) || Qs::userIsItGuy())
-                        <div class="col-md-4">
-                            <div class="row m-0">
-                                {{--SUBJECTS STUDIED--}}
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <label for="role">Subjects Studied: </label>
-                                        <div>
-                                            @foreach (array_unique(array_merge(Usr::getOLevelSubjects(), Usr::getALevelSubjects())) as $sub)
-                                            <div class="form-check ml-1">
-                                                <label class="form-check-label">
-                                                    {{ $sub }}
-                                                    <input type="checkbox" name="subjects_studied[]" value="{{ $sub }}" class="form-input-styled" data-fouc @if($staff_rec->subjects_studied && in_array($sub, json_decode($staff_rec->subjects_studied))) checked @endif>
-                                                </label>
-                                            </div>
-                                            @endforeach
-                                        </div>
-                                    </div>
+                    <div class="row">
+                        @if((Qs::userIsSuperAdmin() || (Qs::userIsPTACLA()) && $staff_rec != null && $staff_rec->staff_data_edit == 1) || Qs::userIsItGuy())
+                        <div class="col-md-10">
+                            {{--SUBJECTS STUDIED--}}
+                            <div class="form-group row">
+                                <label for="role" class="col-lg-3 col-form-label font-weight-semibold">Subjects Studied <span class="text-info">(comma (,) separated)</span>: </label>
+                                <div class="col-lg-9">
+                                    <textarea name="subjects_studied" class="form-control" placeholder="ie., Subject one, Subject two, ...">{{ implode(",", json_decode($staff_rec->subjects_studied ?? "") ?? []) }}</textarea>
                                 </div>
                             </div>
                         </div>
                         @endif
                     </div>
 
-                    <div class="{{ Qs::userIsTeamSATCL() || Qs::userIsItGuy() ? 'float-right' : 'col-md-6 float-right' }}">
-                        <button type="submit" class="btn btn-danger d-flex">Submit form <i class="material-symbols-rounded ml-2">send</i></button>
+                    <div class="row">
+                        <div class="col-md-10">
+                            <div class="float-right">
+                                <button type="submit" class="btn btn-danger d-flex">Submit form <i class="material-symbols-rounded ml-2">send</i></button>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>
             @endif
 
-            <div class="tab-pane fade show" id="other">
+            <div class="tab-pane fade" id="other">
                 <form method="post" action="{{ route('my_account.other') }}">
                     @csrf @method('put')
                     <div class="row">
@@ -323,7 +319,7 @@
                             {{--SIDE BAR MINIMIZED--}}
                             <div class="form-group row">
                                 <label for="sidebar_minimized" class="col-lg-8 col-form-label font-weight-semibold">Minimize Sidebar <span class="text-danger">*</span></label>
-                                <div class="col-lg-3">
+                                <div class="col-lg-4">
                                     <select class="form-control select" name="sidebar_minimized" id="sidebar_minimized">
                                         <option {{ auth()->user()->sidebar_minimized ? 'selected' : '' }} value="1">Yes</option>
                                         <option {{ auth()->user()->sidebar_minimized ?: 'selected' }} value="0">No</option>
@@ -331,8 +327,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-5">
-                            {{--SIDE BAR MINIMIZED--}}
+                        <div class="col-md-6">
+                            {{--SOUND NOTIFICATIONS--}}
                             <div class="form-group row">
                                 <label for="allow_system_sounds" class="col-lg-9 col-form-label font-weight-semibold">Allow System Sounds (ie., new message or notification) <span class="text-danger">*</span></label>
                                 <div class="col-lg-3">
@@ -343,7 +339,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="row">
                                 <div class="col-12">
                                     {{--SUBMIT BUTTON--}}
@@ -355,6 +351,17 @@
                         </div>
                     </div>
                 </form>
+                <hr class="divider">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label class="col-8 col-form-label font-weight-semibold">Reveall all hidden alert messages</label>
+                            <div class="col-4 text-right">
+                                <button type="button" id="clear-do-not-show-again-alert-msgs" class="btn btn-warning btn-sm">Reveal</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

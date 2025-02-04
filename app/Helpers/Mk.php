@@ -8,6 +8,7 @@ use App\Models\Grade;
 use App\Models\Mark;
 use App\Models\Division;
 use App\Models\Section;
+use App\Models\Subject;
 use App\Models\SubjectRecord;
 use App\Models\AssessmentRecord;
 use App\Models\TimeTable;
@@ -150,15 +151,15 @@ class Mk extends Qs
                     $avg = $sat == 0 ? $sat : round($s->sum('exm') / $sat, 1);
                     $collection .=
                         '<tr>
-                        <td class="text-center">' . $mark->subject->slug . '</td>
-                        <td class="text-center">' . $mark->subject->name . '</td>
-                        <td class="text-center">' . $reg . '</td>
-                        <td class="text-center">' . $sat . '</td>
-                        <td class="text-center">' . $reg - $sat . '</td>
-                        <td class="text-center">' . $avg . '</td>
-                        <td class="text-green float-left pl-2">' . self::getGrade($avg, true) . '</td>
-                        <td><table style="border-collapse: collapse;">
-                    <tr>';
+                            <td class="text-center">' . $mark->subject->slug . '</td>
+                            <td class="text-center">' . $mark->subject->name . '</td>
+                            <td class="text-center">' . $reg . '</td>
+                            <td class="text-center">' . $sat . '</td>
+                            <td class="text-center">' . $reg - $sat . '</td>
+                            <td class="text-center">' . $avg . '</td>
+                            <td class="text-green float-left pl-2">' . self::getGrade($avg, true) . '</td>
+                            <td><table style="border-collapse: collapse;">
+                        <tr>';
 
                     foreach ($grades as $grd) {
                         $r = $p->get()->where('grade_id', $grd->id);
@@ -224,18 +225,18 @@ class Mk extends Qs
 
         foreach ($divisions as $div) {
             $divison_name .= "<th class=\"text-center\">{$div->name}</th>";
-            $male_count .= '<td class="text-center">' . $mc = $exr_attended->where('student.gender', 'Male')->where('division_id', $div->id)->whereNotNull('division_id')->count() ?? '-' . '</td>';
-            $female_count .= '<td class="text-center">' . $fc = $exr_attended->where('student.gender', 'Female')->where('division_id', $div->id)->whereNotNull('division_id')->count() ?? '-' . '</td>';
-            $count_per_div .= '<td class="text-center">' . ($mc + $fc) ?? "-</td>";
+            $male_count .= '<td class="text-center">' . ($mc = $exr_attended->where('student.gender', 'Male')->where('division_id', $div->id)->whereNotNull('division_id')->count()) . '</td>';
+            $female_count .= '<td class="text-center">' . ($fc = $exr_attended->where('student.gender', 'Female')->where('division_id', $div->id)->whereNotNull('division_id')->count()) . '</td>';
+            $count_per_div .= '<td class="text-center">' . $mc + $fc . "</td>";
         }
 
         $colspan = ($count = $divisions->count() + 1) / 2; // 1 - for Division column header, and 2 for two required columns - attended and absent
 
         // Sometimes the count may be odd. Thus, take  the count minus the arleady used colspan (for absent) so that to span to all the remaining columns.
-        $attended .= '</tr><tr><td class="text-center" colspan="' . round($count - $colspan) . '">SAT: ' . $exr_attended->whereNotNull('division_id')->count() ?? '-' . '</td>';
-        $absent .= '<td class="text-center" colspan="' . round($colspan) . '">ABS: ' . $exr_absent->count() ?? '-' . '</td>';
+        $attended .= '</tr><tr><td class="text-center" colspan="' . round($count - $colspan) . '">SAT: ' . $exr_attended->whereNotNull('division_id')->count() . '</td>';
+        $absent .= '<td class="text-center" colspan="' . round($colspan) . '">ABS: ' . $exr_absent->count() . '</td>';
 
-        $a = '<table class="table-styled styled"><thead style="background: #f5f5f5;"><tr><th class="text-center">Division</th>';
+        $a = '<table class="table-styled styled"><thead><tr><th class="text-center">Division</th>';
         $b = '</tr></thead><tbody><tr><td class="text-center">Male</td>';
         $c = '</tr><tr><td class="text-center">Female</td>';
         $d = '</tr><tr><td class="text-center">Total</td>';
@@ -506,7 +507,7 @@ class Mk extends Qs
             $credits .= "<td class=\"text-center\">{$grade->credit}</td>";
         }
 
-        $a = '<table class="table-styled"><thead style="background: #f5f5f5;"><tr><th class="text-center">Grade</th>';
+        $a = '<table class="table-styled"><thead><tr><th class="text-center">Grade</th>';
         $b = '</tr></thead><tbody><tr><td class="text-center">Mark From</td>';
         $c = '</tr><tr><td class="text-center">Mark To</td>';
         $d = '</tr><tr><td class="text-center">Point</td>';
@@ -529,7 +530,7 @@ class Mk extends Qs
             $points_to .= "<td class=\"text-center\">{$division->points_to}</td>";
         }
 
-        $a = '<table class="table-styled"><thead style="background: #f5f5f5;"><tr><th class="text-center">Division</th>';
+        $a = '<table class="table-styled"><thead><tr><th class="text-center">Division</th>';
         $b = '</tr></thead><tbody><tr><td class="text-center">Points From</td>';
         $c = '</tr><tr><td class="text-center">Points To</td>';
         $d = '</tr></tbody></table>';
@@ -550,15 +551,12 @@ class Mk extends Qs
 
     public static function getSubjects($class_id)
     {
-        $subjects_table = 'subjects';
-        $subject_recs_table = 'subject_records';
-
         if (Qs::userIsTeacher())
-            return DB::table($subject_recs_table)->where('teacher_id', auth()->id())->rightJoin($subjects_table, function ($rightjoin) use ($subjects_table, $subject_recs_table) {
-                $rightjoin->on("$subject_recs_table.subject_id", '=', "$subjects_table.id");
-            })->select('*')->where("$subjects_table.my_class_id", '=', $class_id)->distinct()->get();
+            return SubjectRecord::where('teacher_id', auth()->id())->rightJoin(Subject::getTable(), function ($rightjoin) {
+                $rightjoin->on(SubjectRecord::getTable() . '.subject_id', '=', Subject::getTable() . '.id');
+            })->select('*')->where(Subject::getTable() . '.my_class_id', '=', $class_id)->distinct()->get();
         else
-            return DB::table($subjects_table)->where('my_class_id', $class_id)->distinct()->get();
+            return Subject::where('my_class_id', $class_id)->distinct()->get();
     }
 
     public static function getStudentExamPositionByValues()

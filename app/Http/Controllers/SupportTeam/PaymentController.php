@@ -37,7 +37,7 @@ class PaymentController extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            new Middleware('teamAccount', except: ['status'])
+            new Middleware('teamAccount', except: ['status', 'receipts'])
         ];
     }
 
@@ -87,14 +87,8 @@ class PaymentController extends Controller implements HasMiddleware
         $d['sr'] = $sr = $this->student->getRecord(['user_id' => $st_id])->first();
         $d['uncleared'] = $pr->where('paid', 0);
         $d['cleared'] = $pr->where('paid', 1);
-        $d['can_notify_parent'] = $this->can_notify_parent($sr);
 
         return view('pages.support_team.payments.invoice', $d);
-    }
-
-    public function can_notify_parent($sr): bool
-    {
-        return $sr->my_parent->email_verified_at != null && $sr->my_parent->is_notifiable;
     }
 
     public function status($st_id, $year = NULL)
@@ -132,8 +126,8 @@ class PaymentController extends Controller implements HasMiddleware
         $d['sr'] = $this->student->getRecord(['user_id' => $pr->student_id])->first();
         $d['settings'] = Qs::getSettings();
 
-        if ($notification_id !== null){
-            app(NotificationController::class)->mark_as_read($notification_id);
+        if ($notification_id !== null) {
+            app(NotificationController::class)->mark_as_read($notification_id, false);
         }
 
         return view('pages.support_team.payments.receipt', $d);
@@ -189,11 +183,9 @@ class PaymentController extends Controller implements HasMiddleware
         $receipt = $this->pay->createReceipt($d2);
         $st_rec = $this->student->getRecord(['user_id' => $pr->student_id])->with(['my_parent', 'user'])->get();
 
-        if ($payment->can_notify_on_pay && $this->can_notify_parent($st_rec->first())) {
-            $parent = $st_rec->pluck('my_parent')->first();
-            //return (new StudentPaymentPaid($receipt))->toMail($parent); // For Testing on browser
-            $parent->notify(new StudentPaymentPaid($receipt, $st_rec->first()));
-        }
+        $parent = $st_rec->pluck('my_parent')->first();
+        //return (new StudentPaymentPaid($receipt))->toMail($parent); // For Testing on browser
+        $parent->notify(new StudentPaymentPaid($receipt, $st_rec->first()));
 
         return Qs::jsonUpdateOk();
     }

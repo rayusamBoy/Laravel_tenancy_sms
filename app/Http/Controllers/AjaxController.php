@@ -30,7 +30,7 @@ class AjaxController extends Controller
 
     public function get_state($nal_id)
     {
-        $lgas = $this->loc->getState($nal_id);
+        $lgas = $this->loc->getStateByNationalityID($nal_id);
 
         return $lgas->map(function ($q) {
             return ['id' => $q->id, 'name' => $q->name];
@@ -66,14 +66,9 @@ class AjaxController extends Controller
         })->all();
     }
 
-    public function get_class_type_subjects($class_type_id)
+    public function get_pre_defined_subjects()
     {
-        $class_type_id = (int) $class_type_id;
-        $subjects = match ($class_type_id) {
-            1 => null, // Primary level
-            2 => Usr::getOLevelSubjects(), // Secondary level
-            3 => Usr::getALevelSubjects(), // Advance level
-        };
+        $subjects = Usr::getPredefinedSubjects();
 
         return $subjects;
     }

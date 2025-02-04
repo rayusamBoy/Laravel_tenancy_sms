@@ -112,6 +112,6 @@ class TimeTableRepo
 
     public function findRecord($id)
     {
-        return TimeTableRecord::findOrFail($id);
+        return TimeTableRecord::find($id);
     }
 }

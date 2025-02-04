@@ -66,7 +66,7 @@
 
                             <div class="dropdown-menu dropdown-menu-left">
                                 {{-- View Profile --}}
-                                <a href="{{ route('students.show', Qs::hash($s->user->id)) }}" class="dropdown-item"><i class="material-symbols-rounded">visibility</i> View Profile</a>
+                                <a href="{{ route('students.show', Qs::hash($s->id)) }}" class="dropdown-item"><i class="material-symbols-rounded">visibility</i> View Profile</a>
                                 <hr class="divider m-0">
                                 <span class="dropdown-item opacity-75 disabled">Manage Payments</span>
                                 <a href="{{ route('payments.invoice', [Qs::hash($s->user_id)]) }}" class="dropdown-item">All Payments</a>

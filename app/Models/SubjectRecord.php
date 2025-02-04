@@ -32,6 +32,7 @@ class SubjectRecord extends Eloquent
     {
         return LogOptions::defaults()
             ->logFillable()
+            ->dontSubmitEmptyLogs()
             ->logOnlyDirty();
     }
 }

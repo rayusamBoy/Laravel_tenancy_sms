@@ -182,6 +182,30 @@ class NonTenancySettingsTableSeeder extends Seeder
                     'created_at' => NULL,
                     'updated_at' => NULL,
                 ),
+            19 =>
+                array(
+                    'id' => 20,
+                    'type' => 'enable_email_notification',
+                    'description' => 1,
+                    'created_at' => NULL,
+                    'updated_at' => NULL,
+                ),
+            21 =>
+                array(
+                    'id' => 21,
+                    'type' => 'enable_sms_notification',
+                    'description' => 1,
+                    'created_at' => NULL,
+                    'updated_at' => NULL,
+                ),
+            22 =>
+                array(
+                    'id' => 22,
+                    'type' => 'enable_push_notification',
+                    'description' => 1,
+                    'created_at' => NULL,
+                    'updated_at' => NULL,
+                ),
         ));
     }
 }

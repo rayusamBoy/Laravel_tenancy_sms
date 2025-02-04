@@ -17,7 +17,7 @@
                             <span class="participant">
                                 <li><a target="_blank" href="{{ route('users.show', Qs::hash($pt->id)) }}">{{ $loop->iteration }} - {{ $pt->name }}</a></li>
                                 @if(Qs::userIsSuperAdmin())
-                                <a href="{{ route('messages.remove_participant', [Qs::hash($thread->id), Qs::hash($pt->id)]) }}" class="material-symbols-rounded" aria-label="remove" title="Remove {{ $pt->name }}">close</a>
+                                <a href="{{ route('messages.remove_participant', [Qs::hash($thread->id), Qs::hash($pt->id)]) }}" class="material-symbols-rounded pl-1" aria-label="remove" title="Remove {{ $pt->name }}">close</a>
                                 @endif
                             </span>
                             @endforeach

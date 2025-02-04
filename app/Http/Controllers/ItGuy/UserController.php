@@ -82,21 +82,18 @@ class UserController extends Controller implements HasMiddleware
     public function store(UserRequest $req)
     {
         $user_type = $this->user->findType($req->user_type)->title;
+        $except = ['_token', '_method'];
+        $data = $req->except(array_merge(Qs::getStaffRecord(), Qs::getParentRelativeRecord(), $except));
 
-        $data = $req->except(array_merge(Qs::getStaffRecord(), Qs::getParentRelativeRecord()));
-        unset($data['_token']);
         $data['name'] = $name = ucwords(strtolower($req->name));
         $data['user_type'] = $user_type;
         $data['code'] = $code = strtoupper(Str::random(10));
         $data['photo'] = Usr::createAvatar($name, $code, $user_type);
         $data['dob'] = $req->dob;
 
-        $user_is_staff = in_array($user_type, Qs::getStaff());
-        $user_is_teamSA = in_array($user_type, Qs::getTeamSA());
-
         $emp_date = $req->emp_date ?? now();
         $staff_id = Qs::getAppCode() . '/STAFF/' . date('Y/m', strtotime($emp_date)) . '/' . mt_rand(1000, 9999);
-        $data['username'] = $uname = ($user_is_teamSA || Qs::userIsItGuy()) ? $req->username : $staff_id;
+        $data['username'] = $uname = $req->username ?? $staff_id;
 
         $pass = $req->password ?: $user_type;
         $data['password'] = Hash::make($pass);
@@ -106,14 +103,8 @@ class UserController extends Controller implements HasMiddleware
             $photo = $req->file('photo');
             $f = Qs::getFileMetaData($photo);
             $f['name'] = 'photo.' . $f['ext'];
-
-            if (Usr::tenancyInitilized()) {
-                $f['path'] = $data['photo'] = Qs::getUploadPath($user_type) . $data['code'] . '/' . $f['name'];
-                $photo->storeAs('public/' . $f['path']);
-            } else {
-                $f['path'] = $photo->storeAs(Qs::getUploadPath($user_type) . $data['code'], $f['name']);
-                $data['photo'] = 'storage/' . $f['path'];
-            }
+            $f['path'] = $photo->storeAs(Qs::getUploadPath($user_type) . $data['code'], $f['name']);
+            $data['photo'] = 'storage/' . $f['path'];
         }
 
         /* Ensure that both username and Email are not blank*/
@@ -122,14 +113,12 @@ class UserController extends Controller implements HasMiddleware
 
         $user = $this->user->create($data); // Create User
 
-        /* CREATE STAFF RECORD */
-        if ($user_is_staff || Qs::userIsItGuy()) {
-            $d2 = $req->only(Qs::getStaffRecord());
-            $d2['user_id'] = $user->id;
-            $d2['code'] = $staff_id;
-            $d2['subjects_studied'] = isset($d2['subjects_studied']) ? json_encode($d2['subjects_studied']) : NULL;
-            $this->user->createStaffRecord($d2);
-        }
+        /* Create staff record */
+        $d2 = $req->only(Qs::getStaffRecord());
+        $d2['user_id'] = $user->id;
+        $d2['code'] = $staff_id;
+        $d2['subjects_studied'] = isset($d2['subjects_studied']) ? json_encode($d2['subjects_studied']) : NULL;
+        $this->user->createStaffRecord($d2);
 
         return Qs::jsonStoreOk();
     }
@@ -146,14 +135,10 @@ class UserController extends Controller implements HasMiddleware
             return Qs::json(__('msg.denied'), FALSE);
 
         $user = $this->user->find($id);
-
         $user_type = $this->user->findType($user_type_id)->title ?? $user->user_type;
-        $user_was_staff = in_array($user->user_type, Qs::getStaff());
-        $user_is_staff = in_array($user_type, Qs::getStaff());
-
-        $except = array_merge(Qs::getStaffRecord(), Qs::getParentRelativeRecord());
+        $except = array_merge(Qs::getStaffRecord(), ['_token', '_method']);
         $data = $req->except($except);
-        unset($data["_token"], $data["_method"]); // Remove token and method values from requested data
+
         $data['name'] = $name = ucwords(strtolower($req->name));
         $data['user_type'] = $user_type;
         $data['message_media_heading_color'] = '#' . substr(md5($name), 0, 6); // Use a unique text color based on the name
@@ -162,34 +147,17 @@ class UserController extends Controller implements HasMiddleware
             $photo = $req->file('photo');
             $f = Qs::getFileMetaData($photo);
             $f['name'] = 'photo.' . $f['ext'];
-
-            if (Usr::tenancyInitilized()) {
-                $f['path'] = $data['photo'] = Qs::getUploadPath($user_type) . $user->code . '/' . $f['name'];
-                $photo->storeAs('public/' . $f['path']);
-            } else {
-                $f['path'] = $photo->storeAs(Qs::getUploadPath($user_type) . $user->code, $f['name']);
-                $data['photo'] = 'storage/' . $f['path'];
-            }
+            $f['path'] = $photo->storeAs(Qs::getUploadPath($user_type) . $user->code, $f['name']);
+            $data['photo'] = 'storage/' . $f['path'];
         }
 
-        // $data['photo'] = Usr::createAvatar($data['name'], $user->code, $user->user_type);
+        $this->user->update($id, $data);   /* Update user record */
 
-        $this->user->update($id, $data);   /* UPDATE USER RECORD */
-
-        /* UPDATE OR CREATE STAFF RECORD */
-        if ($user_was_staff) {
-            if ($user_is_staff) {
-                $d2 = $req->only(Qs::getStaffRecord());
-                $d2['code'] = $data['username'];
-                $this->user->updateStaffRecord(['user_id' => $id], $d2);
-            } else
-                $this->user->deleteStaffRecord(['user_id' => $id]);
-        } elseif ($user_is_staff || Qs::userIsItGuy()) {
-            $d2 = $req->only(Qs::getStaffRecord());
-            $d2['code'] = $user->code;
-            $d2['subjects_studied'] = isset($d2['subjects_studied']) ? json_encode($d2['subjects_studied']) : NULL;
-            $this->user->updateStaffRecord(['user_id' => $id], $d2);
-        }
+        /* Update staff record */
+        $d2 = $req->only(Qs::getStaffRecord());
+        $d2['code'] = $user->code;
+        $d2['subjects_studied'] = isset($d2['subjects_studied']) ? json_encode($d2['subjects_studied']) : NULL;
+        $this->user->updateStaffRecord(['user_id' => $id], $d2);
 
         return Qs::jsonUpdateOk();
     }
@@ -203,11 +171,10 @@ class UserController extends Controller implements HasMiddleware
         $data['user'] = $this->user->find($user_id);
 
         /* Prevent Other Students from viewing Profile of others*/
-        if (auth()->id() != $user_id && !Qs::userIsTeamSA() && !Qs::userIsItGuy())
+        if (auth()->id() != $user_id && !Qs::userIsItGuy())
             return redirect(route('dashboard'))->with('pop_error', __('msg.denied'));
 
-        if (Qs::userIsTeamSATCL())
-            $data['staff_rec'] = $this->user->getStaffRecord(['user_id' => $user_id])->first() ?: null;
+        $data['staff_rec'] = $this->user->getStaffRecord(['user_id' => $user_id])->first() ?: null;
 
         return view('pages.it_guy.users.show', $data);
     }
@@ -224,6 +191,7 @@ class UserController extends Controller implements HasMiddleware
 
         $path = Qs::getUploadPath($user->user_type) . $user->code;
         Storage::exists($path) ? Storage::deleteDirectory($path) : true;
+        
         $this->user->forceDelete($user->id);
 
         return back()->with('flash_success', __('msg.del_ok'));
@@ -232,7 +200,8 @@ class UserController extends Controller implements HasMiddleware
     public function update_user_blocked_state(UserBlockedState $req)
     {
         $user_id = $req->id;
-        $this->user->update2(['id' => $user_id], $req->only("blocked"));
+        $data = $req->only("blocked");
+        $this->user->update($user_id, $data);
 
         return Qs::json("ok");
     }

@@ -50,6 +50,7 @@ class StudentRecord extends Eloquent
     {
         return LogOptions::defaults()
             ->logFillable()
+            ->dontSubmitEmptyLogs()
             ->logOnlyDirty();
     }
 }

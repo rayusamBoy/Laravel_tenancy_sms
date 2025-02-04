@@ -62,7 +62,7 @@
                 {{-- Credential file --}}
                 <div class="col-lg-4">
                     <label>Upload Service Account Credential File:</label>
-                    <input value="{{ old('service_acc_credential_file') }}" accept=".json" type="file" name="service_acc_credential_file" class="form-input-styled" data-fouc>
+                    <input value="{{ old('service_account_credential_file') }}" accept=".json" type="file" name="service_account_credential_file" class="form-input-styled" data-fouc>
                     <span class="form-text text-muted">Accepted File: json, Max file size 2Mb</span>
 
                     @if(isset($credential_file))

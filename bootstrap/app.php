@@ -38,10 +38,14 @@ return Application::configure(basePath: dirname(__DIR__))
             'teamLibrary' => \App\Http\Middleware\Custom\TeamLibrary::class,
             'teamAdministrative' => \App\Http\Middleware\Custom\TeamAdministrative::class,
             'checkForPassUpdate' => \App\Http\Middleware\Custom\CheckForPasswordUpdate::class,
+            'handleCookie' => \App\Http\Middleware\Custom\HandleCookie::class,
             'examIsLocked' => \App\Http\Middleware\Custom\ExamIsLocked::class,
             'myParent' => \App\Http\Middleware\Custom\MyParent::class,
             '2fa' => \PragmaRX\Google2FALaravel\Middleware::class,
             'itGuy' => \App\Http\Middleware\Custom\ITGuy::class,
+        ]);
+        $middleware->encryptCookies(except: [
+            'do_not_show_els_with_these_ids_again',
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

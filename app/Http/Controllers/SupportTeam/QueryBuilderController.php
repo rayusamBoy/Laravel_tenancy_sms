@@ -89,6 +89,8 @@ class QueryBuilderController extends Controller
         // Explode string and take the first part of the space separated parts if any
         // ie., for the string 'users.name as user' we need 'users.name'
         $orderby_column = explode(" ", $req->orderby_column)[0];
+        if ($orderby_column == "id")
+            $orderby_column = "$from.$orderby_column";
         $orderby_direction = explode(" ", $req->orderby_direction)[0];
 
         // If the condition or condition_two is 'like'. Finds any values that have "input or input_two" text in any position
@@ -137,7 +139,7 @@ class QueryBuilderController extends Controller
                     ->whereNull('users.deleted_at')
                     ->distinct()
                     ->limit($limit)
-                    ->orderBy("users.$orderby_column", $orderby_direction)
+                    ->orderBy($orderby_column, $orderby_direction)
                     ->get()
                 : DB::table("student_records")
                     ->join('users', function ($join) {
@@ -161,7 +163,7 @@ class QueryBuilderController extends Controller
                     ->whereNull('users.deleted_at')
                     ->distinct()
                     ->limit($limit)
-                    ->orderBy("users.$orderby_column", $orderby_direction)
+                    ->orderBy($orderby_column, $orderby_direction)
                     ->get(),
                 "staff_records" => ($where_two != NULL or $input_two != NULL)
                 ? DB::table("staff_records")
@@ -287,7 +289,7 @@ class QueryBuilderController extends Controller
                     ->select($expression)
                     ->distinct()
                     ->limit($limit)
-                    ->orderBy("subjects.$orderby_column", $orderby_direction)
+                    ->orderBy($orderby_column, $orderby_direction)
                     ->get(),
                 default => ($where_two != NULL or $input_two != NULL)
                 ? DB::table($from)
@@ -297,7 +299,7 @@ class QueryBuilderController extends Controller
                     ->setBindings([$input, $input_two])
                     ->distinct()
                     ->limit($limit)
-                    ->orderBy("$from.$orderby_column", $orderby_direction)
+                    ->orderBy($orderby_column, $orderby_direction)
                     ->get()
                 : DB::table($from)
                     ->select($expression)
@@ -305,7 +307,7 @@ class QueryBuilderController extends Controller
                     ->setBindings([$input])
                     ->distinct()
                     ->limit($limit)
-                    ->orderBy("$from.$orderby_column", $orderby_direction)
+                    ->orderBy($orderby_column, $orderby_direction)
                     ->get(),
             };
         } elseif ($where != 'none' && ($where_two != 'none' || $input_two != NULL))
@@ -392,7 +394,7 @@ class QueryBuilderController extends Controller
                     ->select($expression)
                     ->distinct()
                     ->limit($limit)
-                    ->orderBy("$from.$orderby_column", $orderby_direction)
+                    ->orderBy($orderby_column, $orderby_direction)
                     ->get(),
             };
 

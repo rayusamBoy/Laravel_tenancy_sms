@@ -65,7 +65,7 @@
                             <input name="term_ends" value="{{ $settings->where('type' , 'term_ends')->value('description') }}" type="text" class="form-control date-pick" placeholder="Date Term Ends">
                         </div>
                         <div class="col-lg-3 mt-2">
-                            <span class="font-weight-bold font-italic">MM/DD/YYYY </span>
+                            <span class="font-weight-bold font-italic text-info-800">MM/DD/YYYY </span>
                         </div>
                     </div>
                     {{-- Next term begins --}}
@@ -75,43 +75,55 @@
                             <input name="term_begins" value="{{ $settings->where('type' , 'term_begins')->value('description') }}" type="text" class="form-control date-pick" placeholder="Date Term Ends">
                         </div>
                         <div class="col-lg-3 mt-2">
-                            <span class="font-weight-bold font-italic">MM/DD/YYYY </span>
+                            <span class="font-weight-bold font-italic text-info-800">MM/DD/YYYY </span>
                         </div>
                     </div>
                     {{-- Lock exam --}}
                     <div class="form-group row">
                         <label for="lock_exam" class="col-lg-3 col-form-label font-weight-semibold">Lock Exam</label>
-                        <div class="col-lg-3">
+                        <div class="col-lg-2">
                             <select class="form-control select" name="lock_exam" id="lock_exam">
                                 <option {{ $settings->where('type' , 'lock_exam')->value('description') ? 'selected' : '' }} value="1">Yes</option>
-                                <option {{ $settings->where('type' , 'lock_exam')->value('description') ?: 'selected' }} value="0">No</option>
+                                <option {{ $settings->where('type' , 'lock_exam')->value('description') ? 'selected' : '' }} value="0">No</option>
                             </select>
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-7">
                             <span class="font-weight-bold font-italic text-info-800">{{ __('msg.lock_exam') }}</span>
                         </div>
                     </div>
-                    {{--Marksheet print--}}
+
                     <div class="form-group row">
-                        <label for="allow_marksheet_print" class="col-lg-8 col-form-label font-weight-semibold">Allow Marksheet Print</label>
-                        <div class="col-lg-4">
-                            <div class="form-group text-center">
-                                <select class="form-control select" name="allow_marksheet_print" id="allow_marksheet_print">
-                                    <option {{ $settings->where('type' , 'allow_marksheet_print')->value('description') ? 'selected' : '' }} value="1">Yes</option>
-                                    <option {{ $settings->where('type' , 'allow_marksheet_print')->value('description') ?: 'selected' }} value="0">No</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    {{--Assessmentsheet print--}}
-                    <div class="form-group row">
-                        <label for="allow_assessmentsheet_print" class="col-lg-8 col-form-label font-weight-semibold">Allow Assessmentsheet Print</label>
-                        <div class="col-lg-4">
-                            <div class="form-group text-center">
-                                <select class="form-control select" name="allow_assessmentsheet_print" id="allow_assessmentsheet_print">
-                                    <option {{ $settings->where('type' , 'allow_assessmentsheet_print')->value('description') ? 'selected' : '' }} value="1">Yes</option>
-                                    <option {{ $settings->where('type' , 'allow_assessmentsheet_print')->value('description') ?: 'selected' }} value="0">No</option>
-                                </select>
+                        {{-- Enable notification --}}
+                        <div class="col-12">
+                            <label class="col-form-label font-weight-semibold">Enable Notifications</label>
+                            <div class="form-group text-center row">
+                                <div class="col-4">
+                                    <label for="email_channel" class="col-form-label font-weight-semibold float-left">Email</label>
+                                    <div class="form-group text-center">
+                                        <select class="form-control select" name="enable_email_notification" id="email_channel">
+                                            <option {{ $settings->where('type' , 'enable_email_notification')->value('description') == 1 ? 'selected' : '' }} value="1">On</option>
+                                            <option {{ $settings->where('type' , 'enable_email_notification')->value('description') == 0 ? 'selected' : '' }} value="0">Off</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <label for="push_channel" class="col-form-label font-weight-semibold float-left">Push</label>
+                                    <div class="form-group text-center">
+                                        <select class="form-control select" name="enable_push_notification" id="push_channel">
+                                            <option {{ $settings->where('type' , 'enable_push_notification')->value('description') == 1 ? 'selected' : '' }} value="1">On</option>
+                                            <option {{ $settings->where('type' , 'enable_push_notification')->value('description') == 0 ? 'selected' : '' }} value="0">Off</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <label for="sms_channel" class="col-form-label font-weight-semibold float-left">SMS</label>
+                                    <div class="form-group text-center">
+                                        <select class="form-control select" name="enable_sms_notification" id="sms_channel">
+                                            <option {{ $settings->where('type' , 'enable_sms_notification')->value('description') == 1 ? 'selected' : '' }} value="1">On</option>
+                                            <option {{ $settings->where('type' , 'enable_sms_notification')->value('description') == 0 ? 'selected' : '' }} value="0">Off</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -119,7 +131,7 @@
                 <div class="col-md-6">
                     {{--Fees--}}
                     <fieldset>
-                        <strong>Next Term Fees</strong>
+                        <h6>Next Term Fees ({{ Pay::getCurrencyUnit() }})</h6>
                         @foreach($class_types as $ct)
                         <div class="form-group row">
                             <label class="col-lg-3 col-form-label font-weight-semibold">{{ $ct->name }}</label>
@@ -145,15 +157,15 @@
                         </div>
                         {{-- Login and related page background --}}
                         @php
-                            use Database\Seeders\NonTenancySettingsTableSeeder;
-                            $settings_table_seeder = new NonTenancySettingsTableSeeder();
-                            $bg = $settings->where('type', 'login_and_related_pages_bg')->value('description');
+                        use Database\Seeders\NonTenancySettingsTableSeeder;
+                        $settings_table_seeder = new NonTenancySettingsTableSeeder();
+                        $bg = $settings->where('type', 'login_and_related_pages_bg')->value('description');
                         @endphp
                         <div class="col-lg-6">
                             <div class="form-group text-center">
                                 <label class="col-form-label font-weight-semibold">Change Login And related Pages Background:</label>
                                 <div class="mb-3">
-                                    <img id="login-and-related-pgs-bg" style="width: 100px" height="100px" src="{{ !is_null($bg) ? tenant_asset($bg) : asset($settings_table_seeder->getLoginAndRelatedPagesBgDescription()) }}" alt="">
+                                    <img id="login-and-related-pgs-bg" style="width: 100px" height="100px" src="{{ !$bg === null ? tenant_asset($bg) : asset($settings_table_seeder->getLoginAndRelatedPagesBgDescription()) }}" alt="">
                                 </div>
                                 <input id="login-and-related-pgs-bg-input" name="login_and_related_pages_bg" accept="image/*" type="file" class="file-input" data-show-caption="false" data-show-upload="false" data-fouc>
                             </div>
@@ -178,15 +190,29 @@
                             </div>
                         </div>
                     </div>
-
-                    <hr class="divider">
-                    
-                    {{-- Reveal all hiden alert messages --}}
                     <div class="form-group row">
-                        <label class="col-lg-8 col-form-label font-weight-semibold">Reveall all hidden alert messages</label>
-                        <div class="col-lg-4">
-                            <div class="form-group text-center">
-                                <button type="button" id="clear-do-not-show-again-alert-msgs" class="btn btn-warning btn-sm">Click to show</button>
+                        <div class="col-12">
+                            {{-- Allow print --}}
+                            <label class="col-form-label font-weight-semibold">Allow Print</label>
+                            <div class="form-group text-center row">
+                                <div class="col-6">
+                                    <label for="allow_marksheet_print" class="col-form-label font-weight-semibold float-left">Marksheet</label>
+                                    <div class="form-group text-center">
+                                        <select class="form-control select" name="allow_marksheet_print" id="allow_marksheet_print">
+                                            <option {{ $settings->where('type' , 'allow_marksheet_print')->value('description') == 1 ? 'selected' : '' }} value="1">Yes</option>
+                                            <option {{ $settings->where('type' , 'allow_marksheet_print')->value('description') == 0 ? 'selected' : '' }} value="0">No</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label for="allow_assessmentsheet_print" class="col-form-label font-weight-semibold float-left">Assessmentsheet</label>
+                                    <div class="form-group text-center">
+                                        <select class="form-control select" name="allow_assessmentsheet_print" id="allow_assessmentsheet_print">
+                                            <option {{ $settings->where('type' , 'allow_assessmentsheet_print')->value('description') == 1 ? 'selected' : '' }} value="1">Yes</option>
+                                            <option {{ $settings->where('type' , 'allow_assessmentsheet_print')->value('description') == 0 ? 'selected' : '' }} value="0">No</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -194,7 +220,6 @@
                     @if(session()->has('show_login_and_related_pgs_preview'))
                     @include('pages.modals.auth_pages_preview')
                     @endif
-
                 </div>
             </div>
 
@@ -209,14 +234,14 @@
                     <div class="form-group row">
                         <label class="col-lg-3 col-form-label font-weight-semibold">Admin Email <span class="text-danger">*</span></label>
                         <div class="col-lg-9">
-                            <input required name="admin_email" value="{{ $settings->where('type' , 'admin_email')->value('description') }}" type="email" class="form-control" placeholder="Eg., admin@hasnuumakame.sc.tz">
+                            <input required name="admin_email" value="{{ $settings->where('type' , 'admin_email')->value('description') }}" type="email" class="form-control" placeholder="Email">
                         </div>
                     </div>
                     {{-- Admin whatsapp --}}
                     <div class="form-group row">
                         <label class="col-lg-3 col-form-label font-weight-semibold">WhatsApp Link</label>
                         <div class="col-lg-9">
-                            <input name="admin_whatsapp_link" value="{{ $settings->where('type' , 'admin_whatsapp_link')->value('description') }}" type="text" class="form-control" placeholder="Format; https://wa.me/255710355377">
+                            <input name="admin_whatsapp_link" value="{{ $settings->where('type' , 'admin_whatsapp_link')->value('description') }}" type="text" class="form-control" placeholder="Format; https://wa.me/255111222333">
                         </div>
                     </div>
                 </div>
@@ -225,28 +250,26 @@
                     <div class="form-group row">
                         <label class="col-lg-3 col-form-label font-weight-semibold">Facebook Link</label>
                         <div class="col-lg-9">
-                            <input name="admin_facebook_link" value="{{ $settings->where('type' , 'admin_facebook_link')->value('description') }}" type="text" class="form-control" placeholder="Eg., https://www.facebook.com/rysmtulia07">
+                            <input name="admin_facebook_link" value="{{ $settings->where('type' , 'admin_facebook_link')->value('description') }}" type="text" class="form-control" placeholder="Eg., https://www.facebook.com/username">
                         </div>
                     </div>
                     {{-- Admin github link --}}
                     <div class="form-group row">
                         <label class="col-lg-3 col-form-label font-weight-semibold">Github Link</label>
                         <div class="col-lg-9">
-                            <input name="admin_github_link" value="{{ $settings->where('type' , 'admin_github_link')->value('description') }}" type="text" class="form-control" placeholder="Eg., https://github.com/rayusamBoy">
+                            <input name="admin_github_link" value="{{ $settings->where('type' , 'admin_github_link')->value('description') }}" type="text" class="form-control" placeholder="Eg., https://github.com/username">
                         </div>
                     </div>
                     {{-- Admin linkedIn link --}}
                     <div class="form-group row">
                         <label class="col-lg-3 col-form-label font-weight-semibold">LinkedIn Link</label>
                         <div class="col-lg-9">
-                            <input name="admin_linkedin_link" value="{{ $settings->where('type' , 'admin_linkedin_link')->value('description') }}" type="text" class="form-control" placeholder="Eg., https://www.linkedin.com/in/rayusam">
+                            <input name="admin_linkedin_link" value="{{ $settings->where('type' , 'admin_linkedin_link')->value('description') }}" type="text" class="form-control" placeholder="Eg., https://www.linkedin.com/in/username">
                         </div>
                     </div>
                 </div>
             </div>
             @endif
-
-            <hr class="divider">
 
             <div class="float-right">
                 <button type="submit" class="btn btn-danger d-flex">Submit form <i class="material-symbols-rounded ml-2">send</i></button>

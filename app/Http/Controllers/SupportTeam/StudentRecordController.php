@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers\SupportTeam;
 
+use App\Exports\StudentsBatchAddExport;
 use App\Helpers\Qs;
 use App\Helpers\Usr;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Student\StudentRecordCreate;
 use App\Http\Requests\Student\StudentRecordUpdate;
+use App\Imports\StudentsBatchStoreImport;
 use App\Repositories\LocationRepo;
 use App\Repositories\MyClassRepo;
 use App\Repositories\StudentRepo;
 use App\Repositories\UserRepo;
+use App\Rules\HasOrderedClassDescriptionSession;
 use App\Rules\StartsWithProperPhoneCode;
 use App\Rules\Uppercase;
 use File;
@@ -21,10 +24,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 class StudentRecordController extends Controller implements HasMiddleware
 {
-    protected $loc, $my_class, $user, $student;
+    protected $loc, $my_class, $user, $student, $students_batch_file_name_description;
 
     public function __construct(LocationRepo $loc, MyClassRepo $my_class, UserRepo $user, StudentRepo $student)
     {
@@ -32,6 +36,7 @@ class StudentRecordController extends Controller implements HasMiddleware
         $this->my_class = $my_class;
         $this->user = $user;
         $this->student = $student;
+        $this->students_batch_file_name_description = 'students batch add template';
     }
 
     /**
@@ -97,27 +102,77 @@ class StudentRecordController extends Controller implements HasMiddleware
             $birth_certificate->storeAs('public/' . $f['path']);
         }
 
-        $sr['adm_no'] = $data['username'];
+        $user = $this->user->create($data);
+
+        $sr['user_id'] = $user->id;
+        $sr['adm_no'] = $user->username;
         $sr['session'] = Qs::getSetting('current_session');
-        // Format string according to the enforced input
+        // Format string according to the enforced rule
         $sr['house_no'] = strtoupper($sr['house_no']);
         $sr['ps_name'] = ucfirst($sr['ps_name']);
         $sr['ss_name'] = ucfirst($sr['ss_name']);
         $sr['p_status'] = ucfirst($sr['p_status']);
 
-        $try_user = $this->user->get(['name' => $data['name'], 'user_type' => $data['user_type'], 'gender' => $req->gender])->first();
-
-        if (!empty($try_user)) {
-            $user = $this->user->update($try_user->id, $data); // If user exists, update data
-            $sr['user_id'] = $try_user->id;
-            $this->student->updateRecord($try_user->id, $sr); // Update record
-        } else {
-            $user = $this->user->create($data); // Create User
-            $sr['user_id'] = $user->id ?? $try_user->id;
-            $this->student->createRecord($sr); // Create record
-        }
+        $this->student->createRecord($sr);
 
         return Qs::jsonStoreOk();
+    }
+
+    public function batch_template(HttpReq $req)
+    {
+        $ur = self::getUserHeadings(false);
+        $sr = self::getStudentHeadings(false);
+
+        $data['heading_names'] = array_merge($ur, $sr);
+        $data['class'] = $class = $this->my_class->find($req->my_class_id);
+        $data['my_class_id'] = $req->my_class_id;
+        $data['nationality'] = $this->loc->getNationality($req->nal_id);
+        $data['nal_id'] = $req->nal_id;
+        $data['state'] = $this->loc->getState($req->state_id);
+        $data['state_id'] = $req->state_id;
+        $data['lgas'] = $this->loc->getLGAs($req->state_id);
+        $data['sections'] = $this->my_class->getClassSections($req->my_class_id);
+        $data['dormitories'] = $this->student->getAllDorms();
+        $data['genders'] = Usr::getGenders();
+        $data['disabilities'] = Usr::getDisabilities();
+        $data['religions'] = Usr::getReligions();
+        $data['blood_groups'] = Usr::getBloodGroups();
+        $data['year'] = $year = Qs::getCurrentSession();
+
+        $delimiter = Qs::getDelimiter();
+
+        return Excel::download(new StudentsBatchAddExport($data), ucfirst(strtolower(str_replace(' ', '_', "{$class->name}{$delimiter}{$this->students_batch_file_name_description}{$delimiter}{$year}.xlsx"))));
+    }
+
+    public static function getUserHeadings($values_only = true)
+    {
+        $ur = Qs::getUserRecord([], $values_only);
+        return $ur;
+    }
+
+    public static function getStudentHeadings($values_only = true)
+    {
+        $sr = Qs::getStudentData(['my_parent_id', 'age', 'birth_certificate'], $values_only);
+        return $sr;
+    }
+
+    public function batch_store(HttpReq $req)
+    {
+        $template = $req->file('template');
+        $f = Qs::getFileMetaData($template);
+        // Remove '.' and extension by replacing it with empty string
+        $name = str_replace('.' . $f['ext'], '', $f['name']);
+        $req['template_name'] = $name;
+
+        Validator::make($req->toArray(), [
+            'template' => 'required|file|mimes:xlsx,xlx|max:4096',
+            'template_name' => new HasOrderedClassDescriptionSession($this->students_batch_file_name_description),
+        ], [], ['template' => 'students batch add template'])->validate();
+
+        if ($req->hasFile('template')) {
+            Excel::import(new StudentsBatchStoreImport(), request()->file('template'));
+            return Qs::jsonStoreOk();
+        }
     }
 
     public function list_by_class($class_id)
@@ -245,25 +300,29 @@ class StudentRecordController extends Controller implements HasMiddleware
 
     private function getThemeFilesNames()
     {
-        $dir = Qs::getTenancyAwareIDCardsThemeDir();
+        $id_card_theme_dir = Qs::getTenancyAwareIDCardsThemeDir();
+        $tenant_storage_dir = Qs::getTenantStorageDir() . "app/public/";
+
         $file_names_to_copy = ['0001.blade.php'];
         $dir_names_to_copy = ['backgrounds', 'others'];
+        $default_dir = resource_path() . '/views/pages/support_team/students/id_cards/themes/samples/';
 
-        if (!File::isDirectory($dir)) {
-            File::makeDirectory($dir, 0755, true); // Make it a directory if not yet there
-            $default_dir = resource_path() . '/views/pages/support_team/students/id_cards/themes/samples/';
+        if (!File::isDirectory($id_card_theme_dir)) {
+            File::makeDirectory($id_card_theme_dir, 0755, true); // Make it a directory if not yet there
 
             foreach ($file_names_to_copy as $fname) {
-                File::copy("$default_dir$fname", "$dir$fname");
+                File::copy("$default_dir$fname", "$id_card_theme_dir$fname");
             }
+        }
 
-            foreach ($dir_names_to_copy as $dname) {
-                File::copyDirectory("$default_dir$dname", "$dir$dname");
+        foreach ($dir_names_to_copy as $dname) {
+            if (!File::isDirectory("$tenant_storage_dir$dname")) {
+                File::copyDirectory("$default_dir$dname", "$tenant_storage_dir$dname");
             }
         }
 
         $exclude = array_merge(['.', '..'], $dir_names_to_copy);
-        $files = array_diff(scandir($dir), $exclude);
+        $files = array_diff(scandir($id_card_theme_dir), $exclude);
         array_walk_recursive($files, function (&$arr) {
             $arr = explode(".", $arr)[0]; // Leave out '.blade.php' part
         });

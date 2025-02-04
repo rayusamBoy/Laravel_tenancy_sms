@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Notifications\NotificationMarkedAsRead;
 use App\Repositories\UserRepo;
 use Illuminate\Http\Request;
+use NotificationChannels\Fcm\FcmChannel;
 
 class NotificationController extends Controller
 {
@@ -22,7 +23,14 @@ class NotificationController extends Controller
      */
     public function index()
     {
-        return view('pages.notifications.index');
+        $channels = Qs::getActiveNotificationChannels(auth()->user(), false, true, true, true);
+
+        $data['notification_status'] = Qs::is_serialized(auth()->user()->is_notifiable) ? unserialize(auth()->user()->is_notifiable)['status'] : 0;
+        $data['email_channel_on'] = in_array('mail', $channels);
+        $data['sms_channel_on'] = in_array('vonage', $channels);
+        $data['push_channel_on'] = in_array(FcmChannel::class, $channels);
+
+        return view('pages.notifications.index', $data);
     }
 
     /**
@@ -30,10 +38,15 @@ class NotificationController extends Controller
      */
     public function update_is_notifiable(Request $request)
     {
-        $keys = ['is_notifiable'];
-        $this->user->update(auth()->id(), $request->only($keys));
+        $value['status'] = $request->status;
+        $value['on_email_channel'] = $request->on_email_channel;
+        $value['on_sms_channel'] = $request->on_sms_channel;
+        $value['on_push_channel'] = $request->on_push_channel;
+        $data = ['is_notifiable' => serialize($value)];
 
-        return Qs::jsonUpdateOk();
+        $this->user->update(auth()->id(), $data);
+
+        return back()->with('flash_success', __('msg.update_ok'));
     }
 
     /**
@@ -49,7 +62,7 @@ class NotificationController extends Controller
     /**
      * Mark the notification as read.
      */
-    public function mark_as_read(string $id)
+    public function mark_as_read(string $id, $flash = true)
     {
         $notification = auth()->user()->unreadNotifications()->where('id', $id)->first();
 
@@ -59,7 +72,7 @@ class NotificationController extends Controller
         $notification->markAsRead();
         auth()->user()->notify(new NotificationMarkedAsRead($id));
 
-        return back()->with('flash_success', __('msg.update_ok'));
+        return $flash ? back()->with('flash_success', __('msg.update_ok')) : true;
     }
 
     /**

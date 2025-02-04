@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
+use App\Http\Requests\CustomEmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
-use App\Http\Requests\CustomEmailVerificationRequest;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,9 +22,9 @@ use App\Http\Requests\CustomEmailVerificationRequest;
 */
 
 Route::middleware([
-    // If you change this middleware and decide to use different tenancy initialization middleware ie., InitializeTenancyBySubdomain::class.
-    // You need to set its $onFail static property in 'app\Providers\TenancyServiceProvider.php' file under the 'boot' method for custom
-    // behavior that should happen when a tenant couldn't be identified.
+        // If you change this middleware and decide to use different tenancy initialization middleware ie., InitializeTenancyBySubdomain::class.
+        // You need to set its $onFail static property in 'app\Providers\TenancyServiceProvider.php' file under the 'boot' method for custom
+        // behavior that should happen when a tenant couldn't be identified.
     InitializeTenancyByDomain::class,
 
     PreventAccessFromCentralDomains::class,
@@ -32,7 +32,7 @@ Route::middleware([
 
     Auth::routes();
 
-    Route::group(['middleware' => ['auth', 'checkForPassUpdate']], function () {
+    Route::group(['middleware' => ['auth', 'checkForPassUpdate', 'handleCookie']], function () {
         /*************** Two factor authentication *****************/
         Route::group(['prefix' => 'auth/2fa'], function () {
             Route::get('account/security', 'Auth\AccountSecurityController@index')->name('account_security.index')->middleware('2fa');
@@ -70,6 +70,8 @@ Route::middleware([
                 Route::put('profile/update', 'MyAccountController@update_profile')->name('my_account.update');
                 Route::put('password/change', 'MyAccountController@change_pass')->name('my_account.change_pass');
                 Route::put('other', 'MyAccountController@other')->name('my_account.other');
+                Route::post('update_hidden_alerts', 'MyAccountController@update_hidden_alerts')->name('my_account.update_hidden_alerts');
+                Route::post('clear_hidden_alerts', 'MyAccountController@clear_hidden_alerts')->name('my_account.clear_hidden_alerts');
             });
 
             /****************** Email Verification ***************/
@@ -118,6 +120,10 @@ Route::middleware([
                     Route::post('unblock/class', 'StudentRecordController@unblock_all_class')->name('students.unblock_all_class')->middleware('teamSA');
                     Route::post('block/graduated', 'StudentRecordController@block_all_graduated')->name('students.block_all_graduated')->middleware('teamSA');
                     Route::post('unblock/graduated', 'StudentRecordController@unblock_all_graduated')->name('students.unblock_all_graduated')->middleware('teamSA');
+
+                    /* Batch */
+                    Route::get('batch/template', 'StudentRecordController@batch_template')->name('students.batch_template');
+                    Route::put('batch/store', 'StudentRecordController@batch_store')->name('students.batch_add');
                 });
 
                 /*************** Users *****************/
@@ -322,7 +328,7 @@ Route::middleware([
                 Route::get('get_lga/{state_id}', 'AjaxController@get_lga')->name('get_lga');
                 Route::get('get_class_sections/{class_id}', 'AjaxController@get_class_sections')->name('get_class_sections');
                 Route::get('get_class_students/{class_id}', 'AjaxController@get_class_students')->name('get_class_students');
-                Route::get('get_class_type_subjects/{class_type_id}', 'AjaxController@get_class_type_subjects')->name('get_class_type_subjects');
+                Route::get('get_pre_defined_subjects', 'AjaxController@get_pre_defined_subjects')->name('get_pre_defined_subjects');
                 Route::get('get_teacher_class_sections/{class_id}', 'AjaxController@get_teacher_class_sections')->name('get_teacher_class_sections');
                 Route::get('get_subject_section_teacher/{subject_id}/{section_id}', 'AjaxController@get_subject_section_teacher')->name('get_subject_section_teacher');
                 Route::get('get_class_subjects/{class_id}', 'AjaxController@get_class_subjects')->name('get_class_subjects');

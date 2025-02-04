@@ -8,7 +8,8 @@ return [
         'short_name' => Qs::getStringAbbreviation(env('APP_NAME', 'School Management System')),
         'start_url' => '/',
         'background_color' => '#ffffff',
-        'theme_color' => '#000000',
+        'theme_color_dark' => '#181818',
+        'theme_color_light' => '#fafafa',
         'display' => 'standalone',
         'orientation' => 'any',
         'status_bar' => 'black',
@@ -96,16 +97,20 @@ return [
             '76x76' => [
                 'path' => '/images/icons/icon-76x76.png',
                 'purpose' => 'any'
-            ], '80x80' => [
+            ],
+            '80x80' => [
                 'path' => '/images/icons/icon-80x80.png',
                 'purpose' => 'any'
-            ], '87x87' => [
+            ],
+            '87x87' => [
                 'path' => '/images/icons/icon-87x87.png',
                 'purpose' => 'any'
-            ], '88x88' => [
+            ],
+            '88x88' => [
                 'path' => '/images/icons/icon-88x88.png',
                 'purpose' => 'any'
-            ], '92x92' => [
+            ],
+            '92x92' => [
                 'path' => '/images/icons/icon-92x92.png',
                 'purpose' => 'any'
             ],

@@ -44,10 +44,10 @@ var FileUpload = function () {
 
         // Buttons inside zoom modal
         var previewZoomButtonClasses = {
-            toggleheader: 'btn btn-light btn-icon btn-header-toggle btn-sm',
-            fullscreen: 'btn btn-light btn-icon btn-sm',
-            borderless: 'btn btn-light btn-icon btn-sm',
-            close: 'btn btn-light btn-icon btn-sm'
+            toggleheader: 'btn btn-icon btn-header-toggle btn-sm',
+            fullscreen: 'btn btn-icon btn-sm',
+            borderless: 'btn btn-icon btn-sm',
+            close: 'btn btn-icon btn-sm'
         };
 
         // Icons inside zoom modal classes
@@ -103,8 +103,8 @@ var FileUpload = function () {
             previewFileType: 'any',
             showPreview: false,
             browseLabel: 'Browse',
-            browseClass: 'btn btn-light',
-            removeClass: 'btn btn-light',
+            browseClass: 'btn',
+            removeClass: 'btn',
             uploadClass: 'btn bg-success-400',
             browseIcon: '<i class="material-symbols-rounded mr-2">add</i>',
             uploadIcon: '<i class="material-symbols-rounded mr-2">upload_file</i>',
@@ -160,8 +160,8 @@ var FileUpload = function () {
 
         $('.file-input-advanced').fileinput({
             browseLabel: 'Browse',
-            browseClass: 'btn btn-light',
-            removeClass: 'btn btn-light',
+            browseClass: 'btn',
+            removeClass: 'btn',
             uploadClass: 'btn bg-success-400',
             browseIcon: '<i class="material-symbols-rounded mr-2">add</i>',
             uploadIcon: '<i class="material-symbols-rounded mr-2">upload_file</i>',

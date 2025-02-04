@@ -12,7 +12,7 @@ use App\Repositories\ExamRepo;
 use App\Repositories\MarkRepo;
 use App\Repositories\MyClassRepo;
 use App\Repositories\StudentRepo;
-use App\Rules\HasClassExamYearOnlyInOrder;
+use App\Rules\HasOrderedClassExamSession;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -31,7 +31,7 @@ class MarkController extends Controller implements HasMiddleware
         $this->student = $student;
         $this->my_class = $my_class;
         $this->assessment = $assessment;
-        $this->year = Mk::getSetting('current_session');
+        $this->year = Mk::getCurrentSession();
     }
 
     /**
@@ -360,9 +360,9 @@ class MarkController extends Controller implements HasMiddleware
     {
         set_time_limit(1800); // Extend excecution time from normal 1 minute to 30 minutes
 
-        $class = $this->my_class->find($req->my_class_id);
-        $exam = $this->exam->find($req->exam_id);
-        $class_type_id = $class->class_type_id;
+        $data['class'] = $class = $this->my_class->find($req->my_class_id);
+        $data['exam'] = $exam = $this->exam->find($req->exam_id);
+        $data['class_type_id'] = $class_type_id = $class->class_type_id;
 
         // If the selected class's class type is not equal to the exam class type
         if ($exam->class_type_id != $class_type_id)
@@ -410,8 +410,8 @@ class MarkController extends Controller implements HasMiddleware
                 }
 
                 $old_section_id = $this->exam->getRecord(['student_id' => $st_rec->user_id, 'exam_id' => $exam->id, 'my_class_id' => $class->id])->value('section_id');
-                // If there exists old student record for the particular exam, and class (ie., section changes for advance level)
-                if ($class->class_type_id = 3 && $old_section_id != $st_rec->section_id) {
+                // If there exists old student record for the particular exam, and class (ie., section changes for particular level)
+                if ($req->delete_old_section_record == 1 and $old_section_id != $st_rec->section_id) {
                     // delete old marks and exam records
                     $where = ['student_id' => $st_rec->user_id, 'exam_id' => $exam->id, 'my_class_id' => $class->id, 'section_id' => $old_section_id];
                     $this->exam->deleteRecord($where);
@@ -422,10 +422,12 @@ class MarkController extends Controller implements HasMiddleware
 
         // Delay excecution of followed statement(s) until the database is approximated complete updated
         sleep(30);
-        $marks = $this->exam->getMark($d);
+        $data['marks'] = $this->exam->getMark($d);
+        $data['year'] = $this->year;
+        $data['subjects'] = Mk::getSubjects($class->id);
         $delimiter = Mk::getDelimiter();
 
-        return Excel::download(new MarksExport($exam, $class, $marks, $class_type_id), ucfirst(strtolower(str_replace(' ', '_', "{$class->name}{$delimiter}{$exam->name}{$delimiter}{$exam->year}.xlsx"))));
+        return Excel::download(new MarksExport($data), ucfirst(strtolower(str_replace(' ', '_', "{$class->name}{$delimiter}{$exam->name}{$delimiter}{$exam->year}.xlsx"))));
     }
 
     public function batch_upload(Request $req)
@@ -437,19 +439,19 @@ class MarkController extends Controller implements HasMiddleware
         $req['template_name'] = $name;
 
         Validator::make($req->toArray(), [
-            'template' => 'required|file|mimes:xlsx,xlx|max:2048',
-            'template_name' => new HasClassExamYearOnlyInOrder,
+            'template' => 'required|file|mimes:xlsx,xlx|max:4096',
+            'template_name' => new HasOrderedClassExamSession,
         ], [], ['template' => 'marks template'])->validate();
 
         if ($req->hasFile('template')) {
             $delimiter = Mk::getDelimiter();
             $exploded_name = explode($delimiter, $name);
-            $year = "$exploded_name[2]-$exploded_name[3]";
+            $data['year'] = $year = "$exploded_name[2]-$exploded_name[3]";
             // Get class_id and exam_id by class and exam names.
             $class = $this->my_class->get(['name' => str_replace('_', ' ', $exploded_name[0])]);
-            $class_id = $class->value('id');
+            $data['class_id'] = $class_id = $class->value('id');
             $exam = $this->exam->getExam(['name' => str_replace('_', ' ', $exploded_name[1]), 'year' => $year]);
-            $exam_id = $exam->value('id');
+            $data['exam_id'] = $exam_id = $exam->value('id');
 
             if ($exam->value('class_type_id') != $class->value('class_type_id'))
                 return Mk::json(__('msg.invalid_exam_and_class'), false);
@@ -458,9 +460,10 @@ class MarkController extends Controller implements HasMiddleware
                 return Mk::json(__('msg.ernf'), false);
 
             $d = ['exam_id' => $exam_id, 'my_class_id' => $class_id, 'year' => $year];
-            $st_mark = $this->exam->getMark($d);
+            $data['st_mark'] = $this->exam->getMark($d);
+            $data['session'] = $this->year;
 
-            Excel::import(new MarksImport($year, (int) $class_id, (int) $exam_id, $st_mark), request()->file('template'));
+            Excel::import(new MarksImport($data), request()->file('template'));
             return Mk::jsonStoreOk();
         }
     }

@@ -1,7 +1,8 @@
 <!-- Web Application Manifest -->
 <link rel="manifest" href="{{ route('laravelpwa.manifest') }}">
 <!-- Chrome for Android theme color -->
-<meta name="theme-color" content="{{ $config['theme_color'] }}">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="{{ config('laravelpwa.manifest.theme_color_light') }}" />
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="{{ config('laravelpwa.manifest.theme_color_dark') }}" />
 
 <!-- Add to homescreen for Chrome on Android -->
 <meta name="mobile-web-app-capable" content="{{ $config['display'] == 'standalone' ? 'yes' : 'no' }}">
@@ -31,16 +32,17 @@
 <meta name="msapplication-TileImage" content="{{ data_get(end($config['icons']), 'src') }}">
 
 <script type="text/javascript">
-     // Initialize the service worker
-     if ('serviceWorker' in navigator) {
+    // Initialize the service worker
+    if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/pwa-sw.js', {
             scope: '.'
-        }).then(function (registration) {
+        }).then(function(registration) {
             // Registration was successful
             console.log('PWA serviceworker registration successfull with scope: ', registration.scope);
-        }, function (err) {
+        }, function(err) {
             // registration failed :(
             console.log('PWA serviceworker registration failed: ', err);
         });
     }
+
 </script>

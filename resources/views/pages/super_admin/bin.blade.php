@@ -1,6 +1,6 @@
 @extends('layouts.master')
-
 @section('page_title', 'Recycle Bin')
+@push('css')
 <style>
     .media-body .col-6 {
         text-align: end;
@@ -24,33 +24,39 @@
     .card:not(:first-child) .card-body {
         overflow-x: auto;
     }
+
 </style>
+
+@endpush
+
 @section('content')
 
 @if($payments->isEmpty() && $users->isEmpty() && $my_classes->isEmpty() && $exams->isEmpty() && $threads->isEmpty())
 <div class="text-center">
-    <img src="{{ asset('global_assets\icons\bin-empty.gif') }}"></img>
+    <img src="{{ asset('global_assets/icons/bin-empty.gif') }}"></img>
     <h6>Bin Empty.</h6>
 </div>
 @else
 
-<div class="alert alert-info border-0 alert-dismissible has-do-not-show-again-button" id="bin-info">
+<div class="alert alert-warning border-0 alert-dismissible has-do-not-show-again-button" id="bin-info">
     <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
-    <span>Please Choose a record from the categories listed below, to restore it.<br /><strong>NB:</strong> Permanently deleting the record, will erase with all its associated data. Be very careful!</span>
+    <span>
+        Deleting a record will permanently remove it along with all its associated data. This action cannot be undone. However, you can choose to restore any item if needed. Please proceed with caution.
+    </span>
 </div>
 
 {{--Payments--}}
 @if($payments->isNotEmpty())
 <div class="card">
     <div class="card-header header-elements-inline">
-        <h6 class="card-title">Payment(s)</h6>
+        <h6 class="card-title">Payments</h6>
         {!! Qs::getPanelOptions() !!}
     </div>
 
     <div class="card-body">
         <div class="tab-content">
             <div class="tab-pane fade show active" id="all-payments">
-                <table class="table datatable-button-html5-columns">
+                <table class="table datatable-button-html5-image">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -78,9 +84,7 @@
                             <td class="text-center">
                                 <div class="list-icons">
                                     <div class="dropdown">
-                                        <a href="javascript:;" data-toggle="dropdown">
-                                            <i class="material-symbols-rounded">lists</i>
-                                        </a>
+                                        <a class="material-symbols-rounded" href="javascript:;" data-toggle="dropdown">lists</a>
 
                                         <div class="dropdown-menu dropdown-menu-left">
                                             {{--Restore--}}
@@ -117,17 +121,16 @@
 
     <div class="card-body">
         <div class="tab-content">
-            <div class="tab-pane fade show active">
-                <table class="table datatable-button-html5-columns">
+            <div class="tab-pane fade show active" id="all-users">
+                <table class="table datatable-button-html5-image">
                     <thead>
                         <tr>
                             <th>S/N</th>
                             <th>Photo</th>
                             <th>Name</th>
                             <th>Username</th>
-                            <th>Usertype</th>
-                            <th>Phone</th>
-                            <th>Email</th>
+                            <th>User type</th>
+                            <th>Contact</th>
                             <th>Deleted At</th>
                             <th class="text-center">Action</th>
                         </tr>
@@ -140,21 +143,20 @@
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->username }}</td>
                             <td>{{ ucwords(str_replace('_', ' ',$user->user_type)) }}</td>
+                            
                             @if($user->user_type == 'student')
                             @php $s_recs = Usr::getStudentRecordByUserId($user->id, ['my_class', 'section']) @endphp
-                            <td class="text-center" colspan="2">{{ $s_recs->first()->my_class->name . ' - ' . $s_recs->first()->section->name }}</td>
+                            <td class="text-center">{{ $s_recs->first()->my_class->name . ' - ' . $s_recs->first()->section->name }}</td>
 
                             @else
-                            <td>{{ $user->phone ?? '-' }}</td>
-                            <td>{{ $user->email ?? '-' }}</td>
+                            <td>{{ $user->phone ?? $user->email ?? '-' }}</td>
                             @endif
+                            
                             <td>{{ Qs::onlyDateFormat($user->deleted_at) }}</td>
                             <td class="text-center">
                                 <div class="list-icons">
                                     <div class="dropdown">
-                                        <a href="javascript:;" data-toggle="dropdown">
-                                            <i class="material-symbols-rounded">lists</i>
-                                        </a>
+                                        <a class="material-symbols-rounded" href="javascript:;" data-toggle="dropdown">lists</a>
 
                                         <div class="dropdown-menu dropdown-menu-left">
                                             {{--Restore--}}
@@ -185,13 +187,13 @@
 @if($my_classes->isNotEmpty())
 <div class="card">
     <div class="card-header header-elements-inline">
-        <h6 class="card-title">Class(es)</h6>
+        <h6 class="card-title">Classes</h6>
         {!! Qs::getPanelOptions() !!}
     </div>
 
     <div class="card-body">
         <div class="tab-pane fade show active" id="all-classes">
-            <table class="table datatable-button-html5-columns">
+            <table class="table datatable-button-html5-image">
                 <thead>
                     <tr>
                         <th>S/N</th>
@@ -211,9 +213,7 @@
                         <td class="text-center">
                             <div class="list-icons">
                                 <div class="dropdown">
-                                    <a href="javascript:;" data-toggle="dropdown">
-                                        <i class="material-symbols-rounded">lists</i>
-                                    </a>
+                                    <a class="material-symbols-rounded" href="javascript:;" data-toggle="dropdown">lists</a>
 
                                     <div class="dropdown-menu dropdown-menu-left">
                                         {{--Retore--}}
@@ -243,21 +243,21 @@
 @if($exams->isNotEmpty())
 <div class="card">
     <div class="card-header header-elements-inline">
-        <h6 class="card-title">Exam(s)</h6>
+        <h6 class="card-title">Exams</h6>
         {!! Qs::getPanelOptions() !!}
     </div>
 
     <div class="card-body">
         <div class="tab-pane fade show active" id="all-exams">
-            <table class="table datatable-button-html5-columns">
+            <table class="table datatable-button-html5-image">
                 <thead>
                     <tr>
                         <th>S/N</th>
                         <th>Name</th>
                         <th>Term</th>
                         <th>Session</th>
-                        <td>Category</td>
-                        <td>Edit Status</td>
+                        <th>Category</th>
+                        <th>Edit Status</th>
                         <th class="text-center">Action</th>
                     </tr>
                 </thead>
@@ -266,16 +266,14 @@
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $ex->name }}</td>
-                        <td>{{ 'Term '.$ex->term }}</td>
+                        <td>{{ "Term {$ex->term}" }}</td>
                         <td>{{ $ex->year }}</td>
                         <td>{{ $ex->category->name }}</td>
-                        <td>{!! ($ex->editable) ? '<i class="material-symbols-rounded">check</i>' : '<i class="material-symbols-rounded">close</i>' !!}</td>
+                        <td>{!! $ex->editable ? '<i class="material-symbols-rounded">check</i>' : '<i class="material-symbols-rounded">close</i>' !!}</td>
                         <td class="text-center">
                             <div class="list-icons">
                                 <div class="dropdown">
-                                    <a href="javascript:;" data-toggle="dropdown">
-                                        <i class="material-symbols-rounded">lists</i>
-                                    </a>
+                                    <a class="material-symbols-rounded" href="javascript:;" data-toggle="dropdown">lists</a>
 
                                     <div class="dropdown-menu dropdown-menu-left">
                                         {{--Retore--}}
@@ -305,13 +303,13 @@
 @if($threads->isNotEmpty())
 <div class="card">
     <div class="card-header header-elements-inline">
-        <h6 class="card-title">Messages Thread(s)</h6>
+        <h6 class="card-title">Messages Threads</h6>
         {!! Qs::getPanelOptions() !!}
     </div>
 
     <div class="card-body">
         <div class="tab-pane fade show active" id="all-exams">
-            <table class="table datatable-button-html5-columns">
+            <table class="table datatable-button-html5-image">
                 <thead>
                     <tr>
                         <th>S/N</th>
@@ -319,8 +317,8 @@
                         <th>Creator</th>
                         <th>Latest Message</th>
                         <th>Participant(s)</th>
-                        <td>Created At</td>
-                        <td>Deleted At</td>
+                        <th>Created At</th>
+                        <th>Deleted At</th>
                         <th class="text-center">Action</th>
                     </tr>
                 </thead>
@@ -338,9 +336,7 @@
                         <td class="text-center">
                             <div class="list-icons">
                                 <div class="dropdown">
-                                    <a href="javascript:;" data-toggle="dropdown">
-                                        <i class="material-symbols-rounded">lists</i>
-                                    </a>
+                                    <a href="javascript:;" class="material-symbols-rounded" data-toggle="dropdown">lists</a>
 
                                     <div class="dropdown-menu dropdown-menu-left">
                                         {{--Retore--}}

@@ -16,6 +16,7 @@ class ExamCreate extends FormRequest
     protected function getValidatorInstance()
     {
         $input = $this->all();
+        // Temporarily add the combined value to the request data before performing the validation
         $input['maximum_exam_ca_denominator'] = $input['cw_denominator'] + $input['hw_denominator'] + $input['tt_denominator'] + $input['tdt_denominator'];
         $this->getInputSource()->replace($input);
 
@@ -50,6 +51,7 @@ class ExamCreate extends FormRequest
             'hw_denominator' => 'home work denominator',
             'tt_denominator' => 'topic test denominator',
             'tdt_denominator' => 'termed test denominator',
+            // Runtime added attribute.
             'maximum_exam_ca_denominator' => 'the sum of class work, home work, topic test, and termed test denominators',
         ];
     }

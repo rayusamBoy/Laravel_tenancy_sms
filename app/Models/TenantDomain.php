@@ -16,6 +16,7 @@ class TenantDomain extends BaseDomain
     {
         return LogOptions::defaults()
             ->logAll()
+            ->dontSubmitEmptyLogs()
             ->logOnlyDirty();
     }
 }

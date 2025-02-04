@@ -11,8 +11,8 @@ const token_div = 'token-div';
 const permission_div = 'permission-div';
 const request_permission_button = document.getElementById('request-permission-button');
 const delete_token_button = document.getElementById('delete-token-button');
-const token_element = document.querySelector('#token-info');
-const unread_nots_list = document.getElementById("unread-notifications-list");
+const token_info = document.getElementById('token-info');
+const unread_nots_list = document.querySelectorAll(".unread-notifications-list");
 
 // Handle incoming messages.
 onMessage(messaging, (payload) => {
@@ -21,7 +21,7 @@ onMessage(messaging, (payload) => {
     updateUI(payload);
 });
 
-function resetUI(mesg = 'loading...') {
+function resetUI(mesg = 'Loading...') {
     showTokenInfo(mesg);
     // Get registration token. Initially this makes a network call, once retrieved
     // subsequent calls to getToken will return from cache.
@@ -32,19 +32,26 @@ function resetUI(mesg = 'loading...') {
         } else {
             // Show permission request.
             console.log('No registration token available. Request permission to generate one.');
+            showTokenInfo('No registration token available. Request permission to generate one.');
             // Show permission UI.
             updateUIForPushPermissionRequired();
         }
     }).catch((err) => {
         console.log('An error occurred while retrieving token. ', err);
-        showTokenInfo('Error retrieving registration token.');
+        showTokenInfo('Error while retrieving registration token.');
+        showHideDiv('delete-token-button', false);
+        showHideDiv(permission_div, false);
     });
 }
 
 function showTokenInfo(info) {
     // Show token in console and/or UI.
-    if (token_element)
-        token_element.textContent = info;
+    if (token_info) {
+        token_info.textContent = info;
+        token_info.parentElement.parentElement.style.display = 'block';
+        token_info.parentElement.classList.remove('alert-warning', 'alert-success', 'alert-info');
+        token_info.parentElement.classList.add('alert-' + (info.includes('Error') ? 'warning' : (info.includes('Success') ? 'success' : 'info')));
+    }
 }
 
 // Send the registration token to application server:
@@ -80,12 +87,17 @@ function showHideDiv(divId, show) {
 
 function requestPermission() {
     console.log('Requesting permission...');
+    showTokenInfo('Requesting permission...');
+    showHideDiv(token_div, false);
     Notification.requestPermission().then((permission) => {
         if (permission === 'granted') {
             console.log('Notification permission granted.');
+            showTokenInfo('Success; notification permission granted.');
             resetUI();
         } else {
-            console.info('Unable to get permission to notify.');
+            console.info('Error; unable to get permission to notify, permission ' + permission + '.');
+            showTokenInfo('Error; unable to get permission to notify, permission ' + permission + '. Please enable notifications manually.');
+            showHideDiv('delete-token-button', false);
         }
     });
 }
@@ -99,77 +111,76 @@ function deleteTokenFromFirebase() {
             sendTokenToServer(currentToken, "DELETE");
             resetUI('Token deleted. Requesting a new one...');
         }).catch((err) => {
-            console.warn('Unable to delete token. ', err);
-            showTokenInfo('Unable to delete token.');
+            console.warn('Error unable to delete token. ', err);
+            showTokenInfo('Error unable to delete token.');
         });
     }).catch((err) => {
         console.error('Error retrieving registration token. ', err);
         showTokenInfo('Error retrieving registration token.');
+        showHideDiv(token_div, false);
     });
 }
 
-function currentViewIsMessages() {
-    const try_find_element = document.getElementById("messages-row");
-    return try_find_element != null;
-}
-
 function updateNotificationsCount(unread_count, math_operation) {
-    let unread_nots_count_content = unread_count[0].innerText || unread_count[0].textContent;
-    let badge = unread_count[0].closest('.badge');
-    // Update new messages count when anywhere; except when a user is currently in messages views ie., is chatting
-    if (!currentViewIsMessages()) {
-        if (badge.classList.contains('badge-secondary')) {
-            badge.classList.add('badge-info');
-            badge.classList.remove('badge-secondary');
-        }
-        switch (math_operation) {
-            case "add":
-                for (let n = 0; n < unread_count.length; n++)
-                    unread_count[n].innerHTML = parseInt(unread_nots_count_content) + 1;
-            case "sub":
-                for (let n = 0; n < unread_count.length; n++)
-                    unread_count[n].innerHTML = parseInt(unread_nots_count_content) - 1;
-        }
+    let unread_nots_count_content = unread_count.innerText || unread_count.textContent;
+    switch (math_operation) {
+        case "add":
+            unread_count.innerHTML = parseInt(unread_nots_count_content) + 1;
+            break;
+        case "sub":
+            unread_count.innerHTML = parseInt(unread_nots_count_content) - 1;
+            break;
     }
 }
 
 // Add a notification to the notifications UI.
 function updateUI(payload) {
-    const unread_count = document.getElementsByClassName("unread-" + payload.data.type + "-count");
+    const unread_count = document.querySelectorAll(".unread-" + payload.data.type + "-count");
 
-    if (typeof unread_count[0] !== 'undefined' || unread_count.length > 0) {
-        updateNotificationsCount(unread_count, "add");
+    if (typeof unread_count !== 'undefined' || unread_count.length > 0) {
+        unread_count.forEach(function (count) {
+            updateNotificationsCount(count, "add");
+        });
 
-        if (payload.data.type === "notifications") {
-            const li = document.createElement('li');
-            // Create the strong element for the title
-            const strong = document.createElement('strong');
-            strong.textContent = payload.data.title;
-            // Create the anchor element for the URL
-            const a = document.createElement('a');
-            a.href = payload.data.url;
-            a.target = "_blank";
-            a.textContent = payload.data.url_title;
-            // Create the small element for the created_at date
-            const small = document.createElement('small');
-            small.className = 'float-right';
-            small.textContent = payload.data.created_at;
-            // Append the elements to the list item
-            li.appendChild(strong);
-            li.appendChild(document.createTextNode(' - '));
-            li.appendChild(a);
-            li.appendChild(document.createTextNode(' '));
-            li.appendChild(small);
+        unread_nots_list.forEach(function (list) {
+            if (payload.data.type === "notifications") {
+                const li = document.createElement('li');
+                // Create the strong element for the title
+                const strong = document.createElement('strong');
+                strong.textContent = payload.data.title;
+                // Create the anchor element for the URL
+                const a = document.createElement('a');
+                if (payload.data.url)
+                    a.href = payload.data.url;
+                a.target = "_blank";
+                a.textContent = payload.data.url_title;
+                // Create the small element for the created_at date
+                const small = document.createElement('small');
+                small.className = 'float-right';
+                small.textContent = payload.data.created_at;
+                // Append the elements to the list item
+                a.appendChild(strong);
+                li.appendChild(a);
+                li.appendChild(small);
 
-            unread_nots_list.appendChild(li);
-        }
+                list.appendChild(li);
+            }
+        });
     }
 
     if (payload.data.type === "notification_marked_as_read") {
         // If the notification was read. Remove from the list of unread ones.
-        document.getElementById("unread-" + payload.data.id).remove();
-        const unread_nots_count = document.getElementsByClassName("unread-notifications-count");
-        updateNotificationsCount(unread_nots_count, "sub");
+        var unread_li = document.querySelectorAll(".unread-" + payload.data.id);
+        unread_li.forEach(function (li) {
+            li.remove();
+        });
+
+        var unread_nots_count = document.querySelectorAll(".unread-notifications-count");
+        if (typeof unread_count !== 'undefined' || unread_count.length > 0) {
+            unread_nots_count.forEach(function (count) {
+                updateNotificationsCount(count, "sub");
+            });
+        }
     }
 
     if (payload.data.type === "tenancy") {
@@ -178,8 +189,7 @@ function updateUI(payload) {
 }
 
 function updateUIForPushEnabled() {
-    const info = "You successfully granted permission for web push notifications, and registration was successful. " +
-        "To disable push notifications for this site, please adjust the settings manually in your browser.";
+    const info = "You’ve granted permission for web push notifications. To disable them, adjust the settings manually in your device.";
     showHideDiv(token_div, true);
     showHideDiv(permission_div, false);
     showTokenInfo(info);

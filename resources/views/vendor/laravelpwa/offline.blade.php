@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <head>
     <title>{{ Qs::getStringAbbreviation(config('app.name')) }} &#183; Offline</title>
+
     <style>
         body {
             min-height: 100vh;
@@ -92,6 +93,8 @@
         }
 
     </style>
+
+    @laravelPWA
 
     <script>
         const setTheme = theme => {

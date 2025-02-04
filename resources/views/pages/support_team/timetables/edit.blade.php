@@ -22,12 +22,7 @@
                 <div class="form-group row">
                     <label for="exam_id" class="col-lg-3 col-form-label font-weight-semibold">Type (Class or Exam)</label>
                     <div class="col-lg-9">
-                        <select class="select form-control" onchange="hideShowSection(this.value, '#section_id');" name="exam_id" id="exam_id">
-                            <option value="class">Class Timetable</option>
-                            @foreach($exams as $ex)
-                            <option {{ $ttr->exam_id == $ex->id ? 'selected' : '' }} value="{{ $ex->id }}">{{ $ex->name }}</option>
-                            @endforeach
-                        </select>
+                        <input type="text" class="form-control" disabled value="{{ $ttr->exam?->name ?? 'Class Timetable' }}">
                     </div>
                 </div>
 
@@ -42,6 +37,8 @@
                     </div>
                 </div>
 
+                {{-- If timetable type is class --}}
+                @if($ttr->exam_id === null)
                 <div class="form-group row">
                     <label for="section_id" class="col-lg-3 col-form-label font-weight-semibold">Section <span class="text-danger">*</span></label>
                     <div class="col-lg-9">
@@ -53,6 +50,7 @@
                         </select>
                     </div>
                 </div>
+                @endif
 
                 <div class="text-right">
                     <button id="ajax-btn" type="submit" class="btn btn-primary">Submit form <i class="material-symbols-rounded ml-2">send</i></button>

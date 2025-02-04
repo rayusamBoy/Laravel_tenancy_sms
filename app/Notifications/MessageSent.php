@@ -5,7 +5,6 @@ namespace App\Notifications;
 use App\Helpers\Qs;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
-use NotificationChannels\Fcm\FcmChannel;
 use NotificationChannels\Fcm\FcmMessage;
 
 class MessageSent extends Notification
@@ -26,16 +25,17 @@ class MessageSent extends Notification
      *
      * @return array<int, string>
      */
-    public function via(): array
+    public function via(object $notifiable): array
     {
-        return [FcmChannel::class];
+        $channels = Qs::getActiveNotificationChannels($notifiable, false, false, true);
+        return $channels; 
     }
 
     public function toFcm(): FcmMessage
     {
         $url = route('messages.show', Qs::hash($this->message->thread_id));
         $data = [
-            'title' => mb_strimwidth('New message from ' . $this->message->user->name, 0, 35, '...'),
+            'title' => mb_strimwidth("New message from {$this->message->user->name}", 0, 35, '...'),
             'body' => mb_strimwidth($this->message->body, 0, 50, "..."),
             'icon' => Qs::getAppIcon(),
             'type' => 'messages',

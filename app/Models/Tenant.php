@@ -22,6 +22,7 @@ class Tenant extends BaseTenant implements TenantWithDatabase
     {
         return LogOptions::defaults()
             ->logAll()
+            ->dontSubmitEmptyLogs()
             ->logOnlyDirty();
     }
 }

@@ -12,7 +12,7 @@
         <ul class="nav nav-tabs nav-tabs-highlight">
             <li class="nav-item"><a href="#new-user" class="nav-link active" data-toggle="tab">Add a Rrquest</a></li>
 
-            @if(count($requests) > 0)
+            @if($requests->isNotEmpty())
             <li class="nav-item dropdown">
                 <a href="javascript:;" class="nav-link dropdown-toggle" data-toggle="dropdown">Manage Requests</a>
                 <div class="dropdown-menu dropdown-menu-right">

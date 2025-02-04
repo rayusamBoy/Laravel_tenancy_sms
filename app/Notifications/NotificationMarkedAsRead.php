@@ -2,9 +2,9 @@
 
 namespace App\Notifications;
 
+use App\Helpers\Qs;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
-use NotificationChannels\Fcm\FcmChannel;
 use NotificationChannels\Fcm\FcmMessage;
 
 class NotificationMarkedAsRead extends Notification
@@ -25,9 +25,10 @@ class NotificationMarkedAsRead extends Notification
      *
      * @return array<int, string>
      */
-    public function via(): array
+    public function via(object $notifiable): array
     {
-        return [FcmChannel::class];
+        $channels = Qs::getActiveNotificationChannels($notifiable, false, false, true);
+        return $channels;    
     }
 
     public function toFcm(): FcmMessage

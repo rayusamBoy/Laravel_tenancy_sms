@@ -14,6 +14,7 @@ use Dompdf\Adapter\CPDF;
 use Hashids\Hashids;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use NotificationChannels\Fcm\FcmChannel;
 
 class Qs
 {
@@ -103,11 +104,6 @@ class Qs
         return ['super_admin', 'accountant', 'admin'];
     }
 
-    public static function getReligions()
-    {
-        return ['Islam', 'Christianity', 'Other'];
-    }
-
     public static function hash($id)
     {
         $date = date('dMY') . tenant('id') ?? self::getAppCode();
@@ -123,46 +119,99 @@ class Qs
         return $toString ? implode(',', $decoded) : $decoded;
     }
 
-    public static function getUserRecord($remove = [])
-    {
-        $data = ['name', 'email', 'phone', 'phone2', 'dob', 'gender', 'address', 'bg_id', 'nal_id', 'state_id', 'lga_id', 'religion'];
-        return $remove ? array_values(array_diff($data, $remove)) : $data;
-    }
-
-    public static function getStaffRecord($remove = [])
+    public static function getUserRecord($remove = [], $values_only = true)
     {
         $data = [
-            'emp_date',
-            'emp_no',
-            'confirmation_date',
-            'licence_number',
-            'file_number',
-            'bank_acc_no',
-            'tin_number',
-            'education_level',
-            'year_graduated',
-            'ss_number',
-            'college_attended',
-            'role',
-            'subjects_studied',
-            'bank_name',
-            'no_of_periods',
-            'place_of_living'
+            'Full name' => 'name',
+            'Email' => 'email',
+            'Phone number' => 'phone',
+            'Telephone number' => 'phone2',
+            'Date of birth' => 'dob',
+            'Gender' => 'gender',
+            'Address' => 'address',
+            'Blood group' => 'bg_id',
+            'Nationality' => 'nal_id',
+            'State' => 'state_id',
+            'LGA' => 'lga_id',
+            'Religion' => 'religion'
         ];
 
-        return $remove ? array_values(array_diff($data, $remove)) : $data;
+        $array = $remove ? array_diff($data, $remove) : $data;
+        return $values_only ? array_values($array) : $array;
     }
 
-    public static function getParentRelativeRecord($remove = [])
+    public static function getStaffRecord($remove = [], $values_only = true)
     {
-        $data = ['user_id', 'name2', 'phone4', 'phone3', 'relation'];
-        return $remove ? array_values(array_diff($data, $remove)) : $data;
+        $data = [
+            'Employment date' => 'emp_date',
+            'Employment number' => 'emp_no',
+            'Confirmation date' => 'confirmation_date',
+            'Licence number' => 'licence_number',
+            'File number' => 'file_number',
+            'Bank account number' => 'bank_acc_no',
+            'TIN number' => 'tin_number',
+            'Education level' => 'education_level',
+            'Year graduated' => 'year_graduated',
+            'Social security number' => 'ss_number',
+            'College attended' => 'college_attended',
+            'Role' => 'role',
+            'Subjects studied' => 'subjects_studied',
+            'Bank name' => 'bank_name',
+            'Number of periods' => 'no_of_periods',
+            'Place of living' => 'place_of_living'
+        ];
+
+        $array = $remove ? array_diff($data, $remove) : $data;
+        return $values_only ? array_values($array) : $array;
     }
 
-    public static function getStudentData($remove = [])
+    public static function getParentRelativeRecord($remove = [], $values_only = true)
     {
-        $data = ['my_class_id', 'section_id', 'my_parent_id', 'dorm_id', 'dorm_room_no', 'date_admitted', 'house_no', 'age', 'ps_name', 'ss_name', 'birth_certificate', 'disability', 'chp', 'p_status', 'food_taboos'];
-        return $remove ? array_values(array_diff($data, $remove)) : $data;
+        $data = [
+            'User' => 'user_id',
+            'Relative Full name' => 'name2',
+            'Relative phone' => 'phone4',
+            'Relative telephone' => 'phone3',
+            'Relation with relative' => 'relation'
+        ];
+
+        $array = $remove ? array_diff($data, $remove) : $data;
+        return $values_only ? array_values($array) : $array;
+    }
+
+    public static function getStudentData($remove = [], $values_only = true): array
+    {
+        $data = [
+            'Class' => 'my_class_id',
+            'Section' => 'section_id',
+            'Admission number' => 'adm_no',
+            'Parent' => 'my_parent_id',
+            'Dorm' => 'dorm_id',
+            'Dorm room number' => 'dorm_room_no',
+            'Date admitted' => 'date_admitted',
+            'House number' => 'house_no',
+            'Age' => 'age',
+            'Primary school name' => 'ps_name',
+            'Secondary school name' => 'ss_name',
+            'Birth certificate' => 'birth_certificate',
+            'Disability' => 'disability',
+            'Chronic health problems' => 'chp',
+            'Parents status' => 'p_status',
+            'Food taboos' => 'food_taboos'
+        ];
+
+        $array = $remove ? array_diff($data, $remove) : $data;
+        return $values_only ? array_values($array) : $array;
+    }
+
+    /**
+     * Convert number to corresponding letter (1 -> A, 2 -> B, etc.)
+     * @param mixed $number
+     * @return string
+     */
+    public static function numberToLetter($number)
+    {
+        return chr(64 + $number);
     }
 
     public static function userIsTeamAccount()
@@ -435,7 +484,7 @@ class Qs
 
     public static function getSetting($type)
     {
-        return Setting::where('type', $type)->first()->description ?? NULL;
+        return Setting::where('type', $type)->value('description');
     }
 
     public static function getSettings()
@@ -894,9 +943,101 @@ class Qs
         return resource_path() . '/views/pages/support_team/students/id_cards/themes/' . config('tenancy.database.prefix') . $id . '/';
     }
 
-    public static function getTenantStoragePath($tenant_id = null)
+    public static function getTenantStorageDir()
     {
-        $id = $tenant_id ?? tenant('id');
-        return storage_path() . '/' . config('tenancy.database.prefix') . $id . '/';
+        return storage_path() . '/';
+    }
+
+    public static function is_serialized($data, $strict = true)
+    {
+        // If it isn't a string, it isn't serialized.
+        if (!is_string($data)) {
+            return false;
+        }
+        $data = trim($data);
+        if ('N;' === $data) {
+            return true;
+        }
+        if (strlen($data) < 4) {
+            return false;
+        }
+        if (':' !== $data[1]) {
+            return false;
+        }
+        if ($strict) {
+            $lastc = substr($data, -1);
+            if (';' !== $lastc && '}' !== $lastc) {
+                return false;
+            }
+        } else {
+            $semicolon = strpos($data, ';');
+            $brace = strpos($data, '}');
+            // Either ; or } must exist.
+            if (false === $semicolon && false === $brace) {
+                return false;
+            }
+            // But neither must be in the first X characters.
+            if (false !== $semicolon && $semicolon < 3) {
+                return false;
+            }
+            if (false !== $brace && $brace < 4) {
+                return false;
+            }
+        }
+        $token = $data[0];
+        switch ($token) {
+            case 's':
+                if ($strict) {
+                    if ('"' !== substr($data, -2, 1)) {
+                        return false;
+                    }
+                } elseif (false === strpos($data, '"')) {
+                    return false;
+                }
+            // Or else fall through.
+            case 'a':
+            case 'O':
+                return (bool) preg_match("/^{$token}:[0-9]+:/s", $data);
+            case 'b':
+            case 'i':
+            case 'd':
+                $end = $strict ? '$' : '';
+                return (bool) preg_match("/^{$token}:[0-9.E+-]+;$end/", $data);
+        }
+
+        return false;
+    }
+
+    public static function getActiveNotificationChannels($notifiable, $include_database = false, $include_email = false, $include_push_notification = false, $include_sms = false)
+    {
+        if (!self::is_serialized($notifiable->is_notifiable) || !is_array(unserialize($notifiable->is_notifiable)))
+            return [];
+
+        $is_notifiable = unserialize($notifiable->is_notifiable);
+        $channels = [];
+
+        // Check the user's status and available notification channels
+        switch ($is_notifiable['status']) {
+            case 1:
+                if ($include_database) {
+                    array_push($channels, 'database');
+                }
+
+                if ($is_notifiable['on_email_channel'] && $notifiable->hasVerifiedEmail() && self::getSetting('enable_email_notification') == 1 && $include_email) {
+                    array_push($channels, 'mail');
+                }
+
+                if ($is_notifiable['on_push_channel'] && self::getSetting('enable_push_notification') == 1 && $include_push_notification) {
+                    array_push($channels, FcmChannel::class);
+                }
+
+                if ($is_notifiable['on_sms_channel'] && self::getSetting('enable_sms_notification') == 1 && $include_sms) {
+                    array_push($channels, 'vonage');
+                }
+
+                break;
+        }
+
+        return $channels;
     }
 }

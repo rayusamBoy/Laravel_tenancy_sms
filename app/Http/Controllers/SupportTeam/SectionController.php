@@ -68,10 +68,10 @@ class SectionController extends Controller implements HasMiddleware
     public function destroy($id)
     {
         if ($this->my_class->isActiveSection($id))
-            return back()->with('pop_warning', 'Every class must have a default section, You Cannot Delete It');
+            return back()->with('pop_warning', 'Every class must have a default section, You cannot delete It.');
 
         if ($this->my_class->sectionHasStudent($id))
-            return back()->with('pop_warning', 'This Section has Student(s) with it, You Cannot Delete it.');
+            return back()->with('pop_warning', 'This Section has Student(s) with it, You cannot delete it.');
 
         $this->my_class->deleteSection($id);
 

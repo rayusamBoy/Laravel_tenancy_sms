@@ -69,7 +69,7 @@
 
     {{-- Go to Bottom Button --}}
     <div class="go-to-bottom">
-        <button type="button" class="material-symbols-rounded btn btn-light btn-to-bottom float-right" title="Go to Bottom">arrow_downward</button>
+        <button type="button" class="material-symbols-rounded btn btn-to-bottom float-right" title="Go to Bottom">arrow_downward</button>
     </div>
     {{-- Notification Sounds --}}
     <span class="d-none" id="notification-sounds" data-allow_system_sounds="{{ auth()->user()->allow_system_sounds }}" data-base_url="{{ asset('global_assets/sounds') }}"></span>

@@ -1,9 +1,8 @@
 <?php
 
 use App\Http\Requests\CustomEmailVerificationRequest;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,7 +17,7 @@ use Illuminate\Http\Request;
 
 Auth::routes();
 
-Route::group(['middleware' => ['auth', 'checkForPassUpdate', 'itGuy']], function () {
+Route::group(['middleware' => ['auth', 'checkForPassUpdate', 'itGuy', 'handleCookie']], function () {
     /*************** Two factor authentication *****************/
     Route::group(['prefix' => 'auth/2fa'], function () {
         Route::get('account/security', 'Auth\AccountSecurityController@index')->name('account_security.index')->middleware('2fa');
@@ -83,6 +82,8 @@ Route::group(['middleware' => ['auth', 'checkForPassUpdate', 'itGuy']], function
             Route::put('profile/update', 'MyAccountController@update_profile')->name('my_account.update');
             Route::put('password/change', 'MyAccountController@change_pass')->name('my_account.change_pass');
             Route::put('other', 'MyAccountController@other')->name('my_account.other');
+            Route::post('update_hidden_alerts', 'MyAccountController@update_hidden_alerts')->name('my_account.update_hidden_alerts');
+            Route::post('clear_hidden_alerts', 'MyAccountController@clear_hidden_alerts')->name('my_account.clear_hidden_alerts');
         });
 
         /************************ AJAX ****************************/

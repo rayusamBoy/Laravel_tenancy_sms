@@ -59,6 +59,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'show_charts',
         'message_media_heading_color',
         'firebase_device_token',
+        'hidden_alert_ids',
     ];
 
     /**
@@ -112,7 +113,8 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logAll()
+            ->logFillable()
+            ->dontSubmitEmptyLogs()
             ->logOnlyDirty();
     }
 
@@ -129,5 +131,13 @@ class User extends Authenticatable implements MustVerifyEmail
     public function routeNotificationForFcm()
     {
         return $this->getDeviceTokens();
+    }
+
+    /**
+     * Route notifications for the Vonage channel.
+     */
+    public function routeNotificationForVonage(): string
+    {
+        return auth()->user()->phone ?? auth()->user()->phone2;
     }
 }

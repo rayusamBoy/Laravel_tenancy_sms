@@ -6,35 +6,32 @@ use App\Helpers\Mk;
 use App\Models\SubjectRecord;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 
 class MarksImport implements ToCollection, WithHeadingRow, WithValidation
 {
-    protected $year, $class_id, $exam_id, $session, $subjects, $st_mark, $marks_table;
+    protected $data, $marks_table;
 
-    public function __construct($year, int $class_id, int $exam_id, $st_mark)
+    public function __construct($data)
     {
-        $this->year = $year;
-        $this->class_id = $class_id;
-        $this->exam_id = $exam_id;
-        $this->session =  Mk::getCurrentSession();
-        $this->st_mark = $st_mark;
+        $this->data = $data;
         $this->marks_table = 'marks';
     }
 
     public function collection(Collection $rows)
     {
-        $subjects = Mk::getSubjects($this->class_id);
+        $subjects = Mk::getSubjects($this->data['class_id']);
         foreach ($rows as $row) {
-            $s_data = $this->st_mark->where('user.username', $row['admission_number'])->first(); // Get student record by student admission number
+            $s_data = $this->data['st_mark']->where('user.username', $row['admission_number'])->first(); // Get student record by student admission number
             $sid = $s_data->user->id;
             $sec_id = $s_data->section_id;
 
             foreach ($subjects as $sub) {
                 // Get students ids. For the subject with only specific students who study it 
-                $students_ids = SubjectRecord::where(['subject_id' => $sub->id])->where('students_ids', '!=', NULL)->value('students_ids');;
+                $students_ids = SubjectRecord::where(['subject_id' => $sub->id])->where('students_ids', '!=', NULL)->value('students_ids');
 
                 if ($students_ids != NULL) {
                     $students_ids = unserialize($students_ids); // Get students ids
@@ -57,10 +54,10 @@ class MarksImport implements ToCollection, WithHeadingRow, WithValidation
     {
         $where = [
             'student_id' => $sid,
-            'my_class_id' => $this->class_id,
+            'my_class_id' => $this->data['class_id'],
             'section_id' => $sec_id,
-            'exam_id' => $this->exam_id,
-            'year' => $this->year,
+            'exam_id' => $this->data['exam_id'],
+            'year' => $this->data['year'],
             'subject_id' => $sub_id,
         ];
 
@@ -73,10 +70,10 @@ class MarksImport implements ToCollection, WithHeadingRow, WithValidation
     {
         $where = [
             'student_id' => $sid,
-            'my_class_id' => $this->class_id,
+            'my_class_id' => $this->data['class_id'],
             'section_id' => $sec_id,
-            'exam_id' => $this->exam_id,
-            'year' => $this->year,
+            'exam_id' => $this->data['exam_id'],
+            'year' => $this->data['year'],
             'subject_id' => $sub_id,
         ];
 
@@ -86,34 +83,23 @@ class MarksImport implements ToCollection, WithHeadingRow, WithValidation
     public function replaceSpaceWithUnderscore($string)
     {
         /**
-         * This excel package it automatically replace the subject names consiting of words separated by a space with an underscore in small case.
-         * Fore example if the subject in the file appear as 'English Language' it will be converted to 'english_language'.
-         * But, the subject names in the database are similar to the ones exported to the file (the same file to be imported),
-         * therefore to match the case this function will convert those subjects names from the database to the form the package requires/uses.
+         * By default the heading keys are formatted with the Laravel str_slug() helper, ie., all spaces are converted to _
+         * We use this function to replace the underscore with space to match with the formatted heading keys
          */
-        return str_replace(' ', '_', strtolower($string));
-    }
-
-    public function replaceUnderserscoreWithSpace($string)
-    {
-        return str_replace('_', ' ', strtolower($string));
+        return Str::slug(strtolower($string), '_');
     }
 
     public function customValidationAttributes()
     {
         $attributes = [];
-        $admission_no_attribute = [
-            'admission_number' => 'admission number'
-        ];
         // Associate the altered subject name (the one with replaced space with underscore) with the actual name (the one with the space) in the file.
-        foreach (Mk::getSubjects($this->class_id) as $sub) {
+        foreach (Mk::getSubjects($this->data['class_id']) as $sub) {
             $attr = [
-                $this->replaceSpaceWithUnderscore($sub->name) => $this->replaceUnderserscoreWithSpace($sub->name),
+                $this->replaceSpaceWithUnderscore($sub->name) => $sub->name,
             ];
             $attributes = array_merge($attr, $attributes);
         }
-        $attributes = array_merge($attributes, $admission_no_attribute);
-        
+
         return $attributes;
     }
 
@@ -121,7 +107,7 @@ class MarksImport implements ToCollection, WithHeadingRow, WithValidation
     {
         $sub_rules = [];
         // Validation rule for marks
-        foreach (Mk::getSubjects($this->class_id) as $sub) {
+        foreach (Mk::getSubjects($this->data['class_id']) as $sub) {
             $rule = [
                 '*.' . $this->replaceSpaceWithUnderscore($sub->name) => ['min:0', 'max:100', 'integer', 'nullable', 'sometimes'],
             ];

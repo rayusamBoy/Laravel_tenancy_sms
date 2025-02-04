@@ -99,8 +99,8 @@ class AnalyticController extends Controller
         if ($google_analytic_tag_id !== null)
             $this->setting->update('google_analytic_tag_id', $google_analytic_tag_id);
 
-        if ($req->hasFile('service_acc_credential_file')) {
-            $file = $req->file('service_acc_credential_file');
+        if ($req->hasFile('service_account_credential_file')) {
+            $file = $req->file('service_account_credential_file');
             $fdata = Qs::getFileMetaData($file);
             $fpath = 'analytics/service-acc-credential-file.' . $fdata['ext'];
             $file->storeAs('public/', $fpath);

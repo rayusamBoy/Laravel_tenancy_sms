@@ -43,7 +43,7 @@
                             <div class="form-group row">
                                 <label for="my_class_id" class="col-lg-3 col-form-label font-weight-semibold">Select Class <span class="text-danger">*</span></label>
                                 <div class="col-lg-9">
-                                    <select required data-placeholder="Select Class" onchange="getClassTypeSubjects(this.options[this.selectedIndex].dataset.class_type_id); getClassSections(this.value, '#sec_id_add_not_applicable'); getClassStudents(this.value)" class="form-control select" name="my_class_id" id="my_class_id">
+                                    <select required data-placeholder="Select Class" onchange="getPreDefinedSubjects(); getClassSections(this.value, '#sec_id_add_not_applicable'); getClassStudents(this.value)" class="form-control select" name="my_class_id" id="my_class_id">
                                         <option value=""></option>
                                         @foreach($my_classes as $c)
                                         <option data-class_type_id="{{ $c->class_type_id }}" {{ old('my_class_id') == $c->id ? 'selected' : '' }} value="{{ $c->id }}">{{ $c->name }}</option>
@@ -62,7 +62,7 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="students-ids" class="col-lg-3 col-form-label font-weight-semibold">Select Student(s):</label>
+                                <label for="students-ids" class="col-lg-3 col-form-label font-weight-semibold">Select Student(s)</label>
                                 <div class="col-lg-9">
                                     <select id="students-ids" onchange="updateSectionDisableState()" name="students_ids[]" multiple="multiple" class="form-control select">
                                         <option disabled value="">Select class first</option>

@@ -74,7 +74,7 @@
      */
     channel.listen('NewMessage', (e) => {
             //console.log(e);
-            messages_row.append(updateMessage(auth_id, e));
+            messages_row.append(getMessage(auth_id, e));
             updateParticipantLastRead(e.message.thread_id);
             playNotificationSound('message-notification.mp3', true);
             initializePopover(); // Actually re-initilize for the new created popover in the new/updated message.
@@ -89,15 +89,15 @@
     channel.listen('MessageDeleted', (e) => {
             //console.log(e);
             $("#confirm-message-delete").find('.close').click(); // Close message action modal if open.
-            $('#message-' + e.message.id).replaceWith(updateMessage(auth_id, e));
+            $('#message-' + e.message.id).replaceWith(getMessage(auth_id, e));
         });
 
     /**
      *-------------------------------------------------------------
-     * Update message - new vs delete
+     * Get message - new vs delete
      *-------------------------------------------------------------
      */
-    function updateMessage(auth_id, e) {
+    function getMessage(auth_id, e) {
         // Create div item element
         var divItem = document.createElement('div');
         divItem.classList.add('col-lg-8', 'offset-lg-2', 'col-xl-6', 'offset-xl-3');
@@ -163,7 +163,7 @@
                 var deletedMessage = document.createElement('p');
                 deletedMessage.classList.add('text-muted');
                 var deletedIcon = document.createElement('i');
-                deletedIcon.classList.add('material-symbols-rounded', 'font-size-sm');
+                deletedIcon.classList.add('material-symbols-rounded', 'font-size-sm', 'pb-1');
                 deletedIcon.textContent = 'block'; // Material symbol
                 var deletedText = document.createElement('i');
                 deletedText.appendChild(document.createTextNode('You deleted this message.'));
@@ -171,15 +171,14 @@
                 deletedMessage.appendChild(deletedText);
                 messageSpan.appendChild(deletedMessage);
             } else if (e.message.deleted_by != auth_id) {
-                if (e.message.deletor.user_type === 'super_admin') {
+                if (e.message.deletor.user_type === 'super_admin' && e.message.user_id != e.message.deleted_by) {
                     var superAdminDeletedMessage = document.createElement('p');
                     superAdminDeletedMessage.classList.add('text-muted');
                     var superAdminDeletedIcon = document.createElement('i');
-                    superAdminDeletedIcon.classList.add('material-symbols-rounded', 'font-size-sm');
+                    superAdminDeletedIcon.classList.add('material-symbols-rounded', 'font-size-sm', 'pb-1');
                     superAdminDeletedIcon.textContent = 'block'; // Symbol
                     var superAdminDeletedText = document.createElement('i');
-                    superAdminDeletedText.appendChild(document.createTextNode(
-                        'This message was deleted by super admin ' + e.message.deletor.name + '.'));
+                    superAdminDeletedText.appendChild(document.createTextNode('This message was deleted by super admin ' + e.message.deletor.name + '.'));
                     superAdminDeletedMessage.appendChild(superAdminDeletedIcon);
                     superAdminDeletedMessage.appendChild(superAdminDeletedText);
                     messageSpan.appendChild(superAdminDeletedMessage);
@@ -187,7 +186,7 @@
                     var regularDeletedMessage = document.createElement('p');
                     regularDeletedMessage.classList.add('text-muted');
                     var regularDeletedIcon = document.createElement('i');
-                    regularDeletedIcon.classList.add('material-symbols-rounded', 'font-size-sm');
+                    regularDeletedIcon.classList.add('material-symbols-rounded', 'font-size-sm', 'pb-1');
                     regularDeletedIcon.textContent = 'block'; // Symbol
                     var regularDeletedText = document.createElement('i');
                     regularDeletedText.appendChild(document.createTextNode('This message was deleted.'));
@@ -334,16 +333,16 @@
         };
         var req = $.ajax(ajaxOptions);
         req.done(function(resp){
-            if(data.hasOwnProperty('prepend_previous_messages')){
+            if (data.hasOwnProperty('prepend_previous_messages')){
                 // If no data coming
-                if(resp.msg === ""){
+                if (resp.msg === ""){
                     loading_previous_msgs_div.hide();
                     load_previous_msgs_btn.hide('slow');
                 } else {
                     messages_row.prepend(resp.msg).fadeIn('slow');
                     initializePopover();
                     
-                    if(data.hasOwnProperty('show_loading_previous')){
+                    if (data.hasOwnProperty('show_loading_previous')){
                         loading_previous_msgs_div.hide();
                         load_previous_msgs_btn.fadeIn();
                     }
@@ -354,7 +353,7 @@
         });
         req.fail(function(e){
             pop({msg: 'Sorry, something went wrong. You may try again!', type: 'error'});
-            if(data.hasOwnProperty('show_loading_previous')){
+            if (data.hasOwnProperty('show_loading_previous')){
                 loading_previous_msgs_div.hide();
                 load_previous_msgs_btn.fadeIn();
             }
@@ -390,7 +389,7 @@
                 }).addClass(dot_indicator_class);
                 alert_row.show().find('i').text("Connecting");
                 break;
-                // Not connected
+            // Not connected
             default:
                 msg_row.hide();
                 alert_row.find('.alert').addClass('text-center');

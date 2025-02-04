@@ -67,14 +67,14 @@ class StudentRepo
         return StudentRecord::create($data);
     }
 
-    public function updateRecord($id, array $data)
+    public function updateRecord($value, array $data, $column = 'id')
     {
-        return StudentRecord::find($id)->update($data);
+        return StudentRecord::where($column, $value)->update($data);
     }
 
-    public function updateRecord2(array $where, array $data)
+    public function updateOrCreateRecord(array $where, array $data)
     {
-        return StudentRecord::where($where)->update($data);
+        return StudentRecord::updateOrCreate($where, $data);
     }
 
     public function getRecord(array $where)

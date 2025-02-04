@@ -92,7 +92,7 @@
                             <th>#</th>
                             <th>Event</th>
                             <th>Subject Type</th>
-                            {{-- <th>Causer Type</th> --}}
+                            <th>Causer Type</th>
                             <th>Causer</th>
                             <th>Properties</th>
                             <th>Created At</th>
@@ -106,11 +106,14 @@
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $chk->event }}</td>
                             @php
-                            $exploded = explode("\\", $chk->subject_type);
+                            $subject_type_exploded = explode("\\", $chk->subject_type);
                             @endphp
-                            <td>{{ end($exploded) }}</td>
-                            {{-- <td>{{ $chk->causer_type }}</td> --}}
-                            <td>{{ $chk->user->name }}</td>
+                            <td>{{ end($subject_type_exploded) }}</td>
+                            @php
+                            $causer_type_exploded = explode("\\", $chk->causer_type);
+                            @endphp
+                            <td>{{ $chk?->causer_type ? end($causer_type_exploded) : 'N/A' }}</td>
+                            <td>{{ $chk?->user?->name ?? 'N/A' }}</td>
                             <td>
                                 @include('pages/modals/activity_log_properties')
                                 <a href="javascript:;" data-toggle="modal" data-target="#activity-log-properties-{{ $chk->id }}">show</a>

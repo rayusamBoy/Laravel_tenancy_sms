@@ -14,7 +14,7 @@ class GoogleSetup extends FormRequest
     {
         $this->property_id_type = 'google_analytic_property_id';
         $this->tag_id_type = 'google_analytic_tag_id';
-        $this->credential_file_attr = 'service_acc_credential_file';
+        $this->credential_file_attr = 'service_account_credential_file';
         $this->credential_file_name = Qs::getSetting('google_analytic_service_account_credential_file');
     }
 

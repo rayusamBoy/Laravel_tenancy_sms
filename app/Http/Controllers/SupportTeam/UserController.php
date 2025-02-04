@@ -56,7 +56,7 @@ class UserController extends Controller implements HasMiddleware
     {
         $id = Qs::decodeHash($id);
         $ut = $this->user->getAllNotStudentType();
-        $ut2 = $ut->where('level', '>', 2);
+        $ut2 = $ut->whereNotIn('title', Qs::getTeamAdministrative());
 
         $d['user_types'] = Qs::userIsAdmin() ? $ut2 : $ut;
         $d['user'] = $this->user->find($id);
@@ -76,6 +76,7 @@ class UserController extends Controller implements HasMiddleware
 
         $data['password'] = Hash::make('user');
         $data['password_updated_at'] = NULL;
+
         $this->user->update($id, $data);
 
         return back()->with('flash_success', __('msg.pu_reset'));
@@ -83,10 +84,10 @@ class UserController extends Controller implements HasMiddleware
 
     public function store(UserRequest $req)
     {
+        $except = ['_token', '_method'];
         $user_type = $this->user->findType($req->user_type)->title;
+        $data = $req->except(array_merge(Qs::getStaffRecord(), Qs::getParentRelativeRecord(), $except));
 
-        $data = $req->except(array_merge(Qs::getStaffRecord(), Qs::getParentRelativeRecord()));
-        unset($data['_token']);
         $data['name'] = $name = ucwords(strtolower($req->name));
         $data['user_type'] = $user_type;
         $data['code'] = $code = strtoupper(Str::random(10));
@@ -99,7 +100,7 @@ class UserController extends Controller implements HasMiddleware
 
         $emp_date = $req->emp_date ?? now();
         $staff_id = Qs::getAppCode() . '/STAFF/' . date('Y/m', strtotime($emp_date)) . '/' . mt_rand(1000, 9999);
-        $data['username'] = $uname = ($user_is_teamSA || Qs::userIsItGuy()) ? $req->username : $staff_id;
+        $data['username'] = $uname = $user_is_teamSA ? $req->username : $staff_id;
 
         // If user a parent get the work he/she does
         $data['work'] = $user_is_parent ? $req->work : NULL;
@@ -123,11 +124,12 @@ class UserController extends Controller implements HasMiddleware
         $user = $this->user->create($data); // Create User
 
         /* CREATE STAFF RECORD */
-        if ($user_is_staff || Qs::userIsItGuy()) {
+        if ($user_is_staff) {
             $d2 = $req->only(Qs::getStaffRecord());
             $d2['user_id'] = $user->id;
             $d2['code'] = $staff_id;
-            $d2['subjects_studied'] = isset($d2['subjects_studied']) ? json_encode($d2['subjects_studied']) : NULL;
+            $d2['subjects_studied'] = json_encode(explode(",", $d2['subjects_studied']));
+
             $this->user->createStaffRecord($d2);
         }
 
@@ -138,6 +140,7 @@ class UserController extends Controller implements HasMiddleware
             // Use name2 from the request (removed above) as name
             $d3['name'] = ucwords(strtolower($req->name2));
             $d3['relation'] = $req->relation;
+
             $this->user->createParentRelativeRecord($d3);
         }
 
@@ -162,9 +165,9 @@ class UserController extends Controller implements HasMiddleware
         $user_is_staff = in_array($user_type, Qs::getStaff());
         $user_is_parent = in_array($user_type, Qs::getParent());
 
-        $except = array_merge(Qs::getStaffRecord(), Qs::getParentRelativeRecord());
+        $except = array_merge(Qs::getStaffRecord(), Qs::getParentRelativeRecord(), ['_token', '_method']);
         $data = $req->except($except);
-        unset($data["_token"], $data["_method"]); // Remove token and method values from requested data
+
         $data['name'] = $name = ucwords(strtolower($req->name));
         $data['user_type'] = $user_type;
         $data['work'] = $user_is_parent ? $req->work : NULL;
@@ -180,18 +183,19 @@ class UserController extends Controller implements HasMiddleware
 
         $this->user->update($id, $data);   /* UPDATE USER RECORD */
 
-        /* UPDATE OR CREATE STAFF RECORD */
+        /* UPDATE OR CREATE NEW STAFF RECORD */
         if ($user_was_staff) {
             if ($user_is_staff) {
                 $d2 = $req->only(Qs::getStaffRecord());
                 $d2['code'] = $user->code;
+                $d2['subjects_studied'] = json_encode(explode(",", $d2['subjects_studied']));
                 $this->user->updateStaffRecord(['user_id' => $id], $d2);
             } else
                 $this->user->deleteStaffRecord(['user_id' => $id]);
-        } elseif ($user_is_staff || Qs::userIsItGuy()) {
+        } elseif ($user_is_staff) {
             $d2 = $req->only(Qs::getStaffRecord());
             $d2['code'] = $user->code;
-            $d2['subjects_studied'] = isset($d2['subjects_studied']) ? json_encode($d2['subjects_studied']) : NULL;
+            $d2['subjects_studied'] = json_encode(explode(",", $d2['subjects_studied']));
             $this->user->updateStaffRecord(['user_id' => $id], $d2);
         }
 
@@ -215,7 +219,7 @@ class UserController extends Controller implements HasMiddleware
         $data['user'] = $this->user->find($user_id);
 
         /* Prevent Other Students from viewing Profile of others*/
-        if (auth()->id() != $user_id && !Qs::userIsTeamSA() && !Qs::userIsMyChild(auth()->id(), $user_id) && !Qs::userIsItGuy())
+        if (auth()->id() != $user_id && !Qs::userIsTeamSA() && !Qs::userIsMyChild(auth()->id(), $user_id))
             return redirect(route('dashboard'))->with('pop_error', __('msg.denied'));
 
         if (Qs::userIsTeamSATCL())
@@ -252,8 +256,9 @@ class UserController extends Controller implements HasMiddleware
 
     public function update_staff_data_edit_state(UserStaffDataEditState $req)
     {
-        $user_id = $req->id;
-        $this->user->updateStaffRecord(['user_id' => $user_id], $req->only("staff_data_edit"));
+        $where = ['user_id' => $req->id];
+        $data = $req->only("staff_data_edit");
+        $this->user->updateStaffRecord($where, $data);
 
         return Qs::json("ok");
     }
@@ -261,7 +266,8 @@ class UserController extends Controller implements HasMiddleware
     public function update_user_blocked_state(UserBlockedState $req)
     {
         $user_id = $req->id;
-        $this->user->update2(['id' => $user_id], $req->only("blocked"));
+        $data = $req->only("blocked");
+        $this->user->update($user_id, $data);
 
         return Qs::json("ok");
     }

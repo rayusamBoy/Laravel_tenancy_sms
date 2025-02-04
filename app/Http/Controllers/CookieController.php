@@ -3,43 +3,33 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Cookie;
+use Illuminate\Support\Facades\Cookie;
 
 class CookieController extends Controller
 {
     // Set cookie - default minutes 1440 = 24hours = 1 day
-    public function set($name, $value, $minutes = 1440)
+    public static function set($name, $value, $minutes = 1440, $path = null, $domain = null, $secure = false, $httpOnly = true, $raw = false, $sameSite = null)
     {
-        return Cookie::queue(Cookie::make($name, $value, $minutes));
+        return Cookie::make($name, $value, $minutes, $path, $domain, $secure, $httpOnly, $raw, $sameSite);
     }
 
-    public function setEncrypted($name, $value, $minutes = 1440)
+    public static function setForever($name, $value, $path = null, $domain = null, $secure = false, $httpOnly = true, $raw = false, $sameSite = null)
     {
-        return Cookie::queue(Cookie::encrypt($name, $value, $minutes));
+        return Cookie::forever($name, $value, $path, $domain, $secure, $httpOnly, $raw, $sameSite);
     }
 
-    public function setForever($name, $value)
-    {
-        return Cookie::queue(Cookie::forever($name, $value));
-    }
-
-    public function getDecrypted($name)
-    {
-        return Cookie::decrypt($name);
-    }
-
-    public function get($name)
+    public static function get($name)
     {
         return Cookie::get($name);
     }
 
-    public function has($name)
+    public static function has($name)
     {
         return Cookie::has($name);
     }
 
-    public function delete($name)
+    public static function delete($name)
     {
-        return Cookie::queue(Cookie::forget($name));
+        return Cookie::forget($name);
     }
 }

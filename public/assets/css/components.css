@@ -387,6 +387,33 @@ input[type="text"].noui-height-helper:not(.noUi-target)[data-fouc] {
     border: 0;
 }
 
+[data-theme=dark] .file-preview,
+[data-theme=dark] .file-preview-frame,
+[data-theme=dark] .file-preview-status,
+[data-theme=dark] .file-caption-disabled {
+    border: 1px solid #333333;
+}
+
+[data-theme=dark] .file-preview .close,
+[data-theme=dark] .file-thumb-loading:after,
+[data-theme=dark] .file-uploading:after {
+    color: white;
+}
+
+[data-theme=dark] .file-preview-status,
+[data-theme=dark] .file-thumbnail-footer {
+    border-top: 1px solid #333333;
+}
+
+[data-theme=dark] .file-footer-caption {
+    border-bottom: 1px solid #333333;
+}
+
+[data-theme=dark] .file-thumbnail-footer,
+[data-theme=dark] .file-footer-caption {
+    background-color: #171717;
+}
+
 .file-thumb-loading {
     min-height: 6.62503rem;
 }
@@ -1753,10 +1780,9 @@ input[type="text"].noui-height-helper:not(.noUi-target)[data-fouc] {
 .validation-invalid-label:before,
 .validation-valid-label:before {
     font-family: "Material Symbols Rounded";
-    font-size: 0.94rem;
+    font-size: .8rem;
     position: absolute;
-    /* Modified - 1 line below */
-    top: 0.1rem;
+    top: 0.27rem;
     left: 0;
     display: inline-block;
     line-height: 1;
@@ -5339,10 +5365,16 @@ div.modal .participant .icon-cross {
 
 div.go-to-bottom {
     position: fixed;
-    bottom: 0.5rem;
-    right: 1.5%;
+    bottom: 1rem;
+    right: 1.5rem;
     align-self: end;
     z-index: 999;
+    border-radius: .1875rem;
+    border: 1px solid #dfdfdf;
+}
+
+[data-theme=dark] div.go-to-bottom {
+    border: 1px solid #333333;
 }
 
 div.go-to-bottom button {

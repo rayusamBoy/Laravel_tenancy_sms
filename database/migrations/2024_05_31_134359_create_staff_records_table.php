@@ -2,10 +2,10 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -31,7 +31,13 @@ return new class extends Migration
             $table->string('education_level')->nullable();
             $table->string('college_attended')->nullable();
             $table->string('year_graduated')->nullable();
-            $table->string('subjects_studied')->nullable();
+            if (in_array(DB::getDriverName(), ['mysql', 'pgsql'])) {
+                // If the database is MySQL or PostgreSQL, use the JSON type
+                $table->json('subjects_studied')->nullable();
+            } else {
+                // For other database drivers, use TEXT as fallback
+                $table->text('subjects_studied')->nullable();
+            }
             $table->timestamps();
         });
     }

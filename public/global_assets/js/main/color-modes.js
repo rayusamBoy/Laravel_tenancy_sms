@@ -54,7 +54,7 @@ const updateJSCharts = theme => {
                         if (typeof instance.options.scales[scale_id] != 'undefined') {
                             // For all chart types
                             instance.options.scales[scale_id].ticks.color = Chart.defaults.color;
-                            instance.options.scales[scale_id].ticks.backdropColor = 'rgba(255, 255, 255, 0.75)';
+                            instance.options.scales[scale_id].ticks.backdropColor = Chart.defaults.backdropColor;
                             instance.options.scales[scale_id].grid.color = Chart.defaults.borderColor;
                             instance.options.scales[scale_id].title.color = Chart.defaults.color;
                             // For other than radial chart
@@ -65,7 +65,7 @@ const updateJSCharts = theme => {
                             // For radial chart only
                             if (scale_id == 'r') {
                                 instance.options.scales[scale_id].angleLines.color = Chart.defaults.borderColor;
-                                instance.options.scales[scale_id].pointLabels.color = Chart.defaults.borderColor;
+                                instance.options.scales[scale_id].pointLabels.color = Chart.defaults.color;
                             }
                         }
                     }

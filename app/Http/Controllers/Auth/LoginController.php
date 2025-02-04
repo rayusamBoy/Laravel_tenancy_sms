@@ -33,7 +33,18 @@ class LoginController extends Controller implements HasMiddleware
      * @var string
      */
     protected $redirectTo = '/';
+
     protected $cookie;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void$field
+     */
+    public function __construct(CookieController $cookie)
+    {
+        $this->cookie = $cookie;
+    }
 
     /**
      * Show the application's login form.
@@ -79,16 +90,6 @@ class LoginController extends Controller implements HasMiddleware
     }
 
     /**
-     * Create a new controller instance.
-     *
-     * @return void$field
-     */
-    public function __construct(CookieController $cookie)
-    {
-        $this->cookie = $cookie;
-    }
-
-    /**
      *  Login with Username or Email
      * 
      */
@@ -110,7 +111,7 @@ class LoginController extends Controller implements HasMiddleware
     protected function loggedOut(Request $request)
     {
         // Set cookie - has logged out
-        $this->cookie->set('has_logged_out', true, env('COOKIE_LIFETIME'));
+        $this->cookie->setForever('has_logged_out', true);
         // Delete was logged in
         $this->cookie->delete('was_logged_in');
     }
@@ -134,7 +135,6 @@ class LoginController extends Controller implements HasMiddleware
         event(new UserLoggedIn($user));
 
         $this->cookie->delete('has_logged_out');
-        // Set was_logged_in cookie; default minutes if lifetime not set in env: 3 days = 4320 minutes
-        $this->cookie->set('was_logged_in', true, env('COOKIE_LIFETIME', 4320));
+        $this->cookie->setForever('was_logged_in', true);
     }
 }

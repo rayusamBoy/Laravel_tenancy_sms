@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests\Student;
 
+use App\Helpers\Usr;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
-use App\Helpers\Qs;
 
 class StudentRecordUpdate extends FormRequest
 {
@@ -14,9 +15,14 @@ class StudentRecordUpdate extends FormRequest
         return true;
     }
 
+    protected function getAuthUserId()
+    {
+        return Auth::id();
+    }
+
     protected function getRouteUserIdParameter()
     {
-        return Qs::decodeHash($this->input('student'));
+        return Usr::decodeHash($this->input('student'));
     }
 
     /**
@@ -29,7 +35,9 @@ class StudentRecordUpdate extends FormRequest
         return [
             'name' => 'required|string|min:6|max:150',
             'gender' => 'required|string',
-            'phone' => 'sometimes|nullable|string|min:6|max:20',
+            'date_admitted' => 'required|date_format:' . Usr::getDateFormat(),
+            'phone' => ['sometimes', 'nullable', 'string', Rule::unique('users', 'phone')->ignore($this->getAuthUserId(), 'id')],
+            'phone2' => ['sometimes', 'nullable', 'string', Rule::unique('users', 'phone2')->ignore($this->getAuthUserId(), 'id')],
             'email' => 'sometimes|nullable|email|max:100|unique:users,id',
             'photo' => 'sometimes|nullable|image|mimes:jpeg,gif,png,jpg|max:2048',
             'address' => 'required|string|min:4|max:120',
@@ -42,13 +50,14 @@ class StudentRecordUpdate extends FormRequest
             'my_parent_id' => 'sometimes|nullable',
             'dorm_id' => 'sometimes|nullable',
             'ps_name' => 'required|string|max:40',
-            'ss_name' => 'required_if:my_class_id,5,6|max:40',
+            'ss_name' => 'sometimes|nullable|string|max:40',
             'birth_certificate' => 'sometimes|nullable|file|mimes:pdf,png,jpg,jpeg|max:2048',
             'disability' => 'sometimes|nullable',
             'chp' => 'sometimes|nullable|string',
             'food_taboos' => 'sometimes|nullable|string',
             'p_status' => 'required|string', 
             'adm_no' => ['sometimes', 'nullable', 'regex:/^[a-zA-Z0-9\s\-\/]+$/', 'min:4', 'max:20', 'unique:student_records,id'],
+            'dob' => 'required|date_format:' . Usr::getDateFormat(),
         ];
     }
 
@@ -68,6 +77,8 @@ class StudentRecordUpdate extends FormRequest
             'chp' => 'chronic Health Problem',
             'p_status' => 'parent status',
             'adm_no' => 'admission number',
+            'dob' => 'date of birth',
+            'phone2' => 'telephone',
         ];
     }
 
@@ -75,7 +86,7 @@ class StudentRecordUpdate extends FormRequest
     {
         $input = $this->all();
 
-        $input['my_parent_id'] = $input['my_parent_id'] ? Qs::decodeHash($input['my_parent_id']) : NULL;
+        $input['my_parent_id'] = $input['my_parent_id'] ? Usr::decodeHash($input['my_parent_id']) : NULL;
 
         $this->getInputSource()->replace($input);
 

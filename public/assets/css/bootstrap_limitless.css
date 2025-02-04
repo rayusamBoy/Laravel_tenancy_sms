@@ -3943,6 +3943,15 @@ a.breadcrumb-elements-item:focus,
     padding: 0.3em 0.6em !important;
 }
 
+.badge:not(.badge-default) {
+    background: none;
+    border: 1px solid #c7c7c7;
+}
+
+[data-theme="dark"] .badge {
+    border: 1px solid #333333;
+}
+
 .badge.dropdown-toggle:after {
     font-size: 85%;
     vertical-align: baseline;
@@ -4891,7 +4900,7 @@ a.badge[class*="bg-"]:not(.bg-transparent):not(.bg-white):not(.bg-light):focus,
 }
 
 [data-theme="dark"] .datepicker-dropdown.datepicker-orient-top:after {
-    border-top: 6px solid #171717;
+    border-top: 6px solid #1c1c1c;
 }
 
 [data-theme="dark"] .datepicker-dropdown.datepicker-orient-top:before {
@@ -4899,7 +4908,7 @@ a.badge[class*="bg-"]:not(.bg-transparent):not(.bg-white):not(.bg-light):focus,
 }
 
 [data-theme="dark"] .datepicker-dropdown:after {
-    border-bottom: 6px solid #171717;
+    border-bottom: 6px solid #1c1c1c;
 }
 
 [data-theme="dark"] .datepicker-dropdown:before {

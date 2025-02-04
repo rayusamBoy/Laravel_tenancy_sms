@@ -25,7 +25,7 @@ class TenancySettingsTableSeeder extends Seeder
                 'type' => 'current_session',
                 'description' => date("Y") - 1 . '-' . date('Y'),
                 'created_at' => NULL,
-                'updated_at' => '2024-05-27 08:40:23',
+                'updated_at' => NULL,
             ),
             1 =>
             array(
@@ -33,7 +33,7 @@ class TenancySettingsTableSeeder extends Seeder
                 'type' => 'system_title',
                 'description' => 'TITLE',
                 'created_at' => NULL,
-                'updated_at' => '2024-05-27 08:40:23',
+                'updated_at' => NULL,
             ),
             2 =>
             array(
@@ -41,7 +41,7 @@ class TenancySettingsTableSeeder extends Seeder
                 'type' => 'system_name',
                 'description' => 'YOUR SCHOOL NAME',
                 'created_at' => NULL,
-                'updated_at' => '2024-05-27 08:40:23',
+                'updated_at' => NULL,
             ),
             3 =>
             array(
@@ -49,7 +49,7 @@ class TenancySettingsTableSeeder extends Seeder
                 'type' => 'term_ends',
                 'description' => '01/07' . date('Y'),
                 'created_at' => NULL,
-                'updated_at' => '2024-05-27 08:40:23',
+                'updated_at' => NULL,
             ),
             4 =>
             array(
@@ -57,7 +57,7 @@ class TenancySettingsTableSeeder extends Seeder
                 'type' => 'term_begins',
                 'description' => '01/01/' . date('Y'),
                 'created_at' => NULL,
-                'updated_at' => '2024-05-27 08:40:23',
+                'updated_at' => NULL,
             ),
             5 =>
             array(
@@ -65,7 +65,7 @@ class TenancySettingsTableSeeder extends Seeder
                 'type' => 'phone',
                 'description' => '0123456789',
                 'created_at' => NULL,
-                'updated_at' => '2024-05-27 08:40:23',
+                'updated_at' => NULL,
             ),
             6 =>
             array(
@@ -73,7 +73,7 @@ class TenancySettingsTableSeeder extends Seeder
                 'type' => 'address',
                 'description' => 'Address',
                 'created_at' => NULL,
-                'updated_at' => '2024-05-27 08:40:23',
+                'updated_at' => NULL,
             ),
             7 =>
             array(
@@ -81,7 +81,7 @@ class TenancySettingsTableSeeder extends Seeder
                 'type' => 'system_email',
                 'description' => 'example@example.domain',
                 'created_at' => NULL,
-                'updated_at' => '2024-05-27 08:40:23',
+                'updated_at' => NULL,
             ),
             8 =>
             array(
@@ -113,7 +113,7 @@ class TenancySettingsTableSeeder extends Seeder
                 'type' => 'lock_exam',
                 'description' => '0',
                 'created_at' => NULL,
-                'updated_at' => '2024-05-27 08:40:23',
+                'updated_at' => NULL,
             ),
             12 =>
             array(
@@ -121,7 +121,7 @@ class TenancySettingsTableSeeder extends Seeder
                 'type' => 'logo',
                 'description' => NULL,
                 'created_at' => NULL,
-                'updated_at' => '2024-04-13 21:42:14',
+                'updated_at' => NULL,
             ),
             13 =>
             array(
@@ -129,7 +129,7 @@ class TenancySettingsTableSeeder extends Seeder
                 'type' => 'next_term_fees_j',
                 'description' => '0000',
                 'created_at' => NULL,
-                'updated_at' => '2022-07-25 05:26:42',
+                'updated_at' => NULL,
             ),
             14 =>
             array(
@@ -137,7 +137,7 @@ class TenancySettingsTableSeeder extends Seeder
                 'type' => 'next_term_fees_pn',
                 'description' => '0000',
                 'created_at' => NULL,
-                'updated_at' => '2022-07-25 05:26:42',
+                'updated_at' => NULL,
             ),
             15 =>
             array(
@@ -145,7 +145,7 @@ class TenancySettingsTableSeeder extends Seeder
                 'type' => 'next_term_fees_pe',
                 'description' => '0000',
                 'created_at' => NULL,
-                'updated_at' => '2024-05-27 08:40:23',
+                'updated_at' => NULL,
             ),
             16 =>
             array(
@@ -153,7 +153,7 @@ class TenancySettingsTableSeeder extends Seeder
                 'type' => 'next_term_fees_n',
                 'description' => '0000',
                 'created_at' => NULL,
-                'updated_at' => '2022-07-25 05:26:42',
+                'updated_at' => NULL,
             ),
             17 =>
             array(
@@ -161,7 +161,7 @@ class TenancySettingsTableSeeder extends Seeder
                 'type' => 'next_term_fees_se',
                 'description' => '0000',
                 'created_at' => NULL,
-                'updated_at' => '2024-05-27 08:40:23',
+                'updated_at' => NULL,
             ),
             18 =>
             array(
@@ -169,7 +169,7 @@ class TenancySettingsTableSeeder extends Seeder
                 'type' => 'next_term_fees_ase',
                 'description' => '0000',
                 'created_at' => NULL,
-                'updated_at' => '2024-05-27 08:40:23',
+                'updated_at' => NULL,
             ),
             19 =>
             array(
@@ -177,7 +177,7 @@ class TenancySettingsTableSeeder extends Seeder
                 'type' => 'login_and_related_pages_bg',
                 'description' => NULL,
                 'created_at' => NULL,
-                'updated_at' => '2024-04-13 21:42:14',
+                'updated_at' => NULL,
             ),
             20 =>
             array(
@@ -185,7 +185,7 @@ class TenancySettingsTableSeeder extends Seeder
                 'type' => 'allow_marksheet_print',
                 'description' => '0',
                 'created_at' => NULL,
-                'updated_at' => '2024-05-27 08:40:23',
+                'updated_at' => NULL,
             ),
             21 =>
             array(
@@ -193,7 +193,7 @@ class TenancySettingsTableSeeder extends Seeder
                 'type' => 'allow_assessmentsheet_print',
                 'description' => '0',
                 'created_at' => NULL,
-                'updated_at' => '2024-05-27 08:40:23',
+                'updated_at' => NULL,
             ),
             22 =>
             array(
@@ -201,7 +201,7 @@ class TenancySettingsTableSeeder extends Seeder
                 'type' => 'admin_email',
                 'description' => 'admin@example.domain',
                 'created_at' => NULL,
-                'updated_at' => '2024-05-27 08:40:24',
+                'updated_at' => NULL,
             ),
             23 =>
             array(
@@ -209,7 +209,7 @@ class TenancySettingsTableSeeder extends Seeder
                 'type' => 'admin_whatsapp_link',
                 'description' => NULL,
                 'created_at' => NULL,
-                'updated_at' => '2024-05-27 08:40:24',
+                'updated_at' => NULL,
             ),
             24 =>
             array(
@@ -217,7 +217,7 @@ class TenancySettingsTableSeeder extends Seeder
                 'type' => 'admin_linkedin_link',
                 'description' => NULL,
                 'created_at' => NULL,
-                'updated_at' => '2024-05-27 08:40:24',
+                'updated_at' => NULL,
             ),
             25 =>
             array(
@@ -225,7 +225,7 @@ class TenancySettingsTableSeeder extends Seeder
                 'type' => 'admin_facebook_link',
                 'description' => NULL,
                 'created_at' => NULL,
-                'updated_at' => '2024-05-27 08:40:24',
+                'updated_at' => NULL,
             ),
             26 =>
             array(
@@ -233,7 +233,7 @@ class TenancySettingsTableSeeder extends Seeder
                 'type' => 'admin_github_link',
                 'description' => NULL,
                 'created_at' => NULL,
-                'updated_at' => '2024-05-27 08:40:24',
+                'updated_at' => NULL,
             ),
             27 =>
             array(
@@ -241,7 +241,7 @@ class TenancySettingsTableSeeder extends Seeder
                 'type' => 'analytics_enabled',
                 'description' => '1',
                 'created_at' => NULL,
-                'updated_at' => '2024-05-27 07:26:22',
+                'updated_at' => NULL,
             ),
             28 =>
             array(
@@ -249,7 +249,7 @@ class TenancySettingsTableSeeder extends Seeder
                 'type' => 'google_analytic_tag_id',
                 'description' => NULL,
                 'created_at' => NULL,
-                'updated_at' => '2024-05-27 07:21:00',
+                'updated_at' => NULL,
             ),
             29 =>
             array(
@@ -257,7 +257,7 @@ class TenancySettingsTableSeeder extends Seeder
                 'type' => 'google_analytic_property_id',
                 'description' => NULL,
                 'created_at' => NULL,
-                'updated_at' => '2024-05-27 07:23:05',
+                'updated_at' => NULL,
             ),
             30 =>
             array(
@@ -265,7 +265,7 @@ class TenancySettingsTableSeeder extends Seeder
                 'type' => 'google_analytic_service_account_credential_file',
                 'description' => NULL,
                 'created_at' => NULL,
-                'updated_at' => '2024-05-27 07:23:05',
+                'updated_at' => NULL,
             ),
             31 =>
             array(
@@ -275,6 +275,32 @@ class TenancySettingsTableSeeder extends Seeder
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),
+            32 =>
+            array(
+                'id' => 33,
+                'type' => 'enable_email_notification',
+                'description' => 1,
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            ),
+            33 =>
+            array(
+                'id' => 34,
+                'type' => 'enable_sms_notification',
+                'description' => 1,
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            ),
+            34 =>
+            array(
+                'id' => 35,
+                'type' => 'enable_push_notification',
+                'description' => 1,
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            ),
+            
         ));
     }
 }
+

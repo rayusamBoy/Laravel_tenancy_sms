@@ -23,9 +23,10 @@ class SendTenantEvent extends Notification
      *
      * @return array<int, string>
      */
-    public function via(): array
+    public function via(object $notifiable): array
     {
-        return [FcmChannel::class];
+        $channels = Qs::getActiveNotificationChannels($notifiable, false, false, true);
+        return $channels;
     }
 
     public function toFcm(): FcmMessage

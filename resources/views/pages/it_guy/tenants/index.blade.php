@@ -22,7 +22,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="name">Tenant Name: <span class="text-danger">*</span></label>
-                                <input id="name" required name="name" value="{{ old('name') }}" type="text" class="form-control" placeholder="Eg., Hasnuu Makame Secondary School">
+                                <input id="name" required name="name" value="{{ old('name') }}" type="text" class="form-control" placeholder="tenant name">
                             </div>
                         </div>
 

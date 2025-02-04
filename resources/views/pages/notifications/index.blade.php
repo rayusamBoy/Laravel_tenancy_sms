@@ -8,26 +8,63 @@
         {!! Qs::getPanelOptions() !!}
     </div>
 
+    <div class="row">
+        <div class="col-md-12">
+            <div class="alert alert-warning border-0 alert-dismissible has-do-not-show-again-button" id="notifications-info">
+                <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+                <span>
+                    Enable push notifications by clicking "Request Permission" button or manually. Critical notifications are enabled by default for security and performance. Adjust other notifications below.
+               </span>
+            </div>
+        </div>
+    </div>
+
     <div class="card-body">
-        <form method="post" class="ajax-update" data-reload="#breadcrumb" action="{{ route('notifications.update_is_notifiable') }}">
+        <form method="post" action="{{ route('notifications.update_is_notifiable') }}">
             @csrf @method('put')
-            <div class="row">
-                <div class="col-md-6">
-                    {{-- Notifications Subscription --}}
-                    <div class="form-group row">
-                        <label for="is_notifiable" class="col-lg-9 col-form-label font-weight-semibold">Subscribe to Notifications (ie., Email) <span class="text-danger">*</span></label>
-                        <div class="col-lg-3">
-                            <select class="form-control select" name="is_notifiable" id="is_notifiable">
-                                <option {{ auth()->user()->is_notifiable ?: 'selected' }} value="1">Yes</option>
-                                <option {{ auth()->user()->is_notifiable ?: 'selected' }} value="0">No</option>
-                            </select>
-                        </div>
+            <div class="form-group row">
+                <div class="col-lg-3">
+                    <label for="email_channel" class="col-form-label font-weight-semibold">Email notification</label>
+                    <div class="form-group text-center">
+                        <select class="form-control select" name="on_email_channel" id="email_channel">
+                            <option {{ $email_channel_on == 1 ? 'selected' : '' }} value="1">On</option>
+                            <option {{ $email_channel_on == 0 ? 'selected' : '' }} value="0">Off</option>
+                        </select>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    {{--SUBMIT BUTTON--}}
-                    <div class="text-right float-right">
-                        <button type="submit" class="btn btn-danger">Submit form<span class="material-symbols-rounded ml-2 pb-2px">send</span></button>
+                <div class="col-lg-3">
+                    <label for="push_channel" class="col-form-label font-weight-semibold">Push notification</label>
+                    <div class="form-group text-center">
+                        <select class="form-control select" name="on_push_channel" id="push_channel">
+                            <option {{ $push_channel_on == 1 ? 'selected' : '' }} value="1">On</option>
+                            <option {{ $push_channel_on == 0 ? 'selected' : '' }} value="0">Off</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <label for="sms_channel" class="col-form-label font-weight-semibold">SMS notification</label>
+                    <div class="form-group text-center">
+                        <select class="form-control select" name="on_sms_channel" id="sms_channel">
+                            <option {{ $sms_channel_on == 1 ? 'selected' : '' }} value="1">On</option>
+                            <option {{ $sms_channel_on == 0 ? 'selected' : '' }} value="0">Off</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <label for="status" class="col-form-label font-weight-semibold">Allow all Notifications <span class="text-danger">*</span></label>
+                    <div class="form-group">
+                        <select class="form-control select" name="status" id="status">
+                            <option {{ $notification_status == 1 ? 'selected' : '' }} value="1">Yes</option>
+                            <option {{ $notification_status == 0 ? 'selected' : '' }} value="0">No</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                 <div class="offset-lg-9 col-lg-3">
+                    {{-- SUBMIT BUTTON --}}
+                    <div class="form-group float-right">
+                        <button type="submit" class="btn btn-sm btn-danger">Submit form<span class="material-symbols-rounded ml-2 pb-2px">send</span></button>
                     </div>
                 </div>
             </div>
@@ -38,16 +75,10 @@
             <div class="col-12">
                 <div id="token-div" class="display-none">
                     <div class="alert alert-info border-0"><span id="token-info"></span></div>
-                    <button id="delete-token-button" class="btn btn-warning float-right">Delete Token</button>
+                    <button id="delete-token-button" class="btn btn-warning btn-sm float-right ml-1 d-none">Delete Token</button>
                 </div>
                 <div id="permission-div">
-                    <div class="alert alert-info border-0">
-                        <span>
-                            To receive push notifications you need to allow receiving notifications for this browser by clicking the button on the right,
-                            or by enabling it manually.
-                        </span>
-                    </div>
-                    <button id="request-permission-button" class="btn btn-primary float-right">Request Permission</button>
+                    <button id="request-permission-button" class="btn btn-primary btn-sm float-right">Request Permission</button>
                 </div>
             </div>
         </div>
@@ -59,7 +90,6 @@
                 <tr>
                     <th>S/N</th>
                     <th>Subject</th>
-                    <th>Intended</th>
                     <th>Created At</th>
                     <th>Read At</th>
                     <th class="text-center">Action</th>
@@ -69,11 +99,9 @@
                 @foreach(auth()->user()->notifications()->get() as $notification)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{ $notification->data['subject'] }} </td>
-                    @php
-                        $href = is_null($notification->read_at) ? route('payments.receipts', [Qs::hash($notification->data['receipt']['pr_id']), $notification->id]) : route('payments.receipts', Qs::hash($notification->data['receipt']['pr_id']));
-                    @endphp
-                    <td><a target="_blank" href="{{ $href }}">View Receipt</a></td>
+                    <td>
+                        <a target="_blank" @if(isset($notification->data['receipt'])) href="{{ route('payments.receipts', [Qs::hash($notification->data['receipt']['pr_id']), $notification->id]) }}" @elseif($notification->data['url']) href="{{ $notification->data['url'] }}" @endif><strong>{{ $notification->data['subject'] }}</strong></a>
+                    </td>
                     <td>{{ $notification->created_at }}</td>
                     <td>{{ $notification->read_at ?? 'Never' }}</td>
                     <td class="text-center">

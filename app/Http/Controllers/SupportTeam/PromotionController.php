@@ -178,7 +178,7 @@ class PromotionController extends Controller implements HasMiddleware
         $data['grad'] = 0;
         $data['grad_date'] = null;
 
-        $this->student->updateRecord2(['user_id' => $prom->user_id], $data);
+        $this->student->updateRecord($prom->user_id, $data, 'user_id');
 
         // Delete Marks if Already Inserted for New Session
         $this->delete_old_marks($prom->student_id, Qs::getNextSession());

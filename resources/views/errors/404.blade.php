@@ -1,6 +1,6 @@
 @extends('errors.layout')
 
-@section('title', 'Page Not Found')
+@section('title', 'Page or Resource Not Found')
 
 @section('content')
 <div class="page-content error-cover">

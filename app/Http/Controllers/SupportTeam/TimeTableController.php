@@ -233,7 +233,7 @@ class TimeTableController extends Controller
         $exam_id = $req->exam_id;
 
         $data['section_id'] = $section_id == 'all' ? NULL : $section_id;
-        $data['exam_id'] = $exam_id == 'default' ? NULL : $exam_id;
+        $data['exam_id'] = $exam_id == 'class' ? NULL : $exam_id;
         $data['year'] = $this->year;
 
         $this->tt->createRecord($data);
@@ -245,19 +245,7 @@ class TimeTableController extends Controller
     {
         $data = $req->only(['name', 'my_class_id']);
         $section_id = $req->section_id;
-        $exam_id = $req->exam_id;
-
         $data['section_id'] = $section_id == 'all' ? NULL : $section_id;
-
-        switch ($exam_id) {
-            case 'class':
-                $data['exam_id'] = NULL;
-                break;
-            default:
-                $data['exam_id'] = $exam_id;
-                $data['section_id'] = NULL;
-                break;
-        }
 
         $this->tt->updateRecord($id, $data);
 

@@ -21,8 +21,9 @@ class MyAccountController extends Controller
 
     public function edit_profile()
     {
-        $d['my'] = auth()->user();
-        $d['staff_rec'] = $this->user->getStaffRecord(['user_id' => auth()->id()])->first();
+        $d['my'] = $user = auth()->user();
+        $where = ['user_id' => $user->id];
+        $d['staff_rec'] = $this->user->getStaffRecord($where)->first();
 
         return view('pages.support_team.my_account', $d);
     }
@@ -38,7 +39,7 @@ class MyAccountController extends Controller
         $d = $user->username ? $req->except(array_merge(Qs::getStaffRecord(['username']), $except)) : $req->except(array_merge(Qs::getStaffRecord(), $except));
 
         $d2 = $req->only(Qs::getStaffRecord());
-        $d2['subjects_studied'] = isset($d2['subjects_studied']) ? json_encode($d2['subjects_studied']) : NULL;
+        $d2['subjects_studied'] = json_encode(explode(",", $d2['subjects_studied']));
 
         $user_type = $user->user_type;
         $code = $user->code;
@@ -91,5 +92,27 @@ class MyAccountController extends Controller
         $this->user->update(auth()->id(), $req->only($keys));
 
         return back()->with('flash_success', __('msg.update_ok'));
+    }
+
+    public function update_hidden_alerts(Request $request)
+    {
+        $user_id = auth()->id();
+        $hidden_alert_ids = $request->input('hidden_alert_ids');
+
+        // Save as JSON in database
+        $data = ['hidden_alert_ids' => json_encode($hidden_alert_ids)];
+        $this->user->update($user_id, $data);
+
+        return Qs::jsonUpdateOk();
+    }
+
+    public function clear_hidden_alerts(Request $request)
+    {
+        $user_id = auth()->id();
+
+        $data = ['hidden_alert_ids' => json_encode([])];
+        $this->user->update($user_id, $data);
+
+        return Qs::jsonUpdateOk();
     }
 }

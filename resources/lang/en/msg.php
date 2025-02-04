@@ -17,7 +17,7 @@ return
         'p_changed' => 'Password Changed successfully',
         'p_reset_fail' => 'You have entered an incorrect password!',
         'current_p_and_new_p_must_differ' => 'The current password must differ from the new password.',
-        'lock_exam' => 'Pin will be required to view results if Exam Lock is set',
+        'lock_exam' => 'PIN will be required to view results if Exam Lock is enabled.',
         'rnf' => 'Record Not Found',
         'srnf' => 'Student Record Not Found',
         'ernf' => 'Exam Record(s) Not Found',
@@ -49,6 +49,6 @@ return
         'email_verified' => 'Email has been verified successfully.',
         'verification_sent' => 'A fresh verification link has been sent to your email address.',
         'class_sub_exists' => 'The class subject record exists.',
-        'invalid_exam_and_class' => 'Please select the right class for the exam you select.',
+        'invalid_exam_and_class' => 'Please select the correct class for the selected exam.',
         'other_bs_logout_ok' => 'Other browser sessions logged out successfully.'
     ];

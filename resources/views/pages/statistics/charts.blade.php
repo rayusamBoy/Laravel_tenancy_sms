@@ -64,13 +64,15 @@
     function getIndexAxis() {
         // If the user select the horizontal bar or line chart. Update the chart type to bar or line respectively (cause we do not have a chart of type horizontal).
         // And return 'y' as indexAxis to make the chart appear horizontal by changing the axis.
-        if (localStorage.chart_type == 'horizontal_bar') {
+        if (localStorage.chart_type == 'horizontal_bar' || localStorage.chart_type_check == 'horizontal_bar') {
             localStorage.chart_type = 'bar';
             return 'y';
-        } else if (localStorage.chart_type == 'horizontal_line') {
+        } else if (localStorage.chart_type == 'horizontal_line' || localStorage.chart_type_check == 'horizontal_line') {
             localStorage.chart_type = 'line';
             return 'y';
         }
+
+        localStorage.chart_type_check = localStorage.chart_type;
         return 'x';
     }
 </script>
@@ -94,7 +96,9 @@
                     {!! Qs::getPanelOptions() !!}
                 </div>
                 <div class="p-2">
-                    <canvas data-x_axis_title_text="Exams" data-y_axis_title_text="Total Marks" id="exam-performances-{{ $loop }}"></canvas>
+                    <canvas data-x_axis_title_text="Exams" data-y_axis_title_text="Total Marks" id="exam-performances-{{ $loop }}" role="img" aria-label="Exam Performances Chart">
+                        <p>Your browser does not support the canvas element.</p>
+                    </canvas>
                 </div>
             </div>
         </div>
@@ -149,7 +153,9 @@
                     {!! Qs::getPanelOptions() !!}
                 </div>
                 <div class="p-2">
-                    <canvas data-x_axis_title_text="Subjects" data-y_axis_title_text="Marks" id="subjects-performances-{{ $loop2 }}"></canvas>
+                    <canvas data-x_axis_title_text="Subjects" data-y_axis_title_text="Marks" id="subjects-performances-{{ $loop2 }}" role="img" aria-label="Subjects Performance Chart">
+                        <p>Your browser does not support the canvas element.</p>
+                    </canvas>
                 </div>
             </div>
         </div>
@@ -157,7 +163,7 @@
 
     @php
     ${"subjects_names_$loop2"} = $last_exm_marks->pluck('subject.name');
-    ${"marks_$loop2"} = $last_exm_marks->pluck('tex' . $last_exam->term);
+    ${"marks_$loop2"} = $last_exm_marks->pluck("tex{$last_exam->term}");
     ${"student_name_$loop2"} = $last_exm_marks->value('user.name');
     @endphp
 
@@ -196,16 +202,18 @@
     <div class="row">
         <div class="col-12">
             {{-- Charts --}}
-            <div class="{{ (is_null($prev_exam_id) OR is_null($next_exam_id)) ? 'card card-collapsed print-this' : 'card print-this' }}">
+            <div class="{{ ($prev_exam_id === null OR $next_exam_id === null) ? 'card card-collapsed print-this' : 'card print-this' }}">
                 <div class="card-header header-elements-inline">
-                    <h5 class="card-title">Classes Performance Chart for {{ $last_exam->name . ' ('.$last_exam->year.')' }}</h5>
+                    <h5 class="card-title">Classes Performance Chart for {{ "{$last_exam->name} ({$last_exam->year})" }}</h5>
                     {!! Qs::getPanelOptions() !!}
                 </div>
                 <div class="p-2 display-i-on-hover">
-                    <i class="display-none position-absolute left-0"><a class="{{ is_null($prev_exam_id) ? 'btn btn-sm p-1 ml-5 disabled' : 'btn btn-sm p-1 ml-5' }}" href="{{ route('statistics.index', Qs::hash($prev_exam_id)) }}"><span class="material-symbols-rounded">chevron_left</span>previous</a></i>
-                    <i class="display-none position-absolute right-0"><a class="{{ is_null($next_exam_id) ? 'btn btn-sm p-1 mr-4 disabled' : 'btn btn-sm p-1 mr-4' }}" href="{{ route('statistics.index', Qs::hash($next_exam_id)) }}">next<span class="material-symbols-rounded">chevron_right</span></a></i>
+                    <i class="display-none position-absolute left-0"><a class="{{ $prev_exam_id === null ? 'btn btn-sm p-1 ml-5 disabled' : 'btn btn-sm p-1 ml-5' }}" href="{{ route('statistics.index', Qs::hash($prev_exam_id)) }}"><span class="material-symbols-rounded">chevron_left</span>previous</a></i>
+                    <i class="display-none position-absolute right-0"><a class="{{ $next_exam_id === null ? 'btn btn-sm p-1 mr-4 disabled' : 'btn btn-sm p-1 mr-4' }}" href="{{ route('statistics.index', Qs::hash($next_exam_id)) }}">next<span class="material-symbols-rounded">chevron_right</span></a></i>
 
-                    <canvas data-x_axis_title_text="Classes" data-y_axis_title_text="Averages" id="classes-performance"></canvas>
+                    <canvas data-x_axis_title_text="Classes" data-y_axis_title_text="Averages" id="classes-performance" role="img" aria-label="Classes Performance">
+                        <p>Your browser does not support the canvas element.</p>
+                    </canvas>
                 </div>
             </div>
         </div>
@@ -245,7 +253,9 @@
                     {!! Qs::getPanelOptions() !!}
                 </div>
                 <div class="p-2">
-                    <canvas data-x_axis_title_text="Exams" data-y_axis_title_text="GPA" id="exams-gpa-performance"></canvas>
+                    <canvas data-x_axis_title_text="Exams" data-y_axis_title_text="GPA" id="exams-gpa-performance" role="img" aria-label="Exams GPA Performance">
+                        <p>Your browser does not support the canvas element.</p>
+                    </canvas>
                 </div>
             </div>
         </div>
@@ -277,19 +287,27 @@
 
     @endif
 
+    @php
+    $chart_options = [
+        'line' => 'Line Chart',
+        'pie' => 'Pie Chart',
+        'polarArea' => 'PolarArea',
+        'bar' => 'Bar Chart',
+        'radar' => 'Radar Chart',
+        'horizontal_bar' => 'Horizontal Bar Chart',
+        'horizontal_line' => 'Horizontal Line Chart'
+    ];
+    @endphp
+    
     <span class="dropdown bottom-0 z-100">
         <button type="button" class="btn btn-success btn-sm position-fixed right-2 bottom-0" data-toggle="dropdown" aria-expanded="false">
             <span>Change Chart Type</span><i class="material-symbols-rounded ml-1">keyboard_arrow_up</i>
         </button>
 
         <div class="bg-dark-alpha bg-white dropdown-menu">
-            <a href="javascript:;" id="line" class="dropdown-item chart-option">Line Chart</a>
-            <a href="javascript:;" id="pie" class="dropdown-item chart-option">Pie Chart</a>
-            <a href="javascript:;" id="polarArea" class="dropdown-item chart-option">PolarArea</a>
-            <a href="javascript:;" id="bar" class="dropdown-item chart-option">Bar Chart</a>
-            <a href="javascript:;" id="radar" class="dropdown-item chart-option">Radar Chart</a>
-            <a href="javascript:;" id="horizontal_bar" class="dropdown-item chart-option">Horizontal Bar Chart</a>
-            <a href="javascript:;" id="horizontal_line" class="dropdown-item chart-option">Horizontal Line Chart</a>
+            @foreach($chart_options as $key => $value)
+            <a href="javascript:;" id="{{ $key }}" class="dropdown-item chart-option">{{ $value }}</a>
+            @endforeach
         </div>
 
         <script type="text/javascript">
@@ -304,6 +322,7 @@
 
             function updateChartTypeInStorage(chart_type) {
                 localStorage.chart_type = chart_type;
+                localStorage.chart_type_check = chart_type;
                 window.location.reload();
             }
         </script>

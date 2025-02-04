@@ -52,7 +52,7 @@ class Message extends OriginalMessage
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logAll()
+            ->logFillable()
             ->dontSubmitEmptyLogs()
             ->logOnlyDirty();
     }

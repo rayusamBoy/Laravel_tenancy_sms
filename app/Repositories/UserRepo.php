@@ -18,14 +18,9 @@ class UserRepo
         return User::pluck('id');
     }
 
-    public function update(int $id, array $data)
+    public function update(int $value, array $data, $column = 'id')
     {
-        return User::where('id', $id)->update($data);
-    }
-
-    public function update2(array $where, array $data)
-    {
-        return User::where($where)->update($data);
+        return User::where($column, $value)->update($data);
     }
 
     public function updateByIds(mixed $ids, array $data)
@@ -61,6 +56,11 @@ class UserRepo
     public function firstOrCreate(array $data)
     {
         return User::firstOrCreate($data);
+    }
+
+    public function updateOrCreate(array $where, array $data)
+    {
+        return User::updateOrCreate($where, $data);
     }
 
     public function firstOrNew(array $data)

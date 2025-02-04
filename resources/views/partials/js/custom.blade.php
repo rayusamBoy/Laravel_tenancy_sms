@@ -35,7 +35,8 @@
      * Captilize first letter of a string
      *-------------------------------------------------------------
      */
-    function capitalize(string){
+    function capitalize(string)
+    {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
@@ -44,7 +45,8 @@
      * Handle notices
      *-------------------------------------------------------------
      */
-    function updateNoticeStatus(el){
+    function updateNoticeStatus(el)
+    {
         var badge = $(el).parents("div.notices").siblings(".card-header").children(".card-title").children(".badge");
         // Remove class 'unviewed', turn off 'click' event handler, and remove iteration indicator.
         $("button#" + el.id).removeClass("unviewed").off("click").siblings(".iteration").remove();
@@ -52,17 +54,18 @@
         badge.text((badge.text() == 0) ? 0 : badge.text() - 1);
     }
     
-    $(document).on("click", ".notices button.unviewed", function(e){
+    $(document).on("click", ".notices button.unviewed", function(e)
+    {
         setNoticeAsViwed(this);
     });
 
-    function setNoticeAsViwed(el){
+    function setNoticeAsViwed(el)
+    {
         var url = '{{ route("notices.set_viewed") }}';
         $.ajax({
             dataType: 'json',
             method: "post",
             data: {
-                _token: "{{ csrf_token() }}",
                 "id": el.id},
             url: url,
             success: function (resp) {
@@ -71,7 +74,7 @@
         });
     }
 
-    $(document).on('click', '.pagination a',function(event)
+    $(document).on('click', '.pagination a', function(event)
     {
         event.preventDefault();
         $('li').removeClass('active');
@@ -79,7 +82,8 @@
         getNoticesData($(this).attr('href'));
     });
 
-    function getNoticesData(url){
+    function getNoticesData(url)
+    {
         var status = url.includes('unviewed') ? 'unviewed' : 'viewed';
         const notices = $('.notices').find('#' + status);
 
@@ -90,69 +94,71 @@
             url: url,
             type: "get",
             datatype: "html"
-        }).done(function(data){
+        }).done(function(data) {
             notices.replaceWith(data);
             window.location.hash = url;
-        }).fail(function(jqXHR, ajaxOptions, thrownError){
+        }).fail(function(jqXHR, ajaxOptions, thrownError) {
             flash({msg: "Sorry, something went wrong.", type: 'error'});
         });
     }
 
     // Handle haschange when the user changed it manually in the address bar
-    $(window).on('hashchange', function() {
+    $(window).on('hashchange', function() 
+    {
         if (window.location.hash) {
             var url = window.location.hash.replace('#', '');
             getNoticesData(url);
         }
     });
 
-    function noticesLoadingSkin(duplicate_times, status) {
-    let template = "";
-    // Starting codes - two opening div's reserved
-    var a = `<div class="card m-0 border-bottom-0 text-muted">
-                <div class="card-header position-relative">
-                    <span class="float-left pr-10 status-styled">` + capitalize(status) + `</span><i class="text-muted float-right name skeleton"></i>
-                </div>
-                <div class="card-body p-1">
-                    <div id="accordion-">`;
-    // With iteration indicator
-    var bb = `       <div class="card mb-1">
-                            <div class="card-header">
-                                <h5 class="mb-0 d-flex">
-                                <span class="text-muted iteration skeleton mr-1"></span>
+    function noticesLoadingSkin(duplicate_times, status) 
+    {
+        let template = "";
+        // Starting codes - two opening div's reserved
+        var a = `<div class="card m-0 border-bottom-0 text-muted">
+                    <div class="card-header position-relative">
+                        <span class="float-left pr-10 status-styled">` + capitalize(status) + `</span><i class="text-muted float-right name skeleton"></i>
+                    </div>
+                    <div class="card-body p-1">
+                        <div id="accordion-">`;
+        // With iteration indicator
+        var bb = `       <div class="card mb-1">
+                                <div class="card-header">
+                                    <h5 class="mb-0 d-flex">
+                                    <span class="text-muted iteration skeleton mr-1"></span>
+                                    <button class="btn btn-link w-100 pl-1 p-0 border-left-1 border-left-info">
+                                        <span class="float-left pr-10 title skeleton"></span><i class="text-muted float-right time skeleton"></i>
+                                    </button>
+                                </h5>
+                            </div>
+                        </div>`;
+        // Without iteration indicator
+        var cc = `  <div class="card mb-1">
+                        <div class="card-header">
+                            <h5 class="mb-0 d-flex">
                                 <button class="btn btn-link w-100 pl-1 p-0 border-left-1 border-left-info">
                                     <span class="float-left pr-10 title skeleton"></span><i class="text-muted float-right time skeleton"></i>
                                 </button>
                             </h5>
-                         </div>
+                        </div>
                     </div>`;
-    // Without iteration indicator
-    var cc = `  <div class="card mb-1">
-                    <div class="card-header">
-                        <h5 class="mb-0 d-flex">
-                            <button class="btn btn-link w-100 pl-1 p-0 border-left-1 border-left-info">
-                                <span class="float-left pr-10 title skeleton"></span><i class="text-muted float-right time skeleton"></i>
-                            </button>
-                        </h5>
-                    </div>
-                </div>`;
-    // Closing codes - two closing div's for the two opening div's in variable 'a' above
-    var d = `       <div class="position-relative pt-2">
-                            <span class="float-right">
-                                <nav>
-                                    <ul class="pagination">
-                                        <li class="page-item disabled"><span class="page-link skeleton">‹</span></li>
-                                        <li class="page-item disabled"><span class="page-link skeleton"></span></li>
-                                        <li class="page-item disabled"><a class="page-link skeleton"></a></li>
-                                        <li class="page-item disabled"><a class="page-link skeleton">›</a></li>
-                                    </ul>
-                                </nav>
-                            </span>
-                            <span class="float-left showing skeleton"></span>
+        // Closing codes - two closing div's for the two opening div's in variable 'a' above
+        var d = `       <div class="position-relative pt-2">
+                                <span class="float-right">
+                                    <nav>
+                                        <ul class="pagination">
+                                            <li class="page-item disabled"><span class="page-link skeleton">‹</span></li>
+                                            <li class="page-item disabled"><span class="page-link skeleton"></span></li>
+                                            <li class="page-item disabled"><a class="page-link skeleton"></a></li>
+                                            <li class="page-item disabled"><a class="page-link skeleton">›</a></li>
+                                        </ul>
+                                    </nav>
+                                </span>
+                                <span class="float-left showing skeleton"></span>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>`;
+                </div>`;
             
         var b = c = "";
         for (let i = 0; i < duplicate_times; i++) {
@@ -175,17 +181,20 @@
      * Update elements properties
      *-------------------------------------------------------------
      */
-    function toggleElDisableState(value, selector){
-        if(value == 'none')
+    function toggleElDisableState(value, selector)
+    {
+        if (value == 'none')
             return disableElement(selector);
         enableElement(selector);
     } 
 
-    function enableElement(selector){
+    function enableElement(selector)
+    {
         $(selector).removeAttr('disabled');
     }
     
-    function disableElement(selector){
+    function disableElement(selector)
+    {
         $(selector).attr("disabled", 'true');
     }
 
@@ -194,21 +203,20 @@
      * Query builder handler events
      *-------------------------------------------------------------
      */
-    $('#return-to-query').click(function(e){
+    $('#return-to-query').click(function(e) {
         e.preventDefault();
         return scrollTo('#query-box');
     });
 
-    $("#secured-query").mouseenter(function(e){
+    $("#secured-query").mouseenter(function(e) {
         $(this).find("span").removeClass("text-secured");
     });
 
-    $("#secured-query").mouseleave(function(e){
+    $("#secured-query").mouseleave(function(e) {
         $(this).find("span").addClass("text-secured");
     });
 
-    function removeClassCursorNotAllowed(selector)
-    {
+    function removeClassCursorNotAllowed(selector) {
         $(selector).removeClass("cursor-not-allowed");
     }
    
@@ -217,7 +225,8 @@
      * Get table columns by table name
      *-------------------------------------------------------------
      */
-    function getTableColumns(table_name){
+    function getTableColumns(table_name)
+    {
         var btn = $('button[type=submit]');
         toggleElDisableState('NULL', btn);
         var url = '{{ route("get_table_columns", [':name']) }}';
@@ -233,7 +242,7 @@
                 where.empty();
                 where.append('<option disabled selected>where</option><option value="none" selected>none (default)</option>');
                 $.each(resp, function (i, data) {
-                    if(i === "photo") return true; // Skip photo in where options if set.
+                    if (i === "photo") return true; // Skip photo in where options if set.
                     where.append($('<option>', {
                         value: i,
                         text: data,
@@ -243,7 +252,7 @@
                 orderby_column.empty();
                 orderby_column.append('<option value="id" selected>id (default)</option>');
                 $.each(resp, function (i, data) {
-                    if(i === "photo") return true;
+                    if (i === "photo") return true;
                     orderby_column.append($('<option>', {
                         value: i,
                         text: data,
@@ -262,7 +271,8 @@
         });
     }
 
-    function alertInfo(number) {
+    function alertInfo(number) 
+    {
         Toast.fire({
             position: "top-right",
             title: number + " total records found.",
@@ -277,10 +287,11 @@
      * Get states by nationality id
      *-------------------------------------------------------------
      */
-    function getState(nal_id){
+    function getState(nal_id, destination)
+    {
         var url = '{{ route("get_state", [":id"]) }}';
         url = url.replace(':id', nal_id);
-        var state = $('#state_id');
+        var state = destination ? $(destination) : $('#state_id');
 
         $.ajax({
             dataType: 'json',
@@ -302,10 +313,11 @@
      * Get LGA or cities by state id
      *-------------------------------------------------------------
      */
-    function getLGA(state_id){
+    function getLGA(state_id, destination)
+    {
         var url = '{{ route("get_lga", [":id"]) }}';
         url = url.replace(':id', state_id);
-        var lga = $('#lga_id');
+        var lga = destination ? $(destination) : $('#lga_id');
 
         $.ajax({
             dataType: 'json',
@@ -327,9 +339,9 @@
      * Get subjects by class type id
      *-------------------------------------------------------------
      */
-    function getClassTypeSubjects(class_type_id, destination){
-        var url = "{{ route('get_class_type_subjects', [':id']) }}";
-        url = url.replace(':id', class_type_id);
+    function getPreDefinedSubjects(destination)
+    {
+        var url = "{{ route('get_pre_defined_subjects') }}";
         var section = destination ? $(destination) : $('#name');
 
         $.ajax({
@@ -343,7 +355,7 @@
                         text: data
                     }));
                 });
-                if (section.hasClass("append-editable-option")){
+                if (section.hasClass("append-editable-option")) {
                     appendEditableOption(".append-editable-option");
                 }
             }
@@ -355,7 +367,8 @@
      * Get students of a class by class id
      *-------------------------------------------------------------
      */
-    function getClassStudents(class_id, destination){
+    function getClassStudents(class_id, destination)
+    {
         var url = '{{ route("get_class_students", [":id"]) }}';
         url = url.replace(':id', class_id);
         var section = destination ? $(destination) : $('#students-ids');
@@ -380,7 +393,8 @@
      * Get sections of a class by a class id
      *-------------------------------------------------------------
      */
-    function getClassSections(class_id, destination){
+    function getClassSections(class_id, destination)
+    {
         var url = "{{ route('get_class_sections', [':id']) }}";
         url = url.replace(':id', class_id);
         var section = destination ? $(destination) : $('#section_id');
@@ -396,10 +410,10 @@
                         text: data.name
                     }));
                 });
-                if(destination){
-                    if(destination.includes('add_all'))
+                if (destination) {
+                    if (destination.includes('add_all'))
                         section.append('<option value="all" title="All Sections">All</option>');
-                    if(destination.includes('add_not_applicable'))
+                    if (destination.includes('add_not_applicable'))
                         section.prepend('<option selected value=" ">Not Applicable</option>');
                 }
             }
@@ -411,7 +425,8 @@
      * Get teachers of a class sections by a class id
      *-------------------------------------------------------------
      */
-    function getTeacherClassSections(class_id, destination){
+    function getTeacherClassSections(class_id, destination)
+    {
         var url = "{{ route('get_teacher_class_sections', [':id']) }}";
         url = url.replace(':id', class_id);
         var section = destination ? $(destination) : $('#section_id');
@@ -436,7 +451,8 @@
      * Get subject section teacher
      *-------------------------------------------------------------
      */
-    function getSubjectSectionTeacher(subject_id, section_id, destination){
+    function getSubjectSectionTeacher(subject_id, section_id, destination)
+    {
         var url = "{{ route('get_subject_section_teacher', [':sec_id', ':teach_id']) }}";
         url = url.replace(':sec_id', subject_id);
         url = url.replace(':teach_id', section_id);
@@ -446,8 +462,8 @@
             dataType: 'json',
             url: url,
             success: function (resp) {
-                section.children('option').each(function(){
-                    if($(this).val() == resp.id){
+                section.children('option').each(function() {
+                    if ($(this).val() == resp.id) {
                         $(this).attr('selected', 'selected');
                         $('#select2-teacher_id-container').text(resp.name).attr('title', resp.name);
                     }
@@ -463,7 +479,8 @@
      * Get exams of the particular year
      *-------------------------------------------------------------
      */
-     function getYearExams(year){
+    function getYearExams(year)
+    {
         var url = "{{ route('get_year_exams', [':year']) }}";
         url = url.replace(':year', year);
         var exam = $('#exam_id');
@@ -480,7 +497,7 @@
                     }));
                 });
             },
-            error: function(errorThrown){
+            error: function(errorThrown) {
                 exam.empty();
             }
         });
@@ -491,7 +508,8 @@
      * Get class subjects
      *-------------------------------------------------------------
      */
-    function getClassSubjects(class_id, destination){
+    function getClassSubjects(class_id, destination)
+    {
         var url = "{{ route('get_class_subjects', [':id']) }}";
         url = url.replace(':id', class_id);
         var subject = destination ? $(destination) : $('#subject_id');
@@ -507,11 +525,11 @@
                         text: data.name
                     }));
                 });
-                if(destination && destination.includes('add_not_applicable')){
+                if (destination && destination.includes('add_not_applicable')) {
                     subject.prepend('<option selected value=" ">Not Applicable</option>');
                 }
             },
-            error: function(errorThrown){
+            error: function(errorThrown) {
                 subject.empty();
             }
         });
@@ -522,18 +540,21 @@
      * Handler for class sections visibility
      *-------------------------------------------------------------
      */
-    function hideShowSection(value, section_id){
-        if(value == 'class')
+    function hideShowSection(value, section_id)
+    {
+        if (value == 'class')
             return unhideSection(section_id);
         return hideSection(section_id);
     }
 
-    function hideSection(section_id){
+    function hideSection(section_id)
+    {
         var section = section_id ? $(section_id) : $('#section_id');
         return $(section).parents('div.form-group').hide(150);
     }
 
-    function unhideSection(section_id){
+    function unhideSection(section_id)
+    {
         var section = section_id ? $(section_id) : $('#section_id');
         return $(section).parents('div.form-group').show(150);
     }
@@ -543,7 +564,7 @@
      * Login and related pages texts and background preview
      *-------------------------------------------------------------
      */
-    @if(session()->has('show_login_and_related_pgs_preview'))
+    @if (session()->has('show_login_and_related_pgs_preview'))
     $('#auth-pages-preview').modal('show');
     @endif
 
@@ -597,7 +618,8 @@
      * Pop-up modals/notifications
      *-------------------------------------------------------------
      */
-    function pop(data){
+    function pop(data)
+    {
         Toast.fire({
             position: "top-right",
             title: data.title ?? 'Oops...',
@@ -608,10 +630,11 @@
         });
     }
     
-    function popConfirm(data){
+    function popConfirm(data)
+    {
         // If the message does not exist in localStorage; show the message.
         // Otherwise; marked as never show it again. Thus, do not show it.
-        if(!sessionStorage.getItem(data.msg))
+        if (!sessionStorage.getItem(data.msg))
         Toast.fire({
             position: "top-right",
             title: data.title ?? 'Oops...',
@@ -627,7 +650,7 @@
         });
     }
 
-    $(document).on("click", "#do-not-show-for-this-session", function(e){
+    $(document).on("click", "#do-not-show-for-this-session", function(e) {
         Swal.close();
         var value = this.value;
         // Store the message to session storage, marked as do not show it again for the current browser's session.
@@ -635,7 +658,8 @@
         return flash({msg : "Success. The message will not be shown again for this browser's tab session.", type : 'success'});
     });
 
-    function flash(data){
+    function flash(data)
+    {
         toastr.options = {
             "closeButton": true,
             "closeMethod": 'hide',
@@ -654,12 +678,13 @@
         displayToast(data.type, data.msg);
     }
 
-    function displayToast(type, message){
-        if(type === "success")
+    function displayToast(type, message)
+    {
+        if (type === "success")
             return toastr.success(message);
-        else if(type === "info")
+        else if (type === "info")
             return toastr.info(message)
-        else if(type === "error"){
+        else if (type === "error") {
             toastr.options = {
                 "timeOut": 0,
                 "extendedTimeOut": 0,
@@ -668,7 +693,7 @@
             }
             return toastr.error(message)
         }
-        else if(type === "warning")
+        else if (type === "warning")
             return toastr.info(message)
         else return false;
     }
@@ -678,19 +703,22 @@
      * Get random value methods
      *-------------------------------------------------------------
      */
-    function getRandomShowMethod() {
+    function getRandomShowMethod() 
+    {
         var methods = ["show", "slideDown", "fadeIn"];
         var method = methods[Math.floor(Math.random() * methods.length)];
         return method;
     }
 
-    function getRandomHideMethod() {
+    function getRandomHideMethod() 
+    {
         var methods = ["hide", "slideUp", "fadeOut"];
         var method = methods[Math.floor(Math.random() * methods.length)];
         return method;
     }
 
-    function getRandomEasingMethod() {
+    function getRandomEasingMethod() 
+    {
         var methods = ["swing", "linear"];
         var method = methods[Math.floor(Math.random() * methods.length)];
         return method;
@@ -701,7 +729,8 @@
      * Handler methods for confirm operations
      *-------------------------------------------------------------
      */
-    function confirmOperation(id) {
+    function confirmOperation(id) 
+    {
         Modal.fire({
             title: "Do you want to proceed?",
             icon: "warning",
@@ -716,7 +745,8 @@
         });
     }
 
-    function confirmDelete(id) {
+    function confirmDelete(id) 
+    {
         Modal.fire({
             title: "Are you sure?",
             text: "This item will be deleted.",
@@ -732,7 +762,8 @@
         });
     }
 
-    function confirmPermanentDelete(id) {
+    function confirmPermanentDelete(id) 
+    {
         Modal.fire({
             title: "Are you sure?",
             text: "This item will be permanently deleted.",
@@ -748,7 +779,8 @@
         });
     }
 
-    function confirmPermanentDeleteTwice(id) {
+    function confirmPermanentDeleteTwice(id) 
+    {
         Modal.fire({
             title: "Just in case",
             text: "Do you really wish do delete this item.",
@@ -764,7 +796,8 @@
         });
     }
 
-    function confirmForceDelete(id, model) {
+    function confirmForceDelete(id, model) 
+    {
         Modal.fire({
             title: "Delete Permanetly?",
             text: "Once deleted, you will not be able to recover this item!",
@@ -781,7 +814,8 @@
         });
     }
 
-    function confirmPublish(id) {
+    function confirmPublish(id) 
+    {
         Modal.fire({
             title: "Are you sure?",
             text: "This item and its related data (ie., results) will be published (ie., made public to parents, teachers, and/or students).",
@@ -802,26 +836,26 @@
      * Update exam lock state by exam id
      *-------------------------------------------------------------
      */
-    function updateExamLockState(exam_id, el){
-        if(sessionStorage.getItem("update-exam-lock-ok") != "false"){
+    function updateExamLockState(exam_id, el)
+    {
+        if (sessionStorage.getItem("update-exam-lock-ok") != "false") {
             var url = '{{ route("exams.update_lock_state") }}'
             var value = (el.checked ? 1 : 0);
             $.ajax({
                 method: "post",
                 data: {
-                    _token: "{{ csrf_token() }}",
                     "id": exam_id,
                     "locked": value
                 },
                 url: url,
                 success: function (resp) {
-                    if(!resp.ok){
-                        if(resp.msg)
+                    if (!resp.ok) {
+                        if (resp.msg)
                             sessionStorage.setItem("resp.msg", resp.msg);
-                        return rollbackUpdateExamEditAction(el);
+                        return rollbackUpdateExamLockAction(el);
                     } else return true;
                 },
-                error: function(errorThrown){
+                error: function(errorThrown) {
                     return rollbackUpdateExamLockAction(el);
                 }
             });
@@ -841,26 +875,26 @@
      * Update exam edit state
      *-------------------------------------------------------------
      */
-    function updateExamEditState(exam_id, el){
-        if(sessionStorage.getItem("update-exam-edit-ok") != "false"){
+    function updateExamEditState(exam_id, el)
+    {
+        if (sessionStorage.getItem("update-exam-edit-ok") != "false") {
             var url = '{{ route("exams.update_edit_state") }}'
             var value = (el.checked ? 1 : 0);
             $.ajax({
                 method: "post",
                 data: {
-                    _token: "{{ csrf_token() }}",
                     "id": exam_id,
                     "editable": value
                 },
                 url: url,
                 success: function (resp) {
-                    if(!resp.ok){
-                        if(resp.msg)
+                    if (!resp.ok) {
+                        if (resp.msg)
                             sessionStorage.setItem("resp.msg", resp.msg);
                         return rollbackUpdateExamEditAction(el);
                     } else return true;
                 },
-                error: function(errorThrown){
+                error: function(errorThrown) {
                     return rollbackUpdateExamEditAction(el);
                 }
             });
@@ -880,29 +914,29 @@
      * Update staff data edit state
      *-------------------------------------------------------------
      */
-    function updateStaffDataEdtiState(user_id, el){
-    if(sessionStorage.getItem("update-staff-data-edit-ok") != "false"){
-        var url = '{{ route("users.update_staff_data_edit_state") }}'
-        var value = (el.checked ? 1 : 0);
-        $.ajax({
-            method: "post",
-            data: {
-                 _token: "{{ csrf_token() }}",
-                "id": user_id,
-                "staff_data_edit": value
-            },
-            url: url,
-            success: function (resp) {
-                if(!resp.ok){
-                    if(resp.msg)
-                        sessionStorage.setItem("resp.msg", resp.msg);
-                    return rollbackUpdateExamEditAction(el);
-                } else return true;
-            },
-            error: function(errorThrown){
-                return rollbackUpdateStaffDataEditAction(el);
+    function updateStaffDataEdtiState(user_id, el)
+    {
+        if (sessionStorage.getItem("update-staff-data-edit-ok") != "false") {
+            var url = '{{ route("users.update_staff_data_edit_state") }}'
+            var value = (el.checked ? 1 : 0);
+            $.ajax({
+                method: "post",
+                data: {
+                    "id": user_id,
+                    "staff_data_edit": value
+                },
+                url: url,
+                success: function (resp) {
+                    if (!resp.ok) {
+                        if (resp.msg)
+                            sessionStorage.setItem("resp.msg", resp.msg);
+                        return rollbackUpdateStaffDataEditAction(el);
+                    } else return true;
+                },
+                error: function(errorThrown) {
+                    return rollbackUpdateStaffDataEditAction(el);
                 }
-            });
+        });
         } else {
             removeItemFromSessionStorageAndFlashErrMsg("update-staff-data-edit-ok");
         }
@@ -919,27 +953,27 @@
      * Update user blocked state
      *-------------------------------------------------------------
      */
-   function updateUserBlockedState(user_id, el){
-    if(sessionStorage.getItem("update-user-blocked-state-ok") != "false"){
-        var url = '{{ route("users.update_user_blocked_state") }}'
-        var value = (el.checked ? 1 : 0);
-        $.ajax({
-            method: "post",
-            data: {
-                 _token: "{{ csrf_token() }}",
-                "id": user_id,
-                "blocked": value
-            },
-            url: url,
-            success: function (resp) {
-                if(!resp.ok){
-                    if(resp.msg)
-                        sessionStorage.setItem("resp.msg", resp.msg);
-                    return rollbackUpdateExamEditAction(el);
-                } else return true;
-            },
-            error: function(errorThrown){
-                return rollbackUpdateUserBlockedState(el);
+   function updateUserBlockedState(user_id, el)
+   {
+        if (sessionStorage.getItem("update-user-blocked-state-ok") != "false") {
+            var url = '{{ route("users.update_user_blocked_state") }}'
+            var value = (el.checked ? 1 : 0);
+            $.ajax({
+                method: "post",
+                data: {
+                    "id": user_id,
+                    "blocked": value
+                },
+                url: url,
+                success: function (resp) {
+                    if (!resp.ok) {
+                        if (resp.msg)
+                            sessionStorage.setItem("resp.msg", resp.msg);
+                        return rollbackUpdateUserBlockedState(el);
+                    } else return true;
+                },
+                error: function(errorThrown) {
+                    return rollbackUpdateUserBlockedState(el);
                 }
             });
         } else {
@@ -954,11 +988,11 @@
         return;
     }
 
-    function reverseCheckBoxAction(el){
+    function reverseCheckBoxAction(el) {
         return $(el).removeAttr("checked").click();
     }
 
-    function removeItemFromSessionStorageAndFlashErrMsg(item){
+    function removeItemFromSessionStorageAndFlashErrMsg(item) {
         sessionStorage.removeItem(item);
         let msg = sessionStorage.getItem("resp.msg") ?? "Something went wrong. Please try again. If the problem persists try reloading the page.";
         flash({msg: msg, type: 'error'});
@@ -1027,7 +1061,7 @@
      * Confirm reset password anker element click handler
      *-------------------------------------------------------------
      */
-    $('a.needs-reset-pass-confirmation').on('click', function(ev){
+    $('a.needs-reset-pass-confirmation').on('click', function(ev) {
         ev.preventDefault();
         var href = $(this).data('href');
         var default_pass = $(this).data('default_pass');
@@ -1039,7 +1073,7 @@
      * Payment pay handler on form submit
      *-------------------------------------------------------------
      */
-    $('form.ajax-pay').on('submit', function(ev){
+    $('form.ajax-pay').on('submit', function(ev) {
         ev.preventDefault();
         submitForm($(this), 'store');
 
@@ -1071,33 +1105,33 @@
      * for submit event
      *-------------------------------------------------------------
      */
-    $(document).find('form.ajax-store').on('submit', function(ev){
+    $(document).find('form.ajax-store').on('submit', function(ev) {
         ev.preventDefault();
         submitForm($(this), 'store');
         var div = $(this).data('reload');
         div ? reloadDiv(div) : '';
     });
 
-    $(document).find('form.ajax-update').on('submit', function(ev){
+    $(document).find('form.ajax-update').on('submit', function(ev) {
         ev.preventDefault();
         submitForm($(this));
         var div = $(this).data('reload');
         div ? reloadDiv(div) : '';
     });
 
-    $(document).find('form#ajax-reg').on('submit', function(ev){
+    $(document).find('form#ajax-reg').on('submit', function(ev) {
         ev.preventDefault();
         submitForm($(this), 'store');
         $('#ajax-reg-t-0').get(0).click();
     });
 
-    $(document).find('.download-receipt').on('click', function(ev){
+    $(document).find('.download-receipt').on('click', function(ev) {
         ev.preventDefault();
         $.get($(this).attr('href'));
         flash({msg: '{{ "Download in Progress" }}', type: 'info'});
     });
 
-    function reloadDiv(div, url = window.location.href){
+    function reloadDiv(div, url = window.location.href) {
         url = url + ' ' + div;
         $(div).parent().load(url);
     }
@@ -1107,17 +1141,17 @@
      * Submit form (the base method for submitting forms)
      *-------------------------------------------------------------
      */
-    function submitForm(form, formType){
+    function submitForm(form, formType) {
         // Normal form Submit button
         var btn = form.find('button[type=submit]');
         
         // Wizard form - Steps validation Submit button
-        if(!btn.length)
+        if (!btn.length)
             btn = form.find('.actions li:last-child a');
           
         const btn_html = btn.html();
 
-        if(btn.hasClass("needs-time-counter"))
+        if (btn.hasClass("needs-time-counter"))
             setTimeCounter(btn);
 
         disableBtn(btn);
@@ -1131,10 +1165,10 @@
             data:new FormData(form[0])
         };
         var req = $.ajax(ajaxOptions);
-        req.done(function(resp){
+        req.done(function(resp) {
             closeConfirmMessageDeleteModal();
 
-            if(btn.hasClass("needs-time-counter"))
+            if (btn.hasClass("needs-time-counter"))
                 stopTimeCounter();
 
             hideAjaxAlert();
@@ -1147,37 +1181,40 @@
             formType == 'store' ? clearForm(form) : '';
             btn.html(btn_html);
 
-            if(resp.scrollToBtn){
+            if (resp.scrollToBtn) {
                 scrollTo(btn);
                 return resp;
             }
 
-            if(resp.complete)
+            if (resp.complete)
                 return resp;
                             
             scrollTo('body');
 
             return resp;
         });
-        req.fail(function(e){
+        req.fail(function(e) {
             closeConfirmMessageDeleteModal();
             unblockUI();
 
-            if(btn.hasClass("needs-time-counter"))
+            if (btn.hasClass("needs-time-counter"))
                 stopTimeCounter();
 
-            if (e.status == 422){
+            if (e.status == 422) {
                 var errors = e.responseJSON.errors;
                 displayAjaxErr(errors);
             }
-            if(e.status == 500){
+
+            if (e.status == 500) {
                displayAjaxErr([e.status + ' ' + e.statusText + ' Please Check for Duplicate entry or Contact School Administrator/IT Personnel'])
             }
-            if(e.status == 404){
+
+            if (e.status == 404) {
                displayAjaxErr([e.status + ' ' + e.statusText + ' - Requested Resource or Record Not Found'])
             }
 
             enableBtn(btn, btn_html);
+
             return e.status;
         });
     }
@@ -1190,28 +1227,34 @@
     var sec = 0;
     var time_interval;
 
-    function pad(val) {
+    function pad(val) 
+    {
         return val > 9 ? val : "0" + val;
     }
 
-    function setTimeCounter(el) {
+    function setTimeCounter(el) 
+    {
         $('<span id="time-counter" class="status-styled d-inline-block"></span>').insertAfter(el);
         startTimeCounter();
     }
 
-    function updateTimer() {
+    function updateTimer() 
+    {
         $("#time-counter").html(pad(parseInt(sec / 60, 10)) + ":" + pad(++sec % 60) + " elaspsed.");
     }
 
-    function startTimeCounter(){
+    function startTimeCounter()
+    {
         time_interval = setInterval(updateTimer, 1000);
     }
 
-    function stopTimeCounter() {
+    function stopTimeCounter() 
+    {
         return clearInterval(time_interval);
     }
 
-    function closeConfirmMessageDeleteModal(){
+    function closeConfirmMessageDeleteModal()
+    {
         return $("#confirm-message-delete").find('.close').click(); // Close message action modal if open.
     }
 
@@ -1222,11 +1265,12 @@
      */
     disableAnchor();
     
-    function disableAnchor(){
+    function disableAnchor()
+    {
         let anchor = $('a.is-disabled');
-        if(anchor.length){
+        if (anchor.length) {
             anchor.addClass('cursor-not-allowed');
-            anchor.click(function(e){
+            anchor.click(function(e) {
             e.preventDefault();
                 return false;
             });
@@ -1238,14 +1282,14 @@
      * Disable or enable button.
      *-------------------------------------------------------------
      */
-    function disableBtn(btn){
+    function disableBtn(btn)
+    {
         var btnText = btn.data('text') ? btn.data('text') : 'Submitting...';
         btn.prop('disabled', true).html('<i class="material-symbols-rounded mr-2 spinner">progress_activity</i>' + btnText);
     }
 
-    function enableBtn(btn, btnHtml){
-        // var btnText = btn.data('text') ? btn.data('text') : 'Submit Form';
-        // btnHtml = btnHtml ? btnHtml : btnText + '<i class="material-symbols-rounded ml-2">send</i>';
+    function enableBtn(btn, btnHtml)
+    {
         btn.prop('disabled', false).html(btnHtml);
     }
 
@@ -1254,9 +1298,10 @@
      * Display ajax errors
      *-------------------------------------------------------------
      */
-    function displayAjaxErr(errors){
+    function displayAjaxErr(errors)
+    {
         $('#ajax-alert').show().html('<div class="alert alert-danger border-0 alert-dismissible" id="ajax-msg"><button type="button" class="close" data-dismiss="alert"><span>&times;</span></button></div>');
-        $.each(errors, function(k, v){
+        $.each(errors, function(k, v) {
             $('#ajax-msg').append('<span><i class="material-symbols-rounded pb-2px">hdr_strong</i> '+ v +'</span><br/>');
         });
         scrollTo('body');
@@ -1267,7 +1312,8 @@
      * Scroll to element
      *-------------------------------------------------------------
      */
-    function scrollTo(el){
+    function scrollTo(el)
+    {
         $('html, body').animate({
             scrollTop: $(el).offset().top
         }, 2000);
@@ -1278,7 +1324,8 @@
      * Scroll to bottom
      *-------------------------------------------------------------
      */
-    function scrollToBottom(){
+    function scrollToBottom()
+    {
         const scrollingElement = (document.scrollingElement || document.body);
         $('html, body').animate({
             scrollTop: scrollingElement.scrollHeight
@@ -1290,7 +1337,8 @@
      * Hide ajax alert
      *-------------------------------------------------------------
      */
-    function hideAjaxAlert(){
+    function hideAjaxAlert()
+    {
         $('#ajax-alert').hide();
     }
 
@@ -1299,7 +1347,8 @@
      * Clear form inputs
      *-------------------------------------------------------------
      */
-    function clearForm(form){
+    function clearForm(form)
+    {
         form.find('.checked').removeClass('checked');
         form.find('.select, .select-search').val([]).select2({ placeholder: 'Select...'});
         form[0].reset();
@@ -1337,8 +1386,9 @@
         }
     });
 
-    function doElementPrint(element) {
-        if(element.hasClass('card-collapsed'))
+    function doElementPrint(element) 
+    {
+        if (element.hasClass('card-collapsed'))
             element.removeClass('.card-collapsed');
             
         element.printThis({
@@ -1355,15 +1405,16 @@
 
     /**
      *-------------------------------------------------------------
-     * Firebase route url
+     * Useful js URLs
      *-------------------------------------------------------------
      */
-    const firebase_url = "{{ route('notifications.firebase.update_device_token') }}";
 
-    /**
-     *-------------------------------------------------------------
-     * Url for adding event to the DB
-     *-------------------------------------------------------------
-     */
+    // Firebase route url
+    const firebase_url = "{{ route('notifications.firebase.update_device_token') }}";
+    // Url for adding event to the DB
     const event_create_url = "{{ route('events.create') }}";
+    // Url for updating hidden alerts
+    const update_hidden_alerts_url = "{{ route('my_account.update_hidden_alerts') }}";
+    // Url for clearing hidden alerts
+    const clear_hidden_alerts_url = "{{ route('my_account.clear_hidden_alerts') }}";
 </script>

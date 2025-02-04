@@ -2,26 +2,28 @@
 
 namespace App\Notifications;
 
-use App\Helpers\Qs;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Messages\VonageMessage;
 use Illuminate\Notifications\Notification;
-use NotificationChannels\Fcm\FcmChannel;
 use NotificationChannels\Fcm\FcmMessage;
+use Pay;
 
-class StudentPaymentPaid extends Notification
+class StudentPaymentPaid extends Notification implements ShouldQueue
 {
     use Queueable;
 
     /**
      * Create a new notification instance.
      */
-    protected $receipt, $subject, $student;
+    protected $receipt, $subject, $student, $url;
     public function __construct($receipt, $student)
     {
         $this->receipt = $receipt;
-        $this->subject = $student->user->name . ' Payment has been Paid.';
+        $this->subject = "{$student->user->name} Payment has been made";
         $this->student = $student;
+        $this->url = route('payments.receipts', [Pay::hash($this->receipt->pr_id), $this->id]);
     }
 
     /**
@@ -29,9 +31,10 @@ class StudentPaymentPaid extends Notification
      *
      * @return array<int, string>
      */
-    public function via(): array
+    public function via(object $notifiable): array
     {
-        return ['mail', 'database', FcmChannel::class];
+        $channels = Pay::getActiveNotificationChannels($notifiable, true, true, true, true);
+        return $channels;
     }
 
     /**
@@ -39,7 +42,7 @@ class StudentPaymentPaid extends Notification
      */
     public function toMail(): MailMessage
     {
-        $url = route('payments.receipts', Qs::hash($this->receipt->pr_id));
+        $url = route('payments.receipts', Pay::hash($this->receipt->pr_id));
         return (new MailMessage)
             ->subject($this->subject)
             ->greeting('Salaam, Hello')
@@ -62,15 +65,24 @@ class StudentPaymentPaid extends Notification
         ];
     }
 
+    /**
+     * Get the Vonage / SMS representation of the notification.
+     */
+    public function toVonage(): VonageMessage
+    {
+        return (new VonageMessage)
+            ->content("$this->subject. Url: $this->url");
+    }
+
     public function toFcm(): FcmMessage
     {
-        $url = route('payments.receipts', [Qs::hash($this->receipt->pr_id), $this->id]);
+        $currency_unit = Pay::getCurrencyUnit();
         $data = [
-            'title' => mb_strimwidth($this->subject, -30, 30, '...'),
-            'body' => 'Amount paid was: ' . $this->receipt->amt_paid . ' with a remaining balance of: ' . $this->receipt . '. For the year: ' . $this->receipt->year,
-            'icon' => Qs::getAppIcon(),
+            'title' => $this->subject,
+            'body' => "Amount paid was: {$this->receipt->amt_paid} $currency_unit with a remaining balance of: {$this->receipt->balance} $currency_unit. For the academic year: {$this->receipt->year}.",
+            'icon' => Pay::getAppIcon(),
             'type' => 'notifications',
-            'url' => $url,
+            'url' => $this->url,
             'url_title' => "view receipt",
             'created_at' => $this->receipt->created_at
         ];

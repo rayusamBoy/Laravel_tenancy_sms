@@ -14,42 +14,36 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class MarksExport implements FromView, ShouldAutoSize, WithStyles, WithProperties
 {
-    protected $exam, $class, $year, $marks, $class_type_id;
+    protected $data;
 
-    public function __construct($exam, $class, $marks, $class_type_id)
+    public function __construct($data)
     {
-        $this->exam = $exam;
-        $this->class = $class;
-        $this->marks = $marks;
-        $this->class_type_id = $class_type_id;
-        $this->year =  Mk::getSetting('current_session');
+        $this->data = $data;
     }
 
     public function properties(): array
     {
         return [
-            'creator'        => Mk::getSystemName(),
+            'creator' => Mk::getSystemName(),
             'lastModifiedBy' => Mk::getSystemName(),
-            'title'          => 'Marks Export',
-            'description'    => 'Excel marks export template for students marks',
-            'subject'        => 'Marks',
-            'keywords'       => 'marks,export,spreadsheet',
-            'category'       => 'Marks',
+            'title' => 'Marks Export',
+            'description' => 'Excel marks export template for students marks',
+            'subject' => 'Marks',
+            'keywords' => 'marks,export,spreadsheet',
+            'category' => 'Marks',
         ];
     }
 
     public function styles(Worksheet $sheet)
     {
-        $advance_level_id = 3;
-        $advance_level_number_of_initial_cols = 4; // for; S/N, ADM NO., NAME, and COMB
-        $ordinary_level_number_of_initial_cols = 3; // for; S/N, ADM NO., and NAME
+        $number_of_initial_cols = 4; // 4 - S/N, ADMISSION NUMBER, FULL NAME, and SECTION
         $titles_and_subject_names_initial_rows = 4;
-        $start_data_row = 5;
+        $start_data_row = $titles_and_subject_names_initial_rows + 1;
 
-        $sub_count = Mk::getSubjects($this->class->id)->count();
-        $end_col_index = ($this->class_type_id == $advance_level_id) ? $sub_count + $advance_level_number_of_initial_cols : $sub_count + $ordinary_level_number_of_initial_cols;
-        $start_data_col = $col_index = ($this->class_type_id == $advance_level_id) ? $advance_level_number_of_initial_cols + 1 : $ordinary_level_number_of_initial_cols + 1; // The column the data will be populated from
-        $end_data_row = $this->marks->unique('user.id')->whereNotNull('user')->count() + $titles_and_subject_names_initial_rows; // Plus the first four rows
+        $sub_count = Mk::getSubjects($this->data['class']->id)->count();
+        $end_col_index = $sub_count + $number_of_initial_cols;
+        $start_data_col = $col_index = $number_of_initial_cols + 1; // The column the data will be populated from
+        $end_data_row = $this->data['marks']->unique('user.id')->whereNotNull('user')->count() + $titles_and_subject_names_initial_rows; // Plus the first four rows
 
         $validation = $sheet->getParent()->getActiveSheet()->getCell([$col_index, 5])->getDataValidation();
         $validation->setType(DataValidation::TYPE_DECIMAL);
@@ -86,20 +80,10 @@ class MarksExport implements FromView, ShouldAutoSize, WithStyles, WithPropertie
         $headers_arr_range = [1, 1, $end_col_index, $titles_and_subject_names_initial_rows];
         $sheet->getStyle($headers_arr_range)->getFill()->applyFromArray(['fillType' => 'solid', 'color' => ['rgb' => '171717']]);
         $sheet->getStyle($headers_arr_range)->getFont()->applyFromArray(['color' => ['rgb' => 'FFFFFF']]);
-
-        // Set bg color and font color for side protected data
-        //$side_data_arr_range = [1, $start_data_row, $end_col_index - $sub_count, $end_data_row];
-        //$sheet->getStyle($side_data_arr_range)->getFill()->applyFromArray(['fillType' => 'solid', 'color' => ['rgb' => '263238']]);
-        //$sheet->getStyle($side_data_arr_range)->getFont()->applyFromArray(['color' => ['rgb' => 'FFFFFF']]);
     }
 
     public function view(): View
     {
-        $d['marks'] = $marks = $this->marks;
-        $d['subjects'] = Mk::getSubjects($this->class->id);
-        $d['m'] =  $marks->first();
-        $d['class_type_id'] = $this->class_type_id;
-
-        return view('pages.support_team.marks.batch.table', $d);
+        return view('pages.support_team.marks.batch.table', $this->data);
     }
 }

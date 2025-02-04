@@ -12,7 +12,7 @@
         </div>
 
         @if(Usr::tenancyInitilized())
-        <a class="m-auto pr-3" data-toggle="tooltip" title="Messages" href="/messages">@include('messenger.unread-count')</a>
+        <a class="m-auto pr-3 text-default" data-toggle="tooltip" title="Messages" href="/messages">@include('messenger.unread-count')</a>
         @endif
         
         <a href="javascript:;" class="m-auto text-default refresh mobile"><i class="material-symbols-rounded mt-auto mb-auto">refresh</i></a>

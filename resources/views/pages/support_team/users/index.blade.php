@@ -23,7 +23,7 @@
 
         <div class="tab-content">
             <div class="tab-pane fade show active" id="new-user">
-                <form method="post" enctype="multipart/form-data" class="wizard-form steps-validation ajax-stcore" action="{{ route('users.store') }}" data-fouc>
+                <form method="post" enctype="multipart/form-data" class="wizard-form steps-validation ajax-store" action="{{ route('users.store') }}" data-fouc>
                     @csrf
                     {{-- PERSONAL DATA --}}
                     <h6 class="text-white">Personal Data</h6>
@@ -80,14 +80,14 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Phone:</label>
-                                    <input value="{{ old('phone') }}" type="text" name="phone" data-mask="+999 9999 999 99" class="form-control" placeholder="+255 1234 567 89">
+                                    <input value="{{ old('phone') }}" type="text" name="phone" data-mask="+9999?999999999" class="form-control" placeholder="+255 1234 567 89">
                                 </div>
                             </div>
 
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Telephone:</label>
-                                    <input value="{{ old('phone2') }}" type="text" name="phone2" data-mask="+999 9999 999 99" class="form-control" placeholder="+255 1234 567 89">
+                                    <input value="{{ old('phone2') }}" type="text" name="phone2" data-mask="+9999?999999999" class="form-control" placeholder="+255 1234 567 89">
                                 </div>
                             </div>
                         </div>
@@ -160,14 +160,14 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="d-block">Primary ID:</label>
-                                    <input value="{{ old('primary_id') }}" type="text" name="primary_id" data-mask="999999999" class="form-control" placeholder="123456789">
+                                    <input value="{{ old('primary_id') }}" type="text" name="primary_id" data-mask="www?wwwwwwwwwwwwwwwww" class="form-control" placeholder="123456789">
                                 </div>
                             </div>
                             {{-- SECONDARY ID --}}
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="d-block">Secondary ID:</label>
-                                    <input value="{{ old('secondary_id') }}" type="text" name="secondary_id" data-mask="99999999-99999-99999-99" class="form-control" placeholder="12345678-12345-12345-12">
+                                    <input value="{{ old('secondary_id') }}" type="text" name="secondary_id" data-mask="www?wwwwwwwwwwwwwwwww" class="form-control" placeholder="12345678123451234512">
                                 </div>
                             </div>
                         </div>
@@ -202,13 +202,13 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Close Relative Phone: <span class="text-danger">*</span></label>
-                                        <input disabled value="{{ old('phone3') }}" required type="text" name="phone3" data-mask="+999 9999 999 99" class="form-control" placeholder="+255 1234 567 89">
+                                        <input disabled value="{{ old('phone3') }}" required type="text" name="phone3" data-mask="+9999?999999999" class="form-control" placeholder="+255 1234 567 89">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Close Relative Mobile: </label>
-                                        <input disabled value="{{ old('phone4') }}" type="text" name="phone4" data-mask="+999 9999 999 99" class="form-control" placeholder="+255 1234 567 89">
+                                        <input disabled value="{{ old('phone4') }}" type="text" name="phone4" data-mask="+9999?999999999" class="form-control" placeholder="+255 1234 567 89">
                                     </div>
                                 </div>
                             </div>
@@ -221,7 +221,7 @@
                                     <label for="religion">Religion: <span class="text-danger">*</span></label>
                                     <select required data-placeholder="Choose..." name="religion" id="religion" class="select-search form-control">
                                         <option value=""></option>
-                                        @foreach (Qs::getReligions() as $rel)
+                                        @foreach (Usr::getReligions() as $rel)
                                         <option {{ old('religion') == $rel ? 'selected' : '' }} value="{{ $rel }}">{{ $rel }}</option>
                                         @endforeach
                                     </select>
@@ -382,20 +382,13 @@
                             </div>
                         </div>
 
-                        <div class="row m-0">
+                        <div class="row">
                             {{-- SUBJECTS STUDIED --}}
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label for="role">Subjects Studied: </label>
+                                    <label for="role">Subjects Studied <span class="text-info">(comma (,) separated)</span>: </label>
                                     <div>
-                                        @foreach (array_unique(array_merge(Usr::getOLevelSubjects(), Usr::getALevelSubjects())) as $sub)
-                                        <div class="form-check ml-1">
-                                            <label class="form-check-label">
-                                                {{ $sub }}
-                                                <input type="checkbox" name="subjects_studied[]" value="{{ $sub }}" class="form-input-styled" {{ old('subjects_studied') ? 'checked' : '' }} data-fouc>
-                                            </label>
-                                        </div>
-                                        @endforeach
+                                        <textarea name="subjects_studied" class="form-control" placeholder="ie., Subject one, Subject two, ...">{{ old('subjects_studied') }}</textarea>
                                     </div>
                                 </div>
                             </div>

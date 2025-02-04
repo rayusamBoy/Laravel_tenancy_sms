@@ -37,7 +37,7 @@
                     <div class="form-group row">
                         <label for="amount" class="col-lg-3 col-form-label font-weight-semibold">Amount (TSh) </label>
                         <div class="col-lg-9">
-                            <input disabled class="form-control" value="{{ $payment->amount }}" id="amount" type="text">
+                            <input class="form-control" name="amount" value="{{ $payment->amount }}" id="amount" type="text">
                         </div>
                     </div>
 
@@ -45,16 +45,6 @@
                         <label for="description" class="col-lg-3 col-form-label font-weight-semibold">Description</label>
                         <div class="col-lg-9">
                             <input class="form-control" value="{{ $payment->description }}" name="description" id="description" type="text">
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label for="can_notify_on_pay" class="col-lg-9 col-form-label font-weight-semibold">Notify Subscribed Parent on Student Payment <span class="text-danger">*</span></label>
-                        <div class="col-lg-3">
-                            <select class="form-control select" name="can_notify_on_pay" id="can_notify_on_pay">
-                                <option {{ $payment->can_notify_on_pay ?: 'selected' }} value="1">Yes</option>
-                                <option {{ $payment->can_notify_on_pay ?: 'selected' }} value="0">No</option>
-                            </select>
                         </div>
                     </div>
 

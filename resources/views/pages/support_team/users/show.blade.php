@@ -1,6 +1,7 @@
 @extends('layouts.master')
-@section('page_title', 'User Profile - ' . $user->name)
+@section('page_title', "User Profile - {$user->name}")
 @section('content')
+
 <div class="row">
     <div class="col-md-3 text-center">
         <div class="card">
@@ -18,7 +19,7 @@
                     <li class="nav-item">
                         <a href="#basic-info" class="nav-link active" data-toggle="tab">Basic Info</a>
                     </li>
-                    @if((isset($staff_rec) &&  $staff_rec != null) && (Qs::userIsTeamSA() || $user->id == Auth::id()))
+                    @if((isset($staff_rec) && $staff_rec != null) && (Qs::userIsTeamSA() || $user->id == auth()->id()))
                     <li class="nav-item">
                         <a href="#staff-info" class="nav-link" data-toggle="tab">Staff Info</a>
                     </li>
@@ -71,7 +72,7 @@
                                 @if($user->phone)
                                 <tr>
                                     <td class="font-weight-bold">Phone</td>
-                                    <td>{{ $user->phone.' '.$user->phone2 }}</td>
+                                    <td>{{ $user->phone ?? $user->phone2 }}</td>
                                 </tr>
                                 @endif
                                 @if($user->dob)
@@ -113,9 +114,9 @@
                                     <td class="font-weight-bold">Children</td>
                                     <td>
                                         @php $my_childrens = Qs::findMyChildren($user->id) @endphp
-                                        @if($my_childrens->count() > 0)
+                                        @if($my_childrens->isNotEmpty())
                                         @foreach($my_childrens as $sr)
-                                        <span> - <a href="{{ route('students.show', Qs::hash($sr->id)) }}">{{ $sr->user->name.' - '.$sr->my_class->name. ' '.$sr->section->name }}</a></span><br>
+                                        <span><a href="{{ route('students.show', Qs::hash($sr->id)) }}">{{ $sr->user->name.' - '.$sr->my_class->name.' '.$sr->section->name }}</a></span><br>
                                         @endforeach
                                         @else
                                         None
@@ -133,7 +134,7 @@
                                     <td class="font-weight-bold">My Subjects</td>
                                     <td>
                                         @foreach(Qs::findTeacherSubjectRecs($user->id) as $sub_rec)
-                                        <span> - {{ $sub_rec->subject->name ?? ' ' .' ('.$sub_rec->subject->my_class->name ?? ' ' . ')' }}</span><br>
+                                        <span> - {{ $sub_rec->subject->name ?? ' ' .' ('.$sub_rec->subject->my_class->name ?? " )" }}</span><br>
                                         @endforeach
                                     </td>
                                 </tr>
@@ -144,7 +145,7 @@
                     </div>
 
                     {{--Staff Info--}}
-                    @if((isset($staff_rec) && $staff_rec != null) && (Qs::userIsTeamSA() || $user->id == Auth::id()))
+                    @if((isset($staff_rec) && $staff_rec != null) && (Qs::userIsTeamSA() || $user->id == auth()->id()))
                     <div class="tab-pane fade" id="staff-info">
                         <table class="table table-bordered">
                             <tbody>
@@ -200,7 +201,7 @@
                                     <td class="font-weight-bold">Number of Periods</td>
                                     <td class="break-all">{{ $staff_rec->no_of_periods ?? '-' }}</td>
                                 </tr>
-                                @if(isset($staff_rec->subjects_studied))
+                                @if(json_decode($staff_rec->subjects_studied)[0] !== "")
                                 <tr>
                                     <td class="font-weight-bold">Subjects Studied</td>
                                     <td class="break-all">

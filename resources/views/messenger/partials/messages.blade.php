@@ -25,13 +25,13 @@
                 @if ($message->deleted_at !== null)
                 <!-- If the message is deleted -->
                 @if ($message->deleted_by == Auth::id())
-                <p class="text-muted"><i class="material-symbols-rounded font-size-sm">block</i><i>You deleted this message.</i></p>
+                <p class="text-muted"><i class="material-symbols-rounded font-size-sm pb-1">block</i><i>You deleted this message.</i></p>
                 @elseif ($message->deleted_by != Auth::id())
                 <!-- If the message was deleted by someone else -->
-                @if ($message->deletor->user_type === 'super_admin')
-                <p class="text-muted"><i class="material-symbols-rounded font-size-sm">block</i><i>This message was deleted by super admin {{ $message->deletor->name }}.</i></p>
+                @if ($message->deletor->user_type === 'super_admin' && $message->user_id != $message->deleted_by)
+                <p class="text-muted"><i class="material-symbols-rounded font-size-sm pb-1">block</i><i>This message was deleted by super admin {{ $message->deletor->name }}.</i></p>
                 @else
-                <p class="text-muted"><i class="material-symbols-rounded font-size-sm">block</i><i>This message was deleted.</i></p>
+                <p class="text-muted"><i class="material-symbols-rounded font-size-sm pb-1">block</i><i>This message was deleted.</i></p>
                 @endif
                 @endif
                 @else

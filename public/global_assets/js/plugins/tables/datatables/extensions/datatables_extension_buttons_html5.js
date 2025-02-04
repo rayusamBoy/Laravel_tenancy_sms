@@ -44,7 +44,7 @@ var DatatableButtonsHtml5 = (function () {
             buttons: {
                 dom: {
                     button: {
-                        className: "btn btn-light",
+                        className: "btn",
                     },
                 },
                 buttons: [

@@ -20,7 +20,6 @@ return new class extends Migration
             $table->unsignedInteger('my_class_id')->nullable()->index('payments_my_class_id_foreign');
             $table->string('description')->nullable();
             $table->string('year');
-            $table->tinyInteger('can_notify_on_pay')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

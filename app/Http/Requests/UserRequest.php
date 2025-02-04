@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Helpers\Qs;
+use App\Helpers\Usr;
 use App\Rules\StartsWithProperPhoneCode;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -19,8 +19,10 @@ class UserRequest extends FormRequest
     protected function getRouteUserIdParameter()
     {
         // If not data store
-        if ($this->method() !== "POST")
-            return Qs::decodeHash($this->route('user'));
+        if ($this->method() !== "POST") {
+            // Get id of the user being updated
+            return Usr::decodeHash($this->route('user'));
+        }
     }
 
     /**
@@ -30,13 +32,13 @@ class UserRequest extends FormRequest
      */
     public function rules()
     {
-        $store =  [
+        $store = [
             'name' => 'required|string|unique:users|min:6|max:150',
             'password' => 'nullable|string|min:3|max:50',
             'user_type' => 'required',
             'gender' => 'required|string',
-            'phone' => ['sometimes', 'nullable', 'string', 'min:6', 'max:20', new StartsWithProperPhoneCode],
-            'phone2' => ['sometimes', 'nullable', 'string', 'min:6', 'max:20', new StartsWithProperPhoneCode],
+            'phone' => ['sometimes', 'nullable', 'string', 'unique:users', new StartsWithProperPhoneCode],
+            'phone2' => ['sometimes', 'nullable', 'string', 'unique:users', new StartsWithProperPhoneCode],
             'email' => 'sometimes|nullable|email|max:100|unique:users',
             'username' => 'sometimes|nullable|alpha_dash|min:8|max:100|unique:users',
             'photo' => 'sometimes|nullable|image|mimes:jpeg,gif,png,jpg|max:2048',
@@ -47,8 +49,8 @@ class UserRequest extends FormRequest
             'work' => 'sometimes|required|string|max:150',
             'name2' => 'sometimes|required|string|min:6|max:150',
             'relation' => 'sometimes|required|string|min:4|max:150',
-            'phone3' => ['sometimes', 'nullable', 'string', 'min:6', 'max:20', new StartsWithProperPhoneCode],
-            'phone4' => ['sometimes', 'nullable', 'string', 'min:6', 'max:20', new StartsWithProperPhoneCode],
+            'phone3' => ['sometimes', 'nullable', 'string', new StartsWithProperPhoneCode],
+            'phone4' => ['sometimes', 'nullable', 'string', new StartsWithProperPhoneCode],
             'primary_id' => 'sometimes|nullable|string|unique:users|min:9|max:9',
             'secondary_id' => 'sometimes|nullable|string|unique:users|min:23|max:23',
             'file_number' => 'sometimes|nullable|string|max:15',
@@ -58,15 +60,21 @@ class UserRequest extends FormRequest
             'ss_number' => 'sometimes|nullable|string|unique:staff_records|min:6|max:9',
             'licence_number' => 'sometimes|nullable|string|unique:staff_records|max:10',
             'place_of_living' => 'sometimes|nullable|string|max:100|min:3',
+            'dob' => 'sometimes|nullable|date_format:' . Usr::getDateFormat(),
+            // The regex allows for alphabetic characters and spaces within each subject (for example, "Literature in English" is valid). 
+            // Each subject can be followed by a comma and optional spaces, before the next valid subject.
+            'subjects_studied' => 'sometimes|nullable|max:250|regex:/^([a-zA-Z\s]+)(,\s*[a-zA-Z\s]+)*$/',
         ];
-       
+
         // Rules that apply to the user making changes to other user's records
-        $update =  [
+        $update = [
             'name' => 'required|string|min:6|max:150',
             'gender' => 'required|string',
-            'phone' => ['sometimes', 'nullable', 'string', 'min:6', 'max:20', new StartsWithProperPhoneCode],
-            'phone2' => ['sometimes', 'nullable', 'string', 'min:6', 'max:20', new StartsWithProperPhoneCode],
-            'email' => 'sometimes|nullable|email|max:100|unique:users,email,' . $this->user,
+            'phone' => ['sometimes', 'nullable', 'string', "unique:users,phone,{$this->user}", new StartsWithProperPhoneCode],
+            'phone2' => ['sometimes', 'nullable', 'string', "unique:users,phone,{$this->user}", new StartsWithProperPhoneCode],
+            'phone3' => ['sometimes', 'nullable', 'string', "unique:users,phone,{$this->user}", new StartsWithProperPhoneCode],
+            'phone4' => ['sometimes', 'nullable', 'string', "unique:users,phone,{$this->user}", new StartsWithProperPhoneCode],
+            'email' => "sometimes|nullable|email|max:100|unique:users,email,{$this->user}",
             'photo' => 'sometimes|nullable|image|mimes:jpeg,gif,png,jpg|max:2048',
             'address' => 'required|string|min:3|max:120',
             'state_id' => 'required',
@@ -75,17 +83,17 @@ class UserRequest extends FormRequest
             'work' => 'sometimes|required|string|max:150',
             'name2' => 'sometimes|required|string|min:6|max:150',
             'relation' => 'sometimes|required|string|min:4|max:150',
-            'phone3' => ['sometimes', 'nullable', 'string', 'min:6', 'max:20', new StartsWithProperPhoneCode],
-            'phone4' => ['sometimes', 'nullable', 'string', 'min:6', 'max:20', new StartsWithProperPhoneCode],
             'bank_name' => 'sometimes|nullable|required_with:bank_acc_no',
             'file_number' => 'sometimes|nullable|string|max:15',
-            'primary_id' => ['sometimes', 'nullable', 'string', 'min:9', 'max:9', Rule::unique('users', 'primary_id')->ignore($this->getRouteUserIdParameter(), 'id')],
-            'secondary_id' => ['sometimes', 'nullable', 'string', 'min:23', 'max:23', Rule::unique('users', 'secondary_id')->ignore($this->getRouteUserIdParameter(), 'id')],
+            'primary_id' => ['sometimes', 'nullable', 'alpha_num', 'min:3', 'max:20', Rule::unique('users', 'primary_id')->ignore($this->getRouteUserIdParameter(), 'id')],
+            'secondary_id' => ['sometimes', 'nullable', 'alpha_num', 'min:3', 'max:20', Rule::unique('users', 'secondary_id')->ignore($this->getRouteUserIdParameter(), 'id')],
             'bank_acc_no' => ['sometimes', 'nullable', 'string', 'min:10', 'max:11', 'required_unless:bank_name,null', Rule::unique('staff_records', 'bank_acc_no')->ignore($this->getRouteUserIdParameter(), 'user_id')],
             'tin_number' => ['sometimes', 'nullable', 'string', 'min:9', 'max:9', Rule::unique('staff_records', 'tin_number')->ignore($this->getRouteUserIdParameter(), 'user_id')],
             'ss_number' => ['sometimes', 'nullable', 'string', 'min:8', 'max:9', Rule::unique('staff_records', 'ss_number')->ignore($this->getRouteUserIdParameter(), 'user_id')],
             'licence_number' => ['sometimes', 'nullable', 'string', 'max:10', Rule::unique('staff_records', 'licence_number')->ignore($this->getRouteUserIdParameter(), 'user_id')],
             'place_of_living' => 'sometimes|nullable|string|max:100|min:3',
+            'dob' => 'sometimes|nullable|date_format:' . Usr::getDateFormat(),
+            'subjects_studied' => 'sometimes|nullable|max:250|regex:/^([a-zA-Z\s]+)(,\s*[a-zA-Z\s]+)*$/',
         ];
 
         return ($this->method() === 'POST') ? $store : $update;
@@ -93,39 +101,46 @@ class UserRequest extends FormRequest
 
     public function attributes()
     {
-        return  [
-            'nal_id' => 'Nationality',
-            'state_id' => 'State',
+        return [
+            'nal_id' => 'nationality',
+            'state_id' => 'state',
             'lga_id' => 'LGA',
-            'user_type' => 'User',
-            'phone2' => 'Telephone',
-            'work' => 'Work/Job',
-            'name2' => 'Close Relative Name',
-            'phone3' => 'Phone',
-            'phone4' => 'Telephone',
+            'phone2' => 'telephone',
+            'name2' => 'close relative name',
+            'phone3' => 'close relative phone',
+            'phone4' => 'close relative mobile',
             'relation' => 'Parent\'s relation with the relative',
-            'primary_id' => 'Primary ID card number',
-            'secondary_id' => 'Secondary ID card number',
+            'primary_id' => 'primary ID card number',
+            'secondary_id' => 'secondary ID card number',
             'licence_number' => 'licence number',
             'file_number' => 'file number',
             'bank_acc_no' => 'bank account number',
             'tin_number' => 'tin number',
-            'ss_number' => 'Social Security number',
+            'ss_number' => 'social security number',
+            'dob' => 'date of birth',
         ];
     }
 
     protected function getValidatorInstance()
     {
+        $input = $this->all();
+
+        $data_masked_attributes = ['phone', 'phone2', 'phone3', 'phone4', 'primary_id', 'secondary_id'];
+        foreach ($data_masked_attributes as $attribute) {
+            if (isset($input[$attribute])) {
+                $input[$attribute] = rtrim($input[$attribute], "_");
+            }
+        }
+
         if ($this->method() === 'POST') {
-            $input = $this->all();
-            $input['user_type'] = Qs::decodeHash($input['user_type']);
-            $this->getInputSource()->replace($input);
+            $input['user_type'] = Usr::decodeHash($input['user_type']);
         }
 
         if ($this->method() === 'PUT') {
-            $this->user = Qs::decodeHash($this->user);
+            $this->user = Usr::decodeHash($this->user);
         }
 
+        $this->getInputSource()->replace($input);
         return parent::getValidatorInstance();
     }
 }

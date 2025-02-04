@@ -10,7 +10,7 @@ use App\Models\BloodGroup;
 use App\Models\Lga;
 use App\User;
 
-class Usr
+class Usr extends Qs
 {
     public static function getUsersByIds($ids, $with_trashed = false)
     {
@@ -57,83 +57,69 @@ class Usr
         ];
     }
 
-    public static function getOLevelSubjects()
+    public static function getPredefinedSubjects()
     {
-        return [
-            '010' => 'Qualifying Test',
-            '011' => 'Civics',
-            '012' => 'History',
-            '013' => 'Geography',
-            '014' => 'Bible Knowledge',
-            '015' => 'Elimu ya Dini ya Kiislamu',
-            '016' => 'Fine Art',
-            '017' => 'Music',
-            '018' => 'Physical Education',
-            '019' => 'Theatre Arts',
-            '021' => 'Kiswahili',
-            '022' => 'English Language',
-            '023' => 'French Language',
-            '024' => 'Literature in English',
-            '025' => 'Arabic Language',
-            '026' => 'Chinese Language',
-            '031' => 'Physics',
-            '032' => 'Chemistry',
-            '033' => 'Biology',
-            '034' => 'Agricultural Science',
-            '035' => 'Engineering Science',
-            '036' => 'Information and Computer Studies',
-            '041' => 'Basic Mathematics',
-            '042' => 'Additional Mathematics',
-            '051' => 'Food and Nutrition',
-            '052' => 'Textiles and Dressmaking',
-            '061' => 'Commerce',
-            '062' => 'Book-Keeping',
-            '071' => 'Building Construction',
-            '072' => 'Architectural Draughting',
-            '073' => 'Surveying',
-            '074' => 'Carpentry and Joinery',
-            '075' => 'Brickwork and Masonry',
-            '076' => 'Painting and Sign Writing',
-            '077' => 'Plumbing',
-            '082' => 'Electrical Engineering Science',
-            '083' => 'Radio and Television Servicing',
-            '084' => 'Electrical Draughting',
-            '085' => 'Refrigeration and Air Conditioning',
-            '086' => 'Plant and Equipment Maintenance',
-            '092' => 'Workshop Technology',
-            '093' => 'Motor Vehicle Mechanics',
-            '094' => 'Welding and Metal Fabrication',
-            '095' => 'Fitting and Turning',
-            '096' => 'Auto Electrics',
-            '097' => 'Mechanical Draughting',
-            '098' => 'Foundry and Blacksmith',
+        $subjects = [
+            'Qualifying Test',
+            'Civics',
+            'History',
+            'Geography',
+            'Bible Knowledge',
+            'Elimu ya Dini ya Kiislamu',
+            'Fine Art',
+            'Music',
+            'Physical Education',
+            'Theatre Arts',
+            'Kiswahili',
+            'English Language',
+            'French Language',
+            'Literature in English',
+            'Arabic Language',
+            'Chinese Language',
+            'Physics',
+            'Chemistry',
+            'Biology',
+            'Agricultural Science',
+            'Engineering Science',
+            'Information and Computer Studies',
+            'Basic Mathematics',
+            'Additional Mathematics',
+            'Food and Nutrition',
+            'Textiles and Dressmaking',
+            'Commerce',
+            'Book-Keeping',
+            'Building Construction',
+            'Architectural Draughting',
+            'Surveying',
+            'Carpentry and Joinery',
+            'Brickwork and Masonry',
+            'Painting and Sign Writing',
+            'Plumbing',
+            'Electrical Engineering Science',
+            'Radio and Television Servicing',
+            'Electrical Draughting',
+            'Refrigeration and Air Conditioning',
+            'Plant and Equipment Maintenance',
+            'Workshop Technology',
+            'Motor Vehicle Mechanics',
+            'Welding and Metal Fabrication',
+            'Fitting and Turning',
+            'Auto Electrics',
+            'Mechanical Draughting',
+            'Foundry and Blacksmith',
+            'General Studies',
+            'Divinity',
+            'Islamic Knowledge',
+            'Agriculture',
+            'Computer Science',
+            'Basic Applied Mathematics',
+            'Advanced Mathematics',
+            'Economics',
+            'Accountancy',
+            'Food and Human Nutrition'
         ];
-    }
 
-    public static function getALevelSubjects()
-    {
-        return [
-            '111' => 'General Studies',
-            '112' => 'History',
-            '113' => 'Geography',
-            '114' => 'Divinity',
-            '115' => 'Islamic Knowledge',
-            '121' => 'Kiswahili',
-            '122' => 'English Language',
-            '123' => 'French Language',
-            '125' => 'Arabic Language',
-            '131' => 'Physics',
-            '132' => 'Chemistry',
-            '133' => 'Biology',
-            '134' => 'Agriculture',
-            '136' => 'Computer Science',
-            '141' => 'Basic Applied Mathematics',
-            '142' => 'Advanced Mathematics',
-            '151' => 'Economics',
-            '152' => 'Commerce',
-            '153' => 'Accountancy',
-            '155' => 'Food and Human Nutrition'
-        ];
+        return $subjects;
     }
 
     public static function getStudentParentsStatus()
@@ -301,7 +287,7 @@ class Usr
         // $bg = imagecolorallocate($image, hexdec(substr($bgColor, 1, 2)), hexdec(substr($bgColor, 3, 2)), hexdec(substr($bgColor, 5, 2))); // White background color manipulation
         $bg = imagecolorallocatealpha($image, 0, 0, 0, 127); // Tranparent background
         $text = imagecolorallocate($image, hexdec(substr($textColor, 1, 2)), hexdec(substr($textColor, 3, 2)), hexdec(substr($textColor, 5, 2)));
-        
+
         imagefill($image, 0, 0, $bg);
         imagettftext($image, 60, 0, 40, 130, $text, public_path('global_assets/fonts/CASTELAR.ttf'), $initials);
 
@@ -312,7 +298,7 @@ class Usr
         if (!file_exists($dir_for_store))
             mkdir($dir_for_store);
         // Save the image to a file
-        $avatar_path = "storage/$dir_for_db/photo.png";
+        $avatar_path = "$dir_for_db/photo.png";
         $img_path = "$dir_for_store/photo.png";
 
         imagepng($image, $img_path);
@@ -360,5 +346,20 @@ class Usr
     public static function getStudentExamNumberPlaceholder()
     {
         return "*";
+    }
+
+    public static function getGenders()
+    {
+        return ['Male', 'Female'];
+    }
+
+    public static function getReligions()
+    {
+        return ['Islam', 'Christianity', 'Other'];
+    }
+
+    public static function getDateFormat()
+    {
+        return 'm/d/Y';
     }
 }

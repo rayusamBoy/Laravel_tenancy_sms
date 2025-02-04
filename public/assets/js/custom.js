@@ -1,3 +1,10 @@
+// Set up the CSRF token header for all AJAX requests in this app
+$.ajaxSetup({
+    headers: {
+        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+    },
+});
+
 /**
  *-------------------------------------------------------------
  * Block UI method
@@ -168,9 +175,10 @@ $(document).ready(function () {
         }
 
         // Reset back to default
-        $(element).on("mouseleave", function () {
-            $(element).attr('data-original-title', $(this).data('title') ?? 'Copy').tooltip('hide')
-        });
+        setTimeout(() => {
+            let title = $(element).data('title') ?? 'Copy';
+            $(element).attr('data-original-title', title).tooltip('hide');
+        }, 3000);
     }
 
     $(document).on("click", "#btn-convert", function (e) {
@@ -535,7 +543,6 @@ do_not_show_again_button.setAttribute("onclick", "doNotShowAgain(this)");
 $(".has-do-not-show-again-button").append(do_not_show_again_button);
 
 function doNotShowAgain(el) {
-    $(el).hide(); // Hide the clicked button
     var parent_el = $(el).parents('.has-do-not-show-again-button');
 
     var id = $(parent_el).attr("id");
@@ -543,15 +550,45 @@ function doNotShowAgain(el) {
         return console.warn('Missing required unique id attribute for the element.');
 
     if ($('[id=' + JSON.stringify(id) + ']').length > 1)
-        return console.warn('Multiple ' + id + ' id attributes were found. Id needs to be unique for each element.')
+        return console.warn('Multiple ' + id + ' id attributes were found. Id needs to be unique for each element.');
 
-    removeElement(parent_el);
-    var ids = JSON.parse(window.localStorage.getItem("do_not_show_els_with_these_ids_again")) ?? [];
-
+    var ids = JSON.parse(Cookies.get('do_not_show_els_with_these_ids_again') || '[]');
     ids.push(id);
-    window.localStorage.setItem("do_not_show_els_with_these_ids_again", JSON.stringify(ids));
-    flash({ msg: 'Done. To view this again, go to <strong>Settings</strong> to reveal all hidden items.', type: 'info' });
-};
+
+    Cookies.set('do_not_show_els_with_these_ids_again', JSON.stringify(ids));
+    updateHiddenIDs(ids, parent_el);
+}
+
+/**
+ * Send updated list of hidden ids to the backend.
+ */
+function updateHiddenIDs(ids, el) {
+    let do_not_show_btn = $(el).find('button.do-not-show-again');
+    do_not_show_btn.hide();
+    $.ajax({
+        url: update_hidden_alerts_url, // Backend URL to handle the update
+        method: 'POST',
+        data: {
+            hidden_alert_ids: ids
+        },
+        success: function (resp) {
+            if (resp.ok && resp.msg) {
+                removeElement(el);
+                flash({ msg: 'Done. To view this again, go to <strong>My Account</strong> to reveal all hidden messages.', type: 'info' });
+                return console.log(resp.msg);
+            }
+
+            do_not_show_btn.show(250);
+            flash({ msg: "Something went wrong, can't hide alert.", type: 'warning' });
+            return console.warn('Something went wrong.');
+        },
+        error: function (xhr, status, error) {
+            do_not_show_btn.show(250);
+            flash({ msg: 'Failed to update hidden alert IDs.', type: 'error' });
+            console.error('Failed to update hidden alert IDs.', status, error);
+        }
+    });
+}
 
 /**
  *-------------------------------------------------------------
@@ -569,14 +606,23 @@ $("button#clear-do-not-show-again-alert-msgs").click(function (e) {
         }
     }).then((result) => {
         if (result.isConfirmed) {
-            if (window.localStorage.hasOwnProperty("do_not_show_els_with_these_ids_again")) {
-                window.localStorage.removeItem("do_not_show_els_with_these_ids_again");
-                return flash({ msg: "Success. All alert messages are now displayed.", type: "success" });
-            }
-            return flash({ msg: "Nothing to reveal; all alert messages are on display.", type: "info" });
+            // Send AJAX request to the backend to clear the hidden alerts on the server as well
+            $.ajax({
+                url: clear_hidden_alerts_url,
+                method: 'POST',
+                success: function (response) {
+                    // Remove the cookie
+                    Cookies.remove('do_not_show_els_with_these_ids_again');
+                    flash({ msg: "Success. All alert messages are now displayed.", type: "success" });
+                },
+                error: function (xhr, status, error) {
+                    flash({ msg: "Something went wrong, cannot clear IDs.", type: "error" });
+                    console.error('Failed to clear hidden alert IDs data.', status, error);
+                }
+            });
         }
     });
-})
+});
 
 /**
  *-------------------------------------------------------------
@@ -586,7 +632,9 @@ $("button#clear-do-not-show-again-alert-msgs").click(function (e) {
  */
 function updatedoNotShowAgainElsState() {
     $(document).ready(function () {
-        var values = JSON.parse(window.localStorage.getItem("do_not_show_els_with_these_ids_again")) ?? [];
+        // Get the hidden alert ids from the cookie
+        var values = JSON.parse(Cookies.get('do_not_show_els_with_these_ids_again') || '[]');
+
         values.forEach(function (value) {
             if (value != '')
                 $("#" + value).remove(0);
@@ -777,7 +825,7 @@ $(document).on("click", ".refresh", function (e) {
         $("#add-button").click(() => newEvent(date));
 
         // Set the current month as active
-        $(".months-row > div").eq(date.getMonth()).addClass("active-month");
+        $(".months-row > td").eq(date.getMonth()).addClass("active-month");
 
         // Initialize the calendar and show events
         initCalendar(date);
@@ -938,12 +986,6 @@ $(document).on("click", ".refresh", function (e) {
 
     // Add an event to the database
     const addEventToDb = (event) => {
-        $.ajaxSetup({
-            headers: {
-                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-            },
-        });
-
         $.ajax({
             type: "POST",
             url: event_create_url,
