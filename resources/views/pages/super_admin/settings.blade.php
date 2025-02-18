@@ -165,7 +165,7 @@
                             <div class="form-group text-center">
                                 <label class="col-form-label font-weight-semibold">Change Login And related Pages Background:</label>
                                 <div class="mb-3">
-                                    <img id="login-and-related-pgs-bg" style="width: 100px" height="100px" src="{{ !$bg === null ? tenant_asset($bg) : asset($settings_table_seeder->getLoginAndRelatedPagesBgDescription()) }}" alt="">
+                                    <img id="login-and-related-pgs-bg" style="width: 100px" height="100px" src="{{ $bg !== null ? tenant_asset($bg) : asset($settings_table_seeder->getLoginAndRelatedPagesBgDescription()) }}" alt="">
                                 </div>
                                 <input id="login-and-related-pgs-bg-input" name="login_and_related_pages_bg" accept="image/*" type="file" class="file-input" data-show-caption="false" data-show-upload="false" data-fouc>
                             </div>
