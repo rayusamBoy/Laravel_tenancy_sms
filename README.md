@@ -164,9 +164,9 @@ This is a multi-tenant school management system powered by technologies includin
    | IT Guy       | itguy    | [itguy@sms.com](mailto:itguy@sms.com) | itguy    |
 
 
-   > [!IMPORTANT]
-   > When using a central domain other than `localhost` (e.g., `sms.edu`), you must add the domain to the `central_domains` key in the `tenancy` [configuration file](config/tenancy.php).
-   >
+> [!IMPORTANT]
+> When using a central domain other than `localhost` (e.g., `sms.edu`), you must add the domain to the `central_domains` key in the `tenancy` [configuration file](config/tenancy.php).
+>
 2. Tenant app scope
    To access the tenant app, you need to create a tenant and tenant domain in the central app. Once that's done, you can use the created domain to access the system with the following credentials.
 
