@@ -11,16 +11,17 @@
             <div class="modal-body p-0">
                 <div class="card-body">
                     <ul class="nav nav-tabs-highlight">
-                        @if(count($thread->participantsArray(auth()->id())) <= 0) <i>The message thread has no partitipants</i>
-                            @else
-                            @foreach($thread->participantsArray(auth()->id()) as $pt)
-                            <span class="participant">
-                                <li><a target="_blank" href="{{ route('users.show', Qs::hash($pt->id)) }}">{{ $loop->iteration }} - {{ $pt->name }}</a></li>
-                                @if(Qs::userIsSuperAdmin())
-                                <a href="{{ route('messages.remove_participant', [Qs::hash($thread->id), Qs::hash($pt->id)]) }}" class="material-symbols-rounded pl-1" aria-label="remove" title="Remove {{ $pt->name }}">close</a>
-                                @endif
-                            </span>
-                            @endforeach
+                        @if(count($thread->participantsArray(auth()->id())) <= 0) 
+                        <i>The message thread has no partitipants</i>
+                        @else
+                        @foreach($thread->participantsArray(auth()->id()) as $pt)
+                        <span class="participant">
+                            <li><a target="_blank" href="{{ route('users.show', Qs::hash($pt->id)) }}">{{ $loop->iteration }} - {{ $pt->name }}</a></li>
+                            @if(Qs::userIsSuperAdmin())
+                            <a href="{{ route('messages.remove_participant', [Qs::hash($thread->id), Qs::hash($pt->id)]) }}" class="material-symbols-rounded pl-1" aria-label="remove" title="Remove {{ $pt->name }}">close</a>
+                            @endif
+                        </span>
+                        @endforeach
                         @endif
                     </ul>
                 </div>

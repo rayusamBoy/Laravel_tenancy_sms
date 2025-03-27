@@ -1,5 +1,4 @@
 <div class="sidebar sidebar-main sidebar-expand-md">
-
     <!-- Sidebar mobile toggler -->
     <div class="sidebar-mobile-toggler text-center">
         <a href="javascript:;" class="sidebar-mobile-main-toggle">

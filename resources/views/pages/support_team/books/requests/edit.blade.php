@@ -1,5 +1,7 @@
 @extends('layouts.master')
+
 @section('page_title', 'Edit Book Request')
+
 @section('content')
 
 <div class="card">
@@ -14,6 +16,7 @@
                 <form method="post" enctype="multipart/form-data" class="ajax-update" action="{{ route('book_requests.update', $book_request->id) }}" data-fouc>
                     @csrf @method('PUT')
                     <div class="row">
+                        <input type="hidden" name="book_id" value="{{ $book_request->book_id }}">
                         {{--Book--}}
                         <div class="col-md-4">
                             <div class="form-group">
@@ -31,21 +34,23 @@
                         {{--Start date--}}
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label>Start Date:</label>
-                                <input autocomplete="off" id="confirmation-date" name="start_date" value="{{ $book_request->start_date }}" type="text" class="form-control date-pick" placeholder="Select Date...">
+                                <label for="start_date">Start Date:</label>
+                                <input disabled autocomplete="off" id="start_date" value="{{ $book_request->start_date }}" type="text" class="form-control date-pick" placeholder="Select Date...">
+                                <input type="hidden" name="start_date" value="{{ $book_request->start_date }}">
                             </div>
                         </div>
                         {{--End date--}}
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label>End Date:</label>
-                                <input autocomplete="off" id="confirmation-date" name="end_date" value="{{ $book_request->end_date }}" type="text" class="form-control date-pick" placeholder="Select Date...">
+                                <label for="end_date">End Date:</label>
+                                <input autocomplete="off" id="end_date" name="end_date" value="{{ $book_request->end_date }}" type="text" class="form-control date-pick" placeholder="Select Date...">
                             </div>
                         </div>
                     </div>
 
                     <div class="row">
                         {{--Returned--}}
+                        <input type="hidden" name="was_returned" value="{{ $book_request->returned }}">
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="returned" class="font-weight-semibold">Returned</label>
@@ -60,14 +65,14 @@
                         {{--Remarks--}}
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Remarks: </label>
-                                <textarea name="remarks" class="form-control" placeholder="Remarks">{{ $book_request->remarks }}</textarea>
+                                <label for="remarks">Remarks: </label>
+                                <textarea name="remarks" id="remarks" class="form-control" placeholder="Remarks">{{ $book_request->remarks }}</textarea>
                             </div>
                         </div>
                     </div>
 
                     <div class="text-right">
-                        <button id="ajax-btn" type="submit" class="btn btn-primary">Update <i class="material-symbols-rounded ml-2">send</i></button>
+                        <button id="ajax-btn" type="submit" data-text="Updating..." class="btn btn-primary">Update <i class="material-symbols-rounded ml-2">send</i></button>
                     </div>
                 </form>
             </div>

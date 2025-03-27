@@ -25,7 +25,7 @@ use Throwable;
 class MessageController extends Controller implements HasMiddleware
 {
     protected $extra_messages_to_count;
-    function __construct()
+    public function __construct()
     {
         $this->extra_messages_to_count = 5;
     }

@@ -1,5 +1,7 @@
 @extends('layouts.master')
+
 @section('page_title', 'Manage Promotions')
+
 @section('content')
 
 {{--Reset All--}}
@@ -15,8 +17,8 @@
 {{-- Reset Promotions --}}
 <div class="card">
     <div class="card-header header-elements-inline">
-        <h5 class="card-title font-weight-semibold">Manage Promotions - Students Who Were Promoted From <span class="text-danger">{{ $old_year }}</span> TO <span class="text-success">{{ $new_year }}</span> Session
-        </h5>
+        <h6 class="card-title font-weight-semibold">Manage Promotions - Students Who Were Promoted From <span class="text-danger">{{ $old_year }}</span> TO <span class="text-success">{{ $new_year }}</span> Session
+        </h6>
         {!! Qs::getPanelOptions() !!}
     </div>
 
@@ -77,6 +79,7 @@
 @endsection
 
 @section('scripts')
+
 <script>
     /* Single Reset */
     $('.promotion-reset').on('click', function() {
@@ -119,4 +122,5 @@
     }
 
 </script>
+
 @endsection

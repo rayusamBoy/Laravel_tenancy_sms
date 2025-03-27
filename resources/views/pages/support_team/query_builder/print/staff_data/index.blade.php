@@ -30,6 +30,7 @@
                 /* this affects the margin on the html before sending to printer */
             }
         }
+
     </style>
 </head>
 
@@ -42,6 +43,7 @@
         window.addEventListener('load', function() {
             window.print();
         });
+
     </script>
 </body>
 

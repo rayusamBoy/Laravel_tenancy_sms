@@ -34,7 +34,7 @@ class DeleteStorageDir implements ShouldQueue
     {
         event(new TenantDeletingStorageDir($this->tenant, ['msg' => 'Deleting Tenant Storage Directory...', 'url' => request()->url()]));
 
-        $path = Qs::getTenantStoragePath();
+        $path = Qs::getTenantStorageDir();
         if (is_dir($path))
             File::deleteDirectory($path); // Delete the tenant's storage folder.
 

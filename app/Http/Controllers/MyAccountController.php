@@ -8,6 +8,7 @@ use App\Http\Requests\UserChangePass;
 use App\Http\Requests\UserUpdate;
 use App\Repositories\UserRepo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 
 class MyAccountController extends Controller
@@ -38,9 +39,6 @@ class MyAccountController extends Controller
         $except = ['_token', '_method'];
         $d = $user->username ? $req->except(array_merge(Qs::getStaffRecord(['username']), $except)) : $req->except(array_merge(Qs::getStaffRecord(), $except));
 
-        $d2 = $req->only(Qs::getStaffRecord());
-        $d2['subjects_studied'] = json_encode(explode(",", $d2['subjects_studied']));
-
         $user_type = $user->user_type;
         $code = $user->code;
 
@@ -63,7 +61,13 @@ class MyAccountController extends Controller
             $d['email_verified_at'] = NULL;
 
         $this->user->update($user->id, $d);
-        $this->user->updateStaffRecord(['user_id' => $user->id], $d2);
+        $staff_data_edit = $this->user->whereStaffRecord(['user_id' => $user->id])->first()->staff_data_edit;
+
+        if ((Qs::userIsTeamSATCL() && $staff_data_edit == true) || Qs::userIsItGuy() || Qs::userIsTeamSA()) {
+            $d2 = $req->only(Qs::getStaffRecord());
+            $d2['subjects_studied'] = json_encode(explode(",", $d2['subjects_studied']));
+            $this->user->updateStaffRecord(['user_id' => $user->id], $d2);
+        }
 
         return back()->with('flash_success', __('msg.update_ok'));
     }
@@ -77,7 +81,7 @@ class MyAccountController extends Controller
 
         if (password_verify($old_pass, $my_pass)) {
             $data['password'] = Hash::make($new_pass);
-            $data['password_updated_at'] = \Carbon\Carbon::now();
+            $data['password_updated_at'] = Carbon::now();
             $this->user->update($user_id, $data);
 
             return back()->with('flash_success', __('msg.p_changed'));

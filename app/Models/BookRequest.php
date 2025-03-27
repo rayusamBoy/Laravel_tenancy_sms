@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class BookRequest extends Model
 {
-    //
     protected $fillable = ['book_id', 'borrower_id', 'user_id', 'start_date', 'end_date', 'returned', 'remarks'];
 
     public function book()

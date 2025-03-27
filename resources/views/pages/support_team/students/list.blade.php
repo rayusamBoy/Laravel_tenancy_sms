@@ -1,6 +1,7 @@
 @extends('layouts.master')
 
-@section('page_title', 'Student Information - '.$my_class->name)
+@section('page_title', "Student Information - {$my_class->name}")
+
 @section('content')
 
 <div class="card">
@@ -16,7 +17,7 @@
                 <a href="javascript:;" class="nav-link dropdown-toggle" data-toggle="dropdown">Sections</a>
                 <div class="dropdown-menu dropdown-menu-right">
                     @foreach($sections as $s)
-                    <a href="#s{{ $s->id }}" class="dropdown-item" data-toggle="tab">{{ $my_class->name.' '.$s->name }}</a>
+                    <a href="#s{{ $s->id }}" class="dropdown-item" data-toggle="tab">{{ "{$my_class->name} {$s->name}" }}</a>
                     @endforeach
                 </div>
             </li>
@@ -58,9 +59,9 @@
                             <td>{{ $s->user->name }}</td>
                             <td>{{ $s->adm_no }}</td>
                             <td>{{ $s->section->name }}</td>
-                            <td>@if(!is_null($s->my_parent))<a href="{{ route('users.show', Qs::hash($s->my_parent_id)) }}">{{ $s->my_parent->name }}</a> @else - @endif</td>
+                            <td>@if($s->my_parent !== null)<a href="{{ route('users.show', Qs::hash($s->my_parent_id)) }}">{{ $s->my_parent->name }}</a> @else - @endif</td>
                             @if (Qs::userIsTeamSA())
-                            <td><label class="form-switch m-0"><input id="checkbox-user-{{ $s->user->id }}" onchange="updateUserBlockedState(<?php echo $s->user->id ?>, this)" type="checkbox" @if($s->user->blocked) checked @endif><i></i></label></td>
+                            <td><label class="form-switch m-0"><input id="checkbox-user-{{ $s->user->id }}" onchange="updateUserBlockedState({{ $s->user->id }} this)" type="checkbox" @checked($s->user->blocked)><i></i></label></td>
                             @endif
                             <td class="text-center">
                                 <div class="list-icons">
@@ -93,7 +94,7 @@
 
             @foreach($sections as $se)
             <div class="tab-pane fade" id="s{{ $se->id }}">
-                <strong class="status-styled">{{ $my_class->name.' '.$se->name }}</strong>
+                <strong class="status-styled">{{ "{$my_class->name} {$se->name}" }}</strong>
                 <table class="table datatable-button-html5-columns">
                     <thead>
                         <tr>
@@ -115,9 +116,9 @@
                             <td><img class="rounded-circle" style="height: 40px; width: 40px;" src="{{ Usr::getTenantAwarePhoto($sr->user->photo) }}" alt="photo"></td>
                             <td>{{ $sr->user->name }}</td>
                             <td>{{ $sr->adm_no }}</td>
-                            <td>@if(!is_null($sr->my_parent))<a href="{{ route('users.show', Qs::hash($sr->my_parent_id)) }}">{{ $sr->my_parent->name }}</a> @else - @endif</td>
+                            <td>@if($sr->my_parent) <a href="{{ route('users.show', Qs::hash($sr->my_parent_id)) }}">{{ $sr->my_parent->name }}</a> @else - @endif</td>
                             @if (Qs::userIsTeamSA())
-                            <td><label class="form-switch m-0"><input id="checkbox-user-{{ $s->user->id }}" onchange="updateUserBlockedState(<?php echo $s->user->id ?>, this)" type="checkbox" @if($s->user->blocked) checked @endif><i></i></label></td>
+                            <td><label class="form-switch m-0"><input id="checkbox-user-{{ $sr->user->id }}" onchange="updateUserBlockedState({{ $sr->user->id }}, this)" type="checkbox" @checked($sr->user->blocked)><i></i></label></td>
                             @endif
                             <td class="text-center">
                                 <div class="list-icons">

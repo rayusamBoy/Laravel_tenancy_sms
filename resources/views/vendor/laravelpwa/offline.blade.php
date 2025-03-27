@@ -81,7 +81,6 @@
             height: 2rem;
             background-color: #e2f2e3;
             box-shadow: 0px -14px 14px #e2f2e3;
-            display: inline-flex;
             transition: display 3s ease;
             display: none;
         }

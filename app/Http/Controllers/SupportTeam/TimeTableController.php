@@ -133,9 +133,12 @@ class TimeTableController extends Controller
         $data = $req->all();
         $data['time_from'] = $tf = "{$req->hour_from}:{$req->min_from} {$req->meridian_from}";
         $data['time_to'] = $tt = "{$req->hour_to}:{$req->min_to} {$req->meridian_to}";
-        $data['timestamp_from'] = strtotime($tf);
-        $data['timestamp_to'] = strtotime($tt);
+        $data['timestamp_from'] = $timestamp_from = strtotime($tf);
+        $data['timestamp_to'] = $timestamp_to = strtotime($tt);
         $data['full'] = "$tf - $tt";
+
+        if ($timestamp_from > $timestamp_to)
+            return back()->with('flash_danger', __('msg.invalid_time_flow'));
 
         if ($tf == $tt)
             return back()->with('flash_danger', __('msg.invalid_time_slot'));

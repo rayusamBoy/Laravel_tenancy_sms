@@ -13,12 +13,15 @@
 
         @if(Usr::tenancyInitilized())
         <a class="m-auto pr-3 text-default" data-toggle="tooltip" title="Messages" href="/messages">@include('messenger.unread-count')</a>
+        @else
+        <div class="m-auto pr-3">
+            @include('pages.it_guy.support.tickets.badge')
+        </div>
         @endif
-        
+
         <a href="javascript:;" class="m-auto text-default refresh mobile"><i class="material-symbols-rounded mt-auto mb-auto">refresh</i></a>
 
-        {{-- Toggle color modes (Modes display in modal - included in layouts->master) --}}
-        <a href="javascript:;" class="m-auto text-default" data-toggle="modal" data-target="#color-modes"><i class="material-symbols-rounded mt-auto mb-auto color-modes mobile">palette</i></a>
+        <a href="javascript:;" class="m-auto text-default border-0 color-mode-toggle" title="Switch to light mode" data-theme="light"><i class="material-symbols-rounded mr-1 mt-auto mb-auto">light_mode</i></a>
 
         <button class="navbar-toggler pl-3 text-default" type="button" data-toggle="collapse" data-target="#navbar-mobile">
             <i class="material-symbols-rounded align-middle">person_alert</i>
@@ -33,7 +36,7 @@
         {{-- If side bar is not minimzed by the user, show this element --}}
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a href="javascript:;" class="{{ (auth()->user()->sidebar_minimized) ? 'navbar-nav-link sidebar-control sidebar-main-toggle d-none d-md-block disabled pointer-events-none' : 'navbar-nav-link sidebar-control sidebar-main-toggle d-none d-md-block' }}">
+                <a href="javascript:;" class="{{ auth()->user()->sidebar_minimized ? 'navbar-nav-link sidebar-control sidebar-main-toggle d-none d-md-block disabled pointer-events-none' : 'navbar-nav-link sidebar-control sidebar-main-toggle d-none d-md-block' }}">
                     <i class="material-symbols-rounded align-middle">menu</i>
                 </a>
             </li>
@@ -47,8 +50,7 @@
 
         <a href="javascript:;" class="navbar-nav-link d-none d-md-block refresh"><i class="material-symbols-rounded mt-auto mb-auto mr-1">refresh</i>Refresh</a>
 
-        {{-- Toggle color modes (Modes display in modal - included in layouts->master) --}}
-        <a href="javascript:;" class="navbar-nav-link d-none d-md-block" data-toggle="modal" data-target="#color-modes"><i class="material-symbols-rounded mr-1 mt-auto mb-auto">palette</i>Color Modes</a>
+        <a href="javascript:;" class="navbar-nav-link d-none d-md-block border-0 color-mode-toggle" title="Switch to light mode" data-theme="light"><i class="material-symbols-rounded mr-1 mt-auto mb-auto">light_mode</i></a>
 
         <ul class="navbar-nav">
             <li class="nav-item dropdown dropdown-user">
@@ -59,7 +61,7 @@
 
                 <div class="dropdown-menu dropdown-menu-right">
                     <a href="{{ Qs::userIsStudent() ? route('students.show', Qs::hash(Qs::findStudentRecord(auth()->user()->id)->id)) : route('users.show', Qs::hash(auth()->user()->id)) }}" class="dropdown-item"><i class="material-symbols-rounded">person_check</i> My profile</a>
-                    
+
                     @if(Qs::userIsHead() || !Usr::tenancyInitilized())
                     <div class="dropdown-divider"></div>
 
@@ -70,7 +72,7 @@
                     @if(Qs::userIsHead())
                     <a href="{{ route('logs.index') }}" class="dropdown-item"><i class="material-symbols-rounded">browse_activity</i> Manage Activity Log</a>
                     @endif
-         
+
                     @else
                     <a href="{{ route('tenancy_logs.index') }}" class="dropdown-item"><i class="material-symbols-rounded">browse_activity</i> Manage Activity Log</a>
                     @endif

@@ -1,5 +1,7 @@
 @extends('layouts.master')
-@section('page_title', 'Edit Class - '.$c->name)
+
+@section('page_title', "Edit Class - {$c->name}")
+
 @section('content')
 
 <div class="card">

@@ -168,7 +168,7 @@ div.card-columns .card:hover {
     transition: 0.9s ease all;
 }
 
-.badge-light {
+.notices-badge {
     outline: 1px solid #77889957;
     margin-left: 1em;
     border-radius: 100%;
@@ -176,6 +176,11 @@ div.card-columns .card:hover {
     background: linear-gradient(200deg, darkgreen, transparent);
     color: white;
     outline: none;
+}
+
+.card.performance-chart .nav-btn.position-absolute {
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 [data-theme=dark] .card:not(.card.card-body) {
@@ -1057,7 +1062,7 @@ div.cards-row .card {
 
     [data-theme=dark] .sidebar-xs .sidebar-main .nav-sidebar>.nav-item-submenu>.nav-group-sub {
         background-color: #171717;
-        border: 1px solid rgba(255,255,255,0.1);
+        border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     [data-theme=light] .sidebar-xs .sidebar-main .nav-sidebar>.nav-item:not(.nav-item-open):hover>.nav-link:not(.active):not(.disabled) {
@@ -1810,4 +1815,25 @@ div.cards-row .card {
 
 .btn-primary .material-symbols-rounded {
     padding-top: 2px;
+}
+
+#offline-alert {
+    color: #853a23;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    justify-content: center;
+    width: 100%;
+    height: 2rem;
+    background-color: #ffe8e1;
+    box-shadow: 0px -14px 14px #ffe8e1;
+    transition: display 3s ease;
+    display: none;
+}
+
+[data-theme=dark] #offline-alert {
+    color: #ffda6a !important;
+    background-color: #332701 !important;
+    box-shadow: 0px -14px 14px #332701 !important;
 }

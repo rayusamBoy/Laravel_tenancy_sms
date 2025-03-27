@@ -2,12 +2,13 @@
 
 namespace App\Helpers;
 
+use App\Models\BloodGroup;
 use App\Models\ClassType;
+use App\Models\Lga;
 use App\Models\MyClass;
 use App\Models\Nationality;
 use App\Models\StudentRecord;
-use App\Models\BloodGroup;
-use App\Models\Lga;
+use App\Models\Ticket;
 use App\User;
 
 class Usr extends Qs
@@ -161,7 +162,12 @@ class Usr extends Qs
 
     public static function getClassStudents($class_id)
     {
-        return StudentRecord::where(['my_class_id' => $class_id])->with('user')->get();
+        return StudentRecord::where(['my_class_id' => $class_id])->with('user')->get()->whereNotNull('user');
+    }
+
+    public static function getStudentRecordByIds($ids, $relationship = [])
+    {
+        return StudentRecord::whereIn("id", $ids)->with($relationship)->get();
     }
 
     public static function getStudentRecordByUserId($id, $relationship = [])
@@ -361,5 +367,11 @@ class Usr extends Qs
     public static function getDateFormat()
     {
         return 'm/d/Y';
+    }
+
+    public static function userAssignedTickets($user_id = null)
+    {
+        $user_id ??= auth()->id();
+        return Ticket::where('assigned_to', $user_id)->where('status', '!=', 'closed')->where('is_archived', false)->get();
     }
 }

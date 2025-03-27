@@ -1,9 +1,12 @@
 @extends('layouts.master')
+
 @section('page_title', 'Student Payments')
+
 @section('content')
+
 <div class="card">
     <div class="card-header header-elements-inline">
-        <h5 class="card-title"><i class="material-symbols-rounded mr-2">payments</i> Student Payments</h5>
+        <h6 class="card-title"><i class="material-symbols-rounded mr-2">payments</i> Student Payments</h6>
         {!! Qs::getPanelOptions() !!}
     </div>
 
@@ -19,7 +22,7 @@
                                 <select required id="my_class_id" name="my_class_id" class="form-control select">
                                     <option value="">Select Class</option>
                                     @foreach($my_classes as $c)
-                                    <option {{ ($selected && $my_class_id == $c->id) ? 'selected' : '' }} value="{{ $c->id }}">{{ $c->name }}</option>
+                                    <option @selected($selected && $my_class_id==$c->id) value="{{ $c->id }}">{{ $c->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -30,7 +33,6 @@
                                 <button type="submit" class="btn btn-primary">Submit <i class="material-symbols-rounded ml-2">send</i></button>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -67,7 +69,7 @@
                             <div class="dropdown-menu dropdown-menu-left">
                                 {{-- View Profile --}}
                                 <a href="{{ route('students.show', Qs::hash($s->id)) }}" class="dropdown-item"><i class="material-symbols-rounded">visibility</i> View Profile</a>
-                                <hr class="divider m-0">
+                                <hr class="m-0">
                                 <span class="dropdown-item opacity-75 disabled">Manage Payments</span>
                                 <a href="{{ route('payments.invoice', [Qs::hash($s->user_id)]) }}" class="dropdown-item">All Payments</a>
                                 @foreach(Pay::getYears($s->user_id) as $py)

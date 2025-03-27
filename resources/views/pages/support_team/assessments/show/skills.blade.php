@@ -16,10 +16,8 @@
                         <div class="col-lg-6">
                             <select data-placeholder="Select" name="af[]" id="af" class="form-control select">
                                 <option value=""></option>
-                                @for($i=1; $i<=5; $i++) <option {{ $as->record->where('student_id', $student_id)->first()->af && explode(',', $as->record->where('student_id', $student_id)->first()->af)[$loop->index] == $i ? 'selected' : '' }} value="{{ $i }}">{{ $i }}</option>
-                                    @endfor
+                                @for($i=1; $i<=5; $i++) <option @selected($as->record->where('student_id', $student_id)->first()->af && explode(',', $as->record->where('student_id', $student_id)->first()->af)[$loop->index] == $i) value="{{ $i }}">{{ $i }}</option>@endfor
                             </select>
-
                         </div>
                     </div>
                     @endforeach
@@ -48,8 +46,7 @@
                         <div class="col-lg-6">
                             <select data-placeholder="Select" name="ps[]" id="ps" class="form-control select">
                                 <option value=""></option>
-                                @for($i=1; $i<=5; $i++) <option {{ $as->record->where('student_id', $student_id)->first()->ps && explode(',', $as->record->where('student_id', $student_id)->first()->ps)[$loop->index] == $i ? 'selected' : '' }} value="{{ $i }}">{{ $i }}</option>
-                                    @endfor
+                                @for($i=1; $i<=5; $i++) <option @selected($as->record->where('student_id', $student_id)->first()->ps && explode(',', $as->record->where('student_id', $student_id)->first()->ps)[$loop->index] == $i) value="{{ $i }}">{{ $i }}</option>@endfor
                             </select>
                         </div>
                     </div>

@@ -32,7 +32,7 @@
         <h6 class="mt-auto mb-auto text-color-custom">@yield('title')</h6>
         @endif
 
-       <a href="{{ route('home') }}" class="navbar-nav-link d-flex text-color-custom float-right">
+        <a href="{{ route('home') }}" class="navbar-nav-link d-flex text-color-custom float-right">
             <span class="mr-1">{{ "Home" }}</span>
             <i class="material-symbols-rounded">home</i>
         </a>
@@ -69,6 +69,7 @@
                 'easeOutQuart', 'easeOutSine', 'easeOutQuint', 'linear', 'steps(' + getRandomNumber() + ')',
                 'spring(' + getRandomNumberBtnTwoInclusive(0, 100) + ', ' + getRandomNumberBtnTwoInclusive(0, 100) + ', ' + getRandomNumberBtnTwoInclusive(0, 100) + ', ' + getRandomNumberBtnTwoInclusive(0, 100) + ')',
             ];
+
             var easing = easings[Math.floor(Math.random() * easings.length)];
             return easing;
         }

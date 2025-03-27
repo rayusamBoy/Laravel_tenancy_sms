@@ -1,10 +1,12 @@
 @extends('layouts.master')
+
 @section('page_title', 'Manage Payments')
+
 @section('content')
 
 <div class="card">
     <div class="card-header header-elements-inline">
-        <h6 class="card-title font-weight-bold">Manage Payment Records for {{ $sr->user->name}} </h6>
+        <h6 class="card-title font-weight-bold">Manage Payment Records for {{ $sr->user->name }} ({{ $year ?? "All" }})</h6>
         {!! Qs::getPanelOptions() !!}
     </div>
 
@@ -51,7 +53,7 @@
                                     <div class="row">
                                         <div class="col-12 input-group">
                                             <input min="1" max="{{ $uc->balance ?: $uc->payment->amount }}" id="val-{{ Qs::hash($uc->id) }}" class="form-control form-control-sm w-6rem" required placeholder="Pay Now" title="Pay Now" name="amt_paid" type="number">
-                                            <button class="btn input-group-text border-0" type="submit">Pay</button>
+                                            <button class="btn input-group-text border-0" data-text=" " type="submit">Pay</button>
                                         </div>
                                     </div>
                                 </form>

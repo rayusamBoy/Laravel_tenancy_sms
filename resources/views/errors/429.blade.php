@@ -3,10 +3,11 @@
 @section('title', 'Too Many Requests')
 
 @section('content')
+
 <div class="page-content error-cover">
 
     @php $error_code = 429 @endphp
-    
+
     <!-- Main content -->
     <div class="content-wrapper">
 
@@ -28,4 +29,5 @@
         </div>
     </div>
 </div>
+
 @endsection

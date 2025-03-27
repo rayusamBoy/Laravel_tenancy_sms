@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-header header-elements-inline">
-        <h5 class="card-title"><i class="material-symbols-rounded mr-2">deployed_code_history</i> Batch Update </h5>
+        <h6 class="card-title"><i class="material-symbols-rounded mr-2">deployed_code_history</i> Batch Update </h6>
         {!! Qs::getPanelOptions() !!}
     </div>
 
@@ -9,7 +9,7 @@
             <div class="alert alert-info border-0 alert-dismissible has-do-not-show-again-button" id="attention-info">
                 <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
                 <span>
-                    This automatic batch marks update (recommended) may take a little longer (approximately 2 to 15 minutes). 
+                    This automatic batch marks update (recommended) may take a little longer (approximately 2 to 15 minutes).
                     Alternatively, you can update class sections manually in the <a href="{{ route('marks.index') }}"><strong>Manage Exam Marks</strong></a> section,
                     where you will need to update each subject for the particular class or section. The manual update may take some time and could be tedious. In the end, the choice is yours.
                 </span>
@@ -29,7 +29,7 @@
                                 <div class="form-group">
                                     <label for="exam_id" class="col-form-label font-weight-bold">Exam: <span class="text-danger">*</span></label>
                                     <select required id="exam_id" name="exam_id" data-placeholder="Select Exam" class="form-control select-search">
-                                        <option disabled selected value="">Select Exam</option>
+                                        <option value="">Select Exam</option>
                                         @foreach($exams as $ex)
                                         <option value="{{ $ex->id }}">{{ $ex->name }}</option>
                                         @endforeach
@@ -41,14 +41,13 @@
                                 <div class="form-group">
                                     <label for="my_class_id" class="col-form-label font-weight-bold">Class: <span class="text-danger">*</span></label>
                                     <select required data-placeholder="Select Class" id="my_class_id" name="my_class_id" class="form-control select">
-                                        <option disabled selected value="">Select Class</option>
+                                        <option value="">Select Class</option>
                                         @foreach($my_classes as $c)
-                                        <option {{ ($selected && $my_class_id == $c->id) ? 'selected' : '' }} value="{{ $c->id }}">{{ $c->name }}</option>
+                                        <option @selected($selected && $my_class_id==$c->id) value="{{ $c->id }}">{{ $c->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
-
                         </div>
 
                     </fieldset>
@@ -59,7 +58,6 @@
                         <button type="submit" data-text="Updating" class="btn btn-sm btn-success">Update Batch Marks <i class="material-symbols-rounded ml-2">send</i></button>
                     </div>
                 </div>
-
             </div>
         </form>
     </div>

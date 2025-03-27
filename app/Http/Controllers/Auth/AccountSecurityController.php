@@ -43,7 +43,7 @@ class AccountSecurityController extends Controller
         if (Qs::userIsHead())
             $data['users_with_2fa_enabled'] = $this->user->all()->whereNotNull('twofa_secret_code');
 
-        return view('auth.2fa.index', $data);
+        return view('auth.2fa.account_security', $data);
     }
 
     public function get_recovery_codes(): array

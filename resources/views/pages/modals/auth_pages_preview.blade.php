@@ -10,14 +10,15 @@
             </div>
             <div class="modal-body">
                 <div class="card-body p-0 h-100">
+                    @if(Route::has('settings_non_tenancy.preview_login_form'))
                     @php
-                        if(Route::has('settings_non_tenancy.preview_login_form')){
-                            $route = route('settings_non_tenancy.preview_login_form');
-                        }
-                        elseif(Route::has('settings.preview_login_form')){
-                            $route = route('settings.preview_login_form');
-                        }
+                    $route = route('settings_non_tenancy.preview_login_form');
                     @endphp
+                    @elseif(Route::has('settings.preview_login_form'))
+                    @php
+                    $route = route('settings.preview_login_form');
+                    @endphp
+                    @endif
                     <iframe class="user-select-none pointer-events-none" src="{{ $route }}" allowfullscreen width="100%" height="100%"></iframe>
                 </div>
             </div>

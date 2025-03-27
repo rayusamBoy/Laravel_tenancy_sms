@@ -28,7 +28,6 @@
                                 <div class="dropdown-menu dropdown-menu-right">
                                     {{--Edit--}}
                                     <a href="{{ route('ts.edit', $tms->id) }}" class="dropdown-item"><i class="material-symbols-rounded">edit</i> Edit</a>
-
                                     {{--Delete--}}
                                     @if(Qs::userIsSuperAdmin())
                                     <a id="{{ $tms->id }}" onclick="confirmPermanentDelete(this.id)" href="javascript:;" class="dropdown-item text-danger"><i class="material-symbols-rounded">delete</i> Delete</a>
@@ -40,7 +39,6 @@
                     </td>
                 </tr>
                 @endforeach
-
             </tbody>
         </table>
     </div>

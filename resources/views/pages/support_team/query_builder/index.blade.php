@@ -1,4 +1,5 @@
 @extends('layouts.master')
+
 @section('page_title', 'Query Builder')
 
 @section('content')
@@ -6,7 +7,7 @@
 {{--Query Print--}}
 <div class="card card-collapsed">
     <div class="card-header header-elements-inline">
-        <h5 class="card-title"><i class="material-symbols-rounded mr-2">print</i> Query Print</h5>
+        <h6 class="card-title"><i class="material-symbols-rounded mr-2">print</i> Query Print</h6>
         {!! Qs::getPanelOptions() !!}
     </div>
 
@@ -40,7 +41,7 @@
                     <label for="paper-size">Select Paper</label>
                     <select data-placeholder="Select..." class="form-control select select-search" name="paper_size" id="paper-size">
                         @foreach(Qs::getDompdfSupportedPaperSizes() as $p_name => $p_size)
-                        <option @if ($p_name === "a3") selected @endif value="{{ $p_name }}" title="{{ Qs::convertPointsToCm($p_size[2]) }} (height) x {{ Qs::convertPointsToCm($p_size[3]) }} (width)">{{ $p_name }}</option>
+                        <option @if ($p_name === "a3" ) selected @endif value="{{ $p_name }}" title="{{ Qs::convertPointsToCm($p_size[2]) }} (height) x {{ Qs::convertPointsToCm($p_size[3]) }} (width)">{{ $p_name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -66,7 +67,7 @@
 {{--Query Select--}}
 <div class="card card-collapsed" id="query-box">
     <div class="card-header header-elements-inline">
-        <h5 class="card-title"><i class="material-symbols-rounded mr-2">lasso_select</i> Query Select</h5>
+        <h6 class="card-title"><i class="material-symbols-rounded mr-2">lasso_select</i> Query Select</h6>
         {!! Qs::getPanelOptions() !!}
     </div>
 
@@ -185,7 +186,6 @@
                 </div>
             </div>
         </form>
-
     </div>
 </div>
 
@@ -193,7 +193,7 @@
 @if($queryed)
 <div class="card w-fit wmin-100-pcnt">
     <div class="card-header header-elements-inline">
-        <h5 class="card-title">Query Results</h5>
+        <h6 class="card-title">Query Results</h6>
         {!! Qs::getPanelOptions() !!}
     </div>
     <div class="alert alert-info border-0 alert-dismissible">

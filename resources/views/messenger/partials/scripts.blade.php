@@ -1,417 +1,347 @@
 <script type="module">
-    const auth_id = {{ auth()->id() }};
-    const auth_user_type = "{{ auth()->user()->user_type }}";
-    const textarea = $('#message');
-    const btn = $(document).find('#send-message-btn');
-    const typing_status = $('#user-is-typing');
-    const typing_indicator = $('#typing-indicator');
-    const messages_row = $(document).find('#messages-row');
-
-    var typing_now = 0, typing_timeout;
-
-    let channel = Echo.private('messages.{{ $thread->id }}.{{ tenant("id") }}');
+    /**
+     *-------------------------------------------------------------
+     * Authentication and element caching
+     *-------------------------------------------------------------
+     */
+    const authId = {{ auth()->id() }};
+    const authUserType = "{{ auth()->user()->user_type }}";
+    const $textarea = $('#message');
+    const $sendBtn = $('#send-message-btn');
+    const $typingStatus = $('#user-is-typing');
+    const $typingIndicator = $('#typing-indicator');
+    const $messagesRow = $('#messages-row');
+  
+    let typingNow = 0, typingTimeout;
+  
+    // Open a private channel using Echo (server-side values injected)
+    const channel = Echo.private(`messages.{{ $thread->id }}.{{ tenant("id") }}`);
 
     /**
      *-------------------------------------------------------------
-     * Trigger typing event
+     * Trigger a typing event via whisper
      *-------------------------------------------------------------
      */
-    function isTyping(status) {
-        //console.log('e');
+    const isTyping = (status) => {
         channel.whisper('typing', {
-            user_name: '{{ auth()->user()->name }}',
+            user_name: "{{ auth()->user()->name }}",
             typing: status
         });
     };
-
+  
     /**
      *-------------------------------------------------------------
-     * Initiate client indicator event on input
+     * On keydown in the message textarea, trigger typing indicator
      *-------------------------------------------------------------
      */
-    textarea.on('keydown', function() {
-        //console.log('e');
-        if (typing_now < 1) {
+    $textarea.on('keydown', () => {
+        if (typingNow < 1) {
             isTyping(true);
-            typing_now = 1;
+            typingNow = 1;
         }
 
-        clearTimeout(typing_timeout);
-            typing_timeout = setTimeout(function () {
+        clearTimeout(typingTimeout);
+        typingTimeout = setTimeout(() => {
             isTyping(false);
-            typing_now = 0;
+            typingNow = 0;
         }, 1000);
     });
-
+  
     /**
      *-------------------------------------------------------------
-     * Check for connection
+     * Bind connection state change and check internet connectivity
      *-------------------------------------------------------------
      */
     Echo.connector.pusher.connection.bind('state_change', (states) => {
-        //console.log(states.current)
         checkInternet(states.current);
     });
-
+  
     /**
      *-------------------------------------------------------------
-     * Listen for typing client event
+     * Listen for typing whispers from other users
      *-------------------------------------------------------------
      */
     channel.listenForWhisper('typing', (e) => {
-        if (e.typing == true) {
-            typing_status.html(e.user_name + ' is typing');
-            typing_indicator.css({
-                "display": "inline-block",
-            });
-        } else typing_indicator.hide();
+        if (e.typing) {
+            $typingStatus.html(`${e.user_name} is typing`);
+            $typingIndicator.css("display", "inline-block");
+        } else {
+            $typingIndicator.hide();
+        }
     });
-
+  
     /**
      *-------------------------------------------------------------
-     * Listen for a new message event
+     * Listen for new messages and update UI accordingly
      *-------------------------------------------------------------
      */
     channel.listen('NewMessage', (e) => {
-            //console.log(e);
-            messages_row.append(getMessage(auth_id, e));
-            updateParticipantLastRead(e.message.thread_id);
-            playNotificationSound('message-notification.mp3', true);
-            initializePopover(); // Actually re-initilize for the new created popover in the new/updated message.
-            scrollTo(btn); // Move message body to bottom.
-        });
-
+        $messagesRow.append(getMessage(authId, e));
+        updateParticipantLastRead(e.message.thread_id);
+        playNotificationSound('message-notification.mp3', true);
+        initializePopover(); // Re-initialize popover for new elements
+        scrollTo($sendBtn);  // Scroll to bottom (or to button)
+    });
+  
     /**
      *-------------------------------------------------------------
-     * Listen for message deleted event
+     * Listen for message deletion events
      *-------------------------------------------------------------
      */
     channel.listen('MessageDeleted', (e) => {
-            //console.log(e);
-            $("#confirm-message-delete").find('.close').click(); // Close message action modal if open.
-            $('#message-' + e.message.id).replaceWith(getMessage(auth_id, e));
-        });
-
+        $("#confirm-message-delete").find('.close').click(); // Close modal if open
+        $(`#message-${e.message.id}`).replaceWith(getMessage(authId, e));
+    });
+  
     /**
      *-------------------------------------------------------------
-     * Get message - new vs delete
+     * Build and return a jQuery element representing a message
      *-------------------------------------------------------------
      */
-    function getMessage(auth_id, e) {
-        // Create div item element
-        var divItem = document.createElement('div');
-        divItem.classList.add('col-lg-8', 'offset-lg-2', 'col-xl-6', 'offset-xl-3');
-        divItem.id = "message-" + e.message.id;
-        document.getElementById('messages-row').appendChild(divItem);
-
-        // Create list item element
-        var listItem = document.createElement('li');
-        listItem.classList.add('position-relative');
-        // Check if the message user id is equal to the authenticated user id
-        var floatDirection = e.message.user_id == auth_id ? "float-right" : "float-left";
-        listItem.classList.add(floatDirection);
-        divItem.appendChild(listItem);
-
-        // If the message user id is not equal to the authenticated user id
-        if (e.message.user.id != auth_id) {
-            // Create and append user photo
-            var userPhoto = document.createElement('img');
-            userPhoto.src = e.message.user.photo;
-            userPhoto.alt = e.message.user.name;
-            userPhoto.classList.add('rounded-circle', 'f-left');
-            listItem.appendChild(userPhoto);
-
-            // If user is super admin and message is not deleted, create and append delete link and form
-            if (auth_user_type === 'super_admin' && e.message.deleted_at == null) {
-                var button = document.createElement("button");
-
-                button.setAttribute("data-toggle", "popover");
-                button.setAttribute("data-placement", "right");
-                button.setAttribute("data-html", "true");
-                button.setAttribute("class", "material-symbols-rounded position-absolute right-neg-25 text-info-400 opacity-75 opacity-100-on-hover border-0 outline-0 action-btn");
-                button.setAttribute("data-content", `
-                    <div class="d-flex justify-center">
-                        <button type="button" data-text="Deleting..." id="` + e.message.id + `" onclick="prepareDeleteUserMessageForm(this.id)" data-toggle="modal" data-target="#confirm-message-delete" class="btn btn-sm p-0 pr-1 pl-1 m-auto text-danger-800 w-100 text-left bg-transparent"><span class="text-danger-800">Delete</span></button>
-                    </div>
+    const getMessage = (authId, e) => {
+        const { message } = e;
+        // Build container using template literal
+        const $container = $(`
+            <div id="message-${message.id}" class="col-lg-8 offset-lg-2 col-xl-6 offset-xl-3">
+                <li class="position-relative ${message.user_id == authId ? 'float-right' : 'float-left'}"></li>
+            </div>
+        `);
+        const $listItem = $container.find("li");
+  
+        // If sender is not the authenticated user, add photo and delete (if super admin)
+        if (message.user.id != authId) {
+            const $userPhoto = $(`
+                <img src="${message.user.photo}" alt="${message.user.name}" class="rounded-circle f-left">
+            `);
+            $listItem.append($userPhoto);
+            if (authUserType === 'super_admin' && message.deleted_at === null) {
+                const $deleteBtn = $(`
+                    <button data-toggle="popover" data-placement="right" data-html="true" class="material-symbols-rounded position-absolute right-neg-25 text-info-400 opacity-75 opacity-100-on-hover border-0 outline-0 action-btn"
+                        data-content="
+                            <div class='d-flex justify-center'>
+                                <button type='button' data-text='Deleting...' id='${message.id}' onclick='prepareDeleteUserMessageForm(this.id)' data-toggle='modal' data-target='#confirm-message-delete' class='btn btn-sm p-0 pr-1 pl-1 m-auto text-danger-800 w-100 text-left bg-transparent'>
+                                    <span class='text-danger-800'>Delete</span>
+                                </button>
+                            </div>">
+                            more_vert
+                    </button>
                 `);
-                button.textContent = 'more_vert';
-                listItem.appendChild(button);
+                $listItem.append($deleteBtn);
             }
         }
-
-        // Create and append message box
-        var messageBox = document.createElement('div');
-        messageBox.classList.add(e.message.user.id == auth_id ? "right" : "left");
-        listItem.appendChild(messageBox);
-
-        var messageSpan = document.createElement('span');
-        messageSpan.classList.add('media-body', 'break-all');
-        messageBox.appendChild(messageSpan);
-
-        var messageHeading = document.createElement('small');
-        messageHeading.classList.add('media-heading');
-        var e_mesg_user_type = e.message.user.user_type;
-        var headingText = e.message.user.id == auth_id ? "Me" : e.message.user.name + ' (' + e_mesg_user_type.replace('_', ' ') + ')';
-        messageHeading.appendChild(document.createTextNode(headingText));
-        messageHeading.appendChild(document.createElement('br'));
-        messageHeading.setAttribute('style', 'color: ' + e.message.user.message_media_heading_color);
-        messageSpan.appendChild(messageHeading);
-
-        // If the message is deleted
-        if (e.message.deleted_at != null) {
-            if (e.message.deleted_by == auth_id) {
-                var deletedMessage = document.createElement('p');
-                deletedMessage.classList.add('text-muted');
-                var deletedIcon = document.createElement('i');
-                deletedIcon.classList.add('material-symbols-rounded', 'font-size-sm', 'pb-1');
-                deletedIcon.textContent = 'block'; // Material symbol
-                var deletedText = document.createElement('i');
-                deletedText.appendChild(document.createTextNode('You deleted this message.'));
-                deletedMessage.appendChild(deletedIcon);
-                deletedMessage.appendChild(deletedText);
-                messageSpan.appendChild(deletedMessage);
-            } else if (e.message.deleted_by != auth_id) {
-                if (e.message.deletor.user_type === 'super_admin' && e.message.user_id != e.message.deleted_by) {
-                    var superAdminDeletedMessage = document.createElement('p');
-                    superAdminDeletedMessage.classList.add('text-muted');
-                    var superAdminDeletedIcon = document.createElement('i');
-                    superAdminDeletedIcon.classList.add('material-symbols-rounded', 'font-size-sm', 'pb-1');
-                    superAdminDeletedIcon.textContent = 'block'; // Symbol
-                    var superAdminDeletedText = document.createElement('i');
-                    superAdminDeletedText.appendChild(document.createTextNode('This message was deleted by super admin ' + e.message.deletor.name + '.'));
-                    superAdminDeletedMessage.appendChild(superAdminDeletedIcon);
-                    superAdminDeletedMessage.appendChild(superAdminDeletedText);
-                    messageSpan.appendChild(superAdminDeletedMessage);
-                } else {
-                    var regularDeletedMessage = document.createElement('p');
-                    regularDeletedMessage.classList.add('text-muted');
-                    var regularDeletedIcon = document.createElement('i');
-                    regularDeletedIcon.classList.add('material-symbols-rounded', 'font-size-sm', 'pb-1');
-                    regularDeletedIcon.textContent = 'block'; // Symbol
-                    var regularDeletedText = document.createElement('i');
-                    regularDeletedText.appendChild(document.createTextNode('This message was deleted.'));
-                    regularDeletedMessage.appendChild(regularDeletedIcon);
-                    regularDeletedMessage.appendChild(regularDeletedText);
-                    messageSpan.appendChild(regularDeletedMessage);
-                }
+  
+        // Message box and heading
+        const senderName = message.user.id == authId
+            ? "Me"
+            : `${message.user.name} (${message.user.user_type.replace('_', ' ')})`;
+        const $messageBox = $(`<div class="${message.user.id == authId ? 'right' : 'left'}"></div>`);
+        const $messageContent = $(`
+            <span class="media-body break-all">
+                <small class="media-heading" style="color: ${message.user.message_media_heading_color};">
+                    ${senderName}<br>
+                </small>
+            </span>
+        `);
+        $messageBox.append($messageContent);
+        $listItem.append($messageBox);
+  
+        // Append message body or deletion notice
+        if (message.deleted_at) {
+            let deletionNotice = "";
+            if (message.deleted_by == authId) {
+                deletionNotice = `<p class="text-muted"><i class="material-symbols-rounded font-size-sm pb-lg-1">block</i> You deleted this message.</p>`;
+            } else if (message.deletor.user_type === 'super_admin' && message.user_id != message.deleted_by) {
+                deletionNotice = `<p class="text-muted"><i class="material-symbols-rounded font-size-sm pb-lg-1">block</i> This message was deleted by super admin ${message.deletor.name}.</p>`;
+            } else {
+                deletionNotice = `<p class="text-muted"><i class="material-symbols-rounded font-size-sm pb-lg-1">block</i> This message was deleted.</p>`;
             }
+            $messageContent.append(deletionNotice);
         } else {
-            // If the message is not deleted
-            var messageText = document.createElement('span');
-            messageText.appendChild(document.createTextNode(e.message.body));
-            messageText.appendChild(document.createElement('br'));
-            messageSpan.appendChild(messageText);
-
-            var timePosted = document.createElement('span');
-            timePosted.classList.add('text-muted', 'float-right');
-            var timePostedSmall = document.createElement('small');
-            var timePostedItalic = document.createElement('i');
-            timePostedItalic.appendChild(document.createTextNode(moment().parseZone(e.message.created_at).format('DD MMMM YYYY, h:mm:ss a')));
-            timePostedSmall.appendChild(timePostedItalic);
-            timePosted.appendChild(timePostedSmall);
-            messageText.appendChild(timePosted);
+            const formattedTime = moment().parseZone(message.created_at).format('DD MMMM YYYY, h:mm:ss a');
+            const $body = $(`
+                <span>
+                    ${message.body}<br>
+                    <span class="text-muted float-right"><small><i>${formattedTime}</i></small></span>
+                </span>
+            `);
+            $messageContent.append($body);
         }
-
-        // If the message user id is equal to the authenticated user id
-        if (e.message.user.id == auth_id) {
-            if (e.message.deleted_at == null) {
-                var button = document.createElement("button");
-
-                button.setAttribute("data-toggle", "popover");
-                button.setAttribute("data-placement", "left");
-                button.setAttribute("data-html", "true");
-                button.setAttribute("class", "material-symbols-rounded position-absolute left-neg-25 text-info-400 opacity-75 opacity-100-on-hover bg-transparent border-0 outline-0");
-                button.setAttribute("data-content", `
-                    <div class="d-flex justify-center">
-                        <button type="button" data-text="Deleting..." id="` + e.message.id + `" onclick="prepareDeleteUserMessageForm(this.id)" data-toggle="modal" data-target="#confirm-message-delete" class="btn btn-sm p-0 pr-1 pl-1 m-auto text-danger-800 w-100 text-left bg-transparent"><span class="text-danger-800">Delete</span></button>
-                    </div>
+  
+        // If the message is from the authenticated user, add delete option and photo after message box
+        if (message.user.id == authId) {
+            if (!message.deleted_at) {
+                const $deleteBtn = $(`
+                    <button data-toggle="popover" data-placement="left" data-html="true" class="material-symbols-rounded position-absolute left-neg-25 text-info-400 opacity-75 opacity-100-on-hover bg-transparent border-0 outline-0"
+                        data-content="
+                            <div class='d-flex justify-center'>
+                                <button type='button' data-text='Deleting...' id='${message.id}' onclick='prepareDeleteUserMessageForm(this.id)' data-toggle='modal' data-target='#confirm-message-delete' class='btn btn-sm p-0 pr-1 pl-1 m-auto text-danger-800 w-100 text-left bg-transparent'>
+                                    <span class='text-danger-800'>Delete</span>
+                                </button>
+                            </div>">
+                            more_vert
+                    </button>
                 `);
-                button.textContent = 'more_vert'; // Material symbol
-                listItem.appendChild(button);
+                $listItem.append($deleteBtn);
             }
-
-            // Display the message box first followed by the user photo
-            var userPhoto = document.createElement('img');
-            userPhoto.src = e.message.user.photo;
-            userPhoto.alt = e.message.user.name;
-            userPhoto.classList.add('rounded-circle', 'f-right');
-            listItem.appendChild(userPhoto);
+            const $userPhoto = $(`
+                <img src="${message.user.photo}" alt="${message.user.name}" class="rounded-circle f-right">
+            `);
+            $listItem.append($userPhoto);
         }
-        return divItem;
-    }
+  
+        return $container;
+    };
 </script>
 <script type="text/javascript">
-    const load_previous_msgs_btn = $('button.load-previous');
-    const loading_previous_msgs_div = $('div.loading-previous');
-    const messages_row = $(document).find('#messages-row');
+    /**
+     *-------------------------------------------------------------
+     * Cache frequently used jQuery selectors
+     *-------------------------------------------------------------
+     */
+    const $loadPrevBtn = $('button.load-previous');
+    const $loadingPrevDiv = $('div.loading-previous');
+    const $messagesRow = $('#messages-row');
 
     /**
      *-------------------------------------------------------------
-     * Set the appropriate form attributes on run time
+     * Prepare deletion form attributes dynamically
      *-------------------------------------------------------------
      */
-    function prepareDeleteUserMessageForm(message_id) {
+    function prepareDeleteUserMessageForm(messageId) {
         hideAllPopover();
-        var action = '{{ route("messages.user_delete", ":message_id") }}';
-        $("form#delete-user-message").attr("action", action.replace(':message_id', message_id));
-        popOutIntendedMesg(message_id);
-        return;
+        const actionUrl = '{{ route("messages.user_delete", ":message_id") }}'.replace(':message_id', messageId);
+        $("form#delete-user-message").attr("action", actionUrl);
+        popOutIntendedMesg(messageId);
+    }
+
+    function popOutIntendedMesg(messageId) {
+        $("div#messages-row").find("div.right, div.left").css("z-index", "initial");
+        $(`#message-${messageId}`).find('div.right, div.left').css("z-index", "99999");
     }
 
     /**
      *-------------------------------------------------------------
-     * Show only current on delete message
+     * Handle "Load Previous Messages" button click
      *-------------------------------------------------------------
      */
-    function popOutIntendedMesg(message_id) {
-        $("div#messages-row").find("div.right, div.left").css("z-index", "initial"); // Reset any popped out message's z-index.
-        $("div#message-" + message_id).find('div.right, div.left').css("z-index", "99999"); // Pop out the intended one.
-    }
-
-    /**
-     *-------------------------------------------------------------
-     * Handle load previous messages btn click event
-     *-------------------------------------------------------------
-     */
-    load_previous_msgs_btn.on('click', function(e){
+    $loadPrevBtn.on('click', (e) => {
         e.preventDefault();
-        // Id is like 'messages-123'; so we split the id and take the second part (the actual message id)
-        var current_first_msg_id_in_view = messages_row.children(":first").attr('id').split('-')[1];
-        var url = '{{ route("messages.fetch_previous", [":thread_id", ":current_first_msg_id_in_view"]) }}';
-        url = url.replace(':thread_id', '{{ $thread->id }}');
-        url = url.replace(':current_first_msg_id_in_view', current_first_msg_id_in_view);
-        var data = {
-            'url': url,
-            'prepend_previous_messages': true,
-            'show_loading_previous': true,
+        const currentFirstMsgId = $messagesRow.children(":first").attr('id').split('-')[1];
+        let url = '{{ route("messages.fetch_previous", [":thread_id", ":current_first_msg_id_in_view"]) }}'.replace(':thread_id', '{{ $thread->id }}').replace(':current_first_msg_id_in_view', currentFirstMsgId);
+        const requestData = {
+            url, 
+            prepend_previous_messages: true, 
+            show_loading_previous: true, 
         };
-
-        processRequest(data);
+        processRequest(requestData);
     });
 
     /**
      *-------------------------------------------------------------
-     * Update participant last read when new message received
+     * Update participant's last read timestamp (if document is visible)
      *-------------------------------------------------------------
      */
-    function updateParticipantLastRead(thread_id) {
-        if (document?.hidden) {
-            return;
-        }
-      
-        var url = '{{ route("messages.update_participant_last_read", [":thread_id"]) }}';
-        url = url.replace(':thread_id', thread_id);
-        var data = {
-            'url': url
-        };
-
-        processRequest(data); 
+    function updateParticipantLastRead(threadId) {
+        if (document.hidden) return;
+        let url = '{{ route("messages.update_participant_last_read", [":thread_id"]) }}'.replace(':thread_id', threadId);
+        processRequest({
+            url
+        });
     }
 
     /**
      *-------------------------------------------------------------
-     * Process ajax request method
+     * Process an AJAX request with optional UI feedback
      *-------------------------------------------------------------
      */
-    async function processRequest(data){
-        var formData = new FormData();
-        formData.append('_token', '{{ csrf_token() }}');
-        //console.log(data)
-        if(data.hasOwnProperty('show_loading_previous')){
-            load_previous_msgs_btn.hide();
-            loading_previous_msgs_div.fadeIn();
+    async function processRequest(data) {
+        const formData = new FormData();
+
+        if (data.show_loading_previous) {
+            $loadPrevBtn.hide();
+            $loadingPrevDiv.fadeIn();
         }
 
-        var ajaxOptions = {
-            url: data.url,
-            type:'POST',
-            cache: false,
-            processData: false,
-            dataType: 'json',
-            contentType: false,
-            data: formData
-        };
-        var req = $.ajax(ajaxOptions);
-        req.done(function(resp){
-            if (data.hasOwnProperty('prepend_previous_messages')){
-                // If no data coming
-                if (resp.msg === ""){
-                    loading_previous_msgs_div.hide();
-                    load_previous_msgs_btn.hide('slow');
-                } else {
-                    messages_row.prepend(resp.msg).fadeIn('slow');
-                    initializePopover();
-                    
-                    if (data.hasOwnProperty('show_loading_previous')){
-                        loading_previous_msgs_div.hide();
-                        load_previous_msgs_btn.fadeIn();
+        $.ajax({
+                url: data.url, 
+                type: 'POST', 
+                cache: false, 
+                processData: false, 
+                dataType: 'json', 
+                contentType: false, 
+                data: formData
+            })
+            .done((resp) => {
+                if (data.prepend_previous_messages) {
+                    if (!resp.msg) {
+                        $loadingPrevDiv.hide();
+                        $loadPrevBtn.hide('slow');
+                    } else {
+                        $messagesRow.prepend(resp.msg).fadeIn('slow');
+                        initializePopover();
+                        if (data.show_loading_previous) {
+                            $loadingPrevDiv.hide();
+                            $loadPrevBtn.fadeIn();
+                        }
                     }
                 }
-            }
-          
-            return resp;
-        });
-        req.fail(function(e){
-            pop({msg: 'Sorry, something went wrong. You may try again!', type: 'error'});
-            if (data.hasOwnProperty('show_loading_previous')){
-                loading_previous_msgs_div.hide();
-                load_previous_msgs_btn.fadeIn();
-            }
-            //console.log(e)
-        });
+                return resp;
+            })
+            .fail((e) => {
+                pop({
+                    msg: 'Sorry, something went wrong. You may try again!', 
+                    type: 'error'
+                });
+                if (data.show_loading_previous) {
+                    $loadingPrevDiv.hide();
+                    $loadPrevBtn.fadeIn();
+                }
+            });
     }
 
     /**
      *-------------------------------------------------------------
-     * Check internet connection using pusher states
+     * Check internet connection based on pusher state
      *-------------------------------------------------------------
      */
     function checkInternet(state) {
-        let net_errs = 0;
-        var msg_row = $('.message-row');
-        var alert_row = $('.alert-row');
-        var dot_indicator_class = getRandomDotIndicatorClass();
+        const $msgRow = $('.message-row');
+        const $alertRow = $('.alert-row');
+        const dotIndicatorClass = getRandomDotIndicatorClass();
 
-        switch (state) {
-            case "connected":
-                if (net_errs < 1) {
-                    alert_row.hide();
-                    msg_row.show();
-                }
-                break;
-            case "connecting":
-                msg_row.hide();
-                alert_row.find('.alert').removeClass('text-center');
-                alert_row.find('.dot-indicator').removeClass('display-none').css({
-                    'top': '45%',
-                    'right': '2rem',
-                    'position': 'absolute'
-                }).addClass(dot_indicator_class);
-                alert_row.show().find('i').text("Connecting");
-                break;
-            // Not connected
-            default:
-                msg_row.hide();
-                alert_row.find('.alert').addClass('text-center');
-                alert_row.find('.dot-indicator').addClass('display-none').css({
-                    'top': '45%',
-                    'right': '2rem',
-                    'position': 'absolute'
-                }).removeClass(dot_indicator_class);
-                alert_row.show().find('i').text("Not connected.");
-                net_errs = 1;
-                break;
+        if (state === "connected") {
+            $alertRow.hide();
+            $msgRow.show();
+        } else if (state === "connecting") {
+            $msgRow.hide();
+            $alertRow.find('.alert').removeClass('text-center');
+            $alertRow.find('.dot-indicator')
+                .removeClass('display-none')
+                .css({
+                    top: '45%', 
+                    right: '2rem', 
+                    position: 'absolute'
+                })
+                .addClass(dotIndicatorClass);
+            $alertRow.show().find('i').text("Connecting");
+        } else {
+            $msgRow.hide();
+            $alertRow.find('.alert').addClass('text-center');
+            $alertRow.find('.dot-indicator')
+                .addClass('display-none')
+                .removeClass(dotIndicatorClass);
+            $alertRow.show().find('i').text("No connection");
         }
     }
 
     /**
      *-------------------------------------------------------------
-     * Get random dot indicator class
+     * Return a random dot indicator class from an array
      *-------------------------------------------------------------
      */
     function getRandomDotIndicatorClass() {
-        var dot_classes = ["dot-flashing", "dot-elastic", "dot-collision"];
-        var dot_class = dot_classes[Math.floor(Math.random() * dot_classes.length)];
-        return dot_class;
+        const dotClasses = ["dot-flashing", "dot-elastic", "dot-collision"];
+        return dotClasses[Math.floor(Math.random() * dotClasses.length)];
     }
+
 </script>

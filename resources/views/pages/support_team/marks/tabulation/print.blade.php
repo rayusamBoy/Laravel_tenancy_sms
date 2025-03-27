@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Tabulation Sheet - {{ $my_class->name }} @if(isset($section)) {{ $section->name }} @endif {{ $ex->name.' ('.$year.')' }}</title>
+    <title>Tabulation Sheet - {{ $my_class->name }} @if(isset($section)) {{ $section->name }} @endif {{ "{$ex->name} ($year)" }}</title>
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/print_tabulation.css') }}" />
 
     @laravelPWA
@@ -11,7 +11,7 @@
 
 <body>
     {{--Print Button--}}
-    <div class="hide">
+    <dv class="hide">
         {{-- Exam number format notification --}}
         @if($ex->number_format->isNotEmpty())
         <p>
@@ -20,7 +20,7 @@
         </p>
         @endif
         <button onclick="printPage();" class="btn"><strong>Print</strong></button>
-    </div>
+    </dv>
     {{-- Unhide selections --}}
     <div class="hide float-right">
         <select onchange="unhideSelected(this.value)">
@@ -65,7 +65,7 @@
                     <td>
                         <strong><span style="color: #1b0c80; font-size: 25px;">{{ strtoupper(Qs::getSetting('system_name')) }}</span></strong><br /><br />
                         <strong><span style="color: #000; font-size: 15px;"><span>{{ ucwords($settings->where('type', 'address')->value('description')) }}</span></span></strong><br />
-                        <strong><span style="color: #000; font-size: 15px;"> RESULTS SHEET FOR {{ strtoupper($my_class->name) }} @if(isset($section)) {{ strtoupper($section->name) }} @endif {{ strtoupper($ex->name.' ('.$year.')') }}</span></strong>
+                        <strong><span style="color: #000; font-size: 15px;"> RESULTS SHEET FOR {{ strtoupper($my_class->name) }} @if(isset($section)) {{ strtoupper($section->name) }} @endif {{ strtoupper("{$ex->name} ($year)") }}</span></strong>
                     </td>
                 </tr>
             </table>
@@ -143,7 +143,7 @@
                             @php
                             $student_number_placeholder = Usr::getStudentExamNumberPlaceholder();
                             $number_format = $ex->number_format->where('exam_id', $exam_id)->where('my_class_id', $my_class->id)->value('format');
-                            $loop = sprintf("%0" . substr_count($number_format, $student_number_placeholder) . "d", $loop->iteration) 
+                            $loop = sprintf("%0" . substr_count($number_format, $student_number_placeholder) . "d", $loop->iteration)
                             @endphp
                             {{ str_replace(str_repeat($student_number_placeholder, substr_count($number_format, $student_number_placeholder)), $loop, $number_format) }}
                             @else
@@ -159,7 +159,7 @@
 
                         @foreach($subjects as $sub)
                         {{-- Exam Mark --}}
-                        <td>{{ $total === 0 ? Qs::convertEncoding('&#10006;') : (($marks->where('student_id', $s->user_id)->where('subject_id', $sub->id)->first()->$tex ?? '-')) }}</td>
+                        <td>{{ $total === 0 ? Qs::convertEncoding('&#10006;') : ($marks->where('student_id', $s->user_id)->where('subject_id', $sub->id)->first()->$tex ?? '-') }}</td>
                         {{-- Grade --}}
                         <td style="background: lightblue;">{{ $total === 0 ? Qs::convertEncoding('&#10006;') : ($marks->where('student_id', $s->user_id)->where('subject_id', $sub->id)->first()->grade->name ?? '-') }}</td>
                         @endforeach

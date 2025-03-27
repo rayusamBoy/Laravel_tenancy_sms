@@ -10,6 +10,7 @@ return [
         'background_color' => '#ffffff',
         'theme_color_dark' => '#181818',
         'theme_color_light' => '#fafafa',
+        'theme_color' => '#181818',
         'display' => 'standalone',
         'orientation' => 'any',
         'status_bar' => 'black',
@@ -246,22 +247,80 @@ return [
             '2778x1284' => '/images/icons/splash-2778x1284.png',
             '2796x1290' => '/images/icons/splash-2796x1290.png',
         ],
-        'shortcuts' => [
-            [
-                'name' => 'Shortcut Link 1',
-                'description' => 'Shortcut Link 1 Description',
-                'url' => '/shortcutlink1',
-                'icons' => [
-                    "src" => "/images/icons/icon-72x72.png",
-                    "purpose" => "any"
-                ]
+        'custom' => [
+            "description" => "The system is a progressive web app with offline access and customizable color modes with beautiful User Interface (UI), built-in messaging and notifications, and eight distinct user roles—each with tailored permissions.",
+            "screenshots" => [
+                [
+                    "src" => "/images/screenshots/tenancy/login-dark.png",
+                    "sizes" => "1365x630",
+                    "type" => "image/png",
+                    "form_factor" => "wide",
+                    "label" => "Login Dark Tenant",
+                ],
+                [
+                    "src" => "/images/screenshots/tenancy/parent-my-dashboard-light.png",
+                    "sizes" => "1365x630",
+                    "type" => "image/png",
+                    "form_factor" => "wide",
+                    "label" => "Student My Account Light Tenant",
+                ],
+                [
+                    "src" => "/images/screenshots/tenancy/parent-my-profile-dark.png",
+                    "sizes" => "1365x630",
+                    "type" => "image/png",
+                    "form_factor" => "wide",
+                    "label" => "Parent My Profile",
+                ],
+                [
+                    "src" => "/images/screenshots/non_tenancy/dashboard-dark.png",
+                    "sizes" => "1365x630",
+                    "type" => "image/png",
+                    "form_factor" => "wide",
+                    "label" => "Dashboard Dark Non-Tenant",
+                ],
+                [
+                    "src" => "/images/screenshots/non_tenancy/system-settings-light.png",
+                    "sizes" => "1365x630",
+                    "type" => "image/png",
+                    "form_factor" => "wide",
+                    "label" => "system Settings Light Non-Tenant",
+                ],
+                [
+                    "src" => "/images/screenshots/tenancy/narrow-login-light.png",
+                    "sizes" => "320x540",
+                    "type" => "image/png",
+                    "form_factor" => "narrow",
+                    "label" => "Login Light Mobile",
+                ],
+                [
+                    "src" => "/images/screenshots/non_tenancy/narrow-dashboard-light.png",
+                    "sizes" => "320x540",
+                    "type" => "image/png",
+                    "form_factor" => "narrow",
+                    "label" => "Dashboard Light Mobile",
+                ],
+                [
+                    "src" => "/images/screenshots/tenancy/narrow-librarian-dashboard-light.png",
+                    "sizes" => "320x540",
+                    "type" => "image/png",
+                    "form_factor" => "narrow",
+                    "label" => "Librarian Dashboard Light Mobile",
+                ],
+                [
+                    "src" => "/images/screenshots/tenancy/narrow-parent-my-children-light.png",
+                    "sizes" => "320x540",
+                    "type" => "image/png",
+                    "form_factor" => "narrow",
+                    "label" => "Parent My Children Light Mobile",
+                ],
+                [
+                    "src" => "/images/screenshots/tenancy/narrow-student-manage-timetables-light.png",
+                    "sizes" => "320x540",
+                    "type" => "image/png",
+                    "form_factor" => "narrow",
+                    "label" => "Student Manage Timetables Light Mobile",
+                ],
             ],
-            [
-                'name' => 'Shortcut Link 2',
-                'description' => 'Shortcut Link 2 Description',
-                'url' => '/shortcutlink2'
-            ]
-        ],
-        'custom' => []
+        ]
     ]
 ];

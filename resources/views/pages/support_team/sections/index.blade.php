@@ -1,5 +1,7 @@
 @extends('layouts.master')
+
 @section('page_title', 'Manage Class Sections')
+
 @section('content')
 
 <div class="card">
@@ -39,7 +41,7 @@
                                 <div class="col-lg-9">
                                     <select required data-placeholder="Select Class" class="form-control select" name="my_class_id" id="my_class_id">
                                         @foreach($my_classes as $c)
-                                        <option {{ old('my_class_id') == $c->id ? 'selected' : '' }} value="{{ $c->id }}">{{ $c->name }}</option>
+                                        <option @selected(old('my_class_id') == $c->id) value="{{ $c->id }}">{{ $c->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -51,7 +53,7 @@
                                     <select data-placeholder="Select Teacher" class="form-control select-search" name="teacher_id" id="teacher_id">
                                         <option value=""></option>
                                         @foreach($teachers as $t)
-                                        <option {{ old('teacher_id') == Qs::hash($t->id) ? 'selected' : '' }} value="{{ Qs::hash($t->id) }}">{{ $t->name }}</option>
+                                        <option @selected(old('teacher_id') == Qs::hash($t->id)) value="{{ Qs::hash($t->id) }}">{{ $t->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>

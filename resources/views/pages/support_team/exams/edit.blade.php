@@ -1,6 +1,7 @@
 @extends('layouts.master')
 
-@section('page_title', 'Edit Exam - '.$ex->name. ' ('.$ex->year.')')
+@section('page_title', "Edit Exam - {$ex->name} ({$ex->year})")
+
 @section('content')
 
 <div class="card">
@@ -44,8 +45,8 @@
                         <label for="term" class="col-lg-3 col-form-label font-weight-semibold">Term</label>
                         <div class="col-lg-9">
                             <select data-placeholder="Select Teacher" class="form-control select" name="term" id="term">
-                                <option {{ $ex->term == 1 ? 'selected' : '' }} value="1">First Term</option>
-                                <option {{ $ex->term == 2 ? 'selected' : '' }} value="2">Second Term</option>
+                                <option @selected($ex->term == 1) value="1">First Term</option>
+                                <option @selected($ex->term == 2) value="2">Second Term</option>
                             </select>
                         </div>
                     </div>
@@ -63,7 +64,7 @@
                                 @if ($ex->number_format->where('my_class_id', $class->id)->value('my_class_id') == $class->id)
                                 <script>
                                     // If the input was checked, set as clicked to check the previous checked checkbox
-                                    $('#class_id_' + {{ $class->id }}).click();
+                                    $("#class_id_{{ $class->id }}").click();
 
                                 </script>
                                 @endif
@@ -78,8 +79,8 @@
 
                 <div class="col-md-5">
                     <div class="form-group row">
-                        <label class="col-lg-5 col-form-label font-weight-semibold">Exam Denominator <span class="text-danger">*</span></label>
-                        <div class="col-lg-7">
+                        <label class="col-lg-7 col-form-label font-weight-semibold">Exam Denominator <span class="text-danger">*</span></label>
+                        <div class="col-lg-5">
                             <input name="exam_denominator" min="0" max="100" value="{{ $ex->exam_denominator }}" required type="number" class="form-control">
                         </div>
                     </div>
@@ -89,7 +90,7 @@
                         <div class="col-lg-7">
                             @foreach(Mk::getStudentExamPositionByValues() as $key => $value)
                             <div class="d-flex mb-2">
-                                <span><input {{ $key == $ex->exam_student_position_by_value ? 'checked' : '' }} type="radio" id="exm-pos-by-{{ $key }}" name="exam_student_position_by_value" value="{{ $key }}" class="form-input-styled text-center" data-fouc></span>
+                                <span><input @checked($key==$ex->exam_student_position_by_value) type="radio" id="exm-pos-by-{{ $key }}" name="exam_student_position_by_value" value="{{ $key }}" class="form-input-styled text-center" data-fouc></span>
                                 <label for="exm-pos-by-{{ $key }}" class="ml-2 w-50 m-auto-0">{{ $value }}</label>
                             </div>
                             @endforeach
@@ -99,29 +100,29 @@
                     <div class="ca-setup {{ !in_array($ex->category_id, Mk::getSummativeExamCategoryIds()) ? 'display-none' : '' }}">
                         <strong>Exam CA setup</strong>
                         <div class="form-group row">
-                            <label class="col-lg-5 col-form-label font-weight-semibold">Class Work Denominator <span class="text-danger">*</span></label>
-                            <div class="col-lg-7">
+                            <label class="col-lg-7 col-form-label font-weight-semibold">Class Work Denominator <span class="text-danger">*</span></label>
+                            <div class="col-lg-5">
                                 <input name="cw_denominator" min="0" max="100" value="{{ $ex->cw_denominator }}" type="number" class="form-control">
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-lg-5 col-form-label font-weight-semibold">Home Work Denominator <span class="text-danger">*</span></label>
-                            <div class="col-lg-7">
+                            <label class="col-lg-7 col-form-label font-weight-semibold">Home Work Denominator <span class="text-danger">*</span></label>
+                            <div class="col-lg-5">
                                 <input name="hw_denominator" min="0" max="100" value="{{ $ex->hw_denominator }}" type="number" class="form-control">
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-lg-5 col-form-label font-weight-semibold">Topic Test Denominator <span class="text-danger">*</span></label>
-                            <div class="col-lg-7">
+                            <label class="col-lg-7 col-form-label font-weight-semibold">Topic Test Denominator <span class="text-danger">*</span></label>
+                            <div class="col-lg-5">
                                 <input name="tt_denominator" min="0" max="100" value="{{ $ex->tt_denominator }}" type="number" class="form-control">
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-lg-5 col-form-label font-weight-semibold">Termed Test Denominator <span class="text-danger">*</span></label>
-                            <div class="col-lg-7">
+                            <label class="col-lg-7 col-form-label font-weight-semibold">Termed Test Denominator <span class="text-danger">*</span></label>
+                            <div class="col-lg-5">
                                 <input name="tdt_denominator" min="0" max="100" value="{{ $ex->tdt_denominator }}" type="number" class="form-control">
                             </div>
                         </div>
@@ -131,7 +132,7 @@
                             <div class="col-lg-7">
                                 @foreach(Mk::getStudentCAPositionByValues() as $key => $value)
                                 <div class="d-flex mb-2">
-                                    <span><input {{ $key == $ex->ca_student_position_by_value ? 'checked' : '' }} type="radio" id="ca-position-by-{{ $key }}" name="ca_student_position_by_value" value="{{ $key }}" class="form-input-styled text-center" data-fouc></span>
+                                    <span><input @checked($key==$ex->ca_student_position_by_value) type="radio" id="ca-position-by-{{ $key }}" name="ca_student_position_by_value" value="{{ $key }}" class="form-input-styled text-center" data-fouc></span>
                                     <label for="ca-position-by-{{ $key }}" class="ml-2 w-50 m-auto-0">{{ $value }}</label>
                                 </div>
                                 @endforeach

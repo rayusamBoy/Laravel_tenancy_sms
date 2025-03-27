@@ -1,5 +1,7 @@
 @extends('layouts.master')
+
 @section('page_title', 'Edit Grade')
+
 @section('content')
 
 <div class="card">
@@ -26,7 +28,7 @@
                             <select class="form-control select" name="class_type_id" id="class_type_id">
                                 <option value="">Not Applicable</option>
                                 @foreach($class_types as $ct)
-                                <option {{ $gr->class_type_id == $ct->id ? 'selected' : '' }} value="{{ $ct->id }}">{{ $ct->name }}</option>
+                                <option @selected($gr->class_type_id == $ct->id) value="{{ $ct->id }}">{{ $ct->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -65,10 +67,10 @@
                     <div class="form-group row">
                         <label for="remark" class="col-lg-3 col-form-label font-weight-semibold">Remark</label>
                         <div class="col-lg-9">
-                            <select class="form-control select" name="remark" id="remark">
-                                <option value="">Select Remark...</option>
+                            <select class="form-control select" data-placeholder="Select Remark" name="remark" id="remark">
+                                <option value="">Select Remark</option>
                                 @foreach(Mk::getRemarks() as $rem)
-                                <option {{ $gr->remark == $rem ? 'selected' : '' }} value="{{ $rem }}">{{ $rem }}</option>
+                                <option @selected($gr->remark == $rem) value="{{ $rem }}">{{ $rem }}</option>
                                 @endforeach
                             </select>
                         </div>

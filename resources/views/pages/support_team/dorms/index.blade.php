@@ -1,5 +1,7 @@
 @extends('layouts.master')
+
 @section('page_title', 'Manage Dorms')
+
 @section('content')
 
 <div class="card">
@@ -57,7 +59,6 @@
             </div>
 
             <div class="tab-pane fade" id="new-dorm">
-
                 <div class="row">
                     <div class="col-md-6">
                         <form class="ajax-store" method="post" action="{{ route('dorms.store') }}">

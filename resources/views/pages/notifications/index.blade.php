@@ -1,5 +1,7 @@
 @extends('layouts.master')
+
 @section('page_title', 'My Notifications')
+
 @section('content')
 
 <div class="card">
@@ -14,7 +16,7 @@
                 <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
                 <span>
                     Enable push notifications by clicking "Request Permission" button or manually. Critical notifications are enabled by default for security and performance. Adjust other notifications below.
-               </span>
+                </span>
             </div>
         </div>
     </div>
@@ -27,8 +29,8 @@
                     <label for="email_channel" class="col-form-label font-weight-semibold">Email notification</label>
                     <div class="form-group text-center">
                         <select class="form-control select" name="on_email_channel" id="email_channel">
-                            <option {{ $email_channel_on == 1 ? 'selected' : '' }} value="1">On</option>
-                            <option {{ $email_channel_on == 0 ? 'selected' : '' }} value="0">Off</option>
+                            <option @selected($email_channel_on==1) value="1">On</option>
+                            <option @selected($email_channel_on==0) value="0">Off</option>
                         </select>
                     </div>
                 </div>
@@ -36,8 +38,8 @@
                     <label for="push_channel" class="col-form-label font-weight-semibold">Push notification</label>
                     <div class="form-group text-center">
                         <select class="form-control select" name="on_push_channel" id="push_channel">
-                            <option {{ $push_channel_on == 1 ? 'selected' : '' }} value="1">On</option>
-                            <option {{ $push_channel_on == 0 ? 'selected' : '' }} value="0">Off</option>
+                            <option @selected($push_channel_on==1) value="1">On</option>
+                            <option @selected($push_channel_on==0) value="0">Off</option>
                         </select>
                     </div>
                 </div>
@@ -45,23 +47,23 @@
                     <label for="sms_channel" class="col-form-label font-weight-semibold">SMS notification</label>
                     <div class="form-group text-center">
                         <select class="form-control select" name="on_sms_channel" id="sms_channel">
-                            <option {{ $sms_channel_on == 1 ? 'selected' : '' }} value="1">On</option>
-                            <option {{ $sms_channel_on == 0 ? 'selected' : '' }} value="0">Off</option>
+                            <option @selected($sms_channel_on==1) value="1">On</option>
+                            <option @selected($sms_channel_on==0) value="0">Off</option>
                         </select>
                     </div>
                 </div>
                 <div class="col-lg-3">
-                    <label for="status" class="col-form-label font-weight-semibold">Allow all Notifications <span class="text-danger">*</span></label>
+                    <label for="status" class="col-form-label font-weight-semibold">Allow Notifications <span class="text-danger">*</span></label>
                     <div class="form-group">
                         <select class="form-control select" name="status" id="status">
-                            <option {{ $notification_status == 1 ? 'selected' : '' }} value="1">Yes</option>
-                            <option {{ $notification_status == 0 ? 'selected' : '' }} value="0">No</option>
+                            <option @selected($notification_status==1) value="1">Yes</option>
+                            <option @selected($notification_status==0) value="0">No</option>
                         </select>
                     </div>
                 </div>
             </div>
             <div class="form-group row">
-                 <div class="offset-lg-9 col-lg-3">
+                <div class="offset-lg-9 col-lg-3">
                     {{-- SUBMIT BUTTON --}}
                     <div class="form-group float-right">
                         <button type="submit" class="btn btn-sm btn-danger">Submit form<span class="material-symbols-rounded ml-2 pb-2px">send</span></button>
@@ -83,7 +85,7 @@
             </div>
         </div>
 
-        <hr class="divider">
+        <hr>
 
         <table class="table datatable-button-html5-tab">
             <thead>
@@ -111,7 +113,7 @@
 
                                 <div class="dropdown-menu dropdown-menu-left">
                                     {{-- Mark as read --}}
-                                    @if(is_null($notification->read_at))
+                                    @if($notification->read_at === null)
                                     <a href="{{ route('notifications.mark_as_read', $notification->id) }}" class="dropdown-item"><i class="material-symbols-rounded">done</i> Mark as read</a>
                                     @endif
                                     {{-- Delete --}}

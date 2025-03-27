@@ -49,9 +49,15 @@ class BookRequestController extends Controller implements HasMiddleware
     public function store(BookRequestCreate $request)
     {
         $data = $request->except(["_token", "_method"]);
+        $book = $this->book->find($data["book_id"]);
+
+        if ($book->issued_copies >= $book->total_copies) {
+            return Qs::json(__('msg.all_book_copies_issued'), false);
+        }
 
         $data["user_id"] = auth()->id();
         $this->book->createRequest($data);
+        $this->book->incrementColumn(["id" => $book->id], "issued_copies");
 
         return Qs::jsonStoreOk();
     }
@@ -74,7 +80,18 @@ class BookRequestController extends Controller implements HasMiddleware
     public function update(BookRequestUpdate $request, $book_req_id)
     {
         $data = $request->all();
+        $book_id = $data["book_id"];
         $this->book->updateRequest($book_req_id, $data);
+
+        $book = $this->book->find($book_id);
+
+        if ($request->returned == 1) {
+            $this->book->decrementColumn(["id" => $book_id], "issued_copies");
+        } elseif ($request->was_returned == 1 && $request->returned == 0) {
+            if ($book->issued_copies >= $book->total_copies)
+                return Qs::json(__('msg.all_book_copies_issued'), false);
+            $this->book->incrementColumn(["id" => $book_id], "issued_copies");
+        }
 
         return Qs::jsonUpdateOk();
     }
@@ -85,7 +102,11 @@ class BookRequestController extends Controller implements HasMiddleware
     public function destroy($book_req_id)
     {
         $book_req_id = Qs::decodeHash($book_req_id);
-        $this->book->findRequest($book_req_id)->delete();
+        $book_request = $this->book->findRequest($book_req_id);
+        $book_id = $book_request->book_id;
+        $book_request->delete();
+
+        $this->book->decrementColumn(["id" => $book_id], "issued_copies");
 
         return Qs::deleteOk('book_requests.index');
     }

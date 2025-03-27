@@ -1,6 +1,6 @@
 <div class="{{ $selected ? 'card' : 'card card-collapsed' }}">
     <div class="card-header header-elements-inline">
-        <h5 class="card-title">Manage Events</h5>
+        <h6 class="card-title">Manage Events</h6>
         {!! Qs::getPanelOptions() !!}
     </div>
 
@@ -102,7 +102,7 @@
                                     <label for="status" class="col-form-label font-weight-semibold">Status</label>
                                     <select required data-placeholder="Select Class Type" class="form-control select" name="status" id="status">
                                         @foreach(Evt::getStatuses() as $st)
-                                        <option {{ $event->status == $st ? 'selected' : '' }} value="{{ $st }}">{{ $st }}</option>
+                                        <option @selected($event->status == $st) value="{{ $st }}">{{ $st }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -113,7 +113,6 @@
                             </div>
                         </form>
                     </div>
-
                 </div>
             </div>
             @endif

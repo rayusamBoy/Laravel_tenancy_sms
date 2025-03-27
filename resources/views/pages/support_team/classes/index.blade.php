@@ -1,5 +1,7 @@
 @extends('layouts.master')
+
 @section('page_title', 'Manage Classes')
+
 @section('content')
 
 <div class="card">
@@ -82,7 +84,7 @@
                                 <div class="col-lg-9">
                                     <select required data-placeholder="Select Class Type" class="form-control select" name="class_type_id" id="class_type_id">
                                         @foreach($class_types as $ct)
-                                        <option {{ old('class_type_id') == $ct->id ? 'selected' : '' }} value="{{ $ct->id }}">{{ $ct->name }}</option>
+                                        <option @selected(old('class_type_id')==$ct->id) value="{{ $ct->id }}">{{ $ct->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>

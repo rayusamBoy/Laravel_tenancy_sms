@@ -1,5 +1,7 @@
 @extends('layouts.master')
+
 @section('page_title', "User Profile - {$user->name}")
+
 @section('content')
 
 <div class="row">
@@ -139,7 +141,6 @@
                                     </td>
                                 </tr>
                                 @endif
-
                             </tbody>
                         </table>
                     </div>
@@ -174,7 +175,7 @@
                                     <td class="break-all">{{ $staff_rec->emp_no ?? '-' }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="font-weight-bold">Tin Number</td>
+                                    <td class="font-weight-bold">TIN Number</td>
                                     <td class="break-all">{{ $staff_rec->tin_number ?? '-' }}</td>
                                 </tr>
                                 <tr>
@@ -201,12 +202,12 @@
                                     <td class="font-weight-bold">Number of Periods</td>
                                     <td class="break-all">{{ $staff_rec->no_of_periods ?? '-' }}</td>
                                 </tr>
-                                @if(json_decode($staff_rec->subjects_studied)[0] !== "")
+                                @if($staff_rec->subjects_studied && json_decode($staff_rec->subjects_studied)[0] !== "")
                                 <tr>
                                     <td class="font-weight-bold">Subjects Studied</td>
                                     <td class="break-all">
                                         @foreach(json_decode($staff_rec->subjects_studied) as $sub)
-                                        {{ $loop->iteration }} - {{ $sub ?? '-' }}<br />
+                                        {{ $loop->iteration }} - {{ $sub }}<br />
                                         @endforeach
                                     </td>
                                 </tr>
@@ -215,7 +216,6 @@
                         </table>
                     </div>
                     @endif
-
                 </div>
             </div>
         </div>

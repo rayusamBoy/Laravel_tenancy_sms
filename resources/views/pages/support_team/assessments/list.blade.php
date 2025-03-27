@@ -1,5 +1,7 @@
 @extends('layouts.master')
+
 @section('page_title', 'Continous Assessments List')
+
 @section('content')
 
 <div class="row">
@@ -34,11 +36,11 @@
                         @foreach($assessments as $as)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $as->exam->name }} Assessments</td>
-                            <td>{{ 'Term '.$as->exam->term }}</td>
+                            <td>{{ $as->exam->name }} Assessment</td>
+                            <td>{{ 'Term ' . $as->exam->term }}</td>
                             <td>{{ $as->exam->year }}</td>
                             <td>{{ $as->exam->category->name }}</td>
-                            <td>{{ ($as->exam->editable) ? "Yes" : "No" }}</td>
+                            <td>{{ $as->exam->editable ? "Yes" : "No" }}</td>
                         </tr>
                         @endforeach
                     </tbody>

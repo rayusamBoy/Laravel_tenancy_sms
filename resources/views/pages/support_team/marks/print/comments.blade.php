@@ -15,7 +15,7 @@
             </tr>
             <tr>
                 <td><strong>NEXT TERM FEES:</strong></td>
-                <td>TSh {{ $settings->where('type', 'next_term_fees_' . strtolower($ct))->value('description') }}/-</td>
+                <td>{{ Pay::getCurrencyUnit() . " " . $settings->where('type', 'next_term_fees_' . strtolower($ct))->value('description') }}/-</td>
             </tr>
         </tbody>
     </table>

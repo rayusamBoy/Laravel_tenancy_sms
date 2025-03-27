@@ -98,7 +98,7 @@ class UserController extends Controller implements HasMiddleware
         $user_is_teamSA = in_array($user_type, Qs::getTeamSA());
         $user_is_parent = in_array($user_type, Qs::getParent());
 
-        $emp_date = $req->emp_date ?? now();
+        $emp_date = $req->emp_date ?: now();
         $staff_id = Qs::getAppCode() . '/STAFF/' . date('Y/m', strtotime($emp_date)) . '/' . mt_rand(1000, 9999);
         $data['username'] = $uname = $user_is_teamSA ? $req->username : $staff_id;
 
@@ -150,7 +150,7 @@ class UserController extends Controller implements HasMiddleware
     public function update(UserRequest $req, $id)
     {
         $id = (int) Qs::decodeHash($id);
-        $user_type_id = (int) Qs::decodeHash($req->user_type);
+        $user_type_id = (int) Qs::decodeHash($req->user_type_id);
 
         // Redirect if Making Changes to Head of Super Admins
         if (Qs::headSA($id) && !Qs::headSA(auth()->id()))
@@ -165,7 +165,7 @@ class UserController extends Controller implements HasMiddleware
         $user_is_staff = in_array($user_type, Qs::getStaff());
         $user_is_parent = in_array($user_type, Qs::getParent());
 
-        $except = array_merge(Qs::getStaffRecord(), Qs::getParentRelativeRecord(), ['_token', '_method']);
+        $except = array_merge(Qs::getStaffRecord(), Qs::getParentRelativeRecord(), ['_token', '_method', 'user_type_id']);
         $data = $req->except($except);
 
         $data['name'] = $name = ucwords(strtolower($req->name));
@@ -218,7 +218,7 @@ class UserController extends Controller implements HasMiddleware
 
         $data['user'] = $this->user->find($user_id);
 
-        /* Prevent Other Students from viewing Profile of others*/
+        /* Prevent other Users from viewing Profile of others */
         if (auth()->id() != $user_id && !Qs::userIsTeamSA() && !Qs::userIsMyChild(auth()->id(), $user_id))
             return redirect(route('dashboard'))->with('pop_error', __('msg.denied'));
 
@@ -232,7 +232,7 @@ class UserController extends Controller implements HasMiddleware
     {
         $id = Qs::decodeHash($id);
 
-        // Redirect if Making Changes to Head of Super Admins or Head master
+        // Redirect if Making Changes to Heads
         if (Qs::headSA($id))
             return back()->with('pop_error', __('msg.denied'));
 
@@ -251,7 +251,8 @@ class UserController extends Controller implements HasMiddleware
     protected function userTeachesSubject($user)
     {
         $subjects = $this->my_class->findSubjectRecByTeacher($user->id);
-        return ($subjects->count() > 0) ? true : false;
+
+        return $subjects->isNotEmpty();
     }
 
     public function update_staff_data_edit_state(UserStaffDataEditState $req)

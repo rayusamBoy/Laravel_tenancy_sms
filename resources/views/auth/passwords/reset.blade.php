@@ -3,8 +3,8 @@
 @section('page_title', 'Reset Password')
 
 @section('content')
-<div class="page-content login-cover">
 
+<div class="page-content login-cover">
     <div class="content-wrapper overflow-hidden">
         <div class="content row justify-content-center">
             <div class="col-md-6 m-auto">
@@ -79,4 +79,5 @@
         </div>
     </div>
 </div>
+
 @endsection

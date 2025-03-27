@@ -41,7 +41,7 @@
             @endforeach
         </tbody>
     </table>
-    
+
     <div class="text-center mt-3">
         <button class="btn btn-success"><i class="material-symbols-rounded mr-2">upgrade</i> Promote Students</button>
     </div>

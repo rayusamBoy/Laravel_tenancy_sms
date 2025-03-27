@@ -1,9 +1,12 @@
 @extends('layouts.master')
+
 @section('page_title', 'Students ID cards')
+
 @section('content')
+
 <div class="card">
     <div class="card-header header-elements-inline">
-        <h5 class="card-title"><i class="material-symbols-rounded mr-2">id_card</i> Students ID cards</h5>
+        <h6 class="card-title"><i class="material-symbols-rounded mr-2">id_card</i> Students ID cards</h6>
         {!! Qs::getPanelOptions() !!}
     </div>
 
@@ -16,7 +19,7 @@
                     <select required id="my_class_id" name="my_class_id" class="form-control select">
                         <option value="">Select Class</option>
                         @foreach($my_classes as $c)
-                        <option {{ ($selected && $my_class_id == $c->id or old('my_class_id') == $c->id) ? 'selected' : '' }} value="{{ $c->id }}">{{ $c->name }}</option>
+                        <option @selected($selected && $my_class_id==$c->id || old('my_class_id') == $c->id) value="{{ $c->id }}">{{ $c->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -36,7 +39,7 @@
                     <select required id="id_theme" name="id_theme" data-placeholder="Select Theme" class="form-control select">
                         <option value="">Select Theme</option>
                         @foreach ($theme_names as $name)
-                        <option {{ ($selected && $id_theme == $name or old('id_theme') == $name) ? 'selected' : '' }} value="{{ $name }}">theme {{ $loop->iteration }}</option>
+                        <option @selected($selected && $id_theme==$name or old('id_theme')==$name) value="{{ $name }}">theme {{ $loop->iteration }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -60,7 +63,7 @@
                             <select id="class_from" name="class_from" class="form-control select">
                                 <option value="">Select Class</option>
                                 @foreach($my_classes as $c)
-                                <option {{ ($selected && $class_from == $c->name) ? 'selected' : '' }} value="{{ $c->name }}">{{ $c->name }}</option>
+                                <option @selected($selected && $class_from==$c->name) value="{{ $c->name }}">{{ $c->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -74,7 +77,7 @@
                             <select id="class_to" name="class_to" class="form-control select">
                                 <option value="">Select Class</option>
                                 @foreach($my_classes as $c)
-                                <option {{ ($selected && $class_to == $c->name) ? 'selected' : '' }} value="{{ $c->name }}">{{ $c->name }}</option>
+                                <option @selected($selected && $class_to==$c->name) value="{{ $c->name }}">{{ $c->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -179,6 +182,6 @@
         </div>
     </form>
 </div>
-
 @endif
+
 @endsection

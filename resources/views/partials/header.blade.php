@@ -24,7 +24,7 @@
                 @if(Qs::userIsPTACL() or Qs::userIsStudent())
                 <a href="{{ route('statistics.index') }}" class="btn btn-link btn-float text-default"><i class="material-symbols-rounded text-primary">query_stats</i><span class="d-none d-sm-block">Statistics</span></a>
                 @endif
-                
+
                 {{-- <a href="javascript:;" class="btn btn-link btn-float text-default"><i class="material-symbols-rounded text-primary">calculate</i> <span class="d-none d-sm-block">Invoices</span></a> --}}
                 <a href="{{ route('schedule.index') }}" class="btn btn-link btn-float text-default"><i class="material-symbols-rounded text-primary">calendar_month</i> <span class="d-none d-sm-block">Schedule</span></a>
                 <a href="{{ Qs::userIsSuperAdmin() ? route('settings.index') : '' }}" class="btn btn-link btn-float text-default"><i class="material-symbols-rounded text-primary d-none d-sm-block">arrow_downward_alt</i> <span class="font-weight-semibold d-flex" id="current-session"><span class="d-none d-sm-block pr-1">Current Session:</span>{{ Qs::getCurrentSession() }}</span></a>
@@ -47,7 +47,6 @@
 
                 @if(Usr::tenancyInitilized())
                 <a class="breadcrumb-elements-item d-none d-md-block" data-toggle="tooltip" title="Messages" href="/messages">@include('messenger.unread-count')</a>
-                @endif
 
                 <div class="breadcrumb-elements-item dropdown p-0">
                     <a href="javascript:;" class="breadcrumb-elements-item d-flex" data-toggle="dropdown">
@@ -56,10 +55,15 @@
                         <i class="material-symbols-rounded m-auto">keyboard_arrow_down</i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-left">
-                        <a target="_blank" href="#" class="dropdown-item"><i class="material-symbols-rounded">quick_reference</i> Knowledge Base</a>
-                        <a target="_blank" href="#" class="dropdown-item"><i class="material-symbols-rounded">local_activity</i> Ticketing</a>
+                        <a target="_blank" href="#" class="dropdown-item"><i class="material-symbols-rounded">quick_reference</i>Knowledgebase</a>
+                        <a target="_blank" href="{{ route('tickets.index') }}" class="dropdown-item"><i class="material-symbols-rounded">local_activity</i>Tickets</a>
                     </div>
                 </div>
+                @else
+                <div class="breadcrumb-elements-item d-none d-md-block ml-2">
+                    @include('pages.it_guy.support.tickets.badge')
+                </div>
+                @endif
 
                 @if(Qs::userIsSuperAdmin())
                 <div class="breadcrumb-elements-item p-0">

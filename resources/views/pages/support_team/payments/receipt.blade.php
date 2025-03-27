@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <head>
-    <title>Receipt_{{ $pr->ref_no.'_'.$sr->user->name }}</title>
+    <title>Receipt_{{ $pr->ref_no . '_' . $sr->user->name }}</title>
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/receipt.css') }}" />
 
     @laravelPWA
@@ -100,8 +100,8 @@
                 <thead>
                     <tr>
                         <td class="bold">Date</td>
-                        <td class="bold">Amount Paid TSh</td>
-                        <td class="bold">Balance TSh</td>
+                        <td class="bold">Amount Paid {{ Pay::getCurrencyUnit() }}</td>
+                        <td class="bold">Balance {{ Pay::getCurrencyUnit() }}</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -116,17 +116,6 @@
             </table>
 
             <hr>
-            
-            <div class="float-left signature">
-                @if(Qs::authUserGenderIsMale())
-                <small class="user">Printed by Mr. {{ Auth::user()->name }}</small>
-                <span class="border"></span>
-                @endif
-                @if(Qs::authUserGenderIsFemale())
-                <small class="user">Printed by Madam. {{ Auth::user()->name }}</small>
-                <span class="border"></span>
-                @endif
-            </div>
 
             <div class="bold arial" style="text-align: center; float:right; width: 200px; padding: 5px; margin-right:30px">
                 <div style="padding: 10px 20px; width: 200px; background-color: lightcyan;">
@@ -138,12 +127,20 @@
             </div>
 
             <div class="clear"></div>
-            
+
+            <hr>
+
+            <div>
+                <small class="user float-left"><em>Retrieved by: {{ auth()->user()->name }} ({{ str_replace("_", " ", auth()->user()->user_type) }})</em></small>
+                <small class="float-right"><em>Printed on: {{ date('D\, j F\, Y \a\t H:i:s') }}</em></small>
+            </div>
         </div>
     </div>
 
     <script>
-        window.print();
+        window.addEventListener('load', function() {
+            window.print();
+        });
 
     </script>
 </body>

@@ -12,35 +12,35 @@
 
     <table align="left" style="width:40%; border-collapse:collapse; border: 1px solid #000; margin:10px 20px;" border="1">
         <thead>
-        <tr>
-            <td><strong>AFFECTIVE TRAITS</strong></td>
-            <td><strong>RATING</strong></td>
-        </tr>
+            <tr>
+                <td><strong>AFFECTIVE TRAITS</strong></td>
+                <td><strong>RATING</strong></td>
+            </tr>
         </thead>
         <tbody>
-        @foreach ($skills->where('skill_type', 'AF') as $af)
+            @foreach ($skills->where('skill_type', 'AF') as $af)
             <tr>
                 <td>{{ $af->name }}</td>
                 <td>{{ $asr->af ? explode(',', $asr->af)[$loop->index] : '-' }}</td>
             </tr>
-        @endforeach
+            @endforeach
         </tbody>
     </table>
 
     <table align="left" style="width:35%; border-collapse:collapse;border: 1px solid #000;  margin: 10px 20px;" border="1">
         <thead>
-        <tr>
-            <td><strong>PSYCHOMOTOR</strong></td>
-            <td><strong>RATING</strong></td>
-        </tr>
+            <tr>
+                <td><strong>PSYCHOMOTOR</strong></td>
+                <td><strong>RATING</strong></td>
+            </tr>
         </thead>
         <tbody>
-        @foreach ($skills->where('skill_type', 'PS') as $ps)
+            @foreach ($skills->where('skill_type', 'PS') as $ps)
             <tr>
                 <td>{{ $ps->name }}</td>
                 <td>{{ $asr->ps ? explode(',', $asr->ps)[$loop->index] : '-' }}</td>
             </tr>
-        @endforeach
+            @endforeach
         </tbody>
     </table>
 </div>

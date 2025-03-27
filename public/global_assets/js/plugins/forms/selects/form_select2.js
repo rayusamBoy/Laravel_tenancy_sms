@@ -71,6 +71,11 @@ var Select2Selects = function() {
             tags: true
         });
 
+         // Tagging support
+         $('.select-tags').select2({
+            tags: true
+        });
+
         // Maximum input length
         $('.select-multiple-maximum-length').select2({
             tags: true,
@@ -80,7 +85,7 @@ var Select2Selects = function() {
         // Tokenization
         $('.select-multiple-tokenization').select2({
             tags: true,
-            tokenSeparators: [',', ' ']
+            tokenSeparators: $(this).data('token-separators') ?? [',', ' ']
         });
 
         // Maximum selection

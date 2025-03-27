@@ -25,7 +25,14 @@ class SendTenantEvent extends Notification
      */
     public function via(object $notifiable): array
     {
-        $channels = Qs::getActiveNotificationChannels($notifiable, false, false, true);
+        $channels = [];
+
+        if (Qs::is_serialized($notifiable->is_notifiable) || is_array(unserialize($notifiable->is_notifiable))) {
+            if (unserialize($notifiable->is_notifiable)['status'] === 1) {
+                $channels = FcmChannel::class;
+            }
+        }
+
         return $channels;
     }
 

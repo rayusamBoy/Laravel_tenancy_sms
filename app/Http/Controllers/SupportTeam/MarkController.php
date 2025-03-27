@@ -102,7 +102,7 @@ class MarkController extends Controller implements HasMiddleware
         $d['subjects'] = $this->my_class->getAllSubjects();
         $d['year'] = $year;
         $d['student_id'] = $student_id;
-        $d['skills'] = $this->exam->getSkillByClassType() ?: NULL;
+        $d['skills'] = $this->exam->getSkillByClassType() ?: null;
 
         return view('pages.support_team.marks.show.index', $d);
     }
@@ -145,7 +145,7 @@ class MarkController extends Controller implements HasMiddleware
         $d['year'] = $year;
         $d['student_id'] = $student_id;
         $d['exam_id'] = $exam_id;
-        $d['skills'] = $this->exam->getSkillByClassType() ?: NULL;
+        $d['skills'] = $this->exam->getSkillByClassType() ?: null;
         $d['settings'] = Mk::getSettings();
 
         return view('pages.support_team.marks.print.index', $d);
@@ -166,14 +166,14 @@ class MarkController extends Controller implements HasMiddleware
 
         $sub_recs = $this->my_class->getSubjectRecord(['subject_id' => $req->subject_id])->where('subject.my_class_id', $req->my_class_id);
 
-        if ($req->section_id == null && $sub_recs->whereNull('section_id')->whereNotNull('students_ids')->count() > 0)
-            $students = $this->student->getRecordByUserIDs(unserialize($sub_recs->students_ids))->get();
-        elseif (($req->section_id == null && $sub_recs->whereNull('section_id')->whereNull('students_ids')->count() > 0) || ($req->section_id != null && $sub_recs->whereNotNull('students_ids')->count() > 0))
+        if ($req->section_id == null && $sub_recs->whereNull('section_id')->whereNotNull('students_ids')->isNotEmpty())
+            $students = $this->student->getRecordByUserIDs(unserialize($sub_recs->value('students_ids')))->get();
+        elseif (($req->section_id == null && $sub_recs->whereNull('section_id')->whereNull('students_ids')->isNotEmpty()) || ($req->section_id != null && $sub_recs->whereNotNull('students_ids')->isNotEmpty()))
             return back()->with('pop_error', __('msg.rnf'));
         else
             $students = $this->student->getRecord($d)->get();
 
-        if ($students->count() < 1)
+        if ($students->isEmpty())
             return back()->with('pop_error', __('msg.rnf'));
 
         foreach ($students as $s) {
@@ -202,7 +202,7 @@ class MarkController extends Controller implements HasMiddleware
         $marks_updated_at = $this->exam->getRecordValue($d, 'updated_at');
 
         $d['marks'] = $this->exam->getMark($d)->whereNotNull('user');
-        if ($d['marks']->count() < 1)
+        if ($d['marks']->isEmpty())
             return $this->noStudentRecord();
 
         $d['m'] = $d['marks']->first();
@@ -233,8 +233,8 @@ class MarkController extends Controller implements HasMiddleware
             return Mk::jsonUpdateDenied();
 
         switch ($section_id) {
-            case NULL:
-                $students_ids = $this->my_class->getSubjectRecord(['subject_id' => $subject_id, 'section_id' => NULL])->value('students_ids');
+            case null:
+                $students_ids = $this->my_class->getSubjectRecord(['subject_id' => $subject_id, 'section_id' => null])->value('students_ids');
                 $p = ['exam_id' => $exam_id, 'my_class_id' => $class_id, 'subject_id' => $subject_id, 'year' => $this->year];
                 $wh = ['my_class_id' => $class_id, 'exam_id' => $exam_id, 'year' => $this->year];
                 $marks = $this->exam->getMarkByIds(unserialize($students_ids))->where($p)->get();
@@ -263,7 +263,7 @@ class MarkController extends Controller implements HasMiddleware
             $d["tex{$exam->term}"] = $total = $exm;
 
             if ($total > 100)
-                $d["tex{$exam->term}"] = $d['exm'] = NULL;
+                $d["tex{$exam->term}"] = $d['exm'] = null;
 
             $grade = $this->mark->getGrade($total, $class_type->id);
             $d['grade_id'] = $grade?->id;
@@ -281,9 +281,9 @@ class MarkController extends Controller implements HasMiddleware
             foreach ($marks->sortBy('user.name') as $mk) {
                 $d2 = $d;
                 $d2['mark_id'] = $mk->id;
-                $d2["tex{$exam->term}"] = NULL;
+                $d2["tex{$exam->term}"] = null;
                 $evaluated_val = $this->assessment->getValueOutOfQuantity($mks["exm_{$mk->id}"], $exam->tdt_denominator);
-                $d2['exm'] = ($evaluated_val == 0) ? NULL : $evaluated_val;
+                $d2['exm'] = ($evaluated_val == 0) ? null : $evaluated_val;
 
                 // Remove 'id's from data2 collection
                 unset($d2['id']);
@@ -311,19 +311,19 @@ class MarkController extends Controller implements HasMiddleware
             // Data to update
             $d3['total'] = $this->mark->getExamTotalTerm($exam, $st_id, $class_id, $this->year);
             $d3['ave'] = $ave = $this->mark->getLimitedExamAvgTerm($exam, $st_id, $class_id, $section_id ?? $section_ids[$st_id], $this->year, $subjects_considered);
-            $d3['grade_id'] = $grade = $this->mark->getGrade($ave, $class_type->id)->id ?? NULL;
-            $d3['class_ave'] = $this->mark->getClassAvg($exam, $class_id, $this->year) ?? NULL;
+            $d3['grade_id'] = $grade = $this->mark->getGrade($ave, $class_type->id)->id ?? null;
+            $d3['class_ave'] = $this->mark->getClassAvg($exam, $class_id, $this->year) ?? null;
             // Position Section wise
             $d3['pos'] = $this->exam->getStudentPos($st_id, $exam->id, $class_id, $this->year, $exam->exam_student_position_by_value, $section_id ?? $section_ids[$st_id]);
             // Get all points
             foreach ($subjects as $sub) {
-                $points[] = $marks2->where('student_id', $st_id)->where('subject_id', $sub->id)->first()->grade->point ?? NULL;
-                $grade_points[] = $marks2->where('student_id', $st_id)->where('subject_id', $sub->id)->where('subject.core', 1)->first()->grade->credit ?? NULL;
+                $points[] = $marks2->where('student_id', $st_id)->where('subject_id', $sub->id)->first()->grade->point ?? null;
+                $grade_points[] = $marks2->where('student_id', $st_id)->where('subject_id', $sub->id)->where('subject.core', 1)->first()->grade->credit ?? null;
             }
 
             $d3['points'] = $total_points = $this->mark->getExtractedSumOf($points, 0, $subjects_considered);
             $d3['gpa'] = $this->mark->getExtractedSumOf($grade_points, 0, $subjects_considered) / $subjects_considered;
-            $d3['division_id'] = Mk::getDivision($total_points, $class_type_id)->id ?? NULL;
+            $d3['division_id'] = Mk::getDivision($total_points, $class_type_id)->id ?? null;
 
             $d3_collection[] = $d3;
             unset($points);
@@ -368,16 +368,16 @@ class MarkController extends Controller implements HasMiddleware
         if ($exam->class_type_id != $class_type_id)
             return back()->with('flash_error', __('msg.invalid_exam_and_class'));
 
-        if ($this->my_class->getSubject(['my_class_id' => $class->id])->count() < 0)
+        if (!$this->my_class->getSubject(['my_class_id' => $class->id])->exists())
             return back()->with('flash_error', __('msg.assign_subjects_to_class'));
 
         $d = ['exam_id' => $exam->id, 'my_class_id' => $class->id, 'year' => $this->year];
 
         $p = $this->student->getRecord(['my_class_id' => $req->my_class_id, 'session' => $this->year])->get();
-        if ($p->count() <= 0)
+        if ($p->isEmpty())
             return redirect()->back()->with('flash_danger', __('msg.srnf'));
 
-        $assessment_id = $this->assessment->getAssessment(['exam_id' => $req->exam_id])->id ?? NULL;
+        $assessment_id = $this->assessment->getAssessment(['exam_id' => $req->exam_id])->id ?? null;
 
         foreach ($this->my_class->getSections(['my_class_id' => $class->id]) as $sec) {
 
@@ -386,9 +386,9 @@ class MarkController extends Controller implements HasMiddleware
             foreach ($p->where('section_id', $sec->id)->all() as $st_rec) {
 
                 foreach ($subjects_with_recs as $sub) {
-                    $students_ids = $this->my_class->whereSubjectRecord(['subject_id' => $sub->id])->where('students_ids', '!=', NULL)->value('students_ids');
+                    $students_ids = $this->my_class->whereSubjectRecord(['subject_id' => $sub->id])->where('students_ids', '!=', null)->value('students_ids');
 
-                    if ($students_ids != NULL) {
+                    if ($students_ids != null) {
                         $students_ids = unserialize($students_ids);
 
                         array_walk($students_ids, function (&$arr) { // note the reference (&)
@@ -504,7 +504,7 @@ class MarkController extends Controller implements HasMiddleware
                     $d["tex{$exam->term}"] = $total = $mk->exm;
 
                     if ($total > 100)
-                        $d["tex{$exam->term}"] = $d['exm'] = NULL;
+                        $d["tex{$exam->term}"] = $d['exm'] = null;
 
                     $grade = $this->mark->getGrade($total, $class_type->id);
                     $d['grade_id'] = $grade?->id;
@@ -520,9 +520,9 @@ class MarkController extends Controller implements HasMiddleware
                     foreach ($marks as $mk) {
                         $d2 = $d;
                         $d2['mark_id'] = $mk->id;
-                        $d2["tex{$exam->term}"] = NULL;
+                        $d2["tex{$exam->term}"] = null;
                         $evaluated_val = $this->assessment->getValueOutOfQuantity($mk->exm, $exam->tdt_denominator);
-                        $d2['exm'] = ($evaluated_val == 0) ? NULL : $evaluated_val;
+                        $d2['exm'] = ($evaluated_val == 0) ? null : $evaluated_val;
 
                         // Remove 'id's from data2 collection
                         unset($d2['id']);
@@ -549,20 +549,20 @@ class MarkController extends Controller implements HasMiddleware
                 // Data to update
                 $d3['total'] = $this->mark->getExamTotalTerm($exam, $st_id, $class_id, $this->year);
                 $d3['ave'] = $ave = $this->mark->getLimitedExamAvgTerm($exam, $st_id, $class_id, $sec->id, $this->year, $subjects_considered);
-                $d3['grade_id'] = $grade = $this->mark->getGrade($ave, $class_type->id)->id ?? NULL;
-                $d3['class_ave'] = $this->mark->getClassAvg($exam, $class_id, $this->year) ?? NULL;
+                $d3['grade_id'] = $grade = $this->mark->getGrade($ave, $class_type->id)->id ?? null;
+                $d3['class_ave'] = $this->mark->getClassAvg($exam, $class_id, $this->year) ?? null;
                 // Position Section wise
                 $d3['pos'] = $this->exam->getStudentPos($st_id, $exam->id, $class_id, $this->year, $exam->exam_student_position_by_value, $section_ids[$st_id]);
                 // Get all points
                 foreach ($subjects as $sub) {
-                    $points[] = $marks2->where('student_id', $st_id)->where('subject_id', $sub->id)->where('subject.core', 1)->first()->grade->point ?? NULL;
-                    $grade_points[] = $marks2->where('student_id', $st_id)->where('subject_id', $sub->id)->where('subject.core', 1)->first()->grade->credit ?? NULL;
+                    $points[] = $marks2->where('student_id', $st_id)->where('subject_id', $sub->id)->where('subject.core', 1)->first()->grade->point ?? null;
+                    $grade_points[] = $marks2->where('student_id', $st_id)->where('subject_id', $sub->id)->where('subject.core', 1)->first()->grade->credit ?? null;
                 }
 
                 $d3['points'] = $total_points = $this->mark->getExtractedSumOf($points, 0, $subjects_considered);
                 $grade_points_sum_extracted = $this->mark->getExtractedSumOf($grade_points, 0, $subjects_considered);
-                $d3['gpa'] = $grade_points_sum_extracted == NULL ? NULL : $grade_points_sum_extracted / $subjects_considered;
-                $d3['division_id'] = Mk::getDivision($total_points, $class_type_id)->id ?? NULL;
+                $d3['gpa'] = $grade_points_sum_extracted == null ? null : $grade_points_sum_extracted / $subjects_considered;
+                $d3['division_id'] = Mk::getDivision($total_points, $class_type_id)->id ?? null;
 
                 $d3_collection[] = $d3;
                 unset($points);
@@ -622,7 +622,7 @@ class MarkController extends Controller implements HasMiddleware
         else
             $return_value = $this->exam->deleteMark($d);
 
-        return back()->with('flash_success', __('msg.delete_ok') . ' with ' . $return_value . ' affected rows.');
+        return back()->with('flash_success', __('msg.delete_ok') . ' with ' . $return_value . ' affected records.');
     }
 
     public function comment_update(Request $req, $exam_id)
@@ -650,10 +650,9 @@ class MarkController extends Controller implements HasMiddleware
         return Mk::jsonUpdateOk();
     }
 
-    public function bulk($class_id = NULL, $section_id = NULL)
+    public function bulk($class_id = null, $section_id = null)
     {
-        $exams_exists = $this->exam->isNotEmpty();
-        if (!$exams_exists)
+        if (!$this->exam->examsExists())
             return $this->noExamsRecord();
 
         $d['my_classes'] = $this->my_class->all();
@@ -662,7 +661,8 @@ class MarkController extends Controller implements HasMiddleware
         if ($class_id && $section_id) {
             $d['sections'] = $this->my_class->getAllSections()->where('my_class_id', $class_id);
             $d['students'] = $st = $this->student->getRecord(['my_class_id' => $class_id, 'section_id' => $section_id])->get()->whereNotNull('user')->sortBy('user.name');
-            if ($st->count() < 1)
+
+            if ($st->isEmpty())
                 return redirect()->route('marks.bulk')->with('flash_danger', __('msg.srnf'));
 
             $d['selected'] = true;
@@ -842,8 +842,8 @@ class MarkController extends Controller implements HasMiddleware
         $years = $this->exam->getStudentExamYears($student_id);
         $student_exists = $this->student->exists($student_id);
 
-        if (!$year) {
-            if ($student_exists && $years->count() > 0) {
+        if ($year === null) {
+            if ($student_exists && $years->isNotEmpty()) {
                 $d = ['years' => $years, 'student_id' => Mk::hash($student_id)];
 
                 return view('pages.support_team.marks.select_year', $d);

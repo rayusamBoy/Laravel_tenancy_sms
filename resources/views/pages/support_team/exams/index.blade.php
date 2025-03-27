@@ -1,6 +1,7 @@
 @extends('layouts.master')
 
 @section('page_title', 'Manage Exams')
+
 @section('content')
 
 <div class="card">
@@ -24,18 +25,6 @@
         {{-- Manage exam tab --}}
         <div class="tab-content">
             <div class="{{ session('announce_exam') || $errors->any() ? 'tab-pane fade show' : 'tab-pane fade show active' }}" id="all-exams">
-
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="alert alert-info border-0 alert-dismissible">
-                            <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
-                            <span>
-                                The tick icon beside Exam number (if presents), indicates that the Exam is Published.
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
                 <table class="table datatable-button-html5-columns">
                     <thead>
                         <tr>
@@ -45,7 +34,7 @@
                             <th>Session</th>
                             <th>Category</th>
                             <th>Class Type</th>
-                            <th>Edit Status</th>
+                            <th>Editable</th>
                             <th>Locked</th>
                             <th class="text-center">Action</th>
                         </tr>
@@ -53,9 +42,9 @@
                     <tbody>
                         @foreach ($exams as $ex)
                         <tr>
-                            <td>{{ $loop->iteration }} @if ($ex->published)<i class='material-symbols-rounded'>check_small</i>@endif</td>
-                            <td>{{ $ex->name }}</td>
-                            <td>{{ 'Term ' . $ex->term }}</td>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $ex->name }}@if($ex->published) <span class="badge bg-success">Published</span> @endif</td>
+                            <td>{{ "Term {$ex->term}" }}</td>
                             <td>{{ $ex->year }}</td>
                             <td>{{ $ex->category->name }}</td>
                             <td>{{ $ex->class_type->name }}</td>
@@ -63,7 +52,7 @@
                             @if (Qs::userIsSuperAdmin())
                             <td><label class="form-switch m-0"><input id="checkbox-exam-edit-{{ $ex->id }}" onchange="updateExamEditState(<?php echo $ex->id; ?>, this)" type="checkbox" @if ($ex->editable) checked @endif><i></i></label></td>
                             @else
-                            <td><label class="form-switch disabled m-0"><input type="checkbox" @if ($ex->locked) checked @endif><i></i></label></td>
+                            <td><label class="form-switch disabled m-0"><input type="checkbox" @if ($ex->editable) checked @endif><i></i></label></td>
                             @endif
 
                             @if(Qs::headSA(auth()->id()))
@@ -114,8 +103,8 @@
                             <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
                             <span>You are creating an Exam for the Current Session <strong>{{ Qs::getCurrentSession() }}</strong>.</span>
                             <span>
-                                You may set the format for the exam number to be generated. Structure the number however you like. Use <strong>{{ Usr::getStudentExamNumberPlaceholder() }}</strong> character where the students numbers 
-                                need to be generated automatically ie., <strong>{{ Usr::getStudentExamNumberPlaceholder() }} (1 digit), {{ str_repeat(Usr::getStudentExamNumberPlaceholder(), 2) }} (2 digit) etc.</strong>, while other characters will remain constant. Allowed characters are both cases letters, slashes, dash and numbers. 
+                                You may set the format for the exam number to be generated. Structure the number however you like. Use <strong>{{ Usr::getStudentExamNumberPlaceholder() }}</strong> character where the students numbers
+                                need to be generated automatically ie., <strong>{{ Usr::getStudentExamNumberPlaceholder() }} (1 digit), {{ str_repeat(Usr::getStudentExamNumberPlaceholder(), 2) }} (2 digit) etc.</strong>, while other characters will remain constant. Allowed characters are both cases letters, slashes, dash and numbers.
                                 You may edit the numbers later during print.
                             </span>
                         </div>
@@ -138,7 +127,7 @@
                                     <select data-placeholder="Select" data-summative_exm_cat_ids="{{ json_encode(Mk::getSummativeExamCategoryIds()) }}" class="form-control select-search" name="category_id" id="category">
                                         <option selected disabled value="">Select</option>
                                         @foreach ($exams_cat as $category)
-                                        <option {{ old('category_id') == $category->id ? 'selected' : '' }} value="{{ $category->id }}">{{ $category->name }}</option>
+                                        <option @selected(old('category_id')==$category->id) value="{{ $category->id }}">{{ $category->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -150,7 +139,7 @@
                                     <select data-placeholder="Select" class="form-control select-search" name="class_type_id" id="class-type">
                                         <option selected disabled value="">Select</option>
                                         @foreach ($class_types as $ct)
-                                        <option {{ old('class_type_id') == $ct->id ? 'selected' : '' }} value="{{ $ct->id }}">{{ $ct->name }}</option>
+                                        <option @selected(old('class_type_id')==$ct->id) value="{{ $ct->id }}">{{ $ct->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -161,15 +150,15 @@
                                 <div class="col-lg-9">
                                     <select data-placeholder="Select" class="form-control select" name="term" id="term">
                                         <option selected disabled value="">Select</option>
-                                        <option {{ old('term') == 1 ? 'selected' : '' }} value="1">First Term</option>
-                                        <option {{ old('term') == 2 ? 'selected' : '' }} value="2">Second Term</option>
+                                        <option @selected(old('term')==1) value="1">First Term</option>
+                                        <option @selected(old('term')==2) value="2">Second Term</option>
                                     </select>
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-lg-5 col-form-label font-weight-semibold">Exam Denominator <span class="text-danger">*</span></label>
-                                <div class="col-lg-7">
+                                <label class="col-lg-7 col-form-label font-weight-semibold">Exam Denominator <span class="text-danger">*</span></label>
+                                <div class="col-lg-5">
                                     <input name="exam_denominator" min="0" max="100" value="{{ old('exm_denominator') ?? 100 }}" required type="number" class="form-control">
                                 </div>
                             </div>
@@ -191,36 +180,36 @@
                             <div class="ca-setup {{ !in_array(old('category_id'), Mk::getSummativeExamCategoryIds()) ? 'display-none' : '' }}">
                                 <strong>Exam CA setup</strong>
                                 <div class="form-group row">
-                                    <label class="col-lg-5 col-form-label font-weight-semibold">Class Work Denominator <span class="text-danger">*</span></label>
-                                    <div class="col-lg-7">
+                                    <label class="col-lg-7 col-form-label font-weight-semibold">Class Work Denominator <span class="text-danger">*</span></label>
+                                    <div class="col-lg-5">
                                         <input name="cw_denominator" min="0" max="100" value="{{ old('cw_denominator') ?? 10 }}" type="number" class="form-control">
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
-                                    <label class="col-lg-5 col-form-label font-weight-semibold">Home Work Denominator <span class="text-danger">*</span></label>
-                                    <div class="col-lg-7">
+                                    <label class="col-lg-7 col-form-label font-weight-semibold">Home Work Denominator <span class="text-danger">*</span></label>
+                                    <div class="col-lg-5">
                                         <input name="hw_denominator" min="0" max="100" value="{{ old('hw_denominator') ?? 10 }}" type="number" class="form-control">
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
-                                    <label class="col-lg-5 col-form-label font-weight-semibold">Topic Test Denominator <span class="text-danger">*</span></label>
-                                    <div class="col-lg-7">
+                                    <label class="col-lg-7 col-form-label font-weight-semibold">Topic Test Denominator <span class="text-danger">*</span></label>
+                                    <div class="col-lg-5">
                                         <input name="tt_denominator" min="0" max="100" value="{{ old('tt_denominator') ?? 20 }}" type="number" class="form-control">
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
-                                    <label class="col-lg-5 col-form-label font-weight-semibold">Termed Test Denominator <span class="text-danger">*</span></label>
-                                    <div class="col-lg-7">
+                                    <label class="col-lg-7 col-form-label font-weight-semibold">Termed Test Denominator <span class="text-danger">*</span></label>
+                                    <div class="col-lg-5">
                                         <input name="tdt_denominator" min="0" max="100" value="{{ old('tdt_denominator') ?? 60 }}" type="number" class="form-control">
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
-                                    <label class="col-lg-6 col-form-label font-weight-semibold">Calculate CA Student Position By <span class="text-danger">*</span></label>
-                                    <div class="col-lg-6">
+                                    <label class="col-lg-7 col-form-label font-weight-semibold">Calculate CA Student Position By <span class="text-danger">*</span></label>
+                                    <div class="col-lg-5">
                                         @foreach(Mk::getStudentCAPositionByValues() as $key => $value)
                                         <div class="d-flex mb-2">
                                             <span><input type="radio" id="ca-position-by-{{ $key }}" name="ca_student_position_by_value" value="{{ $key }}" class="form-input-styled text-center" data-fouc></span>
@@ -244,15 +233,16 @@
                                             <input type="checkbox" id="class-id-{{ $class->id }}" name="class_id_{{ $class->id }}" value="{{ $class->id }}" class="form-input-styled text-center" data-fouc>
                                         </span>
 
-                                        @if (old('class_id_' . $class->id) == $class->id)
+                                        @if (old("class_id_{$class->id}") == $class->id)
                                         <script>
                                             // If the input was checked, set as clicked to check the previous checked checkbox(es) programmatically
-                                            $('#class-id-' + {{ $class->id }}).click();
+                                            $("#class-id-{{ $class->id }}").click();
+
                                         </script>
                                         @endif
 
                                         <label for="class-id-{{ $class->id }}" class="ml-2 w-50 m-auto-0">{{ $class->name }}</label>
-                                        <input name="exam_number_format_{{ $class->id }}" type="text" value="{{ old('exam_number_format_' . $class->id) }}" class="form-control" placeholder="ie., S6237-F{{ $class->id }}-{{ str_repeat(Usr::getStudentExamNumberPlaceholder(), 2) }}-{{ date('Y') }}">
+                                        <input name="exam_number_format_{{ $class->id }}" type="text" value="{{ old("exam_number_format_{$class->id}") }}" class="form-control" placeholder="ie., S6237-F{{ $class->id }}-{{ str_repeat(Usr::getStudentExamNumberPlaceholder(), 2) }}-{{ date('Y') }}">
                                     </div>
                                     @endforeach
                                 </div>

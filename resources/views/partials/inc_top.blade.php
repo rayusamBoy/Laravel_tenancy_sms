@@ -10,9 +10,6 @@
 <link href="{{ asset('assets/css/components-min.css') }}" rel="stylesheet" type="text/css">
 <link href="{{ asset('assets/css/colors-min.css') }}" rel="stylesheet" type="text/css">
 
-{{-- DatePickers --}}
-<link rel="stylesheet" href="{{ asset('assets/css/bootstrap-datepicker.min.css') }}" type="text/css">
-
 {{-- Core JS files --}}
 <script src="{{ asset('global_assets/js/main/jquery.min.js') }}"></script>
 <script src="{{ asset('global_assets/js/main/bootstrap.bundle.min.js') }}"></script>

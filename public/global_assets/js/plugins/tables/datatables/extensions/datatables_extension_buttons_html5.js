@@ -67,7 +67,7 @@ var DatatableButtonsHtml5 = (function () {
                 {
                     extend: "pdfHtml5",
                     text: 'Export to PDF <i class="material-symbols-rounded ml-2">picture_as_pdf</i>',
-                    className: "btn bg-teal-400",
+                    className: "btn button-default bg-teal-400",
                     customize: function (doc) {
                         doc.content.splice(1, 0, {
                             margin: [0, 0, 0, 12],

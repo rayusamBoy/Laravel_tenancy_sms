@@ -127,6 +127,11 @@ class UserRepo
 
     /********** STAFF RECORD ********/
 
+    public function whereStaffRecord($where)
+    {
+        return StaffRecord::where($where);
+    }
+
     public function createStaffRecord(array $data)
     {
         return StaffRecord::create($data);

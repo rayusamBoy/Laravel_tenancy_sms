@@ -24,8 +24,8 @@
 @php
     use Database\Seeders\NonTenancySettingsTableSeeder;
     $settings_table_seeder = new NonTenancySettingsTableSeeder();
-    $color = (isset($colors) && !is_null($colors)) ? $texts_color . ' !important' : 'white !important';
-    $bg_color = (isset($colors) && !is_null($colors)) ? $bg_color : 'rgb(35 39 53)';
+    $color = (isset($colors) && $colors !== null) ? "$texts_color !important" : 'white !important';
+    $bg_color = (isset($colors) && $colors !== null) ? $bg_color : 'rgb(35 39 53)';
     $bg = $settings->where('type', 'login_and_related_pages_bg')->value('description');
 @endphp
 
@@ -35,7 +35,7 @@
     }
 
     div.page-content.login-cover {
-        background-image: url({{ Usr::tenancyInitilized() ? (is_null($bg) ? asset($settings_table_seeder->getLoginAndRelatedPagesBgDescription()) : tenant_asset($bg)) : asset($bg) }});
+        background-image: url({{ Usr::tenancyInitilized() ? ($bg === null ? asset($settings_table_seeder->getLoginAndRelatedPagesBgDescription()) : tenant_asset($bg)) : asset($bg) }});
         background-repeat: no-repeat;
         background-position: center;
         background-size: cover;

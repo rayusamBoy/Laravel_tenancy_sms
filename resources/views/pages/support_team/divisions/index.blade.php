@@ -1,5 +1,7 @@
 @extends('layouts.master')
+
 @section('page_title', 'Manage Divisions')
+
 @section('content')
 
 <div class="card">
@@ -33,7 +35,7 @@
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $dv->name }}</td>
                             <td>{{ $dv->class_type_id ? $class_types->where('id', $dv->class_type_id)->first()->name : 'Not Applicable'}}</td>
-                            <td>{{ $dv->points_from.' - '.$dv->points_to }}</td>
+                            <td>{{ "{$dv->points_from} - {$dv->points_to}" }}</td>
                             <td>{{ $dv->remark }}</td>
                             <td class="text-center">
                                 <div class="list-icons">
@@ -50,7 +52,6 @@
                                             <a id="{{ $dv->id }}" onclick="confirmDelete(this.id)" href="javascript:;" class="dropdown-item text-danger"><i class="material-symbols-rounded">delete</i> Delete</a>
                                             <form method="post" id="item-delete-{{ $dv->id }}" action="{{ route('divisions.destroy', $dv->id) }}" class="hidden">@csrf @method('delete')</form>
                                             @endif
-
                                         </div>
                                     </div>
                                 </div>
@@ -88,7 +89,7 @@
                                     <select class="form-control select" name="class_type_id" id="class_type_id">
                                         <option value="">Not Applicable</option>
                                         @foreach($class_types as $ct)
-                                        <option {{ old('class_type_id') == $ct->id ? 'selected' : '' }} value="{{ $ct->id }}">{{ $ct->name }}</option>
+                                        <option @selected(old('class_type_id')==$ct->id) value="{{ $ct->id }}">{{ $ct->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -111,10 +112,10 @@
                             <div class="form-group row">
                                 <label for="remark" class="col-lg-3 col-form-label font-weight-semibold">Remark</label>
                                 <div class="col-lg-9">
-                                    <select class="form-control select" name="remark" id="remark">
-                                        <option value="">Select Remark...</option>
+                                    <select class="form-control select" data-placeholder="Select Remark" name="remark" id="remark">
+                                        <option value="">Select Remark</option>
                                         @foreach(Mk::getRemarks() as $rem)
-                                        <option {{ old('remark') == $rem ? 'selected' : '' }} value="{{ $rem }}">{{ $rem }}</option>
+                                        <option @selected(old('remark')==$rem) value="{{ $rem }}">{{ $rem }}</option>
                                         @endforeach
                                     </select>
                                 </div>

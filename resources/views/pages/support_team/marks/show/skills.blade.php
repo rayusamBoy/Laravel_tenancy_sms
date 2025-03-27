@@ -16,8 +16,7 @@
                         <div class="col-lg-6">
                             <select data-placeholder="Select" name="af[]" id="af" class="form-control select">
                                 <option value=""></option>
-                                @for($i=1; $i<=5; $i++) <option {{ $exr->af && explode(',', $exr->af)[$loop->index] == $i ? 'selected' : '' }} value="{{ $i }}">{{ $i }}</option>
-                                    @endfor
+                                @for($i=1; $i<=5; $i++) <option @selected($exr->af && explode(',', $exr->af)[$loop->index] == $i) value="{{ $i }}">{{ $i }}</option>@endfor
                             </select>
                         </div>
                     </div>
@@ -41,15 +40,14 @@
             <div class="card-body collapse">
                 <form class="ajax-update" method="post" action="{{ route('marks.skills_update', ['PS', $exr->id]) }}">
                     @csrf @method('PUT')
-                    
+
                     @foreach($skills->where('skill_type', 'PS') as $ps)
                     <div class="form-group row">
                         <label for="ps" class="col-lg-6 col-form-label font-weight-semibold">{{ $ps->name }}</label>
                         <div class="col-lg-6">
                             <select data-placeholder="Select" name="ps[]" id="ps" class="form-control select">
                                 <option value=""></option>
-                                @for($i=1; $i<=5; $i++) <option {{ $exr->ps && explode(',', $exr->ps)[$loop->index] == $i ? 'selected' : '' }} value="{{ $i }}">{{ $i }}</option>
-                                    @endfor
+                                @for($i=1; $i<=5; $i++) <option @selected($exr->ps && explode(',', $exr->ps)[$loop->index] == $i) value="{{ $i }}">{{ $i }}</option>@endfor
                             </select>
                         </div>
                     </div>

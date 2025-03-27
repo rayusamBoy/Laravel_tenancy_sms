@@ -125,11 +125,7 @@ return [
     |
     */
 
-    'custom' => [
-        'ss_name' => [
-            'required_if' => 'The secondary school name is required when class is form five or form six',
-        ],
-    ],
+    'custom' => [],
 
     /*
     |--------------------------------------------------------------------------

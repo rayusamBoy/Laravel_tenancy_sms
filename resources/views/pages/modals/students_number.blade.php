@@ -9,7 +9,7 @@
                 </button>
             </div>
             @php
-                $class_types = Usr::getClassTypes()
+            $class_types = Usr::getClassTypes()
             @endphp
             <div class="modal-body">
                 <div class="card-body p-1">
@@ -23,8 +23,8 @@
                     @foreach ($class_types as $ct)
                     <div class="{{ $loop->first ? 'tab-pane fade show active' : 'tab-pane fade' }}" id="{{ $ct->code }}">
                         {!! Usr::renderTable($ct->id) !!}
-                    </div> 
-                    @endforeach    
+                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>

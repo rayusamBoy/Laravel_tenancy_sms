@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::table('book_requests', function (Blueprint $table) {
             $table->foreign(['book_id'], 'book_requests_ibfk_1')->references(['id'])->on('books')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign(['user_id'], 'book_requests_ibfk_2')->references(['id'])->on('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign(['borrower_id'], 'book_requests_ibfk_3')->references(['id'])->on('users')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
@@ -25,6 +26,7 @@ return new class extends Migration
         Schema::table('book_requests', function (Blueprint $table) {
             $table->dropForeign('book_requests_ibfk_1');
             $table->dropForeign('book_requests_ibfk_2');
+            $table->dropForeign('book_requests_ibfk_3');
         });
     }
 };

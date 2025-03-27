@@ -98,7 +98,7 @@ class ExamRepo
         return Exam::onlyTrashed()->get();
     }
 
-    public function isNotEmpty()
+    public function examsExists()
     {
         return Exam::get()->isNotEmpty();
     }
@@ -150,7 +150,7 @@ class ExamRepo
 
     public function classTypeExmCategoryExists($cat_id, $class_type_id, $year)
     {
-        return Exam::where(['category_id' => $cat_id, 'class_type_id' => $class_type_id])->where('year', $year)->count() > 0;
+        return Exam::where(['category_id' => $cat_id, 'class_type_id' => $class_type_id])->where('year', $year)->isNotEmpty();
     }
 
     public function restore(int $id)

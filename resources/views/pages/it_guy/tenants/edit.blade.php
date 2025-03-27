@@ -1,5 +1,7 @@
 @extends('layouts.master')
+
 @section('page_title', 'Edit Tenant')
+
 @section('content')
 
 <div class="card">
@@ -11,7 +13,7 @@
     <div class="card-body">
         <form method="post" enctype="multipart/form-data" class="ajax-update" data-reload="#ajax-title" action="{{ route('tenants.update', Qs::hash($tenant->id)) }}" data-fouc>
             @csrf @method('PUT')
-            
+
             <div class="row">
                 <div class="col-md-3">
                     <div class="form-group">
@@ -25,7 +27,7 @@
                         <label for="account_status"> Account Status: <span class="text-danger">*</span></label>
                         <select required data-placeholder="Select User" class="form-control select" name="account_status" id="account_status">
                             @foreach (Usr::getAccountStatuses() as $status)
-                            <option {{ $tenant->account_status === $status ? 'selected' : '' }} value="{{ $status }}">{{ ucfirst($status) }}</option>
+                            <option @selected($tenant->account_status === $status) value="{{ $status }}">{{ ucfirst($status) }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -45,7 +47,7 @@
                         <label for="payment_status"> Payment Status: <span class="text-danger">*</span></label>
                         <select required data-placeholder="Select User" class="form-control select" name="payment_status" id="payment_status">
                             @foreach (Pay::getPaymentStatuses() as $key => $status)
-                            <option {{ $tenant->payment_status === $status ? 'selected' : '' }} value="{{ $status }}">{{ ucfirst($status) }}</option>
+                            <option @selected($tenant->payment_status === $status) value="{{ $status }}">{{ ucfirst($status) }}</option>
                             @endforeach
                         </select>
                     </div>

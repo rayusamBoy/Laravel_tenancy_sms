@@ -1,5 +1,7 @@
 @extends('layouts.master')
+
 @section('page_title', 'My Account')
+
 @section('content')
 
 <div class="card">
@@ -15,9 +17,11 @@
     <div class="card-body">
         <ul class="nav nav-tabs nav-tabs-highlight">
             <li class="nav-item"><a href="#change-pass" class="{{ $errors_has_password_error ? 'nav-link active' : ($errors->any() ? 'nav-link' : 'nav-link active') }}" data-toggle="tab">Change Password</a></li>
+
             @if(Qs::userIsPTACLA() || Qs::userIsItGuy())
             <li class="nav-item"><a href="#edit-profile" class="{{ $errors_has_password_error ? 'nav-link' : ($errors->any() ? 'nav-link active' : 'nav-link') }}" data-toggle="tab">Manage Profile</i></a></li>
             @endif
+
             <li class="nav-item"><a href="#other" class="nav-link" data-toggle="tab">Other</a></li>
         </ul>
 
@@ -139,7 +143,7 @@
                             <div class="form-group row">
                                 <label for="secondary_id" class="col-lg-3 col-form-label font-weight-semibold">Secondary ID:</label>
                                 <div class="col-lg-9">
-                                    <input value="{{ $my->secondary_id ?? old('secondary_id') }}" type="text" name="secondary_id" data-mask="www?wwwwwwwwwwwwwwwww" class="form-control" placeholder="12345678123451234512">
+                                    <input value="{{ $my->secondary_id ?? old('secondary_id') }}" type="text" name="secondary_id" data-mask="www?wwwwwwwwwwwwwwwww" class="form-control" placeholder="12345678123451234512" id="secondary_id">
                                 </div>
                             </div>
                             {{--ADDRESS--}}
@@ -151,15 +155,15 @@
                             </div>
                             {{--PHOTO--}}
                             <div class="form-group row">
-                                <label for="address" class="col-lg-3 col-form-label font-weight-semibold">Change Photo </label>
+                                <label for="photo" class="col-lg-3 col-form-label font-weight-semibold">Change Photo </label>
                                 <div class="col-lg-9">
-                                    <input accept="image/*" type="file" name="photo" class="form-input-styled" data-fouc>
+                                    <input accept="image/*" type="file" name="photo" id="photo" class="form-input-styled" data-fouc>
                                 </div>
                             </div>
 
-                            @if((Qs::userIsSuperAdmin() || (Qs::userIsPTACLA()) && $staff_rec != null && $staff_rec->staff_data_edit === 1) || Qs::userIsItGuy())
+                            @if((Qs::userIsTeamSATCL() && $staff_rec?->staff_data_edit) || Qs::userIsItGuy() || Qs::userIsTeamSA())
 
-                            <hr class="divider">
+                            <hr>
 
                             {{--DATE OF EMPLOYMENT--}}
                             <div class="form-group row">
@@ -177,9 +181,9 @@
                             </div>
                             {{--LICENCE NUMBER--}}
                             <div class="form-group row">
-                                <label class="col-lg-3 col-form-label font-weight-semibold">Licence Number:</label>
-                                <div for="licence_number" class="col-lg-9">
-                                    <input name="licence_number" value="{{ $staff_rec->licence_number ?? old('licence_number') }}" type="text" class="form-control" data-mask="LTT 99999" placeholder="LTT 12345" id="licence_number">
+                                <label for="licence_number" class="col-lg-3 col-form-label font-weight-semibold">Licence Number:</label>
+                                <div class="col-lg-9">
+                                    <input name="licence_number" value="{{ $staff_rec->licence_number ?? old('licence_number') }}" type="text" class="form-control" placeholder="Ie., LTT 12345" id="licence_number">
                                 </div>
                             </div>
                             {{--FILE NUMBER--}}
@@ -205,7 +209,7 @@
                             </div>
                             {{--TIN NUMBER--}}
                             <div class="form-group row">
-                                <label for="tin_number" class="col-lg-3 col-form-label font-weight-semibold">Tin Number:</label>
+                                <label for="tin_number" class="col-lg-3 col-form-label font-weight-semibold">TIN Number:</label>
                                 <div class="col-lg-9">
                                     <input name="tin_number" value="{{ $staff_rec->tin_number ?? old('tin_number') }}" type="number" min="0" class="form-control" id="tin_number">
                                 </div>
@@ -226,21 +230,21 @@
                             </div>
                             {{--EDUCATION LEVEL--}}
                             <div class="form-group row">
-                                <label for="education" class="col-lg-3 col-form-label font-weight-semibold">Education Level: </label>
+                                <label for="education_level" class="col-lg-3 col-form-label font-weight-semibold">Education Level: </label>
                                 <div class="col-lg-9">
                                     <select class="select-search form-control" id="education_level" name="education_level" data-fouc data-placeholder="Choose..">
                                         <option value=""></option>
                                         @foreach(Usr::getEducationLevels() as $lv)
-                                        <option {{ $staff_rec->education_level == $lv ? 'selected' : '' }} value="{{ $lv ?? old('education_level') }}">{{ $lv }}</option>
+                                        <option @selected($staff_rec->education_level == $lv) value="{{ $lv ?? old('education_level') }}">{{ $lv }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
                             {{--COLLEGE ATTENDED--}}
                             <div class="form-group row">
-                                <label for="college_attended" class="col-lg-3 col-form-label font-weight-semibold">College Ateended: </label>
+                                <label for="college_attended" class="col-lg-3 col-form-label font-weight-semibold">College Attended: </label>
                                 <div class="col-lg-9">
-                                    <input name="college_attended" value="{{ $staff_rec->college_attended ?? old('college_attended') }}" type="number" class="form-control" id="college_attended">
+                                    <input name="college_attended" value="{{ $staff_rec->college_attended ?? old('college_attended') }}" type="text" class="form-control" id="college_attended">
                                 </div>
                             </div>
                             {{--GRADUATION YEAR--}}
@@ -249,7 +253,7 @@
                                 <div class="col-lg-9">
                                     <select name="year_graduated" data-placeholder="Choose..." id="year_graduated" class="select-search form-control">
                                         <option value=""></option>
-                                        @for($y=date('Y', strtotime('- 30 years')); $y<=date('Y'); $y++) <option {{ ($staff_rec->year_graduated == $y) ? 'selected' : '' }} value="{{ $y ?? old('year_graduated') }}">{{ $y }} </option> @endfor
+                                        @for($y=date('Y', strtotime('- 30 years')); $y<=date('Y'); $y++) <option @selected(($staff_rec->year_graduated == $y)) value="{{ $y ?? old('year_graduated') }}">{{ $y }} </option> @endfor
                                     </select>
                                 </div>
                             </div>
@@ -260,44 +264,39 @@
                                     <select class="select-search form-control" id="role" name="role" data-fouc data-placeholder="Choose..">
                                         <option value=""></option>
                                         @foreach(Usr::getStaffRoles() as $role)
-                                        <option {{ $staff_rec->role == $role ? 'selected' : '' }} value="{{ $role }}">{{ $role ?? old('role') }}</option>
+                                        <option @selected($staff_rec->role == $role) value="{{ $role }}">{{ $role ?? old('role') }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
+                            @if (!Qs::userIsItGuy())
                             {{--NUMBER OF PERIODS--}}
                             <div class="form-group row">
                                 <label for="no_of_periods" class="col-lg-3 col-form-label font-weight-semibold">Number of Periods:</label>
                                 <div class="col-lg-9">
                                     <select name="no_of_periods" data-placeholder="Choose..." id="no_of_periods" class="select-search form-control">
                                         <option value=""></option>
-                                        @for($i = 1; $i<=30; $i++) <option {{ ($staff_rec->no_of_periods == $i) ? 'selected' : '' }} value="{{ $i ?? old('no_of_periods') }}">{{ $i }} </option> @endfor
+                                        @for($i=1; $i<=30; $i++) <option @selected(($staff_rec->no_of_periods == $i)) value="{{ $i ?? old('no_of_periods') }}">{{ $i }} </option> @endfor
                                     </select>
                                 </div>
                             </div>
+                            @endif
                             {{--PLACE OF LIVING--}}
                             <div class="form-group row">
                                 <label for="place_of_living" class="col-lg-3 col-form-label font-weight-semibold">Place of Living: </label>
                                 <div class="col-lg-9">
-                                    <input type="text" class="form-control" name="place_of_living" id="place_of_living" value="{{ $staff_rec->place_of_living ?? old('place_of_living') }}" placeholder="Where you live?">
+                                    <input type="text" class="form-control" name="place_of_living" id="place_of_living" value="{{ $staff_rec->place_of_living ?? old('place_of_living') }}" placeholder="Place of living">
+                                </div>
+                            </div>
+                            {{--SUBJECTS STUDIED--}}
+                            <div class="form-group row">
+                                <label for="subjects_studied" class="col-lg-3 col-form-label font-weight-semibold">Subjects Studied <span class="text-info">(comma (,) separated)</span>: </label>
+                                <div class="col-lg-9">
+                                    <textarea name="subjects_studied" id="subjects_studied" class="form-control" placeholder="ie., Subject one, Subject two, ...">{{ implode(",", json_decode($staff_rec->subjects_studied ?? "") ?? []) }}</textarea>
                                 </div>
                             </div>
                             @endif
                         </div>
-                    </div>
-
-                    <div class="row">
-                        @if((Qs::userIsSuperAdmin() || (Qs::userIsPTACLA()) && $staff_rec != null && $staff_rec->staff_data_edit == 1) || Qs::userIsItGuy())
-                        <div class="col-md-10">
-                            {{--SUBJECTS STUDIED--}}
-                            <div class="form-group row">
-                                <label for="role" class="col-lg-3 col-form-label font-weight-semibold">Subjects Studied <span class="text-info">(comma (,) separated)</span>: </label>
-                                <div class="col-lg-9">
-                                    <textarea name="subjects_studied" class="form-control" placeholder="ie., Subject one, Subject two, ...">{{ implode(",", json_decode($staff_rec->subjects_studied ?? "") ?? []) }}</textarea>
-                                </div>
-                            </div>
-                        </div>
-                        @endif
                     </div>
 
                     <div class="row">
@@ -321,8 +320,8 @@
                                 <label for="sidebar_minimized" class="col-lg-8 col-form-label font-weight-semibold">Minimize Sidebar <span class="text-danger">*</span></label>
                                 <div class="col-lg-4">
                                     <select class="form-control select" name="sidebar_minimized" id="sidebar_minimized">
-                                        <option {{ auth()->user()->sidebar_minimized ? 'selected' : '' }} value="1">Yes</option>
-                                        <option {{ auth()->user()->sidebar_minimized ?: 'selected' }} value="0">No</option>
+                                        <option @selected(auth()->user()->sidebar_minimized == 1) value="1">Yes</option>
+                                        <option @selected(auth()->user()->sidebar_minimized == 0) value="0">No</option>
                                     </select>
                                 </div>
                             </div>
@@ -333,16 +332,16 @@
                                 <label for="allow_system_sounds" class="col-lg-9 col-form-label font-weight-semibold">Allow System Sounds (ie., new message or notification) <span class="text-danger">*</span></label>
                                 <div class="col-lg-3">
                                     <select class="form-control select" name="allow_system_sounds" id="allow_system_sounds">
-                                        <option {{ auth()->user()->allow_system_sounds ?: 'selected' }} value="1">Yes</option>
-                                        <option {{ auth()->user()->allow_system_sounds ?: 'selected' }} value="0">No</option>
+                                        <option @selected(auth()->user()->allow_system_sounds) value="1">Yes</option>
+                                        <option @selected(auth()->user()->allow_system_sounds) value="0">No</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-2">
+                            {{--SUBMIT BUTTON--}}
                             <div class="row">
                                 <div class="col-12">
-                                    {{--SUBMIT BUTTON--}}
                                     <div class="text-right float-right">
                                         <button type="submit" class="btn btn-danger d-flex">Submit form <i class="material-symbols-rounded ml-2">send</i></button>
                                     </div>
@@ -351,7 +350,7 @@
                         </div>
                     </div>
                 </form>
-                <hr class="divider">
+                <hr>
                 <div class="row">
                     <div class="col-12">
                         <div class="form-group row">

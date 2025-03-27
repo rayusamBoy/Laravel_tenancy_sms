@@ -15,10 +15,12 @@ return new class extends Migration
             $table->unsignedBigInteger('id');
             $table->unsignedInteger('book_id')->index('book_requests_book_id_foreign');
             $table->unsignedBigInteger('user_id')->index('book_requests_user_id_foreign');
+            $table->unsignedBigInteger('borrower_id')->index('book_requests_user_id_foreign_2');
             $table->string('start_date');
             $table->string('end_date');
             $table->string('returned')->default('0');
             $table->string('status')->nullable();
+            $table->tinyText('remarks')->nullable();
             $table->timestamps();
         });
     }

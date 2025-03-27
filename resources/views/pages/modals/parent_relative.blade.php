@@ -10,7 +10,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <table class="table table-bordered">
+                <table class="table table-bordered table-responsive">
                     <tr>
                         <td class="font-weight-bold">Relative Name</td>
                         <td>{{ $p_relative->name }}</td>

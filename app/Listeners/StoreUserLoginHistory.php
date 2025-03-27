@@ -16,9 +16,10 @@ class StoreUserLoginHistory
      */
     public function handle(UserLoggedIn $event)
     {
+        $user = $event->user;
         $current_timestamp = Carbon::now()->toDateTimeString();
-        $user_info = $event->user;
-        $saved_hist = LoginHistory::firstOrCreate(['user_id' => $user_info->id]);
+        
+        $saved_hist = LoginHistory::firstOrCreate(['user_id' => $user->id]);
         $saved_hist->update(['last_login' => $current_timestamp, 'login_times' => (int) $saved_hist->login_times + 1]);
     }
 }

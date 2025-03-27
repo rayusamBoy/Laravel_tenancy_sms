@@ -1,5 +1,7 @@
 @extends('layouts.master')
+
 @section('page_title', 'Student Marksheet')
+
 @section('content')
 
 <div class="card">
@@ -13,13 +15,13 @@
 
 <div class="card">
     <div class="card-header header-elements-inline">
-        <h6 class="font-weight-bold">{{ $ex->name.' - '.$ex->year }}</h6>
+        <h6 class="font-weight-bold">{{ "{$ex->name} - {$ex->year}" }}</h6>
         {!! Qs::getPanelOptions() !!}
     </div>
 
     <div class="card-body collapse">
 
-        {{--Sheet Table--}}
+       {{--Sheet Table--}}
         @include('pages.support_team.marks.show.sheet')
 
         {{--Print Button--}}

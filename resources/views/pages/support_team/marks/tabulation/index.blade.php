@@ -1,5 +1,7 @@
 @extends('layouts.master')
+
 @section('page_title', 'Tabulation Sheet')
+
 @pushOnce('css')
 <style>
     .table-sm td,
@@ -16,7 +18,7 @@
 {{-- Selector --}}
 <div class="card">
     <div class="card-header header-elements-inline">
-        <h5 class="card-title"><i class="material-symbols-rounded mr-2">table</i> Tabulation Sheet</h5>
+        <h6 class="card-title"><i class="material-symbols-rounded mr-2">table</i> Tabulation Sheet</h6>
         {!! Qs::getPanelOptions() !!}
     </div>
 
@@ -30,7 +32,7 @@
                         <select onchange="getYearExams(this.value)" data-placeholder="Select Year" required id="year" name="year" class="form-control select">
                             <option value="">Select Year</option>
                             @foreach($years as $yr)
-                            <option {{ ($selected && $yr->year == $year) ? 'selected' : '' }} value="{{ $yr->year }}">{{ $yr->year }}</option>
+                            <option @selected($selected && $yr->year == $year) value="{{ $yr->year }}">{{ $yr->year }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -43,7 +45,7 @@
                             <option value="">Select Year First</option>
                             @if($selected)
                             @foreach ($exams as $exm)
-                            <option {{ $selected && $exam_id == $exm->id ? 'selected' : '' }} value="{{ $exm->id }}">{{ $exm->name }}</option>
+                            <option @selected($selected && $exam_id==$exm->id) value="{{ $exm->id }}">{{ $exm->name }}</option>
                             @endforeach
                             @endif
                         </select>
@@ -56,7 +58,7 @@
                         <select onchange="getClassSections(this.value, '#section_id_add_all')" required id="my_class_id" name="my_class_id" class="form-control select" data-placeholder="Select Class">
                             <option value="">Select Class</option>
                             @foreach ($my_classes as $c)
-                            <option {{ $selected && $my_class->id == $c->id ? 'selected' : '' }} value="{{ $c->id }}">{{ $c->name }}</option>
+                            <option @selected($selected && $my_class->id == $c->id) value="{{ $c->id }}">{{ $c->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -68,11 +70,11 @@
                         <select required id="section_id_add_all" name="section_id" data-placeholder="Select Class First" class="form-control select">
                             @if($selected)
                             @foreach ($sections->where('my_class_id', $my_class->id) as $s)
-                            <option {{ $section_id == $s->id ? 'selected' : '' }} value="{{ $s->id }}">
+                            <option @selected($section_id==$s->id) value="{{ $s->id }}">
                                 {{ $s->name }}
                             </option>
                             @endforeach
-                            <option {{ $section_id == 'all' ? 'selected' : '' }} value="all" title="All Sections">All</option>
+                            <option @selected($section_id=='all' ) value="all" title="All Sections">All</option>
                             @endif
                         </select>
                     </div>
@@ -90,10 +92,9 @@
 
 {{-- if Selction Has Been Made --}}
 @if ($selected)
-
 <div class="card tabulation w-fit">
     <div class="card-header">
-        <h5 class="card-title font-weight-bold">Tabulation Sheet for {{ $my_class->name . ' ' }} @if (isset($section)) {{ $section->name }} @endif {{ ' - ' . $ex->name . ' (' . $year . ')' }} </h5>
+        <h6 class="card-title font-weight-bold">Tabulation Sheet for {{ "{$my_class->name} " }} @if (isset($section)) {{ $section->name }} @endif {{ " - {$ex->name} ($year)" }} </h6>
     </div>
 
     <div class="card-body">
@@ -116,21 +117,22 @@
             {{--School GPA--}}
             <div class="w-60 col-3 text-center">
                 <h6>School GPA <i>(out of 5)</i></h6>
-                <table class="table-styled text-center">
+                <table class="table-styled text-center float-head">
                     <thead>
                         <tr>
                             <td>{{ Mk::getGPA($exam_id, $my_class->id, $my_class->class_type_id, $section_id) }}</td>
                         </tr>
+                    </thead>
                 </table>
             </div>
         </div>
 
         <div class="row mt-3">
             <div class="col-12">
-                <h5 class="text-center font-weight-bold text-uppercase">Current Results</h5>
+                <h6 class="text-center font-weight-bold text-uppercase">Current Results</h6>
             </div>
 
-            <table id="results-table" class="table-styled" border="1">
+            <table id="results-table" class="table-styled float-head" border="1">
                 <thead>
                     <tr>
                         <th class="font-weight-bold text-center">#</th>
@@ -139,7 +141,7 @@
 
                         @foreach ($subjects as $sub)
                         <th class="font-weight-bold text-center" title="{{ $sub->name }}" rowspan="2">
-                            {{ strtoupper($sub->slug ?: $sub->name) }}
+                            {{ strtoupper($sub->slug) }}
                         </th>
                         <th class="font-weight-bold text-center text-green" title="Grade">Grd</th>
                         @endforeach
@@ -209,7 +211,7 @@
                 <h6 class="font-weight-bold mt-2">Subjects Performance Summary</h6>
             </div>
 
-            <table class="table-styled" border="1">
+            <table class="table-styled float-head" border="1">
                 <thead>
                     <tr>
                         <th class="text-center">SLUG</th>
@@ -237,8 +239,6 @@
         </div>
     </div>
 </div>
-
-@include('partials.js.manage')
 @endif
 
 @endsection

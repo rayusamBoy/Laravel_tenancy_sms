@@ -1,8 +1,8 @@
 @extends('layouts.master')
+
 @section('page_title', 'Artisan Commands')
 
 @section('content')
-
 <div class="card">
     <div class="card-header header-elements-inline">
         <h6 class="card-title">Manage Artisan Commands</h6>
@@ -95,5 +95,4 @@
         </div>
     </div>
 </div>
-
 @endsection

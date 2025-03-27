@@ -1,7 +1,9 @@
 @extends('layouts.login_master')
 
 @section('page_title', 'Privacy Policy')
+
 @section('content')
+
 <div class="page-content">
     <div class="content-wrapper">
         <div class="content">
@@ -13,7 +15,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-10 offset-md-1">
-                            <p class="float-right">Last modified: November 20, 2024</p><br/>
+                            <p class="float-right">Last modified: November 20, 2024</p><br />
 
                             <h4 class="font-weight-semibold" id="introduction">Introduction</h4>
 
@@ -34,12 +36,12 @@
                                 <li>In email, text, and other electronic messages between you and this Website.</li>
                             </ul>
 
-                            <p class="text-justify"> 
+                            <p class="text-justify">
                                 Please read this policy carefully to understand our policies and practices regarding
                                 your information and how we will treat it. If you do not agree with our policies and
                                 practices, your choice is to not use our Website. By accessing or using this Website,
                                 you agree to this privacy policy. This policy may change from time to time (see <a href="#changes-to-our-privacy-policy">Changes to Our Privacy Policy</a>).
-                                Your continued use of this Website after we make changes is deemed to be acceptance of those changes, 
+                                Your continued use of this Website after we make changes is deemed to be acceptance of those changes,
                                 so please check the policy periodically for updates.
                             </p>
 
@@ -230,9 +232,9 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
 </div>
+
 @endsection

@@ -1,7 +1,7 @@
 <div class="tab-pane fade" id="add-sub">
     <div class="col-md-8">
         <form class="ajax-store" method="post" action="{{ route('tt.store') }}">
-            @csrf 
+            @csrf
             <input name="ttr_id" value="{{ $ttr->id }}" type="hidden">
 
             @if($ttr->exam_id)
@@ -14,6 +14,7 @@
             </div>
 
             @else
+
             {{--DAY--}}
             <div class="form-group row">
                 <label for="day" class="col-lg-3 col-form-label font-weight-semibold">Day <span class="text-danger">*</span></label>
@@ -21,7 +22,7 @@
                     <select id="day" name="day" required type="text" class="form-control select" data-placeholder="Select Day...">
                         <option value=""></option>
                         @foreach(Qs::getDaysOfTheWeek() as $dw)
-                        <option {{ old('day') == $dw ? 'selected' : '' }} value="{{ $dw }}">{{ $dw }}</option>
+                        <option @selected(old('day')==$dw) value="{{ $dw }}">{{ $dw }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -35,7 +36,7 @@
                     <select required data-placeholder="Select Subject" class="form-control select-search" name="subject_id" id="subject_id">
                         <option value=""></option>
                         @foreach($subjects as $sub)
-                        <option {{ old('subject_id') == $sub->id ? 'selected' : '' }} value="{{ $sub->id }}">{{ $sub->name }}</option>
+                        <option @selected(old('subject_id')==$sub->id) value="{{ $sub->id }}">{{ $sub->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -48,7 +49,7 @@
                     <select data-placeholder="Select Time..." required class="select form-control" name="ts_id" id="ts_id">
                         <option value="">Select Time...</option>
                         @foreach($time_slots as $tms)
-                        <option {{ old('ts_id') == $tms->full ? 'selected' : '' }} value="{{ $tms->id }}">{{ $tms->full}}</option>
+                        <option @selected(old('ts_id')==$tms->full) value="{{ $tms->id }}">{{ $tms->full}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -59,5 +60,4 @@
             </div>
         </form>
     </div>
-
 </div>

@@ -52,11 +52,6 @@ class ScheduleController extends Controller
 
     public function delete_event(Request $req)
     {
-        // If the event is the one that is required for the functioning of the calendar codes deny deleting.
-        // Note: at least one event is required for the calendar codes to display dates.
-        if ($req->id === 1)
-            return back()->with('pop_warning', 'Cannot delete required event.');
-
         $this->event->delete($req->only("id"));
 
         return back()->with('flash_success', __('msg.del_ok'));

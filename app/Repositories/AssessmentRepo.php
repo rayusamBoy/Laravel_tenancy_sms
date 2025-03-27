@@ -176,14 +176,17 @@ class AssessmentRepo
         return AssessmentRecord::where($where)->select('ave')->get()->first()->$value;
     }
 
-    public function getStudentPos($st_id, $exam_id, $class_id, $year, $value, $section_id = NULL)
+    public function getStudentPos($st_id, $exam_id, $class_id, $year, $value, $section_id = null)
     {
         $where = ['exam_id' => $exam_id, 'my_class_id' => $class_id, 'student_id' => $st_id, 'year' => $year];
         $std_value = $this->getStudentValue($where, $value);
-        $data = $section_id != NULL ? ['exam_id' => $exam_id, 'my_class_id' => $class_id, 'section_id' => $section_id, 'year' => $year] : ['exam_id' => $exam_id, 'my_class_id' => $class_id, 'year' => $year];
+        $data = $section_id != null
+            ? ['exam_id' => $exam_id, 'my_class_id' => $class_id, 'section_id' => $section_id, 'year' => $year]
+            : ['exam_id' => $exam_id, 'my_class_id' => $class_id, 'year' => $year];
         $std_values = AssessmentRecord::where($data)->whereNotNull($value)->orderBy($value, 'DESC')->select($value)->get()->pluck($value);
 
-        return $std_values->count() > 0 ? $std_values->search($std_value) + 1 : NULL;
+        $position = $std_values->isNotEmpty() ? $std_values->search($std_value) : false;
+        return ($position !== false) ? $position + 1 : null;
     }
 
     public function getStudentsTotals($where, $tex)
@@ -193,26 +196,20 @@ class AssessmentRepo
 
     public function getGrade($total, $class_type_id)
     {
-        if ($total < 0 or $total === null)
-            return NULL;
-
-        $grades = Grade::where(['class_type_id' => $class_type_id])->get();
-
-        if ($grades->count() > 0) {
-            $gr = $grades->where('mark_from', '<=', $total)->where('mark_to', '>=', $total);
-            return $gr->count() > 0 ? $gr->first() : $this->getGrade2($total);
+        if ($total < 0 || $total === null) {
+            return null;
         }
 
-        return $this->getGrade2($total);
+        $grade = Grade::where('class_type_id', $class_type_id)->where('mark_from', '<=', $total)->where('mark_to', '>=', $total)->first();
+
+        return $grade ?: $this->getGrade2($total);
     }
 
     public function getGrade2($total)
     {
         $grades = Grade::whereNull('class_type_id')->get();
-        if ($grades->count() > 0)
-            return $grades->where('mark_from', '<=', $total)->where('mark_to', '>=', $total)->first();
 
-        return NULL;
+        return $grades->isNotEmpty() ? $grades->where('mark_from', '<=', $total)->where('mark_to', '>=', $total)->first() : null;
     }
 
     public function getSubjectMark($exam, $class_id, $sub_id, $st_id, $year)
@@ -231,7 +228,8 @@ class AssessmentRepo
         $sub_mk = $this->getSubjectMark($exam, $class_id, $sub_id, $st_id, $year);
         $sub_mks = AssessmentRecord::where($d)->whereNotNull($tex)->orderBy($tex, 'DESC')->select($tex)->get()->pluck($tex);
 
-        return $sub_mks->count() > 0 ? $sub_mks->search($sub_mk) + 1 : NULL;
+        $position = $sub_mks->search($sub_mk);
+        return ($position !== false) ? $position + 1 : null;
     }
 
     public function firstOrCreateRec($sid, $class_id, $sec_id, $exam_id, $year, $sub_id, $mark_id, $assessment_id)

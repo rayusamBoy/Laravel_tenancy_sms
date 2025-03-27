@@ -6,8 +6,14 @@
 
 <div class="{{ isset($google_analytics_setup_ok) ? 'card card-collapsed' : 'card' }}">
     <div class="card-header header-elements-inline">
-        <h6 class="card-title font-weight-semibold">Set up or Update Google Analytics @if(isset($google_analytics_setup_ok))<span class="text-success">[active]</span>@else <span class="text-warning-800">[inactive]</span> @endif</h6>
-        {!! Qs::getPanelOptions() !!}
+        <h6 class="card-title font-weight-semibold">Set up or Update Google Analytics</h6>
+        <div class="header-elements">
+            <div class="list-icons">
+                <span class="list-icons-item">@if(isset($google_analytics_setup_ok))<span class="badge bg-success font-size-base">active</span>@else <span class="badge bg-warning font-size-base">inactive</span> @endif</a></span>
+                <a class="list-icons-item" data-action="collapse"></a>
+                <a class="list-icons-item" data-action="remove"></a>
+            </div>
+        </div>
     </div>
 
     <div class="row">
@@ -30,7 +36,7 @@
                 <div class="col-lg-4">
                     <label>Tag ID</label>
                     @if(isset($gtag_code_structure_file))
-                    <span class="display-i-on-hover float-right text-info">Info
+                    <span class="display-i-on-hover float-right text-info"><span class="material-symbols-rounded">info</span>
                         <i class="float-right text-info display-none dropdown-menu position-absolute top-auto p-2">
                             <div>
                                 <span class="ml-3">A Google tag ID is a series of letters and numbers that usually starts with "G-".</span>
@@ -88,15 +94,15 @@
                 <a href="{{ route('settings.disable_analytics') }}" type="button" class="btn btn-danger">Disable Analytics</a>
                 @else
                 {{-- Submit button --}}
-                <button type="submit" class="btn btn-success d-flex mr-2">Submit form <i class="material-symbols-rounded ml-2">send</i></button>
+                <button type="submit" class="btn btn-success d-flex">Submit form <i class="material-symbols-rounded ml-2">send</i></button>
                 {{-- Enable analytics --}}
-                <a href="{{ route('settings.enable_analytics') }}" type="button" class="btn btn-primary">Enable Analytics</a>
+                <a href="{{ route('settings.enable_analytics') }}" type="button" class="btn btn-primary ml-2">Enable Analytics</a>
                 @endif
 
                 @else
                 {{-- Submit button --}}
-                <button type="submit" class="btn btn-success d-flex mr-2">Submit form <i class="material-symbols-rounded ml-2">send</i></button>
-                
+                <button type="submit" class="btn btn-success d-flex ml-2">Submit form <i class="material-symbols-rounded ml-2">send</i></button>
+
                 @endif
             </div>
         </form>

@@ -3,11 +3,10 @@
 @section('page_title', 'Login')
 
 @section('content')
-<div class="page-content login-cover">
 
+<div class="page-content login-cover">
     <!-- Main content -->
     <div class="content-wrapper">
-
         <!-- Content area -->
         <div class="content d-flex justify-content-center">
             <div class="row align-items-center">
@@ -87,7 +86,7 @@
                                 <div class="form-group d-flex align-items-center">
                                     <div class="form-check mb-0">
                                         <label class="form-check-label">
-                                            <input type="checkbox" name="remember" class="form-input-styled" {{ old('remember') ? 'checked' : '' }} data-fouc>
+                                            <input type="checkbox" name="remember" class="form-input-styled" @checked(old('remember')) data-fouc>
                                             <span class="text-info">Remember Me</span>
                                         </label>
                                     </div>
@@ -97,7 +96,6 @@
                                 <div class="form-group">
                                     <button type="submit" class="btn bg-blue w-100 d-flex"><i class="material-symbols-rounded ml-auto mr-1">login</i> <span class="mr-auto">Sign in</span></button>
                                 </div>
-                                
                             </div>
                         </div>
                     </form>
@@ -106,4 +104,5 @@
         </div>
     </div>
 </div>
+
 @endsection

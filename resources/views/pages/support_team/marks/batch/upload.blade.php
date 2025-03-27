@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-header header-elements-inline">
-        <h5 class="card-title"><i class="material-symbols-rounded mr-2">upload_2</i> Batch Upload </h5>
+        <h6 class="card-title"><i class="material-symbols-rounded mr-2">upload_2</i> Batch Upload </h6>
         {!! Qs::getPanelOptions() !!}
     </div>
 

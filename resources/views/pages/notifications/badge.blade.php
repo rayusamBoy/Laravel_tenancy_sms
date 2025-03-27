@@ -13,22 +13,23 @@ $unread_notifications_count = auth()->user()->unreadNotifications()->count();
 </a>
 
 <div class="dropdown-menu dropdown-menu-right m-0">
-    <div class="modal-body">
-        @if(auth()->user()->notifications()->count() > 0)
-        <div class="p-1">
-            <ul class="list-style-circle text-default unread-notifications-list">
+    <div class="modal-body px-0 py-1">
+        @if(auth()->user()->notifications()->get()->isNotEmpty())
+        <div>
+            <ul class="list-style-circle text-default unread-notifications-list px-2">
                 @forelse(auth()->user()->unreadNotifications()->get() as $not)
                 <li class="unread-{{ $not->id }}"><a target="_blank" @if(isset($not->data['receipt'])) href="{{ route('payments.receipts', [Qs::hash($not->data['receipt']['pr_id']), $not->id]) }}" @elseif($not->data['url']) href="{{ $not->data['url'] }}" @endif><strong>{{ $not->data['subject'] }}</strong></a><small class="float-right pl-2">{{ $not->created_at }}</small></li>
                 @empty
                 <h6 class="text-success">No new notifications</h6>
                 @endforelse
             </ul>
-            <hr class="divider my-1">
-            <a class="float-right" href="{{ route('notifications.index') }}">Manage</a>
+            <hr class="my-1">
+            <a class="float-right px-2" href="{{ route('notifications.index') }}">Manage</a>
         </div>
         @else
-        <small class="text-info">No new Notifications</small>
-        <hr class="dropdown-divider"><a class="float-right" href="{{ route('notifications.index') }}">Manage</a>
+        <small class="text-info px-2">No new Notifications</small>
+        <hr class="dropdown-divider">
+        <a class="float-right px-2" href="{{ route('notifications.index') }}">Manage</a>
         @endif
     </div>
 </div>

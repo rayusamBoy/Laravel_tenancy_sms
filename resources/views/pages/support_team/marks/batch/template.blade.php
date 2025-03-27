@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-header header-elements-inline">
-        <h5 class="card-title"><i class="material-symbols-rounded mr-2">file_save</i> Batch Template </h5>
+        <h6 class="card-title"><i class="material-symbols-rounded mr-2">file_save</i> Batch Template </h6>
         {!! Qs::getPanelOptions() !!}
     </div>
 

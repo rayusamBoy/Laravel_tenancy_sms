@@ -31,7 +31,7 @@ class TSRequest extends FormRequest
 
     public function attributes()
     {
-        return  [
+        return [
             'ttr_id' => 'TimeTable Record',
             'hour_from' => 'Start Hour',
             'min_from' => 'Start Minute',

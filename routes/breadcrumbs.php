@@ -511,10 +511,36 @@ Breadcrumbs::for('tenants.edit', function (BreadcrumbTrail $trail, $id) {
     $trail->push('Edit Tenant', route('tenants.edit', $id));
 });
 
+Breadcrumbs::for('tenants.show', function (BreadcrumbTrail $trail, $id) {
+    $trail->parent('tenants.index');
+    $trail->push('View Tenant', route('tenants.show', $id));
+});
+
 // Notifications
 Breadcrumbs::for('notifications.index', function (BreadcrumbTrail $trail) {
     $trail->parent('home');
     $trail->push('Manage Notifications', route('notifications.index'));
+});
+
+// Tickets
+Breadcrumbs::for('tickets.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('Support Tickets', route('tickets.index'));
+});
+
+Breadcrumbs::for('tickets.index_central', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('Manage Tickets', route('tickets.index_central'));
+});
+
+Breadcrumbs::for('tickets.reply', function (BreadcrumbTrail $trail, $id) {
+    $trail->parent('tickets.index');
+    $trail->push('Ticket', route('tickets.reply', $id));
+});
+
+Breadcrumbs::for('tickets.answer', function (BreadcrumbTrail $trail, $id) {
+    $trail->parent('tickets.index_central');
+    $trail->push('Ticket', route('tickets.answer', $id));
 });
 
 // TEST

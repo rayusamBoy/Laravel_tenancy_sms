@@ -12,7 +12,6 @@
             <td><strong>EXAM: </strong>{{ strtoupper($asr->exam->name) }} ({{ $ex->year }})</td>
             <td><strong>AGE: </strong>{{ $sr->age ?: ($sr->user->dob ? date_diff(date_create($sr->user->dob), date_create('now'))->y : '-') }}</td>
         </tr>
-
     </tbody>
 </table>
 
@@ -45,19 +44,18 @@
             <td>@php $hw_avg = Mk::getAverage($as->hw1 + $as->hw2 + $as->hw3 + $as->hw4 +$as->hw5, 5) @endphp {{ $hw_avg != 0 ? $hw_avg : '-' }}</td>
             {{--Topic Test--}}
             <td>@php $tt_avg = Mk::getAverage($as->tt1 + $as->tt2 + $as->tt2, 3) @endphp {{ $tt_avg != 0 ? $tt_avg : '-'  }}</td>
-            <td>{{ ($as->exm) ?: '-' }}</td>
+            <td>{{ $as->exm ?: '-' }}</td>
 
             <td>
-                @if($ex->term === 1) {{ ($as->tex1) }}
-                @elseif ($ex->term === 2) {{ ($as->tex2) }}
-                @elseif ($ex->term === 3) {{ ($as->tex3) }}
+                @if($ex->term === 1) {{ $as->tex1 }}
+                @elseif ($ex->term === 2) {{ $as->tex2 }}
+                @elseif ($ex->term === 3) {{ $as->tex3 }}
                 @else {{ '-' }}
                 @endif
             </td>
             <td>{{ $as->grade ? $as->grade->name : '-' }}</td>
-            <td>{!! ($as->grade) ? Mk::getSuffix($as->sub_pos) : '-' !!}</td>
+            <td>{!! $as->grade ? Mk::getSuffix($as->sub_pos) : '-' !!}</td>
             <td>{{ $as->grade ? $as->grade->remark : '-' }}</td>
-
             @endforeach
         </tr>
         @endforeach
@@ -73,4 +71,5 @@
         </tr>
     </tbody>
 </table>
+
 <p><strong style="text-decoration: underline;">KEY</strong>: CW => Course Work, HW => Home Work, TT => Topic Test</p>

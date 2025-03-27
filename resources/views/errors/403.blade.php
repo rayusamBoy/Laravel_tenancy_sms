@@ -3,6 +3,7 @@
 @section('title', 'Forbidden')
 
 @section('content')
+
 <div class="page-content error-cover">
 
     @php $error_code = 403 @endphp
@@ -31,4 +32,5 @@
         </div>
     </div>
 </div>
+
 @endsection

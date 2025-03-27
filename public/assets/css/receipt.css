@@ -1,6 +1,6 @@
 .container {
     margin: 10px;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Nunito Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 @media (min-width: 768px) {
@@ -27,11 +27,6 @@
     th {
         padding: 2px;
         text-align: center;
-    }
-
-    @page {
-        /*size: auto;    auto is the initial value */
-        /* margin: 0;   this affects the margin in the printer settings */
     }
 
     html {
@@ -88,9 +83,6 @@ table.td-left td {
     float: left;
 }
 
-.signature .border {
-    border-bottom: 1px solid;
-    width: 100px;
-    padding-bottom: 2em;
-    display: block;
+.float-right {
+    float: right;
 }

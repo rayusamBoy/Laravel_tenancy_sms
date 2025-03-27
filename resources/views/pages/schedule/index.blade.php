@@ -7,7 +7,7 @@
 {{-- Calendar Events --}}
 <div class="card">
     <div class="card-header header-elements-inline">
-        <h5 class="card-title">Calendar Events</h5>
+        <h6 class="card-title">Calendar Events</h6>
         {!! Qs::getPanelOptions() !!}
     </div>
     @include('pages.schedule.calendar.index')

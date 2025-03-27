@@ -28,15 +28,18 @@
         @endforeach
     </div>
     @endforeach
+
     <div class="p-1">
         <span class="font-size-sm text-muted status-styled">Showing {{ Qs::getPaginationFromToTotalAsString($unviewed_notices) }} unviewed notices</span>
-        <span class="float-right">{{ $unviewed_notices->links() }}</span>
+        <span class="float-right">{{ $unviewed_notices->onEachSide(5)->links() }}</span>
     </div>
 </div>
 @endif
 
 {{--Viewed Notices--}}
 @if(isset($viewed_notices) && $viewed_notices->isNotEmpty())
+<hr>
+
 <div class="card m-0 border-0" id="viewed">
     @foreach($viewed_notices->groupBy('user.name') as $name => $values)
     <div class="card-header">
@@ -64,9 +67,10 @@
         @endforeach
     </div>
     @endforeach
+
     <div class="p-1">
         <span class="font-size-sm text-muted status-styled">Showing {{ Qs::getPaginationFromToTotalAsString($viewed_notices) }} viewed notices</span>
-        <span class="float-right">{{ $viewed_notices->links() }}</span>
+        <span class="float-right">{{ $viewed_notices->onEachSide(5)->links() }}</span>
     </div>
 </div>
 @endif

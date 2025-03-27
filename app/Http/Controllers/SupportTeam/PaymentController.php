@@ -76,22 +76,23 @@ class PaymentController extends Controller implements HasMiddleware
         return view('pages.support_team.payments.create', $d);
     }
 
-    public function invoice($st_id, $year = NULL)
+    public function invoice($st_id, $year = null)
     {
         if (!$st_id)
             return Qs::goWithDanger();
 
         $inv = $year ? $this->pay->getAllMyPR($st_id, $year) : $this->pay->getAllMyPR($st_id);
-        $pr = $inv->get()->whereNotNull('payment');
+        $pr = $inv->get()->whereNotnull('payment');
 
-        $d['sr'] = $sr = $this->student->getRecord(['user_id' => $st_id])->first();
+        $d['sr'] = $this->student->getRecord(['user_id' => $st_id])->first();
         $d['uncleared'] = $pr->where('paid', 0);
         $d['cleared'] = $pr->where('paid', 1);
+        $d['year'] = $year;
 
         return view('pages.support_team.payments.invoice', $d);
     }
 
-    public function status($st_id, $year = NULL)
+    public function status($st_id, $year = null)
     {
         if ($year)
             if ($year != $this->year)
@@ -101,7 +102,7 @@ class PaymentController extends Controller implements HasMiddleware
             return Qs::goWithDanger();
 
         $inv = $year ? $this->pay->getAllMyPR($st_id, $year) : $this->pay->getAllMyPR($st_id);
-        $pr = $inv->get()->whereNotNull('payment');
+        $pr = $inv->get()->whereNotnull('payment');
 
         $d['sr'] = $this->student->getRecord(['user_id' => $st_id])->first();
         $d['uncleared'] = $pr->where('paid', 0);
@@ -121,9 +122,9 @@ class PaymentController extends Controller implements HasMiddleware
             return back()->with('flash_danger', __('msg.rnf'));
         }
 
+        $d['sr'] = $this->student->getRecord(['user_id' => $pr->student_id])->first();
         $d['receipts'] = $pr->receipt;
         $d['payment'] = $pr->payment;
-        $d['sr'] = $this->student->getRecord(['user_id' => $pr->student_id])->first();
         $d['settings'] = Qs::getSettings();
 
         if ($notification_id !== null) {
@@ -190,13 +191,13 @@ class PaymentController extends Controller implements HasMiddleware
         return Qs::jsonUpdateOk();
     }
 
-    public function manage($class_id = NULL)
+    public function manage($class_id = null)
     {
         $d['my_classes'] = $this->my_class->all();
         $d['selected'] = false;
 
         if ($class_id) {
-            $d['students'] = $st = $this->student->getRecord(['my_class_id' => $class_id])->get()->whereNotNull('user')->sortBy('user.name');
+            $d['students'] = $st = $this->student->getRecord(['my_class_id' => $class_id])->get()->whereNotnull('user')->sortBy('user.name');
             if ($st->count() < 1)
                 return Qs::goWithDanger('payments.manage');
 

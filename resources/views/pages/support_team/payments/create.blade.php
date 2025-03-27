@@ -1,5 +1,7 @@
 @extends('layouts.master')
+
 @section('page_title', 'Create Payment')
+
 @section('content')
 
 <div class="card">
@@ -26,7 +28,7 @@
                             <select class="form-control select-search" name="my_class_id" id="my_class_id">
                                 <option value="">All Classes</option>
                                 @foreach($my_classes as $c)
-                                <option {{ old('my_class_id') == $c->id ? 'selected' : '' }} value="{{ $c->id }}">{{ $c->name }}</option>
+                                <option @selected(old('my_class_id')==$c->id) value="{{ $c->id }}">{{ $c->name }}</option>
                                 @endforeach
                             </select>
                         </div>

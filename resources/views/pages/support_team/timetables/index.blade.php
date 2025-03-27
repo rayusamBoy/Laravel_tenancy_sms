@@ -1,5 +1,7 @@
 @extends('layouts.master')
+
 @section('page_title', 'Manage TimeTables')
+
 @section('content')
 
 <div class="card">
@@ -43,7 +45,7 @@
                                 <select class="select form-control" onchange="hideShowSection(this.value, '#section_id');" name="exam_id" id="exam_id">
                                     <option value="class">Class Timetable</option>
                                     @foreach($exams as $ex)
-                                    <option {{ old('exam_id') == $ex->id ? 'selected' : '' }} value="{{ $ex->id }}">{{ $ex->name }}</option>
+                                    <option @selected(old('exam_id')==$ex->id) value="{{ $ex->id }}">{{ $ex->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -55,7 +57,7 @@
                                 <select required data-placeholder="Select Class" onchange="getClassSections(this.value)" class="form-control select" name="my_class_id" id="my_class_id">
                                     <option value=""></option>
                                     @foreach($my_classes as $mc)
-                                    <option {{ old('my_class_id') == $mc->id ? 'selected' : '' }} value="{{ $mc->id }}">{{ $mc->name }}</option>
+                                    <option @selected(old('my_class_id')==$mc->id) value="{{ $mc->id }}">{{ $mc->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -102,7 +104,7 @@
                             <td class="text-center">
                                 <div class="list-icons">
                                     <div class="dropdown">
-                                       <a class="material-symbols-rounded" href="javascript:;" data-toggle="dropdown">lists</a>
+                                        <a class="material-symbols-rounded" href="javascript:;" data-toggle="dropdown">lists</a>
 
                                         <div class="dropdown-menu dropdown-menu-right">
                                             {{--View--}}
@@ -120,19 +122,16 @@
                                             <a id="{{ $ttr->id }}" onclick="confirmPermanentDelete(this.id)" href="javascript:;" class="dropdown-item text-danger"><i class="material-symbols-rounded">delete</i> Delete</a>
                                             <form method="post" id="item-delete-{{ $ttr->id }}" action="{{ route('ttr.destroy', $ttr->id) }}" class="hidden">@csrf @method('delete')</form>
                                             @endif
-
                                         </div>
                                     </div>
                                 </div>
                             </td>
                         </tr>
                         @endforeach
-
                     </tbody>
                 </table>
             </div>
             @endforeach
-
         </div>
     </div>
 </div>

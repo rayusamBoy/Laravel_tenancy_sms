@@ -45,6 +45,7 @@ class SoftDeleteController extends Controller
             return back()->with('pop_error', __('msg.denied'));
 
         Qs::getDbFacadesTable($model_name)->whereNotNull("deleted_at")->delete();
+        $model_name = str_replace('_', ' ', $model_name);
 
         return redirect()->back()->with('flash_success', ucfirst($model_name) . ' ' . __('msg.force_del_ok'));
     }

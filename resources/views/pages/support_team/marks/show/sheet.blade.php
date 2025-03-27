@@ -19,26 +19,26 @@
             <td>{{ $sub->name }}</td>
             @foreach($subject_marks as $mk)
             <td>
-                @if($ex->term === 1) {{ ($mk->tex1 ?? '-') }}
-                @elseif ($ex->term === 2) {{ ($mk->tex2 ?? '-') }}
-                @elseif ($ex->term === 3) {{ ($mk->tex3 ?? '-') }}
+                @if($ex->term === 1) {{ $mk->tex1 ?? '-' }}
+                @elseif ($ex->term === 2) {{ $mk->tex2 ?? '-' }}
+                @elseif ($ex->term === 3) {{ $mk->tex3 ?? '-' }}
                 @else {{ '-' }}
                 @endif
             </td>
             {{--Grade, Subject Position & Remarks--}}
-            <td>{{ ($mk->grade) ? $mk->grade->name : '-' }}</td>
-            <td>{!! ($mk->grade) ? Mk::getSuffix($mk->sub_pos) : '-' !!}</td>
-            <td>{{ ($mk->grade) ? $mk->grade->remark : '-' }}</td>
+            <td>{{ $mk->grade ? $mk->grade->name : '-' }}</td>
+            <td>{!! $mk->grade ? Mk::getSuffix($mk->sub_pos) : '-' !!}</td>
+            <td>{{ $mk->grade ? $mk->grade->remark : '-' }}</td>
             @endforeach
         </tr>
         @endif
-        @endforeach
+       @endforeach
         <tr>
             <td colspan="2"><strong>TOTAL SCORES: </strong> {{ $exr->total }}</td>
             <td colspan="1"><strong>GPA: </strong> {{ $exr->gpa }} of 5</td>
             <td colspan="2"><strong>FINAL AVERAGE: </strong> @if($exr->division == "") <em>N/A</em> @else {{ $exr->ave ?? '-' }} @endif</td>
             <td colspan="1"><strong>CLASS AVERAGE: </strong> {{ $exr->class_ave }}</td>
-        </tr>
+       </tr>
         <tr>
             <td colspan="2"><strong>DIVISION: </strong>@if($exr->division == "") <em>INCOMPLETE POINTS</em> @else Division <strong> {{ $exr->division->name ?? '-' }} </strong> of points <strong>{{ $exr->points }} @endif</strong></td>
             <td colspan="2"><strong>FINAL AVERAGE GRADE: </strong>@if($exr->division == "") <em>N/A</em> @else {{ $exr->grade->name ?? '-' }} @endif</td>

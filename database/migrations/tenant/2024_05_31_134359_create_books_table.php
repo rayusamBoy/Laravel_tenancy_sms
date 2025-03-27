@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('location')->nullable();
             $table->integer('total_copies')->nullable();
             $table->integer('issued_copies')->nullable();
+            $table->string('status', 50)->nullable();
             $table->timestamps();
         });
     }

@@ -1,9 +1,12 @@
 @extends('layouts.master')
+
 @section('page_title', 'Select Student Assessmentsheet')
+
 @section('content')
+
 <div class="card">
     <div class="card-header header-elements-inline">
-        <h5 class="card-title"><i class="material-symbols-rounded">two_pager</i> Select Student Assessmentsheet</h5>
+        <h6 class="card-title"><i class="material-symbols-rounded">two_pager</i> Select Student Assessmentsheet</h6>
         {!! Qs::getPanelOptions() !!}
     </div>
 
@@ -13,16 +16,14 @@
             <div class="row">
                 <div class="col-md-10">
                     <fieldset>
-
                         <div class="row">
-
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="my_class_id" class="col-form-label font-weight-bold">Class:</label>
                                     <select required onchange="getClassSections(this.value, '#section_id')" id="my_class_id" name="my_class_id" class="form-control select">
                                         <option value="">Select Class</option>
                                         @foreach($my_classes as $c)
-                                        <option {{ ($selected && $my_class_id == $c->id) ? 'selected' : '' }} value="{{ $c->id }}">{{ $c->name }}</option>
+                                        <option @selected($selected && $my_class_id==$c->id) value="{{ $c->id }}">{{ $c->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -34,15 +35,13 @@
                                     <select required id="section_id" name="section_id" data-placeholder="Select Class First" class="form-control select">
                                         @if($selected)
                                         @foreach($sections as $s)
-                                        <option {{ ($section_id == $s->id ? 'selected' : '') }} value="{{ $s->id }}">{{ $s->name }}</option>
+                                        <option @selected($section_id==$s->id) value="{{ $s->id }}">{{ $s->name }}</option>
                                         @endforeach
                                         @endif
                                     </select>
                                 </div>
                             </div>
-
                         </div>
-
                     </fieldset>
                 </div>
 
@@ -51,12 +50,11 @@
                         <button type="submit" class="btn btn-primary">View Assessmentsheet <i class="material-symbols-rounded ml-2">send</i></button>
                     </div>
                 </div>
-
             </div>
-
         </form>
     </div>
 </div>
+
 @if($selected)
 <div class="card">
     <div class="card-body">
@@ -86,4 +84,5 @@
     </div>
 </div>
 @endif
+
 @endsection

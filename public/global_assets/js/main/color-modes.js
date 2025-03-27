@@ -1,126 +1,137 @@
-'use strict'
+'use strict';
 
+// Storage helpers
 const getStoredTheme = () => localStorage.getItem('theme');
 const setStoredTheme = theme => localStorage.setItem('theme', theme);
 
+// Available themes
+const colorThemes = ['auto', 'light', 'dark'];
+
+// Determine the user’s preferred theme
 const getPreferredTheme = () => {
     const storedTheme = getStoredTheme();
-    if (storedTheme) {
-        return storedTheme;
-    }
+    return storedTheme ?? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+};
 
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-}
+// Update charts with the given theme
+const updateJSCharts = themeInput => {
+    // Resolve 'auto' to the actual theme
+    const theme = themeInput === 'auto'
+        ? window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+        : themeInput;
 
-const updateJSCharts = theme => {
-    if (theme === 'auto')
-        theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    if (typeof Chart != 'undefined')
-        Chart.helpers.each(Chart.instances, function (instance) {
-            instance.options.scales["x"].title.text = $(instance.canvas).data('x_axis_title_text');
-            instance.options.scales["y"].title.text = $(instance.canvas).data('y_axis_title_text');
+    if (typeof Chart !== 'undefined') {
+        Chart.helpers.each(Chart.instances, instance => {
+            const yAxisTitle = instance.canvas.getAttribute('data-y_axis_title_text');
+            const xAxisTitle = instance.canvas.getAttribute('data-x_axis_title_text');
 
-            const scales_id = ['x', 'y', 'r'];
-
-            if (theme == 'dark') {
-                const text_color = "#dadce0";
-                const border_color = "#262626";
-                const bg_color = "#171717";
-
-                scales_id.forEach(
-                    function (scale_id) {
-                        if (typeof instance.options.scales[scale_id] != 'undefined') {
-                            // For all chart types
-                            instance.options.scales[scale_id].ticks.color = text_color;
-                            instance.options.scales[scale_id].ticks.backdropColor = bg_color;
-                            instance.options.scales[scale_id].grid.color = border_color;
-                            instance.options.scales[scale_id].title.color = text_color;
-                            // For other than radial chart
-                            if (scale_id != 'r') {
-                                instance.options.scales[scale_id].border.color = border_color;
-                                instance.options.scales[scale_id].grid.tickColor = border_color;
-                            }
-                            // For radial chart only
-                            if (scale_id == 'r') {
-                                instance.options.scales[scale_id].angleLines.color = text_color;
-                                instance.options.scales[scale_id].pointLabels.color = text_color;
-                            }
-                        }
-                    }
-                );
+            if (localStorage.chart_type_check.includes('horizontal')) {
+                instance.options.scales.x.title.text = yAxisTitle;
+                instance.options.scales.y.title.text = xAxisTitle;
             } else {
-                scales_id.forEach(
-                    function (scale_id) {
-                        if (typeof instance.options.scales[scale_id] != 'undefined') {
-                            // For all chart types
-                            instance.options.scales[scale_id].ticks.color = Chart.defaults.color;
-                            instance.options.scales[scale_id].ticks.backdropColor = Chart.defaults.backdropColor;
-                            instance.options.scales[scale_id].grid.color = Chart.defaults.borderColor;
-                            instance.options.scales[scale_id].title.color = Chart.defaults.color;
-                            // For other than radial chart
-                            if (scale_id != 'r') {
-                                instance.options.scales[scale_id].border.color = Chart.defaults.borderColor;
-                                instance.options.scales[scale_id].grid.tickColor = Chart.defaults.borderColor;
-                            }
-                            // For radial chart only
-                            if (scale_id == 'r') {
-                                instance.options.scales[scale_id].angleLines.color = Chart.defaults.borderColor;
-                                instance.options.scales[scale_id].pointLabels.color = Chart.defaults.color;
-                            }
-                        }
-                    }
-                );
+                instance.options.scales.x.title.text = xAxisTitle;
+                instance.options.scales.y.title.text = yAxisTitle;
             }
+
+            const scalesId = ['x', 'y', 'r'];
+
+            // Define color configurations for dark and default themes.
+            const darkConfig = {
+                textColor: "#dadce0",
+                borderColor: "#262626",
+                bgColor: "#171717",
+            };
+
+            scalesId.forEach(scaleId => {
+                const scale = instance.options.scales[scaleId];
+
+                if (!scale) return;
+
+                if (theme === 'dark') {
+                    scale.ticks.color = darkConfig.textColor;
+                    scale.ticks.backdropColor = darkConfig.bgColor;
+                    scale.grid.color = darkConfig.borderColor;
+                    scale.title.color = darkConfig.textColor;
+                    instance.options.plugins.legend.labels.color = darkConfig.textColor;
+                    if (scaleId !== 'r') {
+                        scale.border.color = darkConfig.borderColor;
+                        scale.grid.tickColor = darkConfig.borderColor;
+                    } else {
+                        scale.angleLines.color = darkConfig.textColor;
+                        scale.pointLabels.color = darkConfig.textColor;
+                    }
+                } else {
+                    // Use Chart defaults for non-dark themes.
+                    scale.ticks.color = Chart.defaults.color;
+                    scale.ticks.backdropColor = Chart.defaults.backdropColor;
+                    scale.grid.color = Chart.defaults.borderColor;
+                    scale.title.color = Chart.defaults.color;
+                    instance.options.plugins.legend.labels.color = Chart.defaults.color;
+                    if (scaleId !== 'r') {
+                        scale.border.color = Chart.defaults.borderColor;
+                        scale.grid.tickColor = Chart.defaults.borderColor;
+                    } else {
+                        scale.angleLines.color = Chart.defaults.borderColor;
+                        scale.pointLabels.color = Chart.defaults.color;
+                    }
+                }
+            });
 
             instance.update();
         });
-}
-
-const setTheme = theme => {
-    if (theme === 'auto') {
-        document.documentElement.setAttribute('data-theme', (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
-    } else {
-        document.documentElement.setAttribute('data-theme', theme);
     }
-}
+};
 
+// Apply the theme to the root element
+const setTheme = theme => {
+    const resolvedTheme = theme === 'auto'
+        ? window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+        : theme;
+    document.documentElement.setAttribute('data-theme', resolvedTheme);
+};
+
+// Set the initial theme
 setTheme(getPreferredTheme());
 
-const showActiveTheme = (theme, focus = false) => {
-    // Select all color modes radio inputs (3 inputs)
-    const themeSwitcher = document.querySelectorAll('input[name="color_mode"]');
+// Update toggle elements to reflect the next theme state
+const showActiveTheme = theme => {
+    const navLinkColorModes = document.querySelectorAll('.color-mode-toggle');
+    const currentIndex = colorThemes.indexOf(theme);
+    const nextTheme = colorThemes[(currentIndex + 1) % colorThemes.length];
 
-    if (themeSwitcher.length != 3) {
-        return;
-    }
-
-    themeSwitcher.forEach(
-        function (node, index) {
-            if (theme === node.getAttribute('id'))
-                node.checked = true;
+    navLinkColorModes.forEach(navLink => {
+        navLink.dataset.theme = nextTheme;
+        // Update the icon/text in the first child element (if it exists)
+        if (navLink.firstElementChild) {
+            navLink.firstElementChild.textContent = nextTheme === 'auto'
+                ? 'mode_standby'
+                : nextTheme === 'light'
+                    ? 'light_mode'
+                    : 'dark_mode';
+            navLink.setAttribute('title', `Switch to ${nextTheme} mode`);
         }
-    );
-}
+    });
+};
 
+// Listen for system color scheme changes
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-    const storedTheme = getStoredTheme()
-    if (storedTheme !== 'light' && storedTheme !== 'dark') {
-        setTheme(getPreferredTheme())
+    const storedTheme = getStoredTheme();
+    if (!['light', 'dark'].includes(storedTheme)) {
+        setTheme(getPreferredTheme());
     }
-    Chart.defaults.borderColor = '#303030';
 });
 
-window.addEventListener('DOMContentLoaded', () => {
-    showActiveTheme(getPreferredTheme());
+document.addEventListener('DOMContentLoaded', () => {
+    const preferredTheme = getPreferredTheme();
+    showActiveTheme(preferredTheme);
 
-    document.querySelectorAll('input[name="color_mode"]')
-        .forEach(toggle => {
-            toggle.addEventListener('change', () => {
-                const theme = toggle.getAttribute('id');
-                setStoredTheme(theme);
-                setTheme(theme);
-                updateJSCharts(theme);
-                showActiveTheme(theme, true);
-            })
+    document.querySelectorAll('.color-mode-toggle').forEach(toggle => {
+        toggle.addEventListener('click', event => {
+            const theme = event.currentTarget.dataset.theme;
+            setStoredTheme(theme);
+            setTheme(theme);
+            updateJSCharts(theme);
+            showActiveTheme(theme);
         });
+    });
 });

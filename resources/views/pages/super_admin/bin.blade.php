@@ -1,6 +1,9 @@
 @extends('layouts.master')
+
 @section('page_title', 'Recycle Bin')
+
 @push('css')
+
 <style>
     .media-body .col-6 {
         text-align: end;
@@ -33,9 +36,10 @@
 
 @if($payments->isEmpty() && $users->isEmpty() && $my_classes->isEmpty() && $exams->isEmpty() && $threads->isEmpty())
 <div class="text-center">
-    <img src="{{ asset('global_assets/icons/bin-empty.gif') }}"></img>
-    <h6>Bin Empty.</h6>
+    <img src="{{ asset('global_assets/icons/bin-empty.gif') }}" alt="Bin empty gif"></img>
+    <h6>The bin is empty.</h6>
 </div>
+
 @else
 
 <div class="alert alert-warning border-0 alert-dismissible has-do-not-show-again-button" id="bin-info">
@@ -143,7 +147,7 @@
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->username }}</td>
                             <td>{{ ucwords(str_replace('_', ' ',$user->user_type)) }}</td>
-                            
+
                             @if($user->user_type == 'student')
                             @php $s_recs = Usr::getStudentRecordByUserId($user->id, ['my_class', 'section']) @endphp
                             <td class="text-center">{{ $s_recs->first()->my_class->name . ' - ' . $s_recs->first()->section->name }}</td>
@@ -151,7 +155,7 @@
                             @else
                             <td>{{ $user->phone ?? $user->email ?? '-' }}</td>
                             @endif
-                            
+
                             <td>{{ Qs::onlyDateFormat($user->deleted_at) }}</td>
                             <td class="text-center">
                                 <div class="list-icons">
@@ -316,7 +320,7 @@
                         <th>Subject</th>
                         <th>Creator</th>
                         <th>Latest Message</th>
-                        <th>Participant(s)</th>
+                        <th>Participants</th>
                         <th>Created At</th>
                         <th>Deleted At</th>
                         <th class="text-center">Action</th>
@@ -330,7 +334,7 @@
                         <td>{{ $thread->creator()->name }}</td>
                         <td>{{ $thread->getLatestMessageAttribute()->body ?? '' }}</td>
                         @include('pages/modals/participants')
-                        <td> <a href="javascript:;" data-toggle="modal" data-target="#thread-participants-{{ $thread->id }}">View Participant(s)</a></td>
+                        <td> <a href="javascript:;" data-toggle="modal" data-target="#thread-participants-{{ $thread->id }}">View Participants</a></td>
                         <td>{{ $thread->created_at }}</td>
                         <td>{{ $thread->deleted_at }}</td>
                         <td class="text-center">

@@ -32,7 +32,7 @@ class NoticeController extends Controller
     public function store(NoticeCreate $req)
     {
         $data = $req->all();
-        $data['from_id'] = auth()->id();
+        $data['from_id'] = $data['editor_id'] = auth()->id();
         $this->notice->create($data);
 
         return Qs::jsonStoreOk();

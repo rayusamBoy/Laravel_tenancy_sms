@@ -2,17 +2,16 @@
 
 namespace App\Helpers;
 
+use App\Models\AssessmentRecord;
+use App\Models\Division;
 use App\Models\Exam;
 use App\Models\ExamRecord;
 use App\Models\Grade;
 use App\Models\Mark;
-use App\Models\Division;
 use App\Models\Section;
 use App\Models\Subject;
 use App\Models\SubjectRecord;
-use App\Models\AssessmentRecord;
 use App\Models\TimeTable;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Collection;
 
 class Mk extends Qs
@@ -76,7 +75,7 @@ class Mk extends Qs
                 // Get all subject exam sums - for finding subject rank
                 foreach ($marks_all_subjects as $mark) {
                     $p = Mark::where(['subject_id' => $mark->subject->id, 'my_class_id' => $my_class->id, 'exam_id' => $exam_id]);
-                    $reg = (($sids = $p->pluck('student_id')) != NULL) ? $sids->count() : (($sids = SubjectRecord::where('subject_id', $mark->subject->id)->get()->value('students_ids')) != NULL ?: count(json_decode($sids)));
+                    $reg = (($sids = $p->pluck('student_id')) != null) ? $sids->count() : (($sids = SubjectRecord::where('subject_id', $mark->subject->id)->get()->value('students_ids')) != null ?: count(json_decode($sids)));
                     $q = Mark::whereIn('student_id', $sids);
 
                     $avg_sum = $q->where(['subject_id' => $mark->subject->id, 'exam_id' => $exam_id, 'my_class_id' => $my_class->id])->avg('exm');
@@ -89,7 +88,7 @@ class Mk extends Qs
 
                 foreach ($marks_all_subjects as $mark) {
                     $p = Mark::where(['subject_id' => $mark->subject->id, 'my_class_id' => $my_class->id, 'exam_id' => $exam_id]);
-                    $reg = (($sids = $p->pluck('student_id')) != NULL) ? $sids->count() : (($sids = SubjectRecord::where('subject_id', $mark->subject->id)->get()->value('students_ids')) != NULL ?: count(json_decode($sids)));
+                    $reg = (($sids = $p->pluck('student_id')) != null) ? $sids->count() : (($sids = SubjectRecord::where('subject_id', $mark->subject->id)->get()->value('students_ids')) != null ?: count(json_decode($sids)));
                     $q = Mark::whereIn('student_id', $sids);
 
                     $sat = $q->where(['exam_id' => $exam_id, 'subject_id' => $mark->subject->id])->whereNotNull('exm')->count();
@@ -129,7 +128,7 @@ class Mk extends Qs
                 // Get all subject exam sums - for finding subject rank
                 foreach ($marks_per_section as $mark) {
                     $p = Mark::where(['subject_id' => $mark->subject->id, 'my_class_id' => $my_class->id, 'exam_id' => $exam_id, 'section_id' => $section_id]);
-                    $reg = (($sids = $p->pluck('student_id')) != NULL) ? $sids->count() : (($sids = SubjectRecord::where('subject_id', $mark->subject->id)->get()->value('students_ids')) != NULL ?: count(json_decode($sids)));
+                    $reg = (($sids = $p->pluck('student_id')) != null) ? $sids->count() : (($sids = SubjectRecord::where('subject_id', $mark->subject->id)->get()->value('students_ids')) != null ?: count(json_decode($sids)));
                     $q = Mark::whereIn('student_id', $sids);
 
                     $avg_sum = $q->where(['subject_id' => $mark->subject->id, 'exam_id' => $exam_id, 'my_class_id' => $my_class->id, 'section_id' => $section_id])->avg('exm');
@@ -142,7 +141,7 @@ class Mk extends Qs
 
                 foreach ($marks_per_section as $mark) {
                     $p = Mark::where(['subject_id' => $mark->subject->id, 'my_class_id' => $my_class->id, 'exam_id' => $exam_id, 'section_id' => $section_id]);
-                    $reg = (($sids = $p->pluck('student_id')) != NULL) ? $sids->count() : (($sids = SubjectRecord::where('subject_id', $mark->subject->id)->get()->value('students_ids')) != NULL ?: count(json_decode($sids)));
+                    $reg = (($sids = $p->pluck('student_id')) != null) ? $sids->count() : (($sids = SubjectRecord::where('subject_id', $mark->subject->id)->get()->value('students_ids')) != null ?: count(json_decode($sids)));
                     $q = Mark::whereIn('student_id', $sids);
 
                     $sat = $q->where(['exam_id' => $exam_id, 'subject_id' => $mark->subject->id, 'section_id' => $section_id])->whereNotNull('exm')->count();
@@ -188,9 +187,9 @@ class Mk extends Qs
         $all_grds_cnt = $all_prods = 0;
         foreach (Grade::where('class_type_id', $class_type_id)->get() as $grd) {
 
-            $grd_cnt = $my_class_id == NULL
+            $grd_cnt = $my_class_id == null
                 ? Mark::where(['exam_id' => $exam_id, 'grade_id' => $grd->id])->get()->count()
-                : (($section_id == NULL || $section_id == "all")
+                : (($section_id == null || $section_id == "all")
                     ? Mark::where(['exam_id' => $exam_id, 'my_class_id' => $my_class_id, 'grade_id' => $grd->id])->get()->count()
                     : Mark::where(['exam_id' => $exam_id, 'my_class_id' => $my_class_id, 'grade_id' => $grd->id, 'section_id' => $section_id])->get()->count());
 
@@ -221,7 +220,8 @@ class Mk extends Qs
         $exr_absent = $exam_records->where('total', 0); // Take only absent ie., where total is zero
 
         $class_type_divisions = Division::where('class_type_id', $class_type_id);
-        $divisions = ($class_type_divisions->count() > 0) ? $class_type_divisions->get() : Division::whereNull('class_type_id')->get();
+        $divisions = $class_type_divisions->get();
+        $divisions = $divisions ?: Division::whereNull('class_type_id')->get();
 
         foreach ($divisions as $div) {
             $divison_name .= "<th class=\"text-center\">{$div->name}</th>";
@@ -236,7 +236,7 @@ class Mk extends Qs
         $attended .= '</tr><tr><td class="text-center" colspan="' . round($count - $colspan) . '">SAT: ' . $exr_attended->whereNotNull('division_id')->count() . '</td>';
         $absent .= '<td class="text-center" colspan="' . round($colspan) . '">ABS: ' . $exr_absent->count() . '</td>';
 
-        $a = '<table class="table-styled styled"><thead><tr><th class="text-center">Division</th>';
+        $a = '<table class="table-styled styled float-head"><thead><tr><th class="text-center">Division</th>';
         $b = '</tr></thead><tbody><tr><td class="text-center">Male</td>';
         $c = '</tr><tr><td class="text-center">Female</td>';
         $d = '</tr><tr><td class="text-center">Total</td>';
@@ -248,11 +248,16 @@ class Mk extends Qs
 
     /** DIVISION SUMMARY ENDS */
 
-    /** ADD ORDINAL SUFFIX TO POSITION **/
+    /**
+     * Adds an ordinal suffix to a given number.
+     *
+     * @param int $number The number to add the ordinal suffix to.
+     * @return string|null The number with the ordinal suffix, or null if the input number is less than 1.
+     */
     public static function getSuffix($number)
     {
         if ($number < 1)
-            return NULL;
+            return null;
 
         $ends = ['th', 'st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th'];
         if ((($number % 100) >= 11) && (($number % 100) <= 13))
@@ -266,9 +271,9 @@ class Mk extends Qs
     {
         $d = ['student_id' => $st_id, 'subject_id' => $sub_id, 'my_class_id' => $class_id, 'year' => $year];
         $tex = "tex$term";
-        $sub_total = Mark::where($d)->select($tex)->get()->where($tex, '>', 0);
+        $sub_total = Mark::where($d)->select($tex)->where($tex, '>', 0)->first();
 
-        return $sub_total->count() > 0 ? $sub_total->first()->$tex : '-';
+        return $sub_total ? $sub_total->{$tex} : '-';
     }
 
     public static function countDistinctions(Collection $marks)
@@ -323,7 +328,7 @@ class Mk extends Qs
 
         if ($term < 3) {
             $exr = ExamRecord::where($d);
-            $avg = $exr->first()->ave ?: NULL;
+            $avg = $exr->first()->ave ?: null;
             return $avg > 0 ? round($avg, 1) : $avg;
         }
 
@@ -338,7 +343,7 @@ class Mk extends Qs
         $d = ['exam_id' => $exam->id, 'student_id' => $st_id, 'year' => $year];
 
         if ($term < 3)
-            return ExamRecord::where($d)->first()->total ?? NULL;
+            return ExamRecord::where($d)->first()->total ?? null;
 
         $mk = Mark::where($d)->whereNotNull('tex3');
         return $mk->select('tex3')->sum('tex3');
@@ -430,7 +435,7 @@ class Mk extends Qs
         $d = ['student_id' => $st_id, 'year' => self::getCurrentSession()];
 
         $marks = Mark::where('my_class_id', '<>', $class_id)->where($d);
-        if ($marks->get()->count() > 0) {
+        if ($marks->get()->isNotEmpty()) {
             $exr = ExamRecord::where('my_class_id', '<>', $class_id)->where($d);
             $marks->delete();
             $exr->delete();
@@ -447,9 +452,9 @@ class Mk extends Qs
     {
         $divisions = self::getDvivisionByClassType($class_type_id);
 
-        if ($divisions->count() > 0) {
+        if ($divisions->isNotEmpty()) {
             $dv = $divisions->where('points_from', '<=', $points)->where('points_to', '>=', $points);
-            return $dv->count() > 0 ? $dv->first() : self::getDivision2($points);
+            return $dv->isNotEmpty() ? $dv->first() : self::getDivision2($points);
         }
         return self::getDivision2($points);
     }
@@ -457,10 +462,10 @@ class Mk extends Qs
     public static function getDivision2($points)
     {
         $divisions = Division::whereNull('class_type_id')->get();
-        if ($divisions->count() > 0) {
+        if ($divisions->isNotEmpty()) {
             return $divisions->where('points_from', '<=', $points)->where('points_to', '>=', $points)->first();
         }
-        return NULL;
+        return null;
     }
 
     public static function jsonResponse($title, $message)
@@ -481,6 +486,7 @@ class Mk extends Qs
         $filtered_mks = array_filter($all_mks, function ($mk) {
             return $mk != null;
         });
+
         $flipped_mks = array_flip($filtered_mks);
 
         return $flipped_mks;
@@ -507,7 +513,7 @@ class Mk extends Qs
             $credits .= "<td class=\"text-center\">{$grade->credit}</td>";
         }
 
-        $a = '<table class="table-styled"><thead><tr><th class="text-center">Grade</th>';
+        $a = '<table class="table-styled float-head"><thead><tr><th class="text-center">Grade</th>';
         $b = '</tr></thead><tbody><tr><td class="text-center">Mark From</td>';
         $c = '</tr><tr><td class="text-center">Mark To</td>';
         $d = '</tr><tr><td class="text-center">Point</td>';
@@ -530,7 +536,7 @@ class Mk extends Qs
             $points_to .= "<td class=\"text-center\">{$division->points_to}</td>";
         }
 
-        $a = '<table class="table-styled"><thead><tr><th class="text-center">Division</th>';
+        $a = '<table class="table-styled float-head"><thead><tr><th class="text-center">Division</th>';
         $b = '</tr></thead><tbody><tr><td class="text-center">Points From</td>';
         $c = '</tr><tr><td class="text-center">Points To</td>';
         $d = '</tr></tbody></table>';

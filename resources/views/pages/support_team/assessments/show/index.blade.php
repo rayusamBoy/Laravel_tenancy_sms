@@ -1,5 +1,7 @@
 @extends('layouts.master')
+
 @section('page_title', 'Student Assessmentsheet')
+
 @section('content')
 
 <div class="card">
@@ -46,7 +48,6 @@
         </div>
 
     </div>
-
 </div>
 
 {{-- ASSESSMENT COMMENTS   --}}

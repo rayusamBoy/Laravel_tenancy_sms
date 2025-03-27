@@ -1,5 +1,7 @@
 @extends('layouts.master')
+
 @section('page_title', 'Edit Payment')
+
 @section('content')
 
 <div class="card">

@@ -3,6 +3,7 @@
 @section('title', 'Page or Resource Not Found')
 
 @section('content')
+
 <div class="page-content error-cover">
 
     @php $error_code = 404 @endphp
@@ -28,4 +29,5 @@
         </div>
     </div>
 </div>
+
 @endsection

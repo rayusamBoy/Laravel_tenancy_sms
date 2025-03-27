@@ -3,6 +3,7 @@
 @section('page_title', 'Account Recovery')
 
 @section('content')
+
 <div class="page-content login-cover">
     <div class="content-wrapper">
         <div class="content d-flex justify-content-center">
@@ -34,8 +35,8 @@
 
                                 <div class="form-group row mb-0">
                                     <div class="col-md-8 offset-md-4">
-                                        <button type="submit" class="btn btn-primary btn-sm"> {{ ('Recover') }}</button>
-                                        <a type="button" href="{{ route('2fa.show') }}" class="btn btn-info btn-sm"> Return Back</a>
+                                        <button type="submit" class="btn btn-primary btn-sm"> Submit</button>
+                                        <a type="button" href="{{ route('2fa.show') }}" class="btn btn-secondary btn-sm"> Return Back</a>
                                         <button type="button" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="btn btn-danger btn-sm"> Cancel</button>
                                     </div>
                                 </div>
@@ -50,4 +51,5 @@
         </div>
     </div>
 </div>
+
 @endsection

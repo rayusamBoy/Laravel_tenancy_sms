@@ -13,7 +13,7 @@ $keys = array_keys($attributes)
                 </button>
             </div>
             <div class="modal-body">
-                <table class="table table-bordered">
+                <table class="table table-bordered table-responsive">
                     <tr>
                         <td>Key</td>
                         <td>Attribute</td>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Assessment Sheet - {{ $my_class->name ?? '' }} {{ $section->name ?? '' }} {{ $exam->name.' ('.$year.')' }}</title>
+    <title>Assessment Sheet - {{ $my_class->name ?? '' }} {{ $section->name ?? '' }} {{ "{$exam->name} ($year)" }}</title>
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/print_assessments.css') }}" />
 
     @laravelPWA
@@ -23,7 +23,7 @@
 
                 <div class="row text-center">
                     <div class="col-md-3">
-                        <h4 class="card-title"><strong>CLASS: </strong> <span class="border-bottom-1">{{ strtoupper($m->my_class->name) }} {{ (!isset($section_id_is_null)) ? $m->section->name : '' }}</span></h4>
+                        <h4 class="card-title"><strong>CLASS: </strong> <span class="border-bottom-1">{{ strtoupper($m->my_class->name) }} {{ $section_id === null ? "" : $m->section->name }}</span></h4>
                     </div>
                     <div class="col-md-3">
                         <h4 class="card-title"><strong>SUBJECT: </strong> <span class="border-bottom-1">{{ strtoupper($m->subject->name) }}</span></h4>
@@ -37,6 +37,7 @@
                         <h4 class="card-title"><strong>YEAR: </strong> <span class="border-bottom-1">{{ strtoupper($m->year) }}</span></h4>
                     </div>
                 </div>
+
                 <table class="table">
                     <thead>
                         <tr>
@@ -96,7 +97,7 @@
                             <td>{{ $mk->cw8 ?? '' }}</td>
                             <td>{{ $mk->cw9 ?? '' }}</td>
                             <td>{{ $mk->cw10 ?? '' }}</td>
-                            {{--CW Average (10)--}}
+                            {{--CW Average--}}
                             <td>@php $cw_avg = Mk::getAverage($mk->cw1 + $mk->cw2 + $mk->cw3 + $mk->cw4 + $mk->cw5 + $mk->cw6 + $mk->cw7 + $mk->cw8 + $mk->cw9 + $mk->cw10, 10) @endphp {{ $cw_avg != 0 ? $cw_avg : '' }}</td>
                             {{--Home Work--}}
                             <td>{{ $mk->hw1 ?? '' }}</td>
@@ -104,18 +105,18 @@
                             <td>{{ $mk->hw3 ?? '' }}</td>
                             <td>{{ $mk->hw4 ?? '' }}</td>
                             <td>{{ $mk->hw5 ?? '' }}</td>
-                            {{--HW Average (10)--}}
+                            {{--HW Average--}}
                             <td>@php $hw_avg = Mk::getAverage($mk->hw1 + $mk->hw2 + $mk->hw3 + $mk->hw4 +$mk->hw5, 5) @endphp {{ $hw_avg != 0 ? $hw_avg : '' }}</td>
                             {{--Topic Test--}}
                             <td>{{ $mk->tt1 ?? '' }}</td>
                             <td>{{ $mk->tt2 ?? '' }}</td>
                             <td>{{ $mk->tt3 ?? '' }}</td>
-                            {{--TT Average (20)--}}
+                            {{--TT Average--}}
                             <td>@php $tt_avg = Mk::getAverage($mk->tt1 + $mk->tt2 + $mk->tt2, 3) @endphp {{ $tt_avg != 0 ? $tt_avg : ''  }}</td>
-                            {{--Exam (60)--}}
+                            {{--Exam--}}
                             <td>{{ $mk->exm ?? '' }}</td>
-                            {{--Total (100)--}}
-                            <td>@php $tex = 'tex'.$exam->term; $mark = $mk->$tex; @endphp {{ $mark ?? '' }}</td>
+                            {{--Total--}}
+                            <td>@php $tex = "tex{$exam->term}"; $mark = $mk->$tex; @endphp {{ $mark ?? '' }}</td>
                             {{--Grade--}}
                             <td>{{ $mk->grade->name ?? '' }}</td>
                             {{--Position of each student of a particular section and subject--}}
@@ -123,30 +124,22 @@
                         </tr>
                         @endforeach
                     </tbody>
-                    <tfoot>
-                        <tr class="display-none">
-                            <td class="border-0">
-                                @if(Qs::authUserGenderIsMale())
-                                <small class="position-fixed bottom-0 right-0 text-right w-100">Retrieved by, Mr. {{ Auth::user()->name }} ({{ date('m/d/Y h:i:s a', time()) }})</small>
-                                @endif
-    
-                                @if(Qs::authUserGenderIsFemale())
-                                <small class="position-fixed bottom-0 text-right w-100">Retrieved by, Madam. {{ Auth::user()->name }} ({{ date('m/d/Y h:i:s a', time()) }})</small>
-                                @endif
-                                {{-- <small class="position-fixed bottom-0 text-right w-90">{{ date('Y') . ". " }} {{ ucwords(strtolower(Qs::getSetting('system_name'))) }}. {{ __('All rights reserved.') }}</small> --}}
-                            </td>
-                        </tr>
-                    </tfoot>
                 </table>
+
+                <div>
+                    <small class="float-left"><em>Retrieved by: {{ auth()->user()->name }} ({{ str_replace("_", " ", auth()->user()->user_type) }})</em></small>
+                    <small class="float-right"><em>Printed on: {{ date('D\, j F\, Y \a\t H:i:s') }}</em></small>
+                </div>
             </div>
         </div>
         @endif
     </div>
 
     <script>
-       window.onload = (event) => {
+        window.addEventListener('load', function() {
             window.print();
-        }
+        });
+
     </script>
 </body>
 

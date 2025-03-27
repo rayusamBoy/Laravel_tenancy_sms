@@ -1,5 +1,7 @@
 @extends('layouts.master')
+
 @section('page_title', 'Manage Tenants')
+
 @section('content')
 
 <div class="card">
@@ -10,7 +12,7 @@
 
     <div class="card-body">
         <ul class="nav nav-tabs nav-tabs-highlight">
-            <li class="nav-item"><a href="#new-tenant" class="nav-link active" data-toggle="tab">Create New Tenant</a></li>
+            <li class="nav-item"><a href="#new-tenant" class="nav-link active" data-toggle="tab">Create Tenant</a></li>
             <li class="nav-item"><a href="#manage-tenants" class="nav-link" data-toggle="tab">Manage Tenants</a></li>
         </ul>
 
@@ -31,7 +33,7 @@
                                 <label for="account_status"> Account Status: <span class="text-danger">*</span></label>
                                 <select required data-placeholder="Select Status" class="form-control select" name="account_status" id="account_status">
                                     @foreach (Usr::getAccountStatuses() as $status)
-                                    <option {{ old('account_status') === $status ? 'selected' : '' }} value="{{ $status }}">{{ $status }}</option>
+                                    <option @selected(old('account_status')==$status) value="{{ $status }}">{{ $status }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -54,7 +56,7 @@
                                 <label for="payment_status"> Payment Status: <span class="text-danger">*</span></label>
                                 <select required data-placeholder="Select Status" class="form-control select" name="payment_status" id="payment_status">
                                     @foreach (Pay::getPaymentStatuses() as $key => $value)
-                                    <option {{ old('payment_status') === $key ? 'selected' : '' }} value="{{ $key }}">{{ $value }}</option>
+                                    <option @selected(old('payment_status')==$key) value="{{ $key }}">{{ $value }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -83,8 +85,6 @@
                             <th>Domain</th>
                             <th>Account Status</th>
                             <th>Payment Status</th>
-                            <th>Remarks</th>
-                            <th>DB Name</th>
                             <th>Created At</th>
                             <th>Updated At</th>
                             <th class="text-center">Action</th>
@@ -98,10 +98,8 @@
                             <td><a href="https://{{ $tenant->domain->domain ?? $tenant->domain }}" target="_blank">{{ $tenant->domain->domain ?? $tenant->domain }}</a></td>
                             <td>{{ ucfirst($tenant->account_status) }}</td>
                             <td>{{ ucfirst($tenant->payment_status) }}</td>
-                            <td>{{ $tenant->remarks }}</td>
-                            <td>{{ $tenant->tenancy_db_name }}</td>
-                            <td>{{ $tenant->created_at }}</td>
-                            <td>{{ $tenant->updated_at }}</td>
+                            <td>{{ $tenant->created_at->diffForHumans() }}</td>
+                            <td>{{ $tenant->updated_at->diffForHumans() }}</td>
                             <td class="text-center">
                                 <div class="list-icons">
                                     <div class="dropdown">
@@ -110,6 +108,8 @@
                                         <div class="dropdown-menu dropdown-menu-left">
                                             {{-- Edit --}}
                                             <a href="{{ route('tenants.edit', Qs::hash($tenant->id)) }}" class="dropdown-item"><i class="material-symbols-rounded">edit</i> Edit</a>
+                                            {{-- View Profile --}}
+                                            <a href="{{ route('tenants.show', Qs::hash($tenant->id)) }}" class="dropdown-item"><i class="material-symbols-rounded">visibility</i> View Profile</a>
                                             {{-- Delete --}}
                                             @if(Qs::userIsHead())
                                             <a id="{{ Qs::hash($tenant->id) }}" onclick="confirmPermanentDeleteTwice(this.id)" href="javascript:;" class="dropdown-item text-danger"><i class="material-symbols-rounded">delete</i> Delete</a>

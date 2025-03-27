@@ -5,6 +5,7 @@ namespace App;
 use App\Models\BloodGroup;
 use App\Models\Group;
 use App\Models\Lga;
+use App\Models\LoginHistory;
 use App\Models\Nationality;
 use App\Models\StaffRecord;
 use App\Models\State;
@@ -139,5 +140,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function routeNotificationForVonage(): string
     {
         return auth()->user()->phone ?? auth()->user()->phone2;
+    }
+
+    public function loginHistory()
+    {
+        $hist = LoginHistory::where('user_id', auth()->id())->get();
+        return $hist;
     }
 }

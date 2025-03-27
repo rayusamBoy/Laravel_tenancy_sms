@@ -20,9 +20,9 @@
                             </ul>
 
                             @php
-                                $admin_fb_link = $settings->where('type', 'admin_facebook_link')->value('description');
-                                $admin_linkedin_link = $settings->where('type', 'admin_linkedin_link')->value('description');
-                                $admin_github_link = $settings->where('type', 'admin_github_link')->value('description');
+                            $admin_fb_link = $settings->where('type', 'admin_facebook_link')->value('description');
+                            $admin_linkedin_link = $settings->where('type', 'admin_linkedin_link')->value('description');
+                            $admin_github_link = $settings->where('type', 'admin_github_link')->value('description');
                             @endphp
 
                             @if($admin_fb_link !== null || $admin_linkedin_link !== null || $admin_github_link !== null)
@@ -40,7 +40,6 @@
                                 @endif
                             </ul>
                             @endif
-
                         </div>
                     </div>
                 </div>

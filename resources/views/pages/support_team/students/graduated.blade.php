@@ -1,5 +1,7 @@
 @extends('layouts.master')
+
 @section('page_title', 'Graduated Students')
+
 @section('content')
 
 <div class="card">
@@ -60,7 +62,7 @@
                             <td>{{ $gs->from_session }}</td>
                             <td>{{ $gs->remarks }}</td>
                             @if (Qs::userIsTeamSA())
-                            <td><label class="form-switch m-0"><input id="checkbox-user-{{ $gs->student_id }}" onchange="updateUserBlockedState(<?php echo $gs->student_id ?>, this)" type="checkbox" @if($gs->student->blocked) checked @endif><i></i></label></td>
+                            <td><label class="form-switch m-0"><input id="checkbox-user-{{ $gs->student_id }}" onchange="updateUserBlockedState({{ $gs->student_id }}, this)" type="checkbox" @checked($gs->student->blocked)><i></i></label></td>
                             @endif
                             <td class="text-center">
                                 <div class="list-icons">
@@ -128,14 +130,12 @@
                                             @if(Qs::userIsTeamSA())
                                             <a href="{{ route('students.edit', Qs::hash($gs->student_id)) }}" class="dropdown-item"><i class="material-symbols-rounded">edit</i> Edit</a>
                                             <a href="{{ route('st.reset_pass', Qs::hash($gs->student_id)) }}" class="dropdown-item"><i class="material-symbols-rounded">lock_reset</i> Reset password</a>
-
                                             {{--Not Graduated--}}
                                             <a id="{{ Qs::hash($gs->student_id) }}" href="javascript:;" onclick="confirmReset(this.id)" class="dropdown-item"><i class="material-symbols-rounded">close</i> Not Graduated</a>
                                             <form method="post" id="item-reset-{{ Qs::hash($gs->student_id) }}" action="{{ route('st.not_graduated', [Qs::hash($gs->student_id), $gs->id]) }}" class="hidden">@csrf @method('put')</form>
                                             @endif
 
                                             <a target="_blank" href="{{ route('marks.year_selector', Qs::hash($gs->user_id)) }}" class="dropdown-item"><i class="material-symbols-rounded">bottom_sheets</i> Marksheet</a>
-
                                             {{--Delete--}}
                                             @if(Qs::userIsSuperAdmin())
                                             <a id="{{ Qs::hash($gs->student_id) }}" onclick="confirmDelete(this.id)" href="javascript:;" class="dropdown-item text-danger"><i class="material-symbols-rounded">delete</i> Delete</a>
@@ -151,7 +151,6 @@
                 </table>
             </div>
             @endforeach
-
         </div>
     </div>
 </div>
@@ -217,7 +216,7 @@
         }).then((result) => {
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
-                    return ajaxProcessRequest(class_id, type);
+                return ajaxProcessRequest(class_id, type);
             };
         });
     }

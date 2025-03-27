@@ -1,5 +1,7 @@
 @extends('layouts.master')
+
 @section('page_title', 'Payments Status')
+
 @section('content')
 
 <div class="card">
@@ -36,16 +38,12 @@
                             <td>{{ $uc->payment->title }}</td>
                             <td>{{ $uc->payment->description }}</td>
                             <td>{{ $uc->payment->ref_no }}</td>
-
                             {{--Amount--}}
                             <td class="font-weight-bold" id="amt-{{ Qs::hash($uc->id) }}" data-amount="{{ $uc->payment->amount }}">{{ $uc->payment->amount }}</td>
-
                             {{--Amount Paid--}}
                             <td id="amt_paid-{{ Qs::hash($uc->id) }}" data-amount="{{ $uc->amt_paid ?: 0 }}" class="text-blue font-weight-bold">{{ $uc->amt_paid ?: '0.00' }}</td>
-
                             {{--Balance--}}
                             <td id="bal-{{ Qs::hash($uc->id) }}" class="text-danger font-weight-bold">{{ $uc->balance ?: $uc->payment->amount }}</td>
-
                             {{--Year--}}
                             <td>{{ $uc->year }}</td>
                         </tr>
@@ -72,7 +70,6 @@
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $cl->payment->title }}</td>
                             <td>{{ $cl->payment->ref_no }}</td>
-
                             {{--Amount--}}
                             <td class="font-weight-bold">{{ $cl->payment->amount }}</td>
                             {{--Receipt No--}}
@@ -83,7 +80,6 @@
                         @endforeach
                     </tbody>
                 </table>
-
             </div>
         </div>
     </div>

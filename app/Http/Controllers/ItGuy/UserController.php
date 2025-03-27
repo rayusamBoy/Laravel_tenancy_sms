@@ -34,6 +34,7 @@ class UserController extends Controller implements HasMiddleware
     {
         return [
             new Middleware('itGuy'),
+            new middleware('headSA', only: ['store', 'reset_pass', 'destroy', 'edit', 'update', 'update_user_blocked_state']),
         ];
     }
 
@@ -68,10 +69,6 @@ class UserController extends Controller implements HasMiddleware
 
     public function reset_pass($id)
     {
-        // Redirect if Making Changes to Head of Super Admins
-        if (Qs::headSA($id) && !Qs::userIsHead())
-            return back()->with('flash_danger', __('msg.denied'));
-
         $data['password'] = Hash::make('user');
         $data['password_updated_at'] = NULL;
         $this->user->update($id, $data);
@@ -88,7 +85,7 @@ class UserController extends Controller implements HasMiddleware
         $data['name'] = $name = ucwords(strtolower($req->name));
         $data['user_type'] = $user_type;
         $data['code'] = $code = strtoupper(Str::random(10));
-        $data['photo'] = Usr::createAvatar($name, $code, $user_type);
+        $data['photo'] = "storage/" . Usr::createAvatar($name, $code, $user_type);
         $data['dob'] = $req->dob;
 
         $emp_date = $req->emp_date ?? now();
@@ -117,7 +114,8 @@ class UserController extends Controller implements HasMiddleware
         $d2 = $req->only(Qs::getStaffRecord());
         $d2['user_id'] = $user->id;
         $d2['code'] = $staff_id;
-        $d2['subjects_studied'] = isset($d2['subjects_studied']) ? json_encode($d2['subjects_studied']) : NULL;
+        $d2['subjects_studied'] = isset($d2['subjects_studied']) ? json_encode(explode(",", $d2['subjects_studied'])) : NULL;
+
         $this->user->createStaffRecord($d2);
 
         return Qs::jsonStoreOk();
@@ -126,17 +124,10 @@ class UserController extends Controller implements HasMiddleware
     public function update(UserRequest $req, $id)
     {
         $id = (int) Qs::decodeHash($id);
-        $user_type_id = (int) Qs::decodeHash($req->user_type);
-
-        // Redirect if Making Changes to Head of Super Admins
-        if (Qs::headSA($id) && !Qs::headSA(auth()->id()))
-            return Qs::json(__('msg.denied'), FALSE);
-        elseif (Qs::headSA(auth()->id()) && !Qs::userIsHead())
-            return Qs::json(__('msg.denied'), FALSE);
-
+        $user_type_id = (int) Qs::decodeHash($req->user_type_id);
         $user = $this->user->find($id);
         $user_type = $this->user->findType($user_type_id)->title ?? $user->user_type;
-        $except = array_merge(Qs::getStaffRecord(), ['_token', '_method']);
+        $except = array_merge(Qs::getStaffRecord(), ['_token', '_method', 'user_type_id']);
         $data = $req->except($except);
 
         $data['name'] = $name = ucwords(strtolower($req->name));
@@ -156,7 +147,7 @@ class UserController extends Controller implements HasMiddleware
         /* Update staff record */
         $d2 = $req->only(Qs::getStaffRecord());
         $d2['code'] = $user->code;
-        $d2['subjects_studied'] = isset($d2['subjects_studied']) ? json_encode($d2['subjects_studied']) : NULL;
+        $d2['subjects_studied'] = isset($d2['subjects_studied']) ? json_encode(explode(",", $d2['subjects_studied'])) : NULL;
         $this->user->updateStaffRecord(['user_id' => $id], $d2);
 
         return Qs::jsonUpdateOk();
@@ -170,9 +161,9 @@ class UserController extends Controller implements HasMiddleware
 
         $data['user'] = $this->user->find($user_id);
 
-        /* Prevent Other Students from viewing Profile of others*/
-        if (auth()->id() != $user_id && !Qs::userIsItGuy())
-            return redirect(route('dashboard'))->with('pop_error', __('msg.denied'));
+        /* Prevent other Users from viewing Profile of others */
+        if (auth()->id() != $user_id && !Qs::userIsHead())
+            return back()->with('pop_error', __('msg.denied'));
 
         $data['staff_rec'] = $this->user->getStaffRecord(['user_id' => $user_id])->first() ?: null;
 
@@ -182,16 +173,11 @@ class UserController extends Controller implements HasMiddleware
     public function destroy($id)
     {
         $id = Qs::decodeHash($id);
-
-        // Redirect if Making Changes to Head of Super Admins or Head master
-        if (Qs::headSA($id))
-            return back()->with('pop_error', __('msg.denied'));
-
         $user = $this->user->find($id);
-
         $path = Qs::getUploadPath($user->user_type) . $user->code;
+
         Storage::exists($path) ? Storage::deleteDirectory($path) : true;
-        
+
         $this->user->forceDelete($user->id);
 
         return back()->with('flash_success', __('msg.del_ok'));

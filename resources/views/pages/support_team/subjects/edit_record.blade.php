@@ -1,5 +1,7 @@
 @extends('layouts.master')
-@section('page_title', 'Edit Subject Record - '.$sub_rec->subject->name. ' ('.$sub_rec->subject->my_class->name.')')
+
+@section('page_title', 'Edit Subject Record - ' . $sub_rec->subject->name . ' (' . $sub_rec->subject->my_class->name . ')')
+
 @section('content')
 
 <div class="card">
@@ -30,13 +32,13 @@
                         </div>
                     </div>
 
-                    @if($sub_rec->section_id == NULL && $sub_rec->students_ids != NULL)
+                    @if($sub_rec->section_id == null && $sub_rec->students_ids != null)
                     <div class="form-group row">
                         <label for="students-ids" class="col-lg-3 col-form-label font-weight-semibold">Select:</label>
                         <div class="col-lg-9">
                             <select id="students-ids" name="students_ids[]" multiple="multiple" data-placeholder="Select" class="form-control select">
                                 @foreach(Usr::getClassStudents($sub_rec->subject->my_class->id) as $st)
-                                <option @if(isset($sub_rec->students_ids) && isset($st->user->id) && in_array($st->user->id, unserialize($sub_rec->students_ids))) selected @endif value="{{ $st->user->id ?? '' }}">{{ $st->user->name ?? '' }}</option>
+                                <option @selected(isset($sub_rec->students_ids) && isset($st->user->id) && in_array($st->user->id, unserialize($sub_rec->students_ids))) value="{{ $st->id }}">{{ $st->user->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -61,8 +63,8 @@
                         <label for="core" class="col-lg-3 col-form-label font-weight-semibold">Core Subject</label>
                         <div class="col-lg-2">
                             <select class="form-control select" name="core" id="core">
-                                <option {{ ($sub_rec->subject->core == 1 ? 'selected' : '') }} value="1">Yes</option>
-                                <option {{ ($sub_rec->subject->core == 0 ? 'selected' : '') }} value="0">No</option>
+                                <option @selected($sub_rec->subject->core == 1) value="1">Yes</option>
+                                <option @selected($sub_rec->subject->core == 0) value="0">No</option>
                             </select>
                         </div>
                         <div class="col-lg-7">
@@ -76,7 +78,7 @@
                             <select data-placeholder="Select Teacher" class="form-control select-search" name="teacher_id" id="teacher_id">
                                 <option value=""></option>
                                 @foreach($teachers as $t)
-                                <option {{ $sub_rec->teacher_id == $t->id ? 'selected' : '' }} value="{{ Qs::hash($t->id) }}">{{ $t->name }}</option>
+                                <option @selected($sub_rec->teacher_id == $t->id) value="{{ Qs::hash($t->id) }}">{{ $t->name }}</option>
                                 @endforeach
                             </select>
                         </div>

@@ -29,7 +29,7 @@ class TTRequest extends FormRequest
 
     public function attributes()
     {
-        return  [
+        return [
             'subject_id' => 'Subject',
             'ttr_id' => 'TimeTable Record',
             'ts_id' => 'Time Slot',

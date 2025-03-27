@@ -15,7 +15,7 @@ class MyClassRepo
 
     public function all()
     {
-        return MyClass::orderBy('name', 'asc')->with(['class_type', 'section'])->get();
+        return MyClass::with(['class_type', 'section'])->orderBy('name', 'asc')->get();
     }
 
     public function get($where)
@@ -212,7 +212,7 @@ class MyClassRepo
     }
 
     /************* Subject records *******************/
-    
+
     public function findSubjectRecord($id)
     {
         return SubjectRecord::with('subject')->find($id);

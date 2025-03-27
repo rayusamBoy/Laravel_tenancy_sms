@@ -40,6 +40,6 @@ class TenantRequest extends FormRequest
             'domain' => ['required', Rule::unique('domains', 'domain')->ignore($this->getRouteTenantIdParameter(), 'tenant_id'), new Domain],
         ];
 
-        return ($this->method() === 'POST') ? $store : $update;
+        return $this->method() === 'POST' ? $store : $update;
     }
 }

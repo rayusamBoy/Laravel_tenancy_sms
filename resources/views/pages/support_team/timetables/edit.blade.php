@@ -1,5 +1,7 @@
 @extends('layouts.master')
+
 @section('page_title', 'Edit TimeTable Record')
+
 @section('content')
 
 <div class="card">
@@ -31,7 +33,7 @@
                     <div class="col-lg-9">
                         <select required data-placeholder="Select Class" onchange="getClassSections(this.value)" class="form-control select" name="my_class_id" id="my_class_id">
                             @foreach($my_classes as $mc)
-                            <option {{ $ttr->my_class_id == $mc->id ? 'selected' : '' }} value="{{ $mc->id }}">{{ $mc->name }}</option>
+                            <option @selected($ttr->my_class_id == $mc->id) value="{{ $mc->id }}">{{ $mc->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -44,9 +46,9 @@
                     <div class="col-lg-9">
                         <select required data-placeholder="Select Section" class="form-control select" name="section_id" id="section_id">
                             @foreach($sections as $section)
-                            <option {{ $ttr->section_id == $section->id ? 'selected' : '' }} value="{{ $section->id }}">{{ $section->name }}</option>
+                            <option @selected($ttr->section_id == $section->id) value="{{ $section->id }}">{{ $section->name }}</option>
                             @endforeach
-                            <option {{ $ttr->section_id == NULL ? 'selected' : '' }} value="all">All</option>
+                            <option @selected($ttr->section_id == null) value="all">All</option>
                         </select>
                     </div>
                 </div>

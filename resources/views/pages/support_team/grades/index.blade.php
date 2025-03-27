@@ -1,6 +1,7 @@
 @extends('layouts.master')
 
 @section('page_title', 'Manage Grades')
+
 @section('content')
 
 <div class="card">
@@ -36,7 +37,7 @@
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $gr->name }}</td>
                             <td>{{ $gr->class_type_id ? $class_types->where('id', $gr->class_type_id)->first()->name : 'Not Applicable'}}</td>
-                            <td>{{ $gr->mark_from.' - '.$gr->mark_to }}</td>
+                            <td>{{ "{$gr->mark_from} - {$gr->mark_to}" }}</td>
                             <td>{{ $gr->point }}</td>
                             <td>{{ $gr->credit }}</td>
                             <td>{{ $gr->remark }}</td>
@@ -91,7 +92,7 @@
                                     <select class="form-control select" name="class_type_id" id="class_type_id">
                                         <option value="">Not Applicable</option>
                                         @foreach($class_types as $ct)
-                                        <option {{ old('class_type_id') == $ct->id ? 'selected' : '' }} value="{{ $ct->id }}">{{ $ct->name }}</option>
+                                        <option @selected(old('class_type_id')==$ct->id) value="{{ $ct->id }}">{{ $ct->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -117,8 +118,8 @@
                                 <div class="col-lg-3">
                                     <input name="point" min="0" max="10" required type="number" class="form-control" placeholder="E.g., 1">
                                 </div>
-                                <div class="col-lg-6 display-i-on-hover"><span class="font-weight-bold font-italic text-info-800">This point will be used in calculating student division.</span>
-                                    <i class="material-symbols-rounded float-right text-info display-none" data-toggle="tooltip" title="Sample points: 1 &rArr; A, 2 &rArr; B, 3 &rArr; C, 4 &rArr; D, 5 &rArr; F, as well as 6 &rArr; S or 7 &rArr; F.">info</i>
+                                <div class="col-lg-6"><span class="font-weight-bold font-italic text-info-800">This point will be used in calculating student division.</span>
+                                    <i class="material-symbols-rounded float-right text-info" data-toggle="tooltip" title="Sample points: 1 &rArr; A, 2 &rArr; B, 3 &rArr; C, 4 &rArr; D, 5 &rArr; F, as well as 6 &rArr; S or 7 &rArr; F.">info</i>
                                 </div>
                             </div>
 
@@ -127,18 +128,18 @@
                                 <div class="col-lg-3">
                                     <input name="credit" min="0" max="5" required type="number" class="form-control" placeholder="E.g., 5">
                                 </div>
-                                <div class="col-lg-6 display-i-on-hover"><span class="font-weight-bold font-italic text-info-800">This weight will be used in calculating GPA. Usually, the highest grade tekes the highest credit, whereas other grades are scaled accordingly.</span>
-                                    <i class="material-symbols-rounded float-right text-info display-none" data-toggle="tooltip" title="Sample credits: 5 &rArr; A, 4 &rArr; B, 3 &rArr; C, 2 &rArr; D, 1 &rArr; E, 0 &rArr; F, as well as 0.5 &rArr; S.">info</i>
+                                <div class="col-lg-6"><span class="font-weight-bold font-italic text-info-800">This weight calculates GPA, with the highest grade earning the most credit.</span>
+                                    <i class="material-symbols-rounded float-right text-info" data-toggle="tooltip" title="Sample credits: 5 &rArr; A, 4 &rArr; B, 3 &rArr; C, 2 &rArr; D, 1 &rArr; E, 0 &rArr; F, as well as 0.5 &rArr; S.">info</i>
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label for="remark" class="col-lg-3 col-form-label font-weight-semibold">Remark</label>
                                 <div class="col-lg-9">
-                                    <select class="form-control select" name="remark" id="remark">
-                                        <option value="">Select Remark...</option>
+                                    <select class="form-control select" data-placeholder="Select Remark" name="remark" id="remark">
+                                        <option value="">Select Remark</option>
                                         @foreach(Mk::getRemarks() as $rem)
-                                        <option {{ old('remark') == $rem ? 'selected' : '' }} value="{{ $rem }}">{{ $rem }}</option>
+                                        <option @selected(old('remark')==$rem) value="{{ $rem }}">{{ $rem }}</option>
                                         @endforeach
                                     </select>
                                 </div>

@@ -65,7 +65,7 @@ class LoginController extends Controller implements HasMiddleware
 
         // If account not active ie., blocked, susupended etc., abort as forbidden.
         if (in_array($account_status, Usr::getAccountStatuses(['active']))) {
-            $message = 'ACCOUNT ' . strtoupper($account_status) . '.';
+            $message = 'ACCOUNT ' . strtoupper($account_status);
             session()->flash('tenant_account_not_active', $message);
             abort(403, $message);
         }

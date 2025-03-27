@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-header header-elements-inline">
-        <h5 class="card-title"><i class="material-symbols-rounded mr-2">delete</i> Batch Delete </h5>
+        <h6 class="card-title"><i class="material-symbols-rounded mr-2">delete</i> Batch Delete </h6>
         {!! Qs::getPanelOptions() !!}
     </div>
 
@@ -9,14 +9,14 @@
             <div class="alert alert-info border-0 alert-dismissible has-do-not-show-again-button" id="batch-delete-info">
                 <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
                 <span>
-                    If there are marks for a subject appearing where they should not; such as English marks in a tabulation sheet for a class or section that doesn’t study the subject, or for any other reason, you can use this operation to delete those marks. 
+                    If there are marks for a subject appearing where they should not; such as English marks in a tabulation sheet for a class or section that doesn’t study the subject, or for any other reason, you can use this operation to delete those marks.
                 </span>
             </div>
         </div>
     </div>
 
     <div class="card-body">
-        <form class="page-block" method="POST" action="{{ route('marks.batch_delete') }}" id="item-delete-batch" >
+        <form class="page-block" method="POST" action="{{ route('marks.batch_delete') }}" id="item-delete-batch">
             @csrf
             <div class="row">
                 <div class="col-md-10">
@@ -74,10 +74,7 @@
                         <button type="button" onclick="confirmPermanentDeleteTwice('batch');" class="btn btn-sm btn-danger">Delete Exam Marks<i class="material-symbols-rounded ml-2">delete</i></button>
                     </div>
                 </div>
-
             </div>
-
         </form>
-
     </div>
 </div>

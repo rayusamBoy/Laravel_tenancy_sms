@@ -1,7 +1,9 @@
 @extends('layouts.master')
-@section('page_title', 'User Profile - ' . $user->name)
+
+@section('page_title', "User Profile - {$user->name}")
 
 @section('content')
+
 <div class="row">
     <div class="col-md-3 text-center">
         <div class="card">
@@ -13,13 +15,13 @@
         </div>
     </div>
     <div class="col-md-9">
-        <div class="card w">
+        <div class="card">
             <div class="card-body">
                 <ul class="nav nav-tabs nav-tabs-highlight">
                     <li class="nav-item">
                         <a href="#basic-info" class="nav-link active" data-toggle="tab">Basic Info</a>
                     </li>
-                    @if((isset($staff_rec) && $staff_rec != null) && (Qs::userIsHead() || $user->id == Auth::id()))
+                    @if((isset($staff_rec) && $staff_rec != null) && (Qs::userIsHead() || $user->id == auth()->id()))
                     <li class="nav-item">
                         <a href="#staff-info" class="nav-link" data-toggle="tab">Staff Info</a>
                     </li>
@@ -105,28 +107,18 @@
                                     <td>{{ $user->lga->name }}</td>
                                 </tr>
                                 @endif
+                                @if($user->address)
                                 <tr>
                                     <td class="font-weight-bold">Address</td>
                                     <td class="break-all">{{ $user->address }}</td>
                                 </tr>
-
-                                @if($user->user_type == 'teacher')
-                                <tr>
-                                    <td class="font-weight-bold">My Subjects</td>
-                                    <td>
-                                        @foreach(Qs::findTeacherSubjectRecs($user->id) as $sub_rec)
-                                        <span> - {{ $sub_rec->subject->name ?? ' ' .' ('.$sub_rec->subject->my_class->name ?? ' ' . ')' }}</span><br>
-                                        @endforeach
-                                    </td>
-                                </tr>
                                 @endif
-
                             </tbody>
                         </table>
                     </div>
 
                     {{--Staff Info--}}
-                    @if((isset($staff_rec) && $staff_rec != null) && (Qs::userIsHead() || $user->id == Auth::id()))
+                    @if((isset($staff_rec) && $staff_rec != null) && (Qs::userIsHead() || $user->id == auth()->id()))
                     <div class="tab-pane fade" id="staff-info">
                         <table class="table table-bordered">
                             <tbody>
@@ -155,7 +147,7 @@
                                     <td class="break-all">{{ $staff_rec->emp_no ?? '-' }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="font-weight-bold">Tin Number</td>
+                                    <td class="font-weight-bold">TIN Number</td>
                                     <td class="break-all">{{ $staff_rec->tin_number ?? '-' }}</td>
                                 </tr>
                                 <tr>
@@ -178,10 +170,6 @@
                                     <td class="font-weight-bold">Role</td>
                                     <td class="break-all">{{ $staff_rec->role ?? '-' }}</td>
                                 </tr>
-                                <tr>
-                                    <td class="font-weight-bold">Number of Periods</td>
-                                    <td class="break-all">{{ $staff_rec->no_of_periods ?? '-' }}</td>
-                                </tr>
                                 @if(isset($staff_rec->subjects_studied))
                                 <tr>
                                     <td class="font-weight-bold">Subjects Studied</td>
@@ -196,7 +184,6 @@
                         </table>
                     </div>
                     @endif
-
                 </div>
             </div>
         </div>

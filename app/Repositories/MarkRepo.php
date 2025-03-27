@@ -24,9 +24,9 @@ class MarkRepo
         $d = ['student_id' => $st_id, 'subject_id' => $sub_id, 'my_class_id' => $class_id, 'year' => $year];
 
         $tex = "tex$term";
-        $sub_total = Mark::where($d)->select($tex)->get()->where($tex, '>', 0);
+        $sub_total = Mark::where($d)->whereNotNull($tex)->where($tex, '>', 0)->select($tex)->first();
 
-        return $sub_total->count() > 0 ? $sub_total->first()->$tex : NULL;
+        return $sub_total ? $sub_total->{$tex} : null;
     }
 
     public function getExamTotalTerm($exam, $st_id, $class_id, $year)
@@ -45,7 +45,7 @@ class MarkRepo
 
         $tex = "tex{$exam->term}";
         $mk = Mark::where($d);
-        
+
         return $mk->select($tex)->sum($tex);
     }
 
@@ -83,8 +83,10 @@ class MarkRepo
     public function getSubCumAvg($tex3, $st_id, $sub_id, $class_id, $year)
     {
         $count = 0;
+
         $tex1 = $this->getSubTotalTerm($st_id, $sub_id, 1, $class_id, $year);
         $count = $tex1 ? $count + 1 : $count;
+
         $tex2 = $this->getSubTotalTerm($st_id, $sub_id, 2, $class_id, $year);
         $count = $tex2 ? $count + 1 : $count;
         $count = $tex3 ? $count + 1 : $count;
@@ -109,7 +111,8 @@ class MarkRepo
         $sub_mk = $this->getSubjectMark($exam, $class_id, $sub_id, $st_id, $year);
         $sub_mks = Mark::where($d)->whereNotNull($tex)->orderBy($tex, 'DESC')->select($tex)->get()->pluck($tex);
 
-        return $sub_mks->count() > 0 ? $sub_mks->search($sub_mk) + 1 : NULL;
+        $position = $sub_mks->search($sub_mk);
+        return ($position !== false) ? $position + 1 : null;
     }
 
     public function countExSubjects($exam, $st_id, $class_id, $year)
@@ -159,7 +162,7 @@ class MarkRepo
         sort($weight); // Sort points
         $weight = array_filter($weight);
         if (count($weight) < $length) // If the points are not suffucient compared to subjects considered, return null
-            return NULL;
+            return null;
         // Start from offset (default 0). Take only the sum of the first considered points
         return array_sum(array_slice($weight, $offset, $length));
     }
@@ -196,14 +199,14 @@ class MarkRepo
     public function getGrade($total, $class_type_id)
     {
         if ($total <= 0)
-            return NULL;
+            return null;
 
         $total = round($total);
         $grades = Grade::where(['class_type_id' => $class_type_id])->get();
 
-        if ($grades->count() > 0) {
+        if ($grades->isNotEmpty()) {
             $gr = $grades->where('mark_from', '<=', $total)->where('mark_to', '>=', $total);
-            return $gr->count() > 0 ? $gr->first() : $this->getGrade2($total);
+            return $gr->first() ?: $this->getGrade2($total);
         }
 
         return $this->getGrade2($total);
@@ -213,9 +216,9 @@ class MarkRepo
     {
         $grades = Grade::whereNull('class_type_id')->get();
 
-        if ($grades->count() > 0)
+        if ($grades->isNotEmpty())
             return $grades->where('mark_from', '<=', $total)->where('mark_to', '>=', $total)->first();
 
-        return NULL;
+        return null;
     }
 }

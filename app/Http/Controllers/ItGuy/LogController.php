@@ -43,7 +43,7 @@ class LogController extends Controller
     public function delete_activity($log_id)
     {
         $this->log->deleteActivityLog($log_id);
-        
+
         return back()->with('flash_success', __('msg.del_ok'));
     }
 }

@@ -1,5 +1,7 @@
 @extends('layouts.master')
-@section('page_title', 'Student Profile - '.$sr->user->name)
+
+@section('page_title', 'Student Profile - ' . $sr->user->name)
+
 @section('content')
 
 <div class="row">
@@ -123,7 +125,7 @@
                             <tbody>
                                 <tr>
                                     <td class="font-weight-bold">Status</td>
-                                    <td>{{ $sr->grad == 1 ? 'Graduate' . ' (' . $sr->grad_date . ')' : 'Active' }}</td>
+                                    <td>{{ $sr->grad == 1 ? "Graduate ({$sr->grad_date})" : 'Active' }}</td>
                                 </tr>
                                 <tr>
                                     <td class="font-weight-bold">Admission Number</td>

@@ -25,7 +25,7 @@
                             <div class="col-lg-3">
                                 <select data-placeholder="Hour" required class="select-search form-control" name="hour_from" id="hour_from">
                                     <option value=""></option>
-                                    @for($t=1; $t<=12; $t++) <option {{ old('hour_from') == $t ? 'selected' : '' }} value="{{ $t }}">{{ $t}}</option>@endfor
+                                    @for($t=1; $t<=12; $t++) <option @selected(old('hour_from')==$t) value="{{ $t }}">{{ $t }}</option>@endfor
                                 </select>
                             </div>
 
@@ -34,15 +34,15 @@
                                     <option value=""></option>
                                     <option value="00">00</option>
                                     <option value="05">05</option>
-                                    @for($t=10; $t<=55; $t+=5) <option {{ old('min_from') == $t ? 'selected' : '' }} value="{{ $t }}">{{ $t}}</option> @endfor
+                                    @for($t=10; $t<=55; $t+=5) <option @selected(old('min_from')==$t) value="{{ $t }}">{{ $t }}</option> @endfor
                                 </select>
                             </div>
 
                             <div class="col-lg-3">
                                 <select data-placeholder="Meridian" required class="select form-control" name="meridian_from" id="meridian_from">
                                     <option value=""></option>
-                                    <option {{ old('meridian_from') == 'AM' ? 'selected' : '' }} value="AM">AM</option>
-                                    <option {{ old('meridian_from') == 'PM' ? 'selected' : '' }} value="PM">PM</option>
+                                    <option @selected(old('meridian_from')=='AM' ) value="AM">AM</option>
+                                    <option @selected(old('meridian_from')=='PM' ) value="PM">PM</option>
                                 </select>
                             </div>
                         </div>
@@ -53,7 +53,7 @@
                             <div class="col-lg-3">
                                 <select data-placeholder="Hour" required class="select-search form-control" name="hour_to" id="hour_to">
                                     <option value=""></option>
-                                    @for($t=1; $t<=12; $t++) <option {{ old('hour_to') == $t ? 'selected' : '' }} value="{{ $t }}">{{ $t}}</option>@endfor
+                                    @for($t=1; $t<=12; $t++) <option @selected(old('hour_to')==$t) value="{{ $t }}">{{ $t }}</option>@endfor
                                 </select>
                             </div>
 
@@ -62,15 +62,15 @@
                                     <option value=""></option>
                                     <option value="00">00</option>
                                     <option value="05">05</option>
-                                    @for($t=10; $t<=55; $t+=5) <option {{ old('min_to') == $t ? 'selected' : '' }} value="{{ $t }}">{{ $t}}</option>@endfor
+                                    @for($t=10; $t<=55; $t+=5) <option @selected(old('min_to')==$t) value="{{ $t }}">{{ $t }}</option>@endfor
                                 </select>
                             </div>
 
                             <div class="col-lg-3">
                                 <select data-placeholder="Meridian" required class="select form-control" name="meridian_to" id="meridian_to">
                                     <option value=""></option>
-                                    <option {{ old('meridian_to') == 'AM' ? 'selected' : '' }} value="AM">AM</option>
-                                    <option {{ old('meridian_to') == 'PM' ? 'selected' : '' }} value="PM">PM</option>
+                                    <option @selected(old('meridian_to')=='AM' ) value="AM">AM</option>
+                                    <option @selected(old('meridian_to')=='PM' ) value="PM">PM</option>
                                 </select>
                             </div>
                         </div>
@@ -115,7 +115,6 @@
                     </form>
                 </div>
             </div>
-
         </div>
     </div>
 </div>

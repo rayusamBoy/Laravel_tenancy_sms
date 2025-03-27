@@ -20,7 +20,6 @@ use File;
 use Illuminate\Http\Request as HttpReq;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -215,7 +214,7 @@ class StudentRecordController extends Controller implements HasMiddleware
         $data['sr'] = $sr = $this->student->getRecord(['id' => $sr_id])->first() ?? $this->student->getRecord2(['id' => $sr_id])->first();
 
         /* Prevent Other Students/Parents from viewing Profile of others */
-        if (Auth::user()->id != $sr->user_id && !Qs::userIsTeamSATCL() && !Qs::userIsMyChild($sr->user_id, Auth::user()->id))
+        if (auth()->id() != $sr->user_id && !Qs::userIsTeamSATCL() && !Qs::userIsMyChild($sr->user_id, auth()->id()))
             if (Qs::userIsStudent2($sr->user->user_type) && !(Qs::userIsLibrarian() or Qs::userIsAccountant()))
                 return redirect(route('dashboard'))->with('pop_error', __('msg.denied'));
 

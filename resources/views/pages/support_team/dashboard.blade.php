@@ -1,4 +1,5 @@
 @extends('layouts.master')
+
 @section('page_title', 'My Dashboard')
 
 @section('content')
@@ -254,7 +255,7 @@ $staff = $users->where('user_type', '<>', 'student')->where('user_type', '<>', '
     <div class="card card-body bg-orange-400 has-bg-image">
         <div class="media">
             <div class="media-body">
-                <h3 class="mb-0 counter">{{ count($class->all()) }}</h3>
+                <h3 class="mb-0 counter">{{ $classes_count }}</h3>
                 <span class="text-capitalize font-size-xs">Total Classes</span>
             </div>
 
@@ -335,7 +336,6 @@ $staff = $users->where('user_type', '<>', 'student')->where('user_type', '<>', '
         </div>
     </div>
     @endif
-
 </div>
 @endif
 
@@ -345,11 +345,16 @@ $staff = $users->where('user_type', '<>', 'student')->where('user_type', '<>', '
         {{-- Notices --}}
         <div class="card card-collapsed">
             <div class="card-header header-elements-inline">
-                <h5 class="card-title">Notices<sup class="badge badge-light">{{ $unviewed_count }}</sup></h5>
-                @if(Qs::userIsAdministrative())
-                <a class="btn btn-link" href="{{ route('notices.index') }}">Manage</a>
-                @endif
-                {!! Qs::getPanelOptions() !!}
+                <h6 class="card-title">Notices<sup class="badge badge-default notices-badge">{{ $unviewed_count }}</sup></h6>
+                <div class="header-elements">
+                    <div class="list-icons">
+                        @if(Qs::userIsAdministrative())
+                        <a class="btn btn-link list-icons-item" href="{{ route('notices.index') }}">Manage</a>
+                        @endif
+                        <a class="list-icons-item" data-action="collapse"></a>
+                        <a class="list-icons-item" data-action="remove"></a>
+                    </div>
+                </div>
             </div>
             <div class="notices">
                 @include('pages/support_team/notices/show')

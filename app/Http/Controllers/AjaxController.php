@@ -32,38 +32,28 @@ class AjaxController extends Controller
     {
         $lgas = $this->loc->getStateByNationalityID($nal_id);
 
-        return $lgas->map(function ($q) {
-            return ['id' => $q->id, 'name' => $q->name];
-        })->all();
+        return $lgas->map(fn($q) => ['id' => $q->id, 'name' => $q->name])->all();
     }
 
     public function get_lga($state_id)
     {
         $lgas = $this->loc->getLGAs($state_id);
 
-        return $lgas->map(function ($q) {
-            return ['id' => $q->id, 'name' => $q->name];
-        })->all();
+        return $lgas->map(fn($q) => ['id' => $q->id, 'name' => $q->name])->all();
     }
 
     public function get_class_sections($class_id)
     {
-        $sections = Qs::userIsTeacher()
-            ? $this->my_class->getClassSectionsBySubjectRec(auth()->id(), $class_id)
-            : $this->my_class->getClassSections($class_id);
+        $sections = $this->my_class->getClassSections($class_id);
 
-        return $sections->map(function ($q) {
-            return ['id' => $q->id, 'name' => $q->name];
-        })->all();
+        return $sections->map(fn($q) => ['id' => $q->id, 'name' => $q->name])->all();
     }
 
     public function get_class_students($class_id)
     {
         $students = $this->student->getRecord(['my_class_id' => $class_id])->get()->whereNotNull('user');
 
-        return $students->map(function ($q) {
-            return ['id' => $q->user->id, 'name' => $q->user->name];
-        })->all();
+        return $students->map(fn($q) => ['id' => $q->user->id, 'name' => $q->user->name])->all();
     }
 
     public function get_pre_defined_subjects()
@@ -77,18 +67,14 @@ class AjaxController extends Controller
     {
         $sections = $this->my_class->getTeacherClassSections($class_id, auth()->id());
 
-        return $sections->map(function ($q) {
-            return ['id' => $q->id, 'name' => $q->name];
-        })->all();
+        return $sections->map(fn($q) => ['id' => $q->id, 'name' => $q->name])->all();
     }
 
     public function get_year_exams($year)
     {
         $exams = $this->exam->getExam(['year' => $year], false);
 
-        return $exams->map(function ($q) {
-            return ['id' => $q->id, 'name' => $q->name];
-        })->all();
+        return $exams->map(fn($q) => ['id' => $q->id, 'name' => $q->name])->all();
     }
 
     public function get_subject_section_teacher($subject_id, $section_id)
@@ -104,8 +90,6 @@ class AjaxController extends Controller
             ? $this->my_class->findSubjectByRecord(auth()->id(), $class_id)
             : $this->my_class->findSubjectByClass($class_id);
 
-        return $subjects->map(function ($q) {
-            return ['id' => $q->id, 'name' => $q->name];
-        })->all();
+        return $subjects->map(fn($q) => ['id' => $q->id, 'name' => $q->subject->name])->all();
     }
 }

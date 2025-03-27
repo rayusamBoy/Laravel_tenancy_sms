@@ -1,10 +1,12 @@
 @extends('layouts.master')
+
 @section('page_title', 'Manage Payments')
+
 @section('content')
 
 <div class="card">
     <div class="card-header header-elements-inline">
-        <h5 class="card-title"><i class="material-symbols-rounded">price_check</i> Select year</h5>
+        <h6 class="card-title"><i class="material-symbols-rounded">price_check</i> Select year</h6>
         {!! Qs::getPanelOptions() !!}
     </div>
 
@@ -19,7 +21,7 @@
                                 <label for="year" class="col-form-label font-weight-bold">Select Year <span class="text-danger">*</span></label>
                                 <select data-placeholder="Select Year" required id="year" name="year" class="form-control select">
                                     @foreach($years as $yr)
-                                    <option {{ ($selected && $year == $yr->year) ? 'selected' : '' }} value="{{ $yr->year }}">{{ $yr->year }}</option>
+                                    <option @selected($selected && $year==$yr->year) value="{{ $yr->year }}">{{ $yr->year }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -30,11 +32,9 @@
                                 <button type="submit" class="btn btn-primary">Submit <i class="material-symbols-rounded ml-2">send</i></button>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
-
         </form>
     </div>
 </div>
@@ -115,7 +115,7 @@
                             <th>#</th>
                             <th>Title</th>
                             <th>Amount</th>
-                            <th>Ref_No</th>
+                            <th>Ref No</th>
                             <th>Class</th>
                             <th>Method</th>
                             <th>Info</th>

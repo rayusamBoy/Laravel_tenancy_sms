@@ -1,5 +1,7 @@
 @extends('layouts.master')
+
 @section('page_title', 'Manage Books')
+
 @section('content')
 
 <div class="card w-fit wmin-100-pcnt">
@@ -88,13 +90,6 @@
                                 <input value="{{ old('total_copies') }}" type="number" min="1" name="total_copies" class="form-control" placeholder="Eg., 123">
                             </div>
                         </div>
-                        {{-- Issued Copies --}}
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label class="d-block">Issued Copies:</label>
-                                <input value="{{ old('issued_copies') }}" type="number" min="1" name="issued_copies" class="form-control" placeholder="Eg., 44">
-                            </div>
-                        </div>
                         {{--Location--}}
                         <div class="col-md-6">
                             <div class="form-group">
@@ -105,7 +100,7 @@
                     </div>
 
                     <div class="text-right">
-                        <button id="ajax-btn" type="submit" class="btn btn-primary">Submit form <i class="material-symbols-rounded ml-2">send</i></button>
+                        <button id="ajax-btn" type="submit" class="btn btn-primary">Submit <i class="material-symbols-rounded ml-2">send</i></button>
                     </div>
                 </form>
             </div>
@@ -168,7 +163,6 @@
                 </table>
             </div>
             @endforeach
-
         </div>
     </div>
 </div>

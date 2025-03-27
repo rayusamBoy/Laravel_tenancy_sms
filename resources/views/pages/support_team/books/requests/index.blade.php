@@ -1,5 +1,7 @@
 @extends('layouts.master')
+
 @section('page_title', 'Manage Book Requests')
+
 @section('content')
 
 <div class="card w-fit wmin-100-pcnt">
@@ -10,7 +12,7 @@
 
     <div class="card-body">
         <ul class="nav nav-tabs nav-tabs-highlight">
-            <li class="nav-item"><a href="#new-user" class="nav-link active" data-toggle="tab">Add a Rrquest</a></li>
+            <li class="nav-item"><a href="#new-user" class="nav-link active" data-toggle="tab">Add a Request</a></li>
 
             @if($requests->isNotEmpty())
             <li class="nav-item dropdown">
@@ -126,7 +128,6 @@
                 </table>
             </div>
             @endforeach
-
         </div>
     </div>
 </div>

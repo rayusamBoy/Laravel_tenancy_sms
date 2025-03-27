@@ -66,10 +66,6 @@ class SettingController extends Controller
                     break;
             }
 
-            // If text_and_bg_colors not set; always set to default
-            if (!isset($req->texts_and_bg_colors))
-                $this->setting->update('login_and_related_pgs_txts_and_bg_colors', NULL);
-
             if ($req->has('show_login_and_related_pgs_preview'))
                 Session::flash('show_login_and_related_pgs_preview', true);
         }

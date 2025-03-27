@@ -92,7 +92,7 @@ class AnalyticController extends Controller
     public function google_setup(GoogleSetup $req)
     {
         $google_analytic_property_id = $req->google_analytic_property_id;
-        $google_analytic_tag_id = rtrim($req->google_analytic_tag_id, "_"); // Remove any '_' data mask residue character
+        $google_analytic_tag_id = rtrim($req->google_analytic_tag_id, "_"); // Remove any '_' data mask residue characters
 
         if ($google_analytic_property_id !== null)
             $this->setting->update('google_analytic_property_id', $google_analytic_property_id);

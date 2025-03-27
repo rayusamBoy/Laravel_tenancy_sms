@@ -1,5 +1,7 @@
 @extends('layouts.master')
+
 @section('page_title', 'Manage Activity Log')
+
 @section('content')
 
 <div class="card card-collapsed">

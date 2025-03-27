@@ -92,7 +92,7 @@
             {{-- Charts --}}
             <div class="card card-collapsed print-this">
                 <div class="card-header header-elements-inline">
-                    <h5 class="card-title"></h5>
+                    <h6 class="card-title"></h6>
                     {!! Qs::getPanelOptions() !!}
                 </div>
                 <div class="p-2">
@@ -149,7 +149,7 @@
             {{-- Charts --}}
             <div class="card card-collapsed print-this">
                 <div class="card-header header-elements-inline">
-                    <h5 class="card-title"></h5>
+                    <h6 class="card-title"></h6>
                     {!! Qs::getPanelOptions() !!}
                 </div>
                 <div class="p-2">
@@ -202,14 +202,14 @@
     <div class="row">
         <div class="col-12">
             {{-- Charts --}}
-            <div class="{{ ($prev_exam_id === null OR $next_exam_id === null) ? 'card card-collapsed print-this' : 'card print-this' }}">
+            <div class="{{ ($prev_exam_id === null OR $next_exam_id === null) ? 'card card-collapsed print-this performance-chart' : 'card print-this performance-chart' }}">
                 <div class="card-header header-elements-inline">
-                    <h5 class="card-title">Classes Performance Chart for {{ "{$last_exam->name} ({$last_exam->year})" }}</h5>
+                    <h6 class="card-title">Classes Performance Chart for {{ "{$last_exam->name} ({$last_exam->year})" }}</h6>
                     {!! Qs::getPanelOptions() !!}
                 </div>
-                <div class="p-2 display-i-on-hover">
-                    <i class="display-none position-absolute left-0"><a class="{{ $prev_exam_id === null ? 'btn btn-sm p-1 ml-5 disabled' : 'btn btn-sm p-1 ml-5' }}" href="{{ route('statistics.index', Qs::hash($prev_exam_id)) }}"><span class="material-symbols-rounded">chevron_left</span>previous</a></i>
-                    <i class="display-none position-absolute right-0"><a class="{{ $next_exam_id === null ? 'btn btn-sm p-1 mr-4 disabled' : 'btn btn-sm p-1 mr-4' }}" href="{{ route('statistics.index', Qs::hash($next_exam_id)) }}">next<span class="material-symbols-rounded">chevron_right</span></a></i>
+                <div class="py-2 px-md-5 px-4 position-relative">
+                    <span class="nav-btn position-absolute left-0" data-toggle="tooltip" title="Previous"><a class="{{ $prev_exam_id === null ? 'disabled pr-2 btn btn-sm' : "pr-2 btn btn-sm" }}" href="{{ route('statistics.index', Qs::hash($prev_exam_id)) }}"><span class="material-symbols-rounded">arrow_back_ios</span></a></span>
+                    <span class="nav-btn position-absolute right-0" data-toggle="tooltip" title="Next"><a class="{{ $next_exam_id === null ? 'disabled pr-2 btn btn-sm' : " pr-2 btn btn-sm" }}" href="{{ route('statistics.index', Qs::hash($next_exam_id)) }}"><span class="material-symbols-rounded">arrow_forward_ios</span></a></span>
 
                     <canvas data-x_axis_title_text="Classes" data-y_axis_title_text="Averages" id="classes-performance" role="img" aria-label="Classes Performance">
                         <p>Your browser does not support the canvas element.</p>
@@ -249,7 +249,7 @@
             {{-- Charts --}}
             <div class="card card-collapsed print-this">
                 <div class="card-header header-elements-inline">
-                    <h5 class="card-title">Exams GPA Performance Chart ({{ $year }})</h5>
+                    <h6 class="card-title">Exams GPA Performance Chart ({{ $year }})</h6>
                     {!! Qs::getPanelOptions() !!}
                 </div>
                 <div class="p-2">
@@ -289,18 +289,19 @@
 
     @php
     $chart_options = [
-        'line' => 'Line Chart',
-        'pie' => 'Pie Chart',
-        'polarArea' => 'PolarArea',
-        'bar' => 'Bar Chart',
-        'radar' => 'Radar Chart',
-        'horizontal_bar' => 'Horizontal Bar Chart',
-        'horizontal_line' => 'Horizontal Line Chart'
+        "line" => "Line Chart",
+        "pie" => "Pie Chart",
+        "doughnut" => "Doughnut Chart",
+        "polarArea" => "PolarArea",
+        "bar" => "Bar Chart",
+        "radar" => "Radar Chart",
+        "horizontal_bar" => "Horizontal Bar Chart",
+        "horizontal_line" => "Horizontal Line Chart",
     ];
     @endphp
     
     <span class="dropdown bottom-0 z-100">
-        <button type="button" class="btn btn-success btn-sm position-fixed right-2 bottom-0" data-toggle="dropdown" aria-expanded="false">
+        <button type="button" class="btn btn-info btn-sm position-fixed right-3 bottom-p5em" data-toggle="dropdown" aria-expanded="false">
             <span>Change Chart Type</span><i class="material-symbols-rounded ml-1">keyboard_arrow_up</i>
         </button>
 

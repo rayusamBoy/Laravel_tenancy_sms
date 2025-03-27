@@ -10,6 +10,7 @@
         "cmgmyr/messenger": "^2.30",
         "diglactic/laravel-breadcrumbs": "^9.0",
         "dompdf/dompdf": "^2.0",
+        "erusev/parsedown": "^1.7",
         "guzzlehttp/guzzle": "^7.9",
         "hashids/hashids": "^5.0",
         "iksaku/laravel-mass-update": "^1.0",

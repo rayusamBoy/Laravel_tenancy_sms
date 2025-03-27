@@ -1,5 +1,7 @@
 @extends('layouts.master')
-@section('page_title', 'Edit Section of '.$s->my_class->name)
+
+@section('page_title', "Edit Section of {$s->my_class->name}")
+
 @section('content')
 
 <div class="card">
@@ -33,7 +35,7 @@
                             <select data-placeholder="Select Teacher" class="form-control select-search" name="teacher_id" id="teacher_id">
                                 <option value=""></option>
                                 @foreach($teachers as $t)
-                                <option {{ $s->teacher_id == $t->id ? 'selected' : '' }} value="{{ Qs::hash($t->id) }}">{{ $t->name }}</option>
+                                <option @selected($s->teacher_id == $t->id) value="{{ Qs::hash($t->id) }}">{{ $t->name }}</option>
                                 @endforeach
                             </select>
                         </div>

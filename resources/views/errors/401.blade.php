@@ -3,13 +3,13 @@
 @section('title', 'Unauthorized')
 
 @section('content')
-<div class="page-content error-cover">
 
+<div class="page-content error-cover">
+    
     @php $error_code = 401 @endphp
 
     <!-- Main content -->
     <div class="content-wrapper">
-
         <!-- Content area -->
         <div class="content d-flex justify-content-center">
             <div class="row align-items-center">
@@ -34,4 +34,5 @@
         </div>
     </div>
 </div>
+
 @endsection

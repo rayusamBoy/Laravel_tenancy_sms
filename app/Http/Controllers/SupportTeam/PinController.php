@@ -70,11 +70,12 @@ class PinController extends Controller implements HasMiddleware
         $user = Auth::user();
         $code = $this->pin->findValidCode($req->pin_code);
 
-        if ($code->count() < 1)
+        if ($code->isEmpty())
             $code = $this->pin->getUserPin($req->pin_code, $user->id, $student_id);
 
-        if ($code->count() > 0 && $code->first()->times_used < 6) {
-            $code = $code->first();
+        $code = $code->first();
+
+        if ($code && $code->times_used < 6) {
             $d['times_used'] = $code->times_used + 1;
             $d['user_id'] = $user->id;
             $d['student_id'] = $student_id;

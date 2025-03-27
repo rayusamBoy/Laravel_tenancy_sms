@@ -27,7 +27,6 @@ return new class extends Migration {
             $table->string('bank_name')->nullable();
             $table->string('tin_number')->nullable()->unique('tin_no');
             $table->string('ss_number')->nullable()->unique('ss_number');
-            $table->integer('no_of_periods')->nullable();
             $table->string('education_level')->nullable();
             $table->string('college_attended')->nullable();
             $table->string('year_graduated')->nullable();

@@ -15,6 +15,7 @@ use Hashids\Hashids;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use NotificationChannels\Fcm\FcmChannel;
+use Parsedown;
 
 class Qs
 {
@@ -24,8 +25,9 @@ class Qs
             $data[] = $err;
         }
         return '<div class="alert alert-danger alert-styled-left alert-dismissible">
-				<button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
-				<span class="font-weight-semibold">Oops!</span> ' . implode(' ', $data) . '</div>';
+				    <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+				    <span class="font-weight-semibold">Oops!</span> ' . implode(' ', $data) .
+            '</div>';
     }
 
     public static function getAppCode()
@@ -281,12 +283,12 @@ class Qs
 
     public static function userIsClassSectionTeacher()
     {
-        return (self::userIsTeacher()) ? Section::where("teacher_id", auth()->id())->exists() : 0;
+        return self::userIsTeacher() ? Section::where("teacher_id", auth()->id())->exists() : false;
     }
 
     public static function userIsClassSectionTeacher2($section_id)
     {
-        return (self::userIsTeacher()) ? Section::where(["id" => $section_id, "teacher_id" => auth()->id()])->exists() : 0;
+        return self::userIsTeacher() ? Section::where(["id" => $section_id, "teacher_id" => auth()->id()])->exists() : false;
     }
 
     public static function getUserType()
@@ -482,8 +484,16 @@ class Qs
         return round(pow(1024, $base - floor($base)), $precision) . ' ' . $suffixes[floor($base)];
     }
 
-    public static function getSetting($type)
+    public static function getSetting($type, $use_central_connection = false)
     {
+        if ($use_central_connection) {
+            $db_connection = env('DB_CONNECTION', 'mysql');
+            $settings = new Setting();
+            $settings_table = $settings->getTable();
+
+            return DB::connection($db_connection)->table($settings_table)->where('type', $type)->value('description');
+        }
+
         return Setting::where('type', $type)->value('description');
     }
 
@@ -511,8 +521,8 @@ class Qs
 
     public static function getStringAbbreviation(string $system_name = NULL)
     {
-        if ($system_name === null)
-            $system_name = self::getSystemName();
+        $system_name ??= self::getSystemName();
+
         preg_match_all('/(?<=\b)\w/iu', $system_name, $matches);
         return mb_strtoupper(implode('', $matches[0]));
     }
@@ -943,9 +953,10 @@ class Qs
         return resource_path() . '/views/pages/support_team/students/id_cards/themes/' . config('tenancy.database.prefix') . $id . '/';
     }
 
-    public static function getTenantStorageDir()
+    public static function getTenantStorageDir($tenant_id = null)
     {
-        return storage_path() . '/';
+        $id = $tenant_id ?? tenant('id');
+        return storage_path() . '/' . config('tenancy.database.prefix') . $id . '/';
     }
 
     public static function is_serialized($data, $strict = true)
@@ -1039,5 +1050,11 @@ class Qs
         }
 
         return $channels;
+    }
+
+    public static function parsedown($input)
+    {
+        $parsedown = new Parsedown();
+        return $parsedown->text($input);
     }
 }

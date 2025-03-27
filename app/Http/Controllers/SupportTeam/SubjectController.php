@@ -45,12 +45,12 @@ class SubjectController extends Controller implements HasMiddleware
     {
         $d = $req->only($this->my_class->getSubjectData());
 
-        if ($req->students_ids != NULL) {
+        if ($req->students_ids != null) {
             $d2 = $req->only($this->my_class->getSubjectRecordData(['section_id']));
             $d2['students_ids'] = serialize($d2['students_ids']);
         } else {
             $d2 = $req->only($this->my_class->getSubjectRecordData(['students_ids']));
-            $d2['students_ids'] = NULL;
+            $d2['students_ids'] = null;
         }
 
         $subject = $this->my_class->getSubject(['name' => $req->name, 'my_class_id' => $req->my_class_id])->with('record')->first();
@@ -81,7 +81,7 @@ class SubjectController extends Controller implements HasMiddleware
     {
         $d = $req->only($this->my_class->getSubjectData(['name', 'my_class_id']));
         $teacher_id = $req->teacher_id;
-        $students_ids = $req->students_ids ?? serialize($req->students_ids);
+        $students_ids = $req->students_ids ? serialize($req->students_ids) : null;
 
         $this->my_class->updateSubject($req->subject_id, $d);
         $this->my_class->updateSubjectRecord(['id' => $id], ['teacher_id' => $teacher_id, 'students_ids' => $students_ids]);

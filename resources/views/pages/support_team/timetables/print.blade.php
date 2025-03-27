@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <head>
     <meta charset="utf-8">
-    <title>TimeTable - {{ $ttr->name.' - '.$ttr->year }}</title>
+    <title>TimeTable - {{ "{$ttr->name} - {$ttr->year}" }}</title>
     <style>
         @media print {
 
@@ -43,13 +43,13 @@
 <body>
     <div class="container">
         <div id="print" xmlns:margin-top="http://www.w3.org/1999/xhtml">
-            {{-- Logo N School Details--}}
+            {{-- Logo and School Details--}}
             <table width="100%">
                 <tr>
                     <td>
                         <strong><span style="color: #1b0c80; font-size: 25px;">{{ strtoupper(config('app.name')) }}</span></strong><br />
                         <strong><span style="color: #000; font-size: 15px;"><i>{{ ucwords($settings->where('type', 'address')->value('description')) }}</i></span></strong><br />
-                        <strong><span style="color: #000; text-decoration: underline; font-size: 15px;"><i>{{ config('app.url') }}</i></span></strong>
+                        <strong><span style="color: #000; text-decoration: underline; font-size: 15px;"><i>{{ url()->current() }}</i></span></strong>
                         <br /> <br />
                         <strong><span style="color: #000; font-size: 15px;"> TIMETABLE FOR {{ strtoupper($my_class->name . ' ' . $ttr->section?->name . ' ') . ' ('.$ttr->year.')'  }}</span></strong>
                     </td>
@@ -94,7 +94,10 @@
     </div>
 
     <script>
-        window.print();
+        window.addEventListener('load', function() {
+            window.print();
+        });
+
     </script>
 
 </body>

@@ -7,12 +7,13 @@
     <div class="form-group input-group">
         <textarea name="message" id="message" class="form-control font-size-standard" placeholder="type to add a message...">{{ old('message') }}</textarea>
         <!-- Submit Form Input -->
-        <button id="send-message-btn" type="submit" data-text="Sending..." class="btn input-group-text"><i class="material-symbols-rounded">send</i></button>
+        <button id="send-message-btn" type="submit" data-text=" " class="btn input-group-text"><i class="material-symbols-rounded">send</i></button>
     </div>
 
     @if($users->count() > 0 && Qs::userIsSuperAdmin())
     <div>
-        <select id="recipients-ids" name="recipients[]" multiple="multiple" data-placeholder="select to add recipient" class="form-control select">
+        <select id="recipients-ids" name="recipients[]" multiple="multiple" data-placeholder="Select to add recipient" class="form-control select">
+            <option value=""></option>
             @foreach($users as $user)
             <option value="{{ $user->id }}">{{ $user->name }}</option>
             @endforeach

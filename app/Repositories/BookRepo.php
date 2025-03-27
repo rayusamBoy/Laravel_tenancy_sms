@@ -39,6 +39,16 @@ class BookRepo
         return Book::find($id);
     }
 
+    public function incrementColumn($where, $column, $amount = 1)
+    {
+        return Book::where($where)->increment($column, $amount);
+    }
+
+    public function decrementColumn($where, $column, $amount = 1)
+    {
+        return Book::where($where)->decrement($column, $amount);
+    }
+
     /*********** Book Rquests ***************/
 
     public function createRequest($data)

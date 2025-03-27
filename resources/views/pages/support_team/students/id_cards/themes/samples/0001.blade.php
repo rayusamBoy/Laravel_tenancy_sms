@@ -58,7 +58,7 @@
             border-bottom: 1px solid;
         }
 
-        .user {
+       .user {
             padding-bottom: 2em;
         }
 
@@ -233,6 +233,7 @@
             font-family: kingstonRoman;
             src: url("/global_assets/fonts/KingstonRoman-PKxpE.otf");
         }
+
     </style>
 
     @laravelPWA
@@ -279,7 +280,7 @@
                         </tr>
                         <tr>
                             <td class="detail" colspan="3" id="class" style="font-size: 7px; font-weight: 700; text-align: start; color: #03004a; font-family: Helvetica, Arial, sans-serif; padding-left: 1em; text-transform: uppercase;">
-                                <span class="title" style="color: darkred;">CLASS:</span> {{ ($class_from !== 'NULL' OR $class_to !== 'NULL') ? ($class_from . ' - ' . $class_to) : $st->my_class->name }}
+                                <span class="title" style="color: darkred;">CLASS:</span> {{ ($class_from !== 'NULL' OR $class_to !== 'NULL') ? ("$class_from - $class_to") : $st->my_class->name }}
                             </td>
                         </tr>
                         <tr>
@@ -306,12 +307,14 @@
                         <tr>
                             <td id="web-link" colspan="4" style="font-size: 5px; font-family: Arial, Helvetica, sans-serif; letter-spacing: 1; opacity: 0.5;">
                                 <span style="position: absolute; line-height: 0.9; font-size: 5px; opacity: 0.5; font-family: kingstonRoman; right: 19px; top: 143px; z-index: 1;">ORDINARY LEVEL STUDENT</span>
-                                <span style="position: absolute; line-height: 0.9; font-size: 4px; opacity: 0.5; font-family: kingstonRoman; right: 40px; top: 150px; z-index: 1;">{{ $year_from . ' - ' . $year_to }}</span>
+                                <span style="position: absolute; line-height: 0.9; font-size: 4px; opacity: 0.5; font-family: kingstonRoman; right: 40px; top: 150px; z-index: 1;">{{ "$year_from - $year_to" }}</span>
                                 {{ $web_link }}
                             </td>
                         </tr>
                         @else
-                        <tr><td></td></tr>
+                        <tr>
+                            <td></td>
+                        </tr>
                         @endif
                     </table>
                 </div>
@@ -319,8 +322,12 @@
         </div>
         @endforeach
     </div>
+    
     <script>
-        window.print();
+        window.addEventListener('load', function() {
+            window.print();
+        });
+
     </script>
 </body>
 

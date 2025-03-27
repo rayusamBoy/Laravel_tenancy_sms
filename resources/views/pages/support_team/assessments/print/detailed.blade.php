@@ -52,7 +52,10 @@
     </div>
 
     <script>
-        window.print();
+        window.addEventListener('load', function() {
+            window.print();
+        });
+
     </script>
 </body>
 

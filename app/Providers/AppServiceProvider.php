@@ -30,18 +30,12 @@ class AppServiceProvider extends ServiceProvider
     {
         require base_path('routes/channels.php');
 
-        Route::bind('id', function ($value) {
-            return Qs::decodeHash($value);
-        });
+        Route::bind('id', fn($value) => Qs::decodeHash($value));
 
-        RateLimiter::for('api', function (Request $request) {
-            return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
-        });
+        RateLimiter::for('api', fn(Request $request) => Limit::perMinute(60)->by($request->user()?->id ?: $request->ip()));
 
-        LogViewer::auth(function ($request) {
-            return $request->user() && $request->user()->user_type === 'it_guy';
-        });
-    
+        LogViewer::auth(fn($request) => $request->user() && $request->user()->user_type === 'it_guy');
+
         Event::subscribe(TenantEventSubscriber::class);
 
         Paginator::useBootstrapFour();

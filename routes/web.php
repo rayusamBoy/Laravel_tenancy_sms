@@ -20,7 +20,7 @@ Auth::routes();
 Route::group(['middleware' => ['auth', 'checkForPassUpdate', 'itGuy', 'handleCookie']], function () {
     /*************** Two factor authentication *****************/
     Route::group(['prefix' => 'auth/2fa'], function () {
-        Route::get('account/security', 'Auth\AccountSecurityController@index')->name('account_security.index')->middleware('2fa');
+        Route::get('account_security', 'Auth\AccountSecurityController@index')->name('account_security.index')->middleware('2fa');
         Route::match(['POST', 'GET'], 'account/recovery', 'Auth\AccountSecurityController@account_recovery')->name('account_security.account_recovery');
         Route::get('show', 'Auth\AccountSecurityController@showGoogle2FAVerification')->name('2fa.show');
         // The middleware in this route will capture the value from the form (the one time password that need to be verified).
@@ -29,6 +29,7 @@ Route::group(['middleware' => ['auth', 'checkForPassUpdate', 'itGuy', 'handleCoo
         Route::post('authenticate', 'Auth\AccountSecurityController@authenticate')->name('2fa.authenticate')->middleware(['2fa', 'throttle:5,1']);
         Route::post('update/code', 'Auth\AccountSecurityController@update_secret_codes')->name('2fa.update_secret_codes')->middleware('2fa');
         Route::patch('code/null/{user_id?}', 'Auth\AccountSecurityController@null_secret_code')->name('2fa.null_secret_code')->middleware('2fa');
+        Route::delete('logout/browser/sessions/others', 'Auth\AccountSecurityController@logout_other_browser_sessions')->name('account_security.logout_other_browser_sessions');
     });
 
     Route::group(['middleware' => '2fa',], function () {
@@ -122,6 +123,18 @@ Route::group(['middleware' => ['auth', 'checkForPassUpdate', 'itGuy', 'handleCoo
             Route::put('mark/all_read', 'NotificationController@mark_all_read')->name('notifications.mark_all_read');
             Route::put('update/notifiable', 'NotificationController@update_is_notifiable')->name('notifications.update_is_notifiable');
             Route::match(['post', 'put', 'delete'], 'update/firebase/device_token', 'NotificationController@update_firebase_device_token')->name('notifications.firebase.update_device_token');
+        });
+
+        /*************** Tickets **************/
+        Route::group(['prefix' => 'tickets'], function () {
+            Route::get('index_central', 'TicketController@index_central')->name('tickets.index_central');
+            Route::post('properties/update', 'TicketController@update_properties')->name('tickets.update_properties');
+            Route::get('lock/{ticket_id}', 'TicketController@lock_ticket')->name('tickets.lock');
+            Route::get('unlock/{ticket_id}', 'TicketController@unlock_ticket')->name('tickets.unlock');
+            Route::get('answer/{ticket_id}', 'TicketController@answer')->name('tickets.answer');
+            Route::put('store/operator_message', 'TicketController@store_operator_message')->name('tickets.store_operator_message');
+            Route::put('update/assignee/{ticket_id}', 'TicketController@update_assignee')->name('tickets.update_assignee');
+            Route::post('delete/{ticket_id}', 'TicketController@delete')->name('tickets.delete');
         });
 
         /*************** Controller's resources **************/

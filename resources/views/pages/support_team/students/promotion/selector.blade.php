@@ -10,7 +10,7 @@
                             <label for="status" class="col-form-label font-weight-bold">Students Status:</label>
                             <select required id="status" name="status" class="form-control select">
                                 @foreach(Qs::getStudentStatuses() as $key => $value)
-                                <option {{ (!$selected && $key == 1) ? 'selected' : (($selected && $key == $status) ? 'selected' : '') }} value="{{ $key }}">{{ $value }}</option>
+                                <option @selected($selected && $key==$status) value="{{ $key }}">{{ $value }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -22,7 +22,7 @@
                             <select required onchange="getClassSections(this.value, '#fs')" id="fc" name="fc" class="form-control select">
                                 <option value="">Select Class</option>
                                 @foreach($my_classes as $c)
-                                <option {{ ($selected && $fc == $c->id) ? 'selected' : '' }} value="{{ $c->id }}">{{ $c->name }}</option>
+                                <option @selected($selected && $fc==$c->id) value="{{ $c->id }}">{{ $c->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -45,7 +45,7 @@
                             <select required onchange="getClassSections(this.value, '#ts')" id="tc" name="tc" class="form-control select">
                                 <option value="">Select Class</option>
                                 @foreach($my_classes as $c)
-                                <option {{ ($selected && $tc == $c->id) ? 'selected' : '' }} value="{{ $c->id }}">{{ $c->name }}</option>
+                                <option @selected($selected && $tc==$c->id) value="{{ $c->id }}">{{ $c->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -72,6 +72,5 @@
                 <button type="submit" class="btn btn-primary">Manage Promotion <i class="material-symbols-rounded ml-2">send</i></button>
             </div>
         </div>
-
     </div>
 </form>

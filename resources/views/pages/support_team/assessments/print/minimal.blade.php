@@ -2,7 +2,7 @@
 
 <head>
     <title>Student Assessmentsheet (Minimal) - {{ $sr->user->name }}</title>
-    
+
     @laravelPWA
 </head>
 
@@ -65,9 +65,9 @@
                     @if($assessments_records->where('subject_id', $sub->id)->first())
                     @foreach($assessments_records->where('subject_id', $sub->id) as $as)
                     <td>
-                        @if($ex->term === 1) {{ ($as->tex1) }}
-                        @elseif ($ex->term === 2) {{ ($as->tex2) }}
-                        @elseif ($ex->term === 3) {{ ($as->tex3) }}
+                        @if($ex->term === 1) {{ $as->tex1 }}
+                        @elseif ($ex->term === 2) {{ $as->tex2 }}
+                        @elseif ($ex->term === 3) {{ $as->tex3 }}
                         @else {{ '-' }}
                         @endif
                     </td>
@@ -147,6 +147,9 @@
     </div>
 
     <script>
-        window.print();
+        window.addEventListener('load', function() {
+            window.print();
+        });
+
     </script>
 </body>

@@ -1,5 +1,7 @@
 @extends('layouts.master')
+
 @section('page_title', 'My Children')
+
 @section('content')
 
 <div class="card">
@@ -9,7 +11,7 @@
     </div>
 
     <div class="card-body">
-        <table class="table datatable-button-html5-columns">
+        <table class="table datatable">
             <thead>
                 <tr>
                     <th>S/N</th>
@@ -17,7 +19,6 @@
                     <th>Name</th>
                     <th>ADM No</th>
                     <th>Section</th>
-                    <th>Email</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -29,7 +30,6 @@
                     <td>{{ $s->user->name }}</td>
                     <td>{{ $s->adm_no }}</td>
                     <td>{{ $s->my_class->name.' '.$s->section->name }}</td>
-                    <td>{{ $s->user->email }}</td>
                     <td class="text-center">
                         <div class="list-icons">
                             <div class="dropdown">
@@ -46,17 +46,14 @@
                                         <li><a href="{{ route('payments.status', [Qs::hash($s->user_id)]) }}" class="dropdown-item pl-2">All Payments</a></li>
                                         <li><a href="{{ route('payments.status', [Qs::hash($s->user_id), Qs::getCurrentSession()]) }}" class="dropdown-item pl-2">This Session's Payments</a></li>
                                     </ul>
-
                                 </div>
                             </div>
-
                         </div>
                     </td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
-
     </div>
 </div>
 

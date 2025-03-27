@@ -12,7 +12,7 @@ use App\Repositories\NoticeRepo;
 use App\Repositories\PaymentRepo;
 use App\Repositories\StudentRepo;
 use App\Repositories\UserRepo;
-use Illuminate\Http\Request as HttpReq;
+use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class HomeController extends Controller
@@ -42,7 +42,7 @@ class HomeController extends Controller
     {
         $data['app_name'] = config('app.name');
         $data['app_url'] = config('app.url');
-        $data['contact_phone'] = Qs::getSetting('phone');
+        $data['contact_phone'] = Qs::getSetting('phone', true);
 
         return view('pages.other.privacy_policy', $data);
     }
@@ -51,12 +51,12 @@ class HomeController extends Controller
     {
         $data['app_name'] = config('app.name');
         $data['app_url'] = config('app.url');
-        $data['contact_phone'] = Qs::getSetting('phone');
+        $data['contact_phone'] = Qs::getSetting('phone', true);
 
         return view('pages.other.terms_of_use', $data);
     }
 
-    public function dashboard(HttpReq $request)
+    public function dashboard(Request $request)
     {
         $unviewed_notices = $viewed_notices = $d = [];
         $unviewed_count = 0; // Unviewed notices count
@@ -64,7 +64,7 @@ class HomeController extends Controller
         if (Qs::userIsAdministrative() or Qs::userIsLibrarian()) {
             $d['users'] = $this->user->all();
             $d['subjects'] = $this->class->getUniqueSubjectsNames();
-            $d['class'] = $this->class->all();
+            $d['classes_count'] = $this->class->all()->count();
             $d['section'] = $this->section->getAllSections();
             $d['exams_count'] = $this->exam->getPublishedExamsCount();
             $d['assessments_count'] = $this->assessment->get()->whereNotNull('exam')->count();
@@ -76,7 +76,7 @@ class HomeController extends Controller
         }
 
         $notices = $this->notice->allExceptAuth()->sortBy("id", SORT_REGULAR, true);
-        // Count all users who did not view notice(s) - whose id not in viewers_ids.
+        // Count all users who did not view notices - whose id not in viewers_ids.
         foreach ($notices as $ntc) {
             $v_ids = $ntc->viewers_ids;
             if ($v_ids == NULL || !in_array(auth()->id(), json_decode($v_ids))) {
@@ -109,7 +109,7 @@ class HomeController extends Controller
         return view('pages.support_team.dashboard', $d);
     }
 
-    private function get_paginator(HttpReq $request, array $items, string $page_name)
+    private function get_paginator(Request $request, array $items, string $page_name)
     {
         $total = count($items);
         $per_page = 4;

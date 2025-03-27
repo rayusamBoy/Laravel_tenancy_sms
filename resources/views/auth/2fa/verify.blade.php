@@ -3,6 +3,7 @@
 @section('page_title', 'Two Factor Authentication')
 
 @section('content')
+
 <div class="page-content login-cover">
     <div class="content-wrapper">
         <div class="content d-flex justify-content-center">
@@ -27,8 +28,7 @@
                                         <strong class="invalid-feedback" role="alert">
                                             <em>{{ implode('<br>', $errors->all()) }}</em>
                                         </strong>
-                                        @enderror
-
+                                        @endif
                                     </div>
                                 </div>
 
@@ -37,7 +37,7 @@
                                         <button type="submit" class="btn btn-primary btn-sm mb-1">{{ ('Authenticate') }}</button>
                                         {{-- If there was too many request; show recover account option --}}
                                         @if(session('error_code') === 429)
-                                        <a type="button" href="{{ route('account_security.account_recovery') }}" class="btn btn-info btn-sm mb-1"> Recover Account</a>
+                                        <a type="button" href="{{ route('account_security.account_recovery') }}" class="btn btn-secondary btn-sm mb-1"> Recover Account</a>
                                         @endif
                                         <button type="button" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="btn btn-danger btn-sm mb-1"> Cancel</button>
                                     </div>
@@ -53,4 +53,5 @@
         </div>
     </div>
 </div>
+
 @endsection

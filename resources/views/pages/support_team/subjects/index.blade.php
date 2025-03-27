@@ -1,5 +1,7 @@
 @extends('layouts.master')
+
 @section('page_title', 'Manage Subjects')
+
 @section('content')
 
 <div class="card">
@@ -39,14 +41,13 @@
                     <div class="col-md-8">
                         <form class="ajax-store" method="post" action="{{ route('subjects.store') }}">
                             @csrf
-
                             <div class="form-group row">
                                 <label for="my_class_id" class="col-lg-3 col-form-label font-weight-semibold">Select Class <span class="text-danger">*</span></label>
                                 <div class="col-lg-9">
                                     <select required data-placeholder="Select Class" onchange="getPreDefinedSubjects(); getClassSections(this.value, '#sec_id_add_not_applicable'); getClassStudents(this.value)" class="form-control select" name="my_class_id" id="my_class_id">
                                         <option value=""></option>
                                         @foreach($my_classes as $c)
-                                        <option data-class_type_id="{{ $c->class_type_id }}" {{ old('my_class_id') == $c->id ? 'selected' : '' }} value="{{ $c->id }}">{{ $c->name }}</option>
+                                        <option data-class_type_id="{{ $c->class_type_id }}" @selected(old('my_class_id')==$c->id) value="{{ $c->id }}">{{ $c->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -74,7 +75,7 @@
                                 <label for="name" class="col-lg-3 col-form-label font-weight-semibold">Name <span class="text-danger">*</span></label>
                                 <div class="col-lg-9">
                                     <select required data-placeholder="Select class first" class="form-control select-search append-editable-option" name="name" id="name">
-                                        <option selected value="">Select class first</option>
+                                        <option disabled value="">Select class first</option>
                                     </select>
                                 </div>
                             </div>
@@ -105,7 +106,7 @@
                                     <select required data-placeholder="Select Teacher" class="form-control select-search" name="teacher_id" id="teacher_id">
                                         <option value=""></option>
                                         @foreach($teachers as $t)
-                                        <option {{ old('teacher_id') == Qs::hash($t->id) ? 'selected' : '' }} value="{{ Qs::hash($t->id) }}">{{ $t->name }}</option>
+                                        <option @selected(old('teacher_id')==Qs::hash($t->id)) value="{{ Qs::hash($t->id) }}">{{ $t->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -141,7 +142,7 @@
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $s->name }} </td>
                             <td>{{ $s->slug }} </td>
-                            <td>{{ ($s->core == 1) ? 'Yes' : 'No' }}</td>
+                            <td>{{ $s->core == 1 ? 'Yes' : 'No' }}</td>
                             <td>{{ $s->my_class->name }}</td>
                             <td>
                                 @foreach($s->record as $key => $rec)
@@ -158,7 +159,7 @@
                                 @endif
 
                                 @if($key != array_key_last($s->record->toArray()))
-                                <hr class="m-0 divider" />
+                                <hr class="m-0" />
                                 @endif
                                 @endforeach
                             </td>
@@ -166,13 +167,13 @@
                                 @foreach($s->record as $key => $rec)
                                 {{ $rec->teacher->name }}
                                 @if($key != array_key_last($s->record->toArray()))
-                                <hr class="m-0 divider" />
+                                <hr class="m-0" />
                                 @endif
                                 @endforeach
                             </td>
                             <td class="text-center">
                                 @foreach($s->record as $key => $rec)
-                                
+
                                 <div class="list-icons">
                                     <div class="dropdown">
                                         <a class="material-symbols-rounded" href="javascript:;" data-toggle="dropdown">lists</a>
@@ -183,7 +184,7 @@
                                             {{-- Delete --}}
                                             @if(Qs::userIsSuperAdmin())
                                             <a id="{{ $s->id }}" onclick="confirmDelete(this.id)" href="javascript:;" class="dropdown-item text-danger"><i class="material-symbols-rounded">delete</i> Delete</a>
-                                            <form method="post" id="item-delete-{{ $s->id }}" action="{{ route('subjects.delete_record', [$s->id, $rec->id]) }}" class="hidden">@csrf @method('delete')</form>            
+                                            <form method="post" id="item-delete-{{ $s->id }}" action="{{ route('subjects.delete_record', [$s->id, $rec->id]) }}" class="hidden">@csrf @method('delete')</form>
                                             @endif
                                         </div>
                                     </div>
@@ -197,12 +198,10 @@
                         </tr>
                         @endif
                         @endforeach
-
                     </tbody>
                 </table>
             </div>
             @endforeach
-
         </div>
     </div>
 </div>

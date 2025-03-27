@@ -35,7 +35,7 @@ Route::middleware([
     Route::group(['middleware' => ['auth', 'checkForPassUpdate', 'handleCookie']], function () {
         /*************** Two factor authentication *****************/
         Route::group(['prefix' => 'auth/2fa'], function () {
-            Route::get('account/security', 'Auth\AccountSecurityController@index')->name('account_security.index')->middleware('2fa');
+            Route::get('account_security', 'Auth\AccountSecurityController@index')->name('account_security.index')->middleware('2fa');
             Route::match(['POST', 'GET'], 'account/recovery', 'Auth\AccountSecurityController@account_recovery')->name('account_security.account_recovery');
             Route::get('show', 'Auth\AccountSecurityController@showGoogle2FAVerification')->name('2fa.show');
             // The middleware in this route will capture the value from the form (the one time password that need to be verified).
@@ -44,7 +44,7 @@ Route::middleware([
             Route::post('authenticate', 'Auth\AccountSecurityController@authenticate')->name('2fa.authenticate')->middleware(['2fa', 'throttle:5,1']);
             Route::post('update/code', 'Auth\AccountSecurityController@update_secret_codes')->name('2fa.update_secret_codes')->middleware('2fa');
             Route::patch('code/null/{user_id?}', 'Auth\AccountSecurityController@null_secret_code')->name('2fa.null_secret_code')->middleware('2fa');
-            Route::delete('logout/browser/sessions/others', 'Auth\AccountSecurityController@logout_other_browser_sessions')->name('2fa.logout_other_browser_sessions');
+            Route::delete('logout/browser/sessions/others', 'Auth\AccountSecurityController@logout_other_browser_sessions')->name('account_security.logout_other_browser_sessions');
         });
 
         Route::group(['middleware' => '2fa'], function () {
@@ -239,8 +239,8 @@ Route::middleware([
                         Route::post('bulk/select', 'MarkController@bulk_select')->name('marks.bulk_select');
                     });
 
-                    Route::get('select_year/{id}', 'MarkController@year_selector')->name('marks.year_selector');
-                    Route::post('select_year/{id}', 'MarkController@year_selected')->name('marks.year_select');
+                    Route::get('selector/year/{id}', 'MarkController@year_selector')->name('marks.year_selector');
+                    Route::post('selected/year/{id}', 'MarkController@year_selected')->name('marks.year_select');
                     Route::get('show/{id}/{year}', 'MarkController@show')->name('marks.show');
                     Route::get('print/{id}/{exam_id}/{year}', 'MarkController@print_view')->name('marks.print');
                 });
@@ -274,7 +274,7 @@ Route::middleware([
 
                     Route::get('show/{id}/{year}', 'AssessmentController@show')->name('assessments.show');
                     Route::get('selector/year/{id}', 'AssessmentController@year_selector')->name('assessments.year_selector');
-                    Route::post('select/year/{id}', 'AssessmentController@year_selected')->name('assessments.year_select');
+                    Route::post('selected/year/{id}', 'AssessmentController@year_selected')->name('assessments.year_select');
                     Route::get('detailed/print/{id}/{exam_id}/{year}', 'AssessmentController@print_detailed')->name('assessments.print_detailed');
                     Route::get('minimal/print/{id}/{exam_id}/{year}', 'AssessmentController@print_minimal')->name('assessments.print_minimal');
                 });
@@ -391,6 +391,20 @@ Route::middleware([
                 Route::put('update/notifiable', 'NotificationController@update_is_notifiable')->name('notifications.update_is_notifiable');
                 Route::match(['post', 'put', 'delete'], 'update/firebase/device_token', 'NotificationController@update_firebase_device_token')->name('notifications.firebase.update_device_token');
             });
+
+            /*************** Tickets **************/
+            Route::group(['prefix' => 'tickets'], function () {
+                Route::get('reply/{ticket_id}', 'TicketController@reply')->name('tickets.reply');
+                Route::get('get_ticket/{id}', 'TicketController@get_ticket')->name('tickets.get_ticket');
+                Route::get('get_ticket/{id}/edit', 'TicketController@edit_ticket')->name('tickets.edit_ticket');
+                Route::put('store/message', 'TicketController@store_message')->name('tickets.store_message');
+                Route::get('close/{ticket_id}', 'TicketController@close_ticket')->name('tickets.close');
+                Route::put('archive/{ticket_id}', 'TicketController@archive_ticket')->name('tickets.archive');
+                Route::put('unarchive/{ticket_id}', 'TicketController@unarchive_ticket')->name('tickets.unarchive');
+            });
+
+            // Resource
+            Route::resource('tickets', 'TicketController');
         });
     });
 

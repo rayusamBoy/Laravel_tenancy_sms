@@ -1,4 +1,4 @@
-<div id="create-message" class="card position-fixed right-p5em bottom-15px mw-md-50 wmax-sm-500 wmin-300 display-none">
+<div id="create-message" class="card position-fixed right-3 bottom-15px mw-md-50 wmax-sm-500 wmin-300 display-none">
     <div class="card-body">
         <form action="{{ route('messages.store') }}" method="post">
             {{ csrf_field() }}
@@ -15,7 +15,7 @@
                     <textarea name="message" class="form-control" placeholder="type a message here...">{{ old('message') }}</textarea>
                 </div>
 
-                @if($users->count() > 0)
+                @if($users->isNotEmpty())
                 <div>
                     <label class="control-label">Recipients</label>
                     <select id="recipients-ids" name="recipients[]" onchange="toggleElementDisabledState(this.value, '#user_types-ids')" multiple="multiple" data-placeholder="select recipient(s)" class="form-control select-search">

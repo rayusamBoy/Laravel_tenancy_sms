@@ -40,6 +40,14 @@ class TenantController extends Controller implements HasMiddleware
         return view("pages.it_guy.tenants.index", $data);
     }
 
+    public function show($id)
+    {
+        $id = Qs::decodeHash($id);
+        $data["tenant"] = $this->tenant->find($id);
+
+        return view("pages.it_guy.tenants.show", $data);
+    }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -55,9 +63,10 @@ class TenantController extends Controller implements HasMiddleware
             // If there was any exception ie., error. Delete the created ones and return the error.
             // The session's key 'created_tenant_id' is defined in TenancyServiceProvider.
             // Can't access the '$tenant' variable in try block above, since it is in different scope.
+            \Log::debug($e->getMessage());
             if (session()->has("created_tenant_id"))
                 $this->tenant->delete(session()->get("created_tenant_id"));
-            
+
             session()->forget("created_tenant_id");
             return Qs::json($e->getMessage(), false);
         }

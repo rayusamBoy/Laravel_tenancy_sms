@@ -51,7 +51,7 @@ class StatisticsController extends Controller
 
             $d['exams_recs'] = $this->exam->getRecordsByIds($s_ids)->where('year', $this->year)->get();
             $marks = $this->mark->getByIds($s_ids)->where('year', $this->year)->get();
-            if ($marks->count() > 0) {
+            if ($marks->isNotEmpty()) {
                 $last_exm_marks = $marks->sortByDesc('id')->first();
                 $d['last_exam'] = $last_exm = $this->exam->getById($last_exm_marks->exam_id);
                 $d['last_exm_marks'] = $marks->where('exam_id', $last_exm->id);

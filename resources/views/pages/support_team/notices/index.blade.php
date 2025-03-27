@@ -1,5 +1,7 @@
 @extends('layouts.master')
+
 @section('page_title', 'Manage Notices')
+
 @section('content')
 
 <div class="card">
@@ -13,10 +15,10 @@
             @if(Qs::userIsAdministrative())
             <li class="nav-item"><a href="#add-notice" class="{{ in_array(Route::currentRouteName(), ['notices.edit']) ? 'nav-link' : 'nav-link active' }}" data-toggle="tab">Create a Notice</a></li>
             <li class="{{ ($notices->isEmpty()) ? 'nav-item dropdown cursor-not-allowed' : 'nav-item dropdown' }}">
-                <a href="#manage-notice" class="{{ ($notices->isEmpty()) ? 'nav-link pointer-events-none' : 'nav-link' }}" data-toggle="tab">Manage Notice(s)</a>
+                <a href="#manage-notice" class="{{ ($notices->isEmpty()) ? 'nav-link pointer-events-none' : 'nav-link' }}" data-toggle="tab">Manage Notices</a>
             </li>
             @if($edit)
-            <li class="nav-item"><a href="#edit-notice" class="{{ ($edit) ? 'nav-link active show' : 'nav-link' }}" data-toggle="tab">Edit Notice</a></li>
+            <li class="nav-item"><a href="#edit-notice" class="{{ $edit ? 'nav-link active show' : 'nav-link' }}" data-toggle="tab">Edit Notice</a></li>
             @endif
             @endif
         </ul>
@@ -24,7 +26,7 @@
         <div class="tab-content">
 
             {{--Add Notice--}}
-            @if(Qs::userIsAdministrative())
+           @if(Qs::userIsAdministrative())
             <div class="{{ in_array(Route::currentRouteName(), ['notices.edit']) ? 'tab-pane fade' : 'tab-pane fade show active' }}" id="add-notice">
                 <div class="col-12">
                     <form class="ajax-store" method="post" action="{{ route('notices.store') }}">
@@ -113,6 +115,7 @@
             {{--Edit Notice--}}
             @if($edit)
             @if(Qs::userIsAdministrative())
+
             <div class="{{ in_array(Route::currentRouteName(), ['notices.edit']) ? 'tab-pane fade show active' : 'tab-pane fade' }}" id="edit-notice">
                 <div class="col-12">
                     {{-- If the user is super admin and is editing another user's notice - show alert --}}
@@ -137,9 +140,9 @@
                                     <input value="{{ $notice->title }}" required type="text" name="title" placeholder="Title of the Notice" class="form-control">
                                     <div class="pt-1 col-xl-7">
                                         <small class="text-muted">Created - {{ Qs::onlyDateFormat($notice->created_at) }}, by {{ $notice->from_id == Auth::id() ? 'Me' : $notice->user->name }}</small>
-                                        
+
                                         @if($notice->editor_id != NULL)
-                                        <hr class="divider m-1">
+                                        <hr class="m-1">
                                         <small class="text-muted">Last edited - {{ Qs::onlyDateFormat($notice->updated_at) }}, by {{ $notice->editor_id == Auth::id() ? 'Me' : ($notice->editor->name . ' (' . str_replace("_", " ", $notice->editor->user_type) . ')') }}</small>
                                         @endif
                                     </div>
@@ -152,6 +155,7 @@
                     </form>
                 </div>
             </div>
+
             @endif
             @endif
 
@@ -160,4 +164,5 @@
 </div>
 
 @include('pages/modals/notice_viewers')
+
 @endsection

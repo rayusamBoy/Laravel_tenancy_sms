@@ -1,6 +1,9 @@
 @extends('layouts.master')
+
 @section('page_title', 'Convert Exam Marks')
+
 @section('content')
+
 <div class="card marks-converter">
     <div class="card-header header-elements-inline">
         <h6 class="card-title">Marks Converter</h6>
@@ -12,7 +15,7 @@
                 <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
                 <span>
                     When adding items; a positive number if entered will add the items as usual, while a negative number if entered will remove the item(s)
-                    starting with the last one depending on the number provided. <br/> <strong>Note:</strong> The converted value will always be rounded to a whole number.
+                    starting with the last one depending on the number provided. <br /> <strong>Note:</strong> The converted value will always be rounded to a whole number.
                 </span>
             </div>
         </div>
@@ -22,8 +25,8 @@
         <div class="row">
             <div class="col-xs-5 col-sm-5">
                 <div class="form-group">
-                    <label class="col-form-label font-weight-semibold w-100 display-i-on-hover">From Out Of <span class="text-danger">*</span>
-                        <i class="material-symbols-rounded float-right text-info display-none" data-toggle="tooltip" title="The total score, out of which the current scrore is based (old score demoninator).">info</i>
+                    <label class="col-form-label font-weight-semibold w-100">From Out Of <span class="text-danger">*</span>
+                        <i class="material-symbols-rounded float-right text-info" data-toggle="tooltip" title="The total score, out of which the current scrore is based (old score demoninator).">info</i>
                     </label>
                     <input class="form-control border-gray-500" placeholder="Eg., 60" type="number" min="0" max="100" id="from-out-of">
                     <div class="invalid-feedback font-size-md"><i class="material-symbols-rounded mr-1">block</i><span></span></div>
@@ -32,8 +35,8 @@
 
             <div class="offset-2 col-xs-5 col-sm-5">
                 <div class="form-group">
-                    <label class="col-form-label font-weight-semibold w-100 display-i-on-hover">To Out Of <span class="text-danger">*</span>
-                        <i class="material-symbols-rounded float-right text-info display-none" data-toggle="tooltip" title="The overall score, on which the new score should based (new denominator)">info</i>
+                    <label class="col-form-label font-weight-semibold w-100">To Out Of <span class="text-danger">*</span>
+                        <i class="material-symbols-rounded float-right text-info" data-toggle="tooltip" title="The overall score, on which the new score should based (new denominator)">info</i>
                     </label>
                     <input class="form-control" placeholder="Eg., 100" type="number" min="0" max="100" id="to-out-of">
                     <div class="invalid-feedback font-size-md"><i class="material-symbols-rounded mr-1">block</i><span></span></div>
@@ -66,16 +69,16 @@
 
         <div class="d-flex justify-content-between w-100 mt-3">
             <div class="d-flex">
-                <span class="input-group-text border-0 bg-transparent">Add</span> 
+                <span class="input-group-text border-0 bg-transparent">Add</span>
                 <input class="form-control" min="-9999" value="1" max="9999" type="number"></input>
-                <span class="input-group-text border-0 bg-transparent">item(s)</span> 
-                <span class="input-group-text cursor-pointer" id="add-item">Go</span> 
+                <span class="input-group-text border-0 bg-transparent">item(s)</span>
+                <span class="input-group-text cursor-pointer" id="add-item">Go</span>
             </div>
             <div>
                 <button id="btn-convert" type="submit" class="btn btn-primary">Convert <i class="material-symbols-rounded ml-2">sync_alt</i></button>
             </div>
         </div>
-
     </div>
 </div>
+
 @endsection

@@ -1,5 +1,7 @@
 @extends('layouts.master')
+
 @section('page_title', 'Edit Book')
+
 @section('content')
 
 <div class="card">
@@ -73,23 +75,6 @@
                                 <input value="{{ $book->total_copies }}" type="number" min="1" name="total_copies" class="form-control" placeholder="Eg., 123">
                             </div>
                         </div>
-                        {{-- Issued Copies --}}
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label class="d-block">Issued Copies:</label>
-                                <input value="{{ $book->issued_copies }}" type="number" min="1" name="issued_copies" class="form-control" placeholder="Eg., 44">
-                            </div>
-                        </div>
-                        {{--Location--}}
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Location:</label>
-                                <input value="{{ $book->location }}" type="text" name="location" class="form-control" placeholder="Location">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
                         {{-- Status --}}
                         <div class="col-md-3">
                             <div class="form-group">
@@ -101,10 +86,17 @@
                                 </select>
                             </div>
                         </div>
+                        {{-- Location --}}
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Location:</label>
+                                <input value="{{ $book->location }}" type="text" name="location" class="form-control" placeholder="Location">
+                            </div>
+                        </div>
                     </div>
 
                     <div class="text-right">
-                        <button id="ajax-btn" type="submit" class="btn btn-primary">Update <i class="material-symbols-rounded ml-2">send</i></button>
+                        <button id="ajax-btn" type="submit" data-text="Updating..." class="btn btn-primary">Update <i class="material-symbols-rounded ml-2">send</i></button>
                     </div>
                 </form>
             </div>

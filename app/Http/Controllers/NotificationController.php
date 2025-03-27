@@ -103,7 +103,7 @@ class NotificationController extends Controller
         $incoming_token = $request->token;
 
         if ($current_tokens === null or !in_array($incoming_token, $current_tokens)) {
-            $current_tokens[] = $incoming_token; // Add a new one
+            $current_tokens[] = $incoming_token; // Add a new one or the only one
 
             $data = ['firebase_device_token' => serialize($current_tokens)];
             $this->user->update(auth()->id(), $data);

@@ -1,7 +1,9 @@
 @extends('layouts.master')
+
 @section('page_title', 'Exam Pins')
 
 @section('content')
+
 <div class="card">
     <div class="card-header header-elements-inline">
         <h6 class="card-title">Exam Pins</h6>
@@ -34,7 +36,6 @@
                     @endforeach
                 </div>
                 @endforeach
-
             </div>
 
             {{--Used Pins--}}
@@ -84,7 +85,6 @@
                         <form method="post" id="item-delete-used-pins" action="{{ route('pins.destroy', 'used-pins') }}" class="hidden">@csrf @method('delete')</form>
                     </div>
                     @endif
-
                 </div>
             </div>
         </div>

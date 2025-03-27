@@ -1,4 +1,5 @@
 @extends('layouts.app')
+
 @section('page_title', 'Confirm Access')
 
 @pushOnce('css')
@@ -16,8 +17,8 @@
 @endPushOnce
 
 @section('content')
-<div class="page-content app-cover">
 
+<div class="page-content app-cover">
     <div class="content-wrapper">
         <div class="content d-flex justify-content-center align-items-center">
 
