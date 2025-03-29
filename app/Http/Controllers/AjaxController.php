@@ -90,6 +90,6 @@ class AjaxController extends Controller
             ? $this->my_class->findSubjectByRecord(auth()->id(), $class_id)
             : $this->my_class->findSubjectByClass($class_id);
 
-        return $subjects->map(fn($q) => ['id' => $q->id, 'name' => $q->subject->name])->all();
+        return $subjects->map(fn($q) => ['id' => $q->id ?? $q->subject->id, 'name' => $q->name ?? $q->subject->name])->all();
     }
 }
