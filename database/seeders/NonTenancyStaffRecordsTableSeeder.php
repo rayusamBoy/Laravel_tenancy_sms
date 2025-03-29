@@ -36,7 +36,6 @@ class NonTenancyStaffRecordsTableSeeder extends Seeder
                 'bank_name' => NULL,
                 'tin_number' => NULL,
                 'ss_number' => NULL,
-                'no_of_periods' => NULL,
                 'education_level' => 'Degree',
                 'college_attended' => 'Mzumbe University',
                 'year_graduated' => '2018',
