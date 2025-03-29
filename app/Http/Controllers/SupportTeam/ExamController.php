@@ -99,7 +99,7 @@ class ExamController extends Controller implements HasMiddleware
 
     public function edit($id)
     {
-        $d['ex'] = $ex = $this->exam->getById($id);
+        $d['ex'] = $ex = $this->exam->getById($id, false);
         $d['exams_cat'] = $this->exam->getCategories();
         $d['my_classes'] = $this->my_class->get(["class_type_id" => $ex->class_type_id]);
 

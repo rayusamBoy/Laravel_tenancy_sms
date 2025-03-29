@@ -207,7 +207,7 @@ class MarkController extends Controller implements HasMiddleware
 
         $d['m'] = $d['marks']->first();
         $d['exams'] = $this->exam->getExam(['year' => $this->year]);
-        $d['exam'] = $this->exam->getById($exam_id);
+        $d['exam'] = $this->exam->getById($exam_id, false);
         $d['my_classes'] = $this->my_class->all();
         $d['sections'] = $this->my_class->getAllSections();
         $d['selected'] = true;

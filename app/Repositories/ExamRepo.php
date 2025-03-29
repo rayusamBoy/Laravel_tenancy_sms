@@ -78,9 +78,9 @@ class ExamRepo
         return (Qs::userIsTeamSAT()) ? Exam::orderByDesc('created_at')->orderBy('year', 'desc')->with(['category', 'class_type'])->get() : $this->onlyPublished();
     }
 
-    public function getById(int $id)
+    public function getById(int $id, $only_published = true)
     {
-        return Exam::where('id', $id)->where('published', 1)->with(['category', 'class_type'])->with('number_format')->first();
+        return ($only_published) ? Exam::where('id', $id)->where('published', 1)->with(['category', 'class_type'])->first() : Exam::where('id', $id)->with(['category', 'class_type'])->first();
     }
 
     public function getExam(array $data, bool $withoutLockedOnes = true)
@@ -150,7 +150,7 @@ class ExamRepo
 
     public function classTypeExmCategoryExists($cat_id, $class_type_id, $year)
     {
-        return Exam::where(['category_id' => $cat_id, 'class_type_id' => $class_type_id])->where('year', $year)->isNotEmpty();
+        return Exam::where(['category_id' => $cat_id, 'class_type_id' => $class_type_id])->where('year', $year)->exists();
     }
 
     public function restore(int $id)
