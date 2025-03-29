@@ -37,7 +37,7 @@ class TenancyStudentRecordsTableSeeder extends Seeder
                 'my_parent_id' => 5,
                 'dorm_id' => NULL,
                 'dorm_room_no' => NULL,
-                'session' => '2023-2024',
+                'session' => date("Y") - 1 . '-' . date('Y'),
                 'age' => NULL,
                 'date_admitted' => '01/01/2022',
                 'grad' => 0,

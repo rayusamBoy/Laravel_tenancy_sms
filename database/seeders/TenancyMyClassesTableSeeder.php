@@ -23,7 +23,7 @@ class TenancyMyClassesTableSeeder extends Seeder
             array (
                 'id' => 1,
                 'name' => 'Form One',
-                'class_type_id' => 1,
+                'class_type_id' => 2,
                 'created_at' => NULL,
                 'updated_at' => NULL,
                 'deleted_at' => NULL,
