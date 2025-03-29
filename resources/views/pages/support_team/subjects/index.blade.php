@@ -72,9 +72,11 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="name" class="col-lg-3 col-form-label font-weight-semibold">Name <span class="text-danger">*</span></label>
+                                <label for="name" class="col-lg-3 col-form-label font-weight-semibold">Name <span class="text-danger">*</span>
+                                    <i class="material-symbols-rounded float-right text-info" data-toggle="tooltip" title="Choose option, search option, or type to add option">info</i>
+                                </label>
                                 <div class="col-lg-9">
-                                    <select required data-placeholder="Select class first" class="form-control select-search append-editable-option" name="name" id="name">
+                                    <select required data-placeholder="Select class first" class="form-control select-tags" name="name" id="name">
                                         <option disabled value="">Select class first</option>
                                     </select>
                                 </div>
@@ -95,7 +97,7 @@
                                         <option value="0">No</option>
                                     </select>
                                 </div>
-                                <div class="col-lg-7">
+                                <div class="col-lg-7 m-auto">
                                     <span class="font-weight-bold font-italic text-info-800">{{ __('msg.core_subject') }}</span>
                                 </div>
                             </div>
