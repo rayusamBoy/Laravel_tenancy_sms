@@ -35,7 +35,7 @@
         "stancl/tenancy": "^3.8"
     },
     "require-dev": {
-        "barryvdh/laravel-ide-helper": "^3.0",
+        "barryvdh/laravel-ide-helper": "^3.5",
         "fakerphp/faker": "^1.23",
         "kitloong/laravel-migrations-generator": "^7.0",
         "laravel/pint": "^1.13",
