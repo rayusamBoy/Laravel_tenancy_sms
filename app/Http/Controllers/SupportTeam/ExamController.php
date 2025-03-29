@@ -74,8 +74,8 @@ class ExamController extends Controller implements HasMiddleware
             Validator::make(
                 $req->toArray(),
                 [
-                    "class_id_{$class->id}" => "filled|required_unless:exam_number_format_{$class->id}, null",
-                    "exam_number_format_{$class->id}" => ['nullable', 'regex:/^[\p{L}\p{N}\/\\-*]+$/u', "required_unless:class_id_{$class->id}, null", new Uppercase, new HasStudentExamNumberPlaceholder]
+                    "class_id_{$class->id}" => "nullable|required_unless:exam_number_format_{$class->id},null",
+                    "exam_number_format_{$class->id}" => ['nullable', 'regex:/^[\p{L}\p{N}\/\\-*]+$/u', "required_unless:class_id_{$class->id},null", new Uppercase, new HasStudentExamNumberPlaceholder]
                 ],
                 [],
                 [

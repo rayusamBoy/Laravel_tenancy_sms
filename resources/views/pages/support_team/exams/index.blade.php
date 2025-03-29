@@ -168,8 +168,8 @@
                                 <div class="col-lg-7">
                                     @foreach (Mk::getStudentExamPositionByValues() as $key => $value)
                                     <div class="d-flex mb-2">
-                                        <span><input type="radio" id="exm-pos-by-{{ $key }}" name="exam_student_position_by_value" value="total" class="form-input-styled text-center" data-fouc></span>
-                                        <label for="exm-pos-by-{{ $key }}" class="ml-2 w-50 m-auto-0">{{ $value }}</label>
+                                        <span><input type="radio" id="exm-pos-by-{{ $key }}" name="exam_student_position_by_value" value="{{ $key }}" class="form-input-styled text-center" data-fouc></span>
+                                        <label @checked(old("exam_student_position_by_value") == $key) for="exm-pos-by-{{ $key }}" class="ml-2 w-50 m-auto-0">{{ $value }}</label>
                                     </div>
                                     @endforeach
                                 </div>
