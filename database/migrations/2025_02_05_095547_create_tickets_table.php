@@ -11,7 +11,7 @@ return new class extends Migration {
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
-            $table->string('tenant_id')->nullable();
+            $table->unsignedBigInteger('tenant_id');
             $table->foreignId('user_id');
             $table->string('subject');
             $table->string('department')->nullable();
