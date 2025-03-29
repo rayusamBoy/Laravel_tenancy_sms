@@ -1103,7 +1103,7 @@ function getLGA(stateId, destination) {
  *-------------------------------------------------------------
  */
 function getPreDefinedSubjects(destination) {
-    const url = get_pre_def_subjects_url;
+    const url = get_pre_defined_subjects_url;
     const $section = destination ? $(destination) : $("#name");
     $.ajax({
         dataType: "json",
@@ -1113,9 +1113,6 @@ function getPreDefinedSubjects(destination) {
             $.each(resp, (i, data) => {
                 $section.append($("<option>", { value: data, text: data }));
             });
-            if ($section.hasClass("append-editable-option")) {
-                appendEditableOption(".append-editable-option");
-            }
         },
     });
 }
