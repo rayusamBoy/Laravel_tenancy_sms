@@ -71,7 +71,7 @@
                     <input value="{{ old('service_account_credential_file') }}" accept=".json" type="file" name="service_account_credential_file" class="form-input-styled" data-fouc>
                     <span class="form-text text-muted">Accepted File: json, Max file size 2Mb</span>
 
-                    @if(isset($credential_file))
+                    @if(isset($credential_file) && is_file($credential_file))
                     <span class="display-i-on-hover float-right text-info">File Contents
                         <i class="float-right text-info display-none dropdown-menu position-absolute top-auto p-2">
                             <div>
@@ -87,7 +87,7 @@
                 </div>
             </div>
             <div class="float-right d-flex">
-                @if(!empty($google_analytic_tag_id) && !empty($google_analytic_property_id) && isset($credential_file))
+                @if(!empty($google_analytic_tag_id) && !empty($google_analytic_property_id) && is_file($credential_file))
 
                 @if(isset($google_analytics_setup_ok))
                 {{-- Disable analytics --}}
