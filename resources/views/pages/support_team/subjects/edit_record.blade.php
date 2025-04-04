@@ -67,7 +67,7 @@
                                 <option @selected($sub_rec->subject->core == 0) value="0">No</option>
                             </select>
                         </div>
-                        <div class="col-lg-7">
+                        <div class="col-lg-7 m-lg-auto">
                             <span class="font-weight-bold font-italic text-info-800">{{ __('msg.core_subject') }}</span>
                         </div>
                     </div>

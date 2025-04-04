@@ -97,7 +97,7 @@
                                         <option value="0">No</option>
                                     </select>
                                 </div>
-                                <div class="col-lg-7 m-auto">
+                                <div class="col-lg-7 m-lg-auto">
                                     <span class="font-weight-bold font-italic text-info-800">{{ __('msg.core_subject') }}</span>
                                 </div>
                             </div>
