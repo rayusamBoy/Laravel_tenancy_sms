@@ -1,6 +1,5 @@
 /******* Styles to apply on print *******/
 @media print {
-
     td,
     th {
         padding: 2px;

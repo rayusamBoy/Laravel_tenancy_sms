@@ -6,7 +6,6 @@
  *
  * ---------------------------------------------------------------------------- */
 
-
 /* ------------------------------------------------------------------------------
  *
  *  # Global configuration
@@ -23,7 +22,6 @@
  *
  * ---------------------------------------------------------------------------- */
 
-
 /* ------------------------------------------------------------------------------
  *
  *  # Custom Limitless functions
@@ -31,7 +29,6 @@
  *  Utility mixins and functions for evalutating source code across our variables, maps, and mixins.
  *
  * ---------------------------------------------------------------------------- */
-
 
 /* ------------------------------------------------------------------------------
  *
@@ -41,7 +38,6 @@
  *
  * ---------------------------------------------------------------------------- */
 
-
 /* ------------------------------------------------------------------------------
  *
  *  # Main colors
@@ -49,7 +45,6 @@
  *  List of the template main color palettes
  *
  * ---------------------------------------------------------------------------- */
-
 
 /* ------------------------------------------------------------------------------
  *
@@ -61,7 +56,6 @@
  *
  * ---------------------------------------------------------------------------- */
 
-
 /* ------------------------------------------------------------------------------
  *
  *  # Additional variables
@@ -71,7 +65,6 @@
  *
  * ---------------------------------------------------------------------------- */
 
-
 /* ------------------------------------------------------------------------------
  *
  *  # Mixins
@@ -79,7 +72,6 @@
  *  Import Bootstrap mixins with overrides
  *
  * ---------------------------------------------------------------------------- */
-
 
 /* ------------------------------------------------------------------------------
  *
@@ -89,7 +81,6 @@
  *
  * ---------------------------------------------------------------------------- */
 
-
 /* ------------------------------------------------------------------------------
  *
  *  # Buttons mixin
@@ -97,7 +88,6 @@
  *  Override and extend default buttons mixin.
  *
  * ---------------------------------------------------------------------------- */
-
 
 /* ------------------------------------------------------------------------------
  *
@@ -107,7 +97,6 @@
  *
  * ---------------------------------------------------------------------------- */
 
-
 /* ------------------------------------------------------------------------------
  *
  *  # Forms mixin
@@ -116,7 +105,6 @@
  *
  * ---------------------------------------------------------------------------- */
 
-
 /* ------------------------------------------------------------------------------
  *
  *  # Background mixin
@@ -124,7 +112,6 @@
  *  Override and extend default background mixin.
  *
  * ---------------------------------------------------------------------------- */
-
 
 /* ------------------------------------------------------------------------------
  *
@@ -135,11 +122,11 @@
  * ---------------------------------------------------------------------------- */
 
 .alpha-primary {
-    background-color: #E3F2FD;
+    background-color: #e3f2fd;
 }
 
 .text-primary {
-    color: #2196F3;
+    color: #2196f3;
 }
 
 .text-primary[href]:hover,
@@ -148,31 +135,31 @@
 }
 
 .bg-primary {
-    background-color: #2196F3;
+    background-color: #2196f3;
 }
 
 .border-primary {
-    border-color: #2196F3;
+    border-color: #2196f3;
 }
 
 .border-top-primary {
-    border-top-color: #2196F3;
+    border-top-color: #2196f3;
 }
 
 .border-bottom-primary {
-    border-bottom-color: #2196F3;
+    border-bottom-color: #2196f3;
 }
 
 .border-left-primary {
-    border-left-color: #2196F3;
+    border-left-color: #2196f3;
 }
 
 .border-right-primary {
-    border-right-color: #2196F3;
+    border-right-color: #2196f3;
 }
 
 .text-primary-300 {
-    color: #64B5F6;
+    color: #64b5f6;
 }
 
 .text-primary-300[href]:hover,
@@ -181,31 +168,31 @@
 }
 
 .bg-primary-300 {
-    background-color: #64B5F6;
+    background-color: #64b5f6;
 }
 
 .border-primary-300 {
-    border-color: #64B5F6;
+    border-color: #64b5f6;
 }
 
 .border-top-primary-300 {
-    border-top-color: #64B5F6;
+    border-top-color: #64b5f6;
 }
 
 .border-bottom-primary-300 {
-    border-bottom-color: #64B5F6;
+    border-bottom-color: #64b5f6;
 }
 
 .border-left-primary-300 {
-    border-left-color: #64B5F6;
+    border-left-color: #64b5f6;
 }
 
 .border-right-primary-300 {
-    border-right-color: #64B5F6;
+    border-right-color: #64b5f6;
 }
 
 .text-primary-400 {
-    color: #42A5F5;
+    color: #42a5f5;
 }
 
 .text-primary-400[href]:hover,
@@ -214,31 +201,31 @@
 }
 
 .bg-primary-400 {
-    background-color: #42A5F5;
+    background-color: #42a5f5;
 }
 
 .border-primary-400 {
-    border-color: #42A5F5;
+    border-color: #42a5f5;
 }
 
 .border-top-primary-400 {
-    border-top-color: #42A5F5;
+    border-top-color: #42a5f5;
 }
 
 .border-bottom-primary-400 {
-    border-bottom-color: #42A5F5;
+    border-bottom-color: #42a5f5;
 }
 
 .border-left-primary-400 {
-    border-left-color: #42A5F5;
+    border-left-color: #42a5f5;
 }
 
 .border-right-primary-400 {
-    border-right-color: #42A5F5;
+    border-right-color: #42a5f5;
 }
 
 .text-primary-600 {
-    color: #1E88E5;
+    color: #1e88e5;
 }
 
 .text-primary-600[href]:hover,
@@ -247,31 +234,31 @@
 }
 
 .bg-primary-600 {
-    background-color: #1E88E5;
+    background-color: #1e88e5;
 }
 
 .border-primary-600 {
-    border-color: #1E88E5;
+    border-color: #1e88e5;
 }
 
 .border-top-primary-600 {
-    border-top-color: #1E88E5;
+    border-top-color: #1e88e5;
 }
 
 .border-bottom-primary-600 {
-    border-bottom-color: #1E88E5;
+    border-bottom-color: #1e88e5;
 }
 
 .border-left-primary-600 {
-    border-left-color: #1E88E5;
+    border-left-color: #1e88e5;
 }
 
 .border-right-primary-600 {
-    border-right-color: #1E88E5;
+    border-right-color: #1e88e5;
 }
 
 .text-primary-700 {
-    color: #1976D2;
+    color: #1976d2;
 }
 
 .text-primary-700[href]:hover,
@@ -280,31 +267,31 @@
 }
 
 .bg-primary-700 {
-    background-color: #1976D2;
+    background-color: #1976d2;
 }
 
 .border-primary-700 {
-    border-color: #1976D2;
+    border-color: #1976d2;
 }
 
 .border-top-primary-700 {
-    border-top-color: #1976D2;
+    border-top-color: #1976d2;
 }
 
 .border-bottom-primary-700 {
-    border-bottom-color: #1976D2;
+    border-bottom-color: #1976d2;
 }
 
 .border-left-primary-700 {
-    border-left-color: #1976D2;
+    border-left-color: #1976d2;
 }
 
 .border-right-primary-700 {
-    border-right-color: #1976D2;
+    border-right-color: #1976d2;
 }
 
 .text-primary-800 {
-    color: #1565C0;
+    color: #1565c0;
 }
 
 .text-primary-800[href]:hover,
@@ -313,38 +300,38 @@
 }
 
 .bg-primary-800 {
-    background-color: #1565C0;
+    background-color: #1565c0;
 }
 
 .border-primary-800 {
-    border-color: #1565C0;
+    border-color: #1565c0;
 }
 
 .border-top-primary-800 {
-    border-top-color: #1565C0;
+    border-top-color: #1565c0;
 }
 
 .border-bottom-primary-800 {
-    border-bottom-color: #1565C0;
+    border-bottom-color: #1565c0;
 }
 
 .border-left-primary-800 {
-    border-left-color: #1565C0;
+    border-left-color: #1565c0;
 }
 
 .border-right-primary-800 {
-    border-right-color: #1565C0;
+    border-right-color: #1565c0;
 }
 
 .alpha-danger {
-    background-color: #FFEBEE;
+    background-color: #ffebee;
 }
 
 .text-danger {
-    color: #F44336;
+    color: #f44336;
 }
 
-[data-theme=dark] .text-danger {
+[data-theme="dark"] .text-danger {
     color: #ff6464;
 }
 
@@ -354,31 +341,31 @@
 }
 
 .bg-danger {
-    background-color: #F44336;
+    background-color: #f44336;
 }
 
 .border-danger {
-    border-color: #F44336;
+    border-color: #f44336;
 }
 
 .border-top-danger {
-    border-top-color: #F44336;
+    border-top-color: #f44336;
 }
 
 .border-bottom-danger {
-    border-bottom-color: #F44336;
+    border-bottom-color: #f44336;
 }
 
 .border-left-danger {
-    border-left-color: #F44336;
+    border-left-color: #f44336;
 }
 
 .border-right-danger {
-    border-right-color: #F44336;
+    border-right-color: #f44336;
 }
 
 .text-danger-300 {
-    color: #E57373;
+    color: #e57373;
 }
 
 .text-danger-300[href]:hover,
@@ -387,31 +374,31 @@
 }
 
 .bg-danger-300 {
-    background-color: #E57373;
+    background-color: #e57373;
 }
 
 .border-danger-300 {
-    border-color: #E57373;
+    border-color: #e57373;
 }
 
 .border-top-danger-300 {
-    border-top-color: #E57373;
+    border-top-color: #e57373;
 }
 
 .border-bottom-danger-300 {
-    border-bottom-color: #E57373;
+    border-bottom-color: #e57373;
 }
 
 .border-left-danger-300 {
-    border-left-color: #E57373;
+    border-left-color: #e57373;
 }
 
 .border-right-danger-300 {
-    border-right-color: #E57373;
+    border-right-color: #e57373;
 }
 
 .text-danger-400 {
-    color: #EF5350;
+    color: #ef5350;
 }
 
 .text-danger-400[href]:hover,
@@ -420,31 +407,31 @@
 }
 
 .bg-danger-400 {
-    background-color: #EF5350;
+    background-color: #ef5350;
 }
 
 .border-danger-400 {
-    border-color: #EF5350;
+    border-color: #ef5350;
 }
 
 .border-top-danger-400 {
-    border-top-color: #EF5350;
+    border-top-color: #ef5350;
 }
 
 .border-bottom-danger-400 {
-    border-bottom-color: #EF5350;
+    border-bottom-color: #ef5350;
 }
 
 .border-left-danger-400 {
-    border-left-color: #EF5350;
+    border-left-color: #ef5350;
 }
 
 .border-right-danger-400 {
-    border-right-color: #EF5350;
+    border-right-color: #ef5350;
 }
 
 .text-danger-600 {
-    color: #E53935;
+    color: #e53935;
 }
 
 .text-danger-600[href]:hover,
@@ -453,31 +440,31 @@
 }
 
 .bg-danger-600 {
-    background-color: #E53935;
+    background-color: #e53935;
 }
 
 .border-danger-600 {
-    border-color: #E53935;
+    border-color: #e53935;
 }
 
 .border-top-danger-600 {
-    border-top-color: #E53935;
+    border-top-color: #e53935;
 }
 
 .border-bottom-danger-600 {
-    border-bottom-color: #E53935;
+    border-bottom-color: #e53935;
 }
 
 .border-left-danger-600 {
-    border-left-color: #E53935;
+    border-left-color: #e53935;
 }
 
 .border-right-danger-600 {
-    border-right-color: #E53935;
+    border-right-color: #e53935;
 }
 
 .text-danger-700 {
-    color: #D32F2F;
+    color: #d32f2f;
 }
 
 .text-danger-700[href]:hover,
@@ -486,31 +473,31 @@
 }
 
 .bg-danger-700 {
-    background-color: #D32F2F;
+    background-color: #d32f2f;
 }
 
 .border-danger-700 {
-    border-color: #D32F2F;
+    border-color: #d32f2f;
 }
 
 .border-top-danger-700 {
-    border-top-color: #D32F2F;
+    border-top-color: #d32f2f;
 }
 
 .border-bottom-danger-700 {
-    border-bottom-color: #D32F2F;
+    border-bottom-color: #d32f2f;
 }
 
 .border-left-danger-700 {
-    border-left-color: #D32F2F;
+    border-left-color: #d32f2f;
 }
 
 .border-right-danger-700 {
-    border-right-color: #D32F2F;
+    border-right-color: #d32f2f;
 }
 
 .text-danger-800 {
-    color: #C62828;
+    color: #c62828;
 }
 
 .text-danger-800[href]:hover,
@@ -519,35 +506,35 @@
 }
 
 .bg-danger-800 {
-    background-color: #C62828;
+    background-color: #c62828;
 }
 
 .border-danger-800 {
-    border-color: #C62828;
+    border-color: #c62828;
 }
 
 .border-top-danger-800 {
-    border-top-color: #C62828;
+    border-top-color: #c62828;
 }
 
 .border-bottom-danger-800 {
-    border-bottom-color: #C62828;
+    border-bottom-color: #c62828;
 }
 
 .border-left-danger-800 {
-    border-left-color: #C62828;
+    border-left-color: #c62828;
 }
 
 .border-right-danger-800 {
-    border-right-color: #C62828;
+    border-right-color: #c62828;
 }
 
 .alpha-success {
-    background-color: #E8F5E9;
+    background-color: #e8f5e9;
 }
 
 .text-success {
-    color: #4CAF50;
+    color: #4caf50;
 }
 
 .text-success[href]:hover,
@@ -556,31 +543,31 @@
 }
 
 .bg-success {
-    background-color: #4CAF50;
+    background-color: #4caf50;
 }
 
 .border-success {
-    border-color: #4CAF50;
+    border-color: #4caf50;
 }
 
 .border-top-success {
-    border-top-color: #4CAF50;
+    border-top-color: #4caf50;
 }
 
 .border-bottom-success {
-    border-bottom-color: #4CAF50;
+    border-bottom-color: #4caf50;
 }
 
 .border-left-success {
-    border-left-color: #4CAF50;
+    border-left-color: #4caf50;
 }
 
 .border-right-success {
-    border-right-color: #4CAF50;
+    border-right-color: #4caf50;
 }
 
 .text-success-300 {
-    color: #81C784;
+    color: #81c784;
 }
 
 .text-success-300[href]:hover,
@@ -589,31 +576,31 @@
 }
 
 .bg-success-300 {
-    background-color: #81C784;
+    background-color: #81c784;
 }
 
 .border-success-300 {
-    border-color: #81C784;
+    border-color: #81c784;
 }
 
 .border-top-success-300 {
-    border-top-color: #81C784;
+    border-top-color: #81c784;
 }
 
 .border-bottom-success-300 {
-    border-bottom-color: #81C784;
+    border-bottom-color: #81c784;
 }
 
 .border-left-success-300 {
-    border-left-color: #81C784;
+    border-left-color: #81c784;
 }
 
 .border-right-success-300 {
-    border-right-color: #81C784;
+    border-right-color: #81c784;
 }
 
 .text-success-400 {
-    color: #66BB6A;
+    color: #66bb6a;
 }
 
 .text-success-400[href]:hover,
@@ -622,31 +609,31 @@
 }
 
 .bg-success-400 {
-    background-color: #66BB6A;
+    background-color: #66bb6a;
 }
 
 .border-success-400 {
-    border-color: #66BB6A;
+    border-color: #66bb6a;
 }
 
 .border-top-success-400 {
-    border-top-color: #66BB6A;
+    border-top-color: #66bb6a;
 }
 
 .border-bottom-success-400 {
-    border-bottom-color: #66BB6A;
+    border-bottom-color: #66bb6a;
 }
 
 .border-left-success-400 {
-    border-left-color: #66BB6A;
+    border-left-color: #66bb6a;
 }
 
 .border-right-success-400 {
-    border-right-color: #66BB6A;
+    border-right-color: #66bb6a;
 }
 
 .text-success-600 {
-    color: #43A047;
+    color: #43a047;
 }
 
 .text-success-600[href]:hover,
@@ -655,31 +642,31 @@
 }
 
 .bg-success-600 {
-    background-color: #43A047;
+    background-color: #43a047;
 }
 
 .border-success-600 {
-    border-color: #43A047;
+    border-color: #43a047;
 }
 
 .border-top-success-600 {
-    border-top-color: #43A047;
+    border-top-color: #43a047;
 }
 
 .border-bottom-success-600 {
-    border-bottom-color: #43A047;
+    border-bottom-color: #43a047;
 }
 
 .border-left-success-600 {
-    border-left-color: #43A047;
+    border-left-color: #43a047;
 }
 
 .border-right-success-600 {
-    border-right-color: #43A047;
+    border-right-color: #43a047;
 }
 
 .text-success-700 {
-    color: #388E3C;
+    color: #388e3c;
 }
 
 .text-success-700[href]:hover,
@@ -688,31 +675,31 @@
 }
 
 .bg-success-700 {
-    background-color: #388E3C;
+    background-color: #388e3c;
 }
 
 .border-success-700 {
-    border-color: #388E3C;
+    border-color: #388e3c;
 }
 
 .border-top-success-700 {
-    border-top-color: #388E3C;
+    border-top-color: #388e3c;
 }
 
 .border-bottom-success-700 {
-    border-bottom-color: #388E3C;
+    border-bottom-color: #388e3c;
 }
 
 .border-left-success-700 {
-    border-left-color: #388E3C;
+    border-left-color: #388e3c;
 }
 
 .border-right-success-700 {
-    border-right-color: #388E3C;
+    border-right-color: #388e3c;
 }
 
 .text-success-800 {
-    color: #2E7D32;
+    color: #2e7d32;
 }
 
 .text-success-800[href]:hover,
@@ -721,35 +708,35 @@
 }
 
 .bg-success-800 {
-    background-color: #2E7D32;
+    background-color: #2e7d32;
 }
 
 .border-success-800 {
-    border-color: #2E7D32;
+    border-color: #2e7d32;
 }
 
 .border-top-success-800 {
-    border-top-color: #2E7D32;
+    border-top-color: #2e7d32;
 }
 
 .border-bottom-success-800 {
-    border-bottom-color: #2E7D32;
+    border-bottom-color: #2e7d32;
 }
 
 .border-left-success-800 {
-    border-left-color: #2E7D32;
+    border-left-color: #2e7d32;
 }
 
 .border-right-success-800 {
-    border-right-color: #2E7D32;
+    border-right-color: #2e7d32;
 }
 
 .alpha-warning {
-    background-color: #FBE9E7;
+    background-color: #fbe9e7;
 }
 
 .text-warning {
-    color: #FF5722;
+    color: #ff5722;
 }
 
 .text-warning[href]:hover,
@@ -758,31 +745,31 @@
 }
 
 .bg-warning {
-    background-color: #FF5722;
+    background-color: #ff5722;
 }
 
 .border-warning {
-    border-color: #FF5722;
+    border-color: #ff5722;
 }
 
 .border-top-warning {
-    border-top-color: #FF5722;
+    border-top-color: #ff5722;
 }
 
 .border-bottom-warning {
-    border-bottom-color: #FF5722;
+    border-bottom-color: #ff5722;
 }
 
 .border-left-warning {
-    border-left-color: #FF5722;
+    border-left-color: #ff5722;
 }
 
 .border-right-warning {
-    border-right-color: #FF5722;
+    border-right-color: #ff5722;
 }
 
 .text-warning-300 {
-    color: #FF8A65;
+    color: #ff8a65;
 }
 
 .text-warning-300[href]:hover,
@@ -791,31 +778,31 @@
 }
 
 .bg-warning-300 {
-    background-color: #FF8A65;
+    background-color: #ff8a65;
 }
 
 .border-warning-300 {
-    border-color: #FF8A65;
+    border-color: #ff8a65;
 }
 
 .border-top-warning-300 {
-    border-top-color: #FF8A65;
+    border-top-color: #ff8a65;
 }
 
 .border-bottom-warning-300 {
-    border-bottom-color: #FF8A65;
+    border-bottom-color: #ff8a65;
 }
 
 .border-left-warning-300 {
-    border-left-color: #FF8A65;
+    border-left-color: #ff8a65;
 }
 
 .border-right-warning-300 {
-    border-right-color: #FF8A65;
+    border-right-color: #ff8a65;
 }
 
 .text-warning-400 {
-    color: #FF7043;
+    color: #ff7043;
 }
 
 .text-warning-400[href]:hover,
@@ -824,31 +811,31 @@
 }
 
 .bg-warning-400 {
-    background-color: #FF7043;
+    background-color: #ff7043;
 }
 
 .border-warning-400 {
-    border-color: #FF7043;
+    border-color: #ff7043;
 }
 
 .border-top-warning-400 {
-    border-top-color: #FF7043;
+    border-top-color: #ff7043;
 }
 
 .border-bottom-warning-400 {
-    border-bottom-color: #FF7043;
+    border-bottom-color: #ff7043;
 }
 
 .border-left-warning-400 {
-    border-left-color: #FF7043;
+    border-left-color: #ff7043;
 }
 
 .border-right-warning-400 {
-    border-right-color: #FF7043;
+    border-right-color: #ff7043;
 }
 
 .text-warning-600 {
-    color: #F4511E;
+    color: #f4511e;
 }
 
 .text-warning-600[href]:hover,
@@ -857,31 +844,31 @@
 }
 
 .bg-warning-600 {
-    background-color: #F4511E;
+    background-color: #f4511e;
 }
 
 .border-warning-600 {
-    border-color: #F4511E;
+    border-color: #f4511e;
 }
 
 .border-top-warning-600 {
-    border-top-color: #F4511E;
+    border-top-color: #f4511e;
 }
 
 .border-bottom-warning-600 {
-    border-bottom-color: #F4511E;
+    border-bottom-color: #f4511e;
 }
 
 .border-left-warning-600 {
-    border-left-color: #F4511E;
+    border-left-color: #f4511e;
 }
 
 .border-right-warning-600 {
-    border-right-color: #F4511E;
+    border-right-color: #f4511e;
 }
 
 .text-warning-700 {
-    color: #E64A19;
+    color: #e64a19;
 }
 
 .text-warning-700[href]:hover,
@@ -890,31 +877,31 @@
 }
 
 .bg-warning-700 {
-    background-color: #E64A19;
+    background-color: #e64a19;
 }
 
 .border-warning-700 {
-    border-color: #E64A19;
+    border-color: #e64a19;
 }
 
 .border-top-warning-700 {
-    border-top-color: #E64A19;
+    border-top-color: #e64a19;
 }
 
 .border-bottom-warning-700 {
-    border-bottom-color: #E64A19;
+    border-bottom-color: #e64a19;
 }
 
 .border-left-warning-700 {
-    border-left-color: #E64A19;
+    border-left-color: #e64a19;
 }
 
 .border-right-warning-700 {
-    border-right-color: #E64A19;
+    border-right-color: #e64a19;
 }
 
 .text-warning-800 {
-    color: #D84315;
+    color: #d84315;
 }
 
 .text-warning-800[href]:hover,
@@ -923,35 +910,35 @@
 }
 
 .bg-warning-800 {
-    background-color: #D84315;
+    background-color: #d84315;
 }
 
 .border-warning-800 {
-    border-color: #D84315;
+    border-color: #d84315;
 }
 
 .border-top-warning-800 {
-    border-top-color: #D84315;
+    border-top-color: #d84315;
 }
 
 .border-bottom-warning-800 {
-    border-bottom-color: #D84315;
+    border-bottom-color: #d84315;
 }
 
 .border-left-warning-800 {
-    border-left-color: #D84315;
+    border-left-color: #d84315;
 }
 
 .border-right-warning-800 {
-    border-right-color: #D84315;
+    border-right-color: #d84315;
 }
 
 .alpha-info {
-    background-color: #E0F7FA;
+    background-color: #e0f7fa;
 }
 
 .text-info {
-    color: #00BCD4;
+    color: #00bcd4;
 }
 
 .text-info[href]:hover,
@@ -960,31 +947,31 @@
 }
 
 .bg-info {
-    background-color: #00BCD4;
+    background-color: #00bcd4;
 }
 
 .border-info {
-    border-color: #00BCD4;
+    border-color: #00bcd4;
 }
 
 .border-top-info {
-    border-top-color: #00BCD4;
+    border-top-color: #00bcd4;
 }
 
 .border-bottom-info {
-    border-bottom-color: #00BCD4;
+    border-bottom-color: #00bcd4;
 }
 
 .border-left-info {
-    border-left-color: #00BCD4;
+    border-left-color: #00bcd4;
 }
 
 .border-right-info {
-    border-right-color: #00BCD4;
+    border-right-color: #00bcd4;
 }
 
 .text-info-300 {
-    color: #4DD0E1;
+    color: #4dd0e1;
 }
 
 .text-info-300[href]:hover,
@@ -993,31 +980,31 @@
 }
 
 .bg-info-300 {
-    background-color: #4DD0E1;
+    background-color: #4dd0e1;
 }
 
 .border-info-300 {
-    border-color: #4DD0E1;
+    border-color: #4dd0e1;
 }
 
 .border-top-info-300 {
-    border-top-color: #4DD0E1;
+    border-top-color: #4dd0e1;
 }
 
 .border-bottom-info-300 {
-    border-bottom-color: #4DD0E1;
+    border-bottom-color: #4dd0e1;
 }
 
 .border-left-info-300 {
-    border-left-color: #4DD0E1;
+    border-left-color: #4dd0e1;
 }
 
 .border-right-info-300 {
-    border-right-color: #4DD0E1;
+    border-right-color: #4dd0e1;
 }
 
 .text-info-400 {
-    color: #26C6DA;
+    color: #26c6da;
 }
 
 .text-info-400[href]:hover,
@@ -1026,31 +1013,31 @@
 }
 
 .bg-info-400 {
-    background-color: #26C6DA;
+    background-color: #26c6da;
 }
 
 .border-info-400 {
-    border-color: #26C6DA;
+    border-color: #26c6da;
 }
 
 .border-top-info-400 {
-    border-top-color: #26C6DA;
+    border-top-color: #26c6da;
 }
 
 .border-bottom-info-400 {
-    border-bottom-color: #26C6DA;
+    border-bottom-color: #26c6da;
 }
 
 .border-left-info-400 {
-    border-left-color: #26C6DA;
+    border-left-color: #26c6da;
 }
 
 .border-right-info-400 {
-    border-right-color: #26C6DA;
+    border-right-color: #26c6da;
 }
 
 .text-info-600 {
-    color: #00ACC1;
+    color: #00acc1;
 }
 
 .text-info-600[href]:hover,
@@ -1059,31 +1046,31 @@
 }
 
 .bg-info-600 {
-    background-color: #00ACC1;
+    background-color: #00acc1;
 }
 
 .border-info-600 {
-    border-color: #00ACC1;
+    border-color: #00acc1;
 }
 
 .border-top-info-600 {
-    border-top-color: #00ACC1;
+    border-top-color: #00acc1;
 }
 
 .border-bottom-info-600 {
-    border-bottom-color: #00ACC1;
+    border-bottom-color: #00acc1;
 }
 
 .border-left-info-600 {
-    border-left-color: #00ACC1;
+    border-left-color: #00acc1;
 }
 
 .border-right-info-600 {
-    border-right-color: #00ACC1;
+    border-right-color: #00acc1;
 }
 
 .text-info-700 {
-    color: #0097A7;
+    color: #0097a7;
 }
 
 .text-info-700[href]:hover,
@@ -1092,31 +1079,31 @@
 }
 
 .bg-info-700 {
-    background-color: #0097A7;
+    background-color: #0097a7;
 }
 
 .border-info-700 {
-    border-color: #0097A7;
+    border-color: #0097a7;
 }
 
 .border-top-info-700 {
-    border-top-color: #0097A7;
+    border-top-color: #0097a7;
 }
 
 .border-bottom-info-700 {
-    border-bottom-color: #0097A7;
+    border-bottom-color: #0097a7;
 }
 
 .border-left-info-700 {
-    border-left-color: #0097A7;
+    border-left-color: #0097a7;
 }
 
 .border-right-info-700 {
-    border-right-color: #0097A7;
+    border-right-color: #0097a7;
 }
 
 .text-info-800 {
-    color: #00838F;
+    color: #00838f;
 }
 
 .text-info-800[href]:hover,
@@ -1125,35 +1112,35 @@
 }
 
 .bg-info-800 {
-    background-color: #00838F;
+    background-color: #00838f;
 }
 
 .border-info-800 {
-    border-color: #00838F;
+    border-color: #00838f;
 }
 
 .border-top-info-800 {
-    border-top-color: #00838F;
+    border-top-color: #00838f;
 }
 
 .border-bottom-info-800 {
-    border-bottom-color: #00838F;
+    border-bottom-color: #00838f;
 }
 
 .border-left-info-800 {
-    border-left-color: #00838F;
+    border-left-color: #00838f;
 }
 
 .border-right-info-800 {
-    border-right-color: #00838F;
+    border-right-color: #00838f;
 }
 
 .alpha-pink {
-    background-color: #FCE4EC;
+    background-color: #fce4ec;
 }
 
 .text-pink {
-    color: #E91E63;
+    color: #e91e63;
 }
 
 .text-pink[href]:hover,
@@ -1162,31 +1149,31 @@
 }
 
 .bg-pink {
-    background-color: #E91E63;
+    background-color: #e91e63;
 }
 
 .border-pink {
-    border-color: #E91E63;
+    border-color: #e91e63;
 }
 
 .border-top-pink {
-    border-top-color: #E91E63;
+    border-top-color: #e91e63;
 }
 
 .border-bottom-pink {
-    border-bottom-color: #E91E63;
+    border-bottom-color: #e91e63;
 }
 
 .border-left-pink {
-    border-left-color: #E91E63;
+    border-left-color: #e91e63;
 }
 
 .border-right-pink {
-    border-right-color: #E91E63;
+    border-right-color: #e91e63;
 }
 
 .text-pink-300 {
-    color: #F06292;
+    color: #f06292;
 }
 
 .text-pink-300[href]:hover,
@@ -1195,31 +1182,31 @@
 }
 
 .bg-pink-300 {
-    background-color: #F06292;
+    background-color: #f06292;
 }
 
 .border-pink-300 {
-    border-color: #F06292;
+    border-color: #f06292;
 }
 
 .border-top-pink-300 {
-    border-top-color: #F06292;
+    border-top-color: #f06292;
 }
 
 .border-bottom-pink-300 {
-    border-bottom-color: #F06292;
+    border-bottom-color: #f06292;
 }
 
 .border-left-pink-300 {
-    border-left-color: #F06292;
+    border-left-color: #f06292;
 }
 
 .border-right-pink-300 {
-    border-right-color: #F06292;
+    border-right-color: #f06292;
 }
 
 .text-pink-400 {
-    color: #EC407A;
+    color: #ec407a;
 }
 
 .text-pink-400[href]:hover,
@@ -1228,31 +1215,31 @@
 }
 
 .bg-pink-400 {
-    background-color: #EC407A;
+    background-color: #ec407a;
 }
 
 .border-pink-400 {
-    border-color: #EC407A;
+    border-color: #ec407a;
 }
 
 .border-top-pink-400 {
-    border-top-color: #EC407A;
+    border-top-color: #ec407a;
 }
 
 .border-bottom-pink-400 {
-    border-bottom-color: #EC407A;
+    border-bottom-color: #ec407a;
 }
 
 .border-left-pink-400 {
-    border-left-color: #EC407A;
+    border-left-color: #ec407a;
 }
 
 .border-right-pink-400 {
-    border-right-color: #EC407A;
+    border-right-color: #ec407a;
 }
 
 .text-pink-600 {
-    color: #D81B60;
+    color: #d81b60;
 }
 
 .text-pink-600[href]:hover,
@@ -1261,31 +1248,31 @@
 }
 
 .bg-pink-600 {
-    background-color: #D81B60;
+    background-color: #d81b60;
 }
 
 .border-pink-600 {
-    border-color: #D81B60;
+    border-color: #d81b60;
 }
 
 .border-top-pink-600 {
-    border-top-color: #D81B60;
+    border-top-color: #d81b60;
 }
 
 .border-bottom-pink-600 {
-    border-bottom-color: #D81B60;
+    border-bottom-color: #d81b60;
 }
 
 .border-left-pink-600 {
-    border-left-color: #D81B60;
+    border-left-color: #d81b60;
 }
 
 .border-right-pink-600 {
-    border-right-color: #D81B60;
+    border-right-color: #d81b60;
 }
 
 .text-pink-700 {
-    color: #C2185B;
+    color: #c2185b;
 }
 
 .text-pink-700[href]:hover,
@@ -1294,31 +1281,31 @@
 }
 
 .bg-pink-700 {
-    background-color: #C2185B;
+    background-color: #c2185b;
 }
 
 .border-pink-700 {
-    border-color: #C2185B;
+    border-color: #c2185b;
 }
 
 .border-top-pink-700 {
-    border-top-color: #C2185B;
+    border-top-color: #c2185b;
 }
 
 .border-bottom-pink-700 {
-    border-bottom-color: #C2185B;
+    border-bottom-color: #c2185b;
 }
 
 .border-left-pink-700 {
-    border-left-color: #C2185B;
+    border-left-color: #c2185b;
 }
 
 .border-right-pink-700 {
-    border-right-color: #C2185B;
+    border-right-color: #c2185b;
 }
 
 .text-pink-800 {
-    color: #AD1457;
+    color: #ad1457;
 }
 
 .text-pink-800[href]:hover,
@@ -1327,35 +1314,35 @@
 }
 
 .bg-pink-800 {
-    background-color: #AD1457;
+    background-color: #ad1457;
 }
 
 .border-pink-800 {
-    border-color: #AD1457;
+    border-color: #ad1457;
 }
 
 .border-top-pink-800 {
-    border-top-color: #AD1457;
+    border-top-color: #ad1457;
 }
 
 .border-bottom-pink-800 {
-    border-bottom-color: #AD1457;
+    border-bottom-color: #ad1457;
 }
 
 .border-left-pink-800 {
-    border-left-color: #AD1457;
+    border-left-color: #ad1457;
 }
 
 .border-right-pink-800 {
-    border-right-color: #AD1457;
+    border-right-color: #ad1457;
 }
 
 .alpha-violet {
-    background-color: #F3E5F5;
+    background-color: #f3e5f5;
 }
 
 .text-violet {
-    color: #9C27B0;
+    color: #9c27b0;
 }
 
 .text-violet[href]:hover,
@@ -1364,31 +1351,31 @@
 }
 
 .bg-violet {
-    background-color: #9C27B0;
+    background-color: #9c27b0;
 }
 
 .border-violet {
-    border-color: #9C27B0;
+    border-color: #9c27b0;
 }
 
 .border-top-violet {
-    border-top-color: #9C27B0;
+    border-top-color: #9c27b0;
 }
 
 .border-bottom-violet {
-    border-bottom-color: #9C27B0;
+    border-bottom-color: #9c27b0;
 }
 
 .border-left-violet {
-    border-left-color: #9C27B0;
+    border-left-color: #9c27b0;
 }
 
 .border-right-violet {
-    border-right-color: #9C27B0;
+    border-right-color: #9c27b0;
 }
 
 .text-violet-300 {
-    color: #BA68C8;
+    color: #ba68c8;
 }
 
 .text-violet-300[href]:hover,
@@ -1397,31 +1384,31 @@
 }
 
 .bg-violet-300 {
-    background-color: #BA68C8;
+    background-color: #ba68c8;
 }
 
 .border-violet-300 {
-    border-color: #BA68C8;
+    border-color: #ba68c8;
 }
 
 .border-top-violet-300 {
-    border-top-color: #BA68C8;
+    border-top-color: #ba68c8;
 }
 
 .border-bottom-violet-300 {
-    border-bottom-color: #BA68C8;
+    border-bottom-color: #ba68c8;
 }
 
 .border-left-violet-300 {
-    border-left-color: #BA68C8;
+    border-left-color: #ba68c8;
 }
 
 .border-right-violet-300 {
-    border-right-color: #BA68C8;
+    border-right-color: #ba68c8;
 }
 
 .text-violet-400 {
-    color: #AB47BC;
+    color: #ab47bc;
 }
 
 .text-violet-400[href]:hover,
@@ -1430,31 +1417,31 @@
 }
 
 .bg-violet-400 {
-    background-color: #AB47BC;
+    background-color: #ab47bc;
 }
 
 .border-violet-400 {
-    border-color: #AB47BC;
+    border-color: #ab47bc;
 }
 
 .border-top-violet-400 {
-    border-top-color: #AB47BC;
+    border-top-color: #ab47bc;
 }
 
 .border-bottom-violet-400 {
-    border-bottom-color: #AB47BC;
+    border-bottom-color: #ab47bc;
 }
 
 .border-left-violet-400 {
-    border-left-color: #AB47BC;
+    border-left-color: #ab47bc;
 }
 
 .border-right-violet-400 {
-    border-right-color: #AB47BC;
+    border-right-color: #ab47bc;
 }
 
 .text-violet-600 {
-    color: #8E24AA;
+    color: #8e24aa;
 }
 
 .text-violet-600[href]:hover,
@@ -1463,31 +1450,31 @@
 }
 
 .bg-violet-600 {
-    background-color: #8E24AA;
+    background-color: #8e24aa;
 }
 
 .border-violet-600 {
-    border-color: #8E24AA;
+    border-color: #8e24aa;
 }
 
 .border-top-violet-600 {
-    border-top-color: #8E24AA;
+    border-top-color: #8e24aa;
 }
 
 .border-bottom-violet-600 {
-    border-bottom-color: #8E24AA;
+    border-bottom-color: #8e24aa;
 }
 
 .border-left-violet-600 {
-    border-left-color: #8E24AA;
+    border-left-color: #8e24aa;
 }
 
 .border-right-violet-600 {
-    border-right-color: #8E24AA;
+    border-right-color: #8e24aa;
 }
 
 .text-violet-700 {
-    color: #7B1FA2;
+    color: #7b1fa2;
 }
 
 .text-violet-700[href]:hover,
@@ -1496,31 +1483,31 @@
 }
 
 .bg-violet-700 {
-    background-color: #7B1FA2;
+    background-color: #7b1fa2;
 }
 
 .border-violet-700 {
-    border-color: #7B1FA2;
+    border-color: #7b1fa2;
 }
 
 .border-top-violet-700 {
-    border-top-color: #7B1FA2;
+    border-top-color: #7b1fa2;
 }
 
 .border-bottom-violet-700 {
-    border-bottom-color: #7B1FA2;
+    border-bottom-color: #7b1fa2;
 }
 
 .border-left-violet-700 {
-    border-left-color: #7B1FA2;
+    border-left-color: #7b1fa2;
 }
 
 .border-right-violet-700 {
-    border-right-color: #7B1FA2;
+    border-right-color: #7b1fa2;
 }
 
 .text-violet-800 {
-    color: #6A1B9A;
+    color: #6a1b9a;
 }
 
 .text-violet-800[href]:hover,
@@ -1529,35 +1516,35 @@
 }
 
 .bg-violet-800 {
-    background-color: #6A1B9A;
+    background-color: #6a1b9a;
 }
 
 .border-violet-800 {
-    border-color: #6A1B9A;
+    border-color: #6a1b9a;
 }
 
 .border-top-violet-800 {
-    border-top-color: #6A1B9A;
+    border-top-color: #6a1b9a;
 }
 
 .border-bottom-violet-800 {
-    border-bottom-color: #6A1B9A;
+    border-bottom-color: #6a1b9a;
 }
 
 .border-left-violet-800 {
-    border-left-color: #6A1B9A;
+    border-left-color: #6a1b9a;
 }
 
 .border-right-violet-800 {
-    border-right-color: #6A1B9A;
+    border-right-color: #6a1b9a;
 }
 
 .alpha-purple {
-    background-color: #EDE7F6;
+    background-color: #ede7f6;
 }
 
 .text-purple {
-    color: #673AB7;
+    color: #673ab7;
 }
 
 .text-purple[href]:hover,
@@ -1566,31 +1553,31 @@
 }
 
 .bg-purple {
-    background-color: #673AB7;
+    background-color: #673ab7;
 }
 
 .border-purple {
-    border-color: #673AB7;
+    border-color: #673ab7;
 }
 
 .border-top-purple {
-    border-top-color: #673AB7;
+    border-top-color: #673ab7;
 }
 
 .border-bottom-purple {
-    border-bottom-color: #673AB7;
+    border-bottom-color: #673ab7;
 }
 
 .border-left-purple {
-    border-left-color: #673AB7;
+    border-left-color: #673ab7;
 }
 
 .border-right-purple {
-    border-right-color: #673AB7;
+    border-right-color: #673ab7;
 }
 
 .text-purple-300 {
-    color: #9575CD;
+    color: #9575cd;
 }
 
 .text-purple-300[href]:hover,
@@ -1599,31 +1586,31 @@
 }
 
 .bg-purple-300 {
-    background-color: #9575CD;
+    background-color: #9575cd;
 }
 
 .border-purple-300 {
-    border-color: #9575CD;
+    border-color: #9575cd;
 }
 
 .border-top-purple-300 {
-    border-top-color: #9575CD;
+    border-top-color: #9575cd;
 }
 
 .border-bottom-purple-300 {
-    border-bottom-color: #9575CD;
+    border-bottom-color: #9575cd;
 }
 
 .border-left-purple-300 {
-    border-left-color: #9575CD;
+    border-left-color: #9575cd;
 }
 
 .border-right-purple-300 {
-    border-right-color: #9575CD;
+    border-right-color: #9575cd;
 }
 
 .text-purple-400 {
-    color: #7E57C2;
+    color: #7e57c2;
 }
 
 .text-purple-400[href]:hover,
@@ -1632,31 +1619,31 @@
 }
 
 .bg-purple-400 {
-    background-color: #7E57C2;
+    background-color: #7e57c2;
 }
 
 .border-purple-400 {
-    border-color: #7E57C2;
+    border-color: #7e57c2;
 }
 
 .border-top-purple-400 {
-    border-top-color: #7E57C2;
+    border-top-color: #7e57c2;
 }
 
 .border-bottom-purple-400 {
-    border-bottom-color: #7E57C2;
+    border-bottom-color: #7e57c2;
 }
 
 .border-left-purple-400 {
-    border-left-color: #7E57C2;
+    border-left-color: #7e57c2;
 }
 
 .border-right-purple-400 {
-    border-right-color: #7E57C2;
+    border-right-color: #7e57c2;
 }
 
 .text-purple-600 {
-    color: #5E35B1;
+    color: #5e35b1;
 }
 
 .text-purple-600[href]:hover,
@@ -1665,31 +1652,31 @@
 }
 
 .bg-purple-600 {
-    background-color: #5E35B1;
+    background-color: #5e35b1;
 }
 
 .border-purple-600 {
-    border-color: #5E35B1;
+    border-color: #5e35b1;
 }
 
 .border-top-purple-600 {
-    border-top-color: #5E35B1;
+    border-top-color: #5e35b1;
 }
 
 .border-bottom-purple-600 {
-    border-bottom-color: #5E35B1;
+    border-bottom-color: #5e35b1;
 }
 
 .border-left-purple-600 {
-    border-left-color: #5E35B1;
+    border-left-color: #5e35b1;
 }
 
 .border-right-purple-600 {
-    border-right-color: #5E35B1;
+    border-right-color: #5e35b1;
 }
 
 .text-purple-700 {
-    color: #512DA8;
+    color: #512da8;
 }
 
 .text-purple-700[href]:hover,
@@ -1698,31 +1685,31 @@
 }
 
 .bg-purple-700 {
-    background-color: #512DA8;
+    background-color: #512da8;
 }
 
 .border-purple-700 {
-    border-color: #512DA8;
+    border-color: #512da8;
 }
 
 .border-top-purple-700 {
-    border-top-color: #512DA8;
+    border-top-color: #512da8;
 }
 
 .border-bottom-purple-700 {
-    border-bottom-color: #512DA8;
+    border-bottom-color: #512da8;
 }
 
 .border-left-purple-700 {
-    border-left-color: #512DA8;
+    border-left-color: #512da8;
 }
 
 .border-right-purple-700 {
-    border-right-color: #512DA8;
+    border-right-color: #512da8;
 }
 
 .text-purple-800 {
-    color: #4527A0;
+    color: #4527a0;
 }
 
 .text-purple-800[href]:hover,
@@ -1731,35 +1718,35 @@
 }
 
 .bg-purple-800 {
-    background-color: #4527A0;
+    background-color: #4527a0;
 }
 
 .border-purple-800 {
-    border-color: #4527A0;
+    border-color: #4527a0;
 }
 
 .border-top-purple-800 {
-    border-top-color: #4527A0;
+    border-top-color: #4527a0;
 }
 
 .border-bottom-purple-800 {
-    border-bottom-color: #4527A0;
+    border-bottom-color: #4527a0;
 }
 
 .border-left-purple-800 {
-    border-left-color: #4527A0;
+    border-left-color: #4527a0;
 }
 
 .border-right-purple-800 {
-    border-right-color: #4527A0;
+    border-right-color: #4527a0;
 }
 
 .alpha-indigo {
-    background-color: #E8EAF6;
+    background-color: #e8eaf6;
 }
 
 .text-indigo {
-    color: #3F51B5;
+    color: #3f51b5;
 }
 
 .text-indigo[href]:hover,
@@ -1768,31 +1755,31 @@
 }
 
 .bg-indigo {
-    background-color: #3F51B5;
+    background-color: #3f51b5;
 }
 
 .border-indigo {
-    border-color: #3F51B5;
+    border-color: #3f51b5;
 }
 
 .border-top-indigo {
-    border-top-color: #3F51B5;
+    border-top-color: #3f51b5;
 }
 
 .border-bottom-indigo {
-    border-bottom-color: #3F51B5;
+    border-bottom-color: #3f51b5;
 }
 
 .border-left-indigo {
-    border-left-color: #3F51B5;
+    border-left-color: #3f51b5;
 }
 
 .border-right-indigo {
-    border-right-color: #3F51B5;
+    border-right-color: #3f51b5;
 }
 
 .text-indigo-300 {
-    color: #7986CB;
+    color: #7986cb;
 }
 
 .text-indigo-300[href]:hover,
@@ -1801,31 +1788,31 @@
 }
 
 .bg-indigo-300 {
-    background-color: #7986CB;
+    background-color: #7986cb;
 }
 
 .border-indigo-300 {
-    border-color: #7986CB;
+    border-color: #7986cb;
 }
 
 .border-top-indigo-300 {
-    border-top-color: #7986CB;
+    border-top-color: #7986cb;
 }
 
 .border-bottom-indigo-300 {
-    border-bottom-color: #7986CB;
+    border-bottom-color: #7986cb;
 }
 
 .border-left-indigo-300 {
-    border-left-color: #7986CB;
+    border-left-color: #7986cb;
 }
 
 .border-right-indigo-300 {
-    border-right-color: #7986CB;
+    border-right-color: #7986cb;
 }
 
 .text-indigo-400 {
-    color: #5C6BC0;
+    color: #5c6bc0;
 }
 
 .text-indigo-400[href]:hover,
@@ -1834,31 +1821,31 @@
 }
 
 .bg-indigo-400 {
-    background-color: #5C6BC0;
+    background-color: #5c6bc0;
 }
 
 .border-indigo-400 {
-    border-color: #5C6BC0;
+    border-color: #5c6bc0;
 }
 
 .border-top-indigo-400 {
-    border-top-color: #5C6BC0;
+    border-top-color: #5c6bc0;
 }
 
 .border-bottom-indigo-400 {
-    border-bottom-color: #5C6BC0;
+    border-bottom-color: #5c6bc0;
 }
 
 .border-left-indigo-400 {
-    border-left-color: #5C6BC0;
+    border-left-color: #5c6bc0;
 }
 
 .border-right-indigo-400 {
-    border-right-color: #5C6BC0;
+    border-right-color: #5c6bc0;
 }
 
 .text-indigo-600 {
-    color: #3949AB;
+    color: #3949ab;
 }
 
 .text-indigo-600[href]:hover,
@@ -1867,31 +1854,31 @@
 }
 
 .bg-indigo-600 {
-    background-color: #3949AB;
+    background-color: #3949ab;
 }
 
 .border-indigo-600 {
-    border-color: #3949AB;
+    border-color: #3949ab;
 }
 
 .border-top-indigo-600 {
-    border-top-color: #3949AB;
+    border-top-color: #3949ab;
 }
 
 .border-bottom-indigo-600 {
-    border-bottom-color: #3949AB;
+    border-bottom-color: #3949ab;
 }
 
 .border-left-indigo-600 {
-    border-left-color: #3949AB;
+    border-left-color: #3949ab;
 }
 
 .border-right-indigo-600 {
-    border-right-color: #3949AB;
+    border-right-color: #3949ab;
 }
 
 .text-indigo-700 {
-    color: #303F9F;
+    color: #303f9f;
 }
 
 .text-indigo-700[href]:hover,
@@ -1900,27 +1887,27 @@
 }
 
 .bg-indigo-700 {
-    background-color: #303F9F;
+    background-color: #303f9f;
 }
 
 .border-indigo-700 {
-    border-color: #303F9F;
+    border-color: #303f9f;
 }
 
 .border-top-indigo-700 {
-    border-top-color: #303F9F;
+    border-top-color: #303f9f;
 }
 
 .border-bottom-indigo-700 {
-    border-bottom-color: #303F9F;
+    border-bottom-color: #303f9f;
 }
 
 .border-left-indigo-700 {
-    border-left-color: #303F9F;
+    border-left-color: #303f9f;
 }
 
 .border-right-indigo-700 {
-    border-right-color: #303F9F;
+    border-right-color: #303f9f;
 }
 
 .text-indigo-800 {
@@ -1957,11 +1944,11 @@
 }
 
 .alpha-blue {
-    background-color: #E1F5FE;
+    background-color: #e1f5fe;
 }
 
 .text-blue {
-    color: #03A9F4;
+    color: #03a9f4;
 }
 
 .text-blue[href]:hover,
@@ -1970,31 +1957,31 @@
 }
 
 .bg-blue {
-    background-color: #03A9F4;
+    background-color: #03a9f4;
 }
 
 .border-blue {
-    border-color: #03A9F4;
+    border-color: #03a9f4;
 }
 
 .border-top-blue {
-    border-top-color: #03A9F4;
+    border-top-color: #03a9f4;
 }
 
 .border-bottom-blue {
-    border-bottom-color: #03A9F4;
+    border-bottom-color: #03a9f4;
 }
 
 .border-left-blue {
-    border-left-color: #03A9F4;
+    border-left-color: #03a9f4;
 }
 
 .border-right-blue {
-    border-right-color: #03A9F4;
+    border-right-color: #03a9f4;
 }
 
 .text-blue-300 {
-    color: #4FC3F7;
+    color: #4fc3f7;
 }
 
 .text-blue-300[href]:hover,
@@ -2003,31 +1990,31 @@
 }
 
 .bg-blue-300 {
-    background-color: #4FC3F7;
+    background-color: #4fc3f7;
 }
 
 .border-blue-300 {
-    border-color: #4FC3F7;
+    border-color: #4fc3f7;
 }
 
 .border-top-blue-300 {
-    border-top-color: #4FC3F7;
+    border-top-color: #4fc3f7;
 }
 
 .border-bottom-blue-300 {
-    border-bottom-color: #4FC3F7;
+    border-bottom-color: #4fc3f7;
 }
 
 .border-left-blue-300 {
-    border-left-color: #4FC3F7;
+    border-left-color: #4fc3f7;
 }
 
 .border-right-blue-300 {
-    border-right-color: #4FC3F7;
+    border-right-color: #4fc3f7;
 }
 
 .text-blue-400 {
-    color: #29B6F6;
+    color: #29b6f6;
 }
 
 .text-blue-400[href]:hover,
@@ -2036,31 +2023,31 @@
 }
 
 .bg-blue-400 {
-    background-color: #29B6F6;
+    background-color: #29b6f6;
 }
 
 .border-blue-400 {
-    border-color: #29B6F6;
+    border-color: #29b6f6;
 }
 
 .border-top-blue-400 {
-    border-top-color: #29B6F6;
+    border-top-color: #29b6f6;
 }
 
 .border-bottom-blue-400 {
-    border-bottom-color: #29B6F6;
+    border-bottom-color: #29b6f6;
 }
 
 .border-left-blue-400 {
-    border-left-color: #29B6F6;
+    border-left-color: #29b6f6;
 }
 
 .border-right-blue-400 {
-    border-right-color: #29B6F6;
+    border-right-color: #29b6f6;
 }
 
 .text-blue-600 {
-    color: #039BE5;
+    color: #039be5;
 }
 
 .text-blue-600[href]:hover,
@@ -2069,31 +2056,31 @@
 }
 
 .bg-blue-600 {
-    background-color: #039BE5;
+    background-color: #039be5;
 }
 
 .border-blue-600 {
-    border-color: #039BE5;
+    border-color: #039be5;
 }
 
 .border-top-blue-600 {
-    border-top-color: #039BE5;
+    border-top-color: #039be5;
 }
 
 .border-bottom-blue-600 {
-    border-bottom-color: #039BE5;
+    border-bottom-color: #039be5;
 }
 
 .border-left-blue-600 {
-    border-left-color: #039BE5;
+    border-left-color: #039be5;
 }
 
 .border-right-blue-600 {
-    border-right-color: #039BE5;
+    border-right-color: #039be5;
 }
 
 .text-blue-700 {
-    color: #0288D1;
+    color: #0288d1;
 }
 
 .text-blue-700[href]:hover,
@@ -2102,31 +2089,31 @@
 }
 
 .bg-blue-700 {
-    background-color: #0288D1;
+    background-color: #0288d1;
 }
 
 .border-blue-700 {
-    border-color: #0288D1;
+    border-color: #0288d1;
 }
 
 .border-top-blue-700 {
-    border-top-color: #0288D1;
+    border-top-color: #0288d1;
 }
 
 .border-bottom-blue-700 {
-    border-bottom-color: #0288D1;
+    border-bottom-color: #0288d1;
 }
 
 .border-left-blue-700 {
-    border-left-color: #0288D1;
+    border-left-color: #0288d1;
 }
 
 .border-right-blue-700 {
-    border-right-color: #0288D1;
+    border-right-color: #0288d1;
 }
 
 .text-blue-800 {
-    color: #0277BD;
+    color: #0277bd;
 }
 
 .text-blue-800[href]:hover,
@@ -2135,31 +2122,31 @@
 }
 
 .bg-blue-800 {
-    background-color: #0277BD;
+    background-color: #0277bd;
 }
 
 .border-blue-800 {
-    border-color: #0277BD;
+    border-color: #0277bd;
 }
 
 .border-top-blue-800 {
-    border-top-color: #0277BD;
+    border-top-color: #0277bd;
 }
 
 .border-bottom-blue-800 {
-    border-bottom-color: #0277BD;
+    border-bottom-color: #0277bd;
 }
 
 .border-left-blue-800 {
-    border-left-color: #0277BD;
+    border-left-color: #0277bd;
 }
 
 .border-right-blue-800 {
-    border-right-color: #0277BD;
+    border-right-color: #0277bd;
 }
 
 .alpha-teal {
-    background-color: #E0F2F1;
+    background-color: #e0f2f1;
 }
 
 .text-teal {
@@ -2196,7 +2183,7 @@
 }
 
 .text-teal-300 {
-    color: #4DB6AC;
+    color: #4db6ac;
 }
 
 .text-teal-300[href]:hover,
@@ -2205,31 +2192,31 @@
 }
 
 .bg-teal-300 {
-    background-color: #4DB6AC;
+    background-color: #4db6ac;
 }
 
 .border-teal-300 {
-    border-color: #4DB6AC;
+    border-color: #4db6ac;
 }
 
 .border-top-teal-300 {
-    border-top-color: #4DB6AC;
+    border-top-color: #4db6ac;
 }
 
 .border-bottom-teal-300 {
-    border-bottom-color: #4DB6AC;
+    border-bottom-color: #4db6ac;
 }
 
 .border-left-teal-300 {
-    border-left-color: #4DB6AC;
+    border-left-color: #4db6ac;
 }
 
 .border-right-teal-300 {
-    border-right-color: #4DB6AC;
+    border-right-color: #4db6ac;
 }
 
 .text-teal-400 {
-    color: #26A69A;
+    color: #26a69a;
 }
 
 .text-teal-400[href]:hover,
@@ -2238,31 +2225,31 @@
 }
 
 .bg-teal-400 {
-    background-color: #26A69A;
+    background-color: #26a69a;
 }
 
 .border-teal-400 {
-    border-color: #26A69A;
+    border-color: #26a69a;
 }
 
 .border-top-teal-400 {
-    border-top-color: #26A69A;
+    border-top-color: #26a69a;
 }
 
 .border-bottom-teal-400 {
-    border-bottom-color: #26A69A;
+    border-bottom-color: #26a69a;
 }
 
 .border-left-teal-400 {
-    border-left-color: #26A69A;
+    border-left-color: #26a69a;
 }
 
 .border-right-teal-400 {
-    border-right-color: #26A69A;
+    border-right-color: #26a69a;
 }
 
 .text-teal-600 {
-    color: #00897B;
+    color: #00897b;
 }
 
 .text-teal-600[href]:hover,
@@ -2271,31 +2258,31 @@
 }
 
 .bg-teal-600 {
-    background-color: #00897B;
+    background-color: #00897b;
 }
 
 .border-teal-600 {
-    border-color: #00897B;
+    border-color: #00897b;
 }
 
 .border-top-teal-600 {
-    border-top-color: #00897B;
+    border-top-color: #00897b;
 }
 
 .border-bottom-teal-600 {
-    border-bottom-color: #00897B;
+    border-bottom-color: #00897b;
 }
 
 .border-left-teal-600 {
-    border-left-color: #00897B;
+    border-left-color: #00897b;
 }
 
 .border-right-teal-600 {
-    border-right-color: #00897B;
+    border-right-color: #00897b;
 }
 
 .text-teal-700 {
-    color: #00796B;
+    color: #00796b;
 }
 
 .text-teal-700[href]:hover,
@@ -2304,31 +2291,31 @@
 }
 
 .bg-teal-700 {
-    background-color: #00796B;
+    background-color: #00796b;
 }
 
 .border-teal-700 {
-    border-color: #00796B;
+    border-color: #00796b;
 }
 
 .border-top-teal-700 {
-    border-top-color: #00796B;
+    border-top-color: #00796b;
 }
 
 .border-bottom-teal-700 {
-    border-bottom-color: #00796B;
+    border-bottom-color: #00796b;
 }
 
 .border-left-teal-700 {
-    border-left-color: #00796B;
+    border-left-color: #00796b;
 }
 
 .border-right-teal-700 {
-    border-right-color: #00796B;
+    border-right-color: #00796b;
 }
 
 .text-teal-800 {
-    color: #00695C;
+    color: #00695c;
 }
 
 .text-teal-800[href]:hover,
@@ -2337,31 +2324,31 @@
 }
 
 .bg-teal-800 {
-    background-color: #00695C;
+    background-color: #00695c;
 }
 
 .border-teal-800 {
-    border-color: #00695C;
+    border-color: #00695c;
 }
 
 .border-top-teal-800 {
-    border-top-color: #00695C;
+    border-top-color: #00695c;
 }
 
 .border-bottom-teal-800 {
-    border-bottom-color: #00695C;
+    border-bottom-color: #00695c;
 }
 
 .border-left-teal-800 {
-    border-left-color: #00695C;
+    border-left-color: #00695c;
 }
 
 .border-right-teal-800 {
-    border-right-color: #00695C;
+    border-right-color: #00695c;
 }
 
 .alpha-green {
-    background-color: #F1F8E9;
+    background-color: #f1f8e9;
 }
 
 .text-green {
@@ -2382,31 +2369,31 @@
 }
 
 .bg-green {
-    background-color: #8BC34A;
+    background-color: #8bc34a;
 }
 
 .border-green {
-    border-color: #8BC34A;
+    border-color: #8bc34a;
 }
 
 .border-top-green {
-    border-top-color: #8BC34A;
+    border-top-color: #8bc34a;
 }
 
 .border-bottom-green {
-    border-bottom-color: #8BC34A;
+    border-bottom-color: #8bc34a;
 }
 
 .border-left-green {
-    border-left-color: #8BC34A;
+    border-left-color: #8bc34a;
 }
 
 .border-right-green {
-    border-right-color: #8BC34A;
+    border-right-color: #8bc34a;
 }
 
 .text-green-300 {
-    color: #AED581;
+    color: #aed581;
 }
 
 .text-green-300[href]:hover,
@@ -2415,31 +2402,31 @@
 }
 
 .bg-green-300 {
-    background-color: #AED581;
+    background-color: #aed581;
 }
 
 .border-green-300 {
-    border-color: #AED581;
+    border-color: #aed581;
 }
 
 .border-top-green-300 {
-    border-top-color: #AED581;
+    border-top-color: #aed581;
 }
 
 .border-bottom-green-300 {
-    border-bottom-color: #AED581;
+    border-bottom-color: #aed581;
 }
 
 .border-left-green-300 {
-    border-left-color: #AED581;
+    border-left-color: #aed581;
 }
 
 .border-right-green-300 {
-    border-right-color: #AED581;
+    border-right-color: #aed581;
 }
 
 .text-green-400 {
-    color: #9CCC65;
+    color: #9ccc65;
 }
 
 .text-green-400[href]:hover,
@@ -2448,31 +2435,31 @@
 }
 
 .bg-green-400 {
-    background-color: #9CCC65;
+    background-color: #9ccc65;
 }
 
 .border-green-400 {
-    border-color: #9CCC65;
+    border-color: #9ccc65;
 }
 
 .border-top-green-400 {
-    border-top-color: #9CCC65;
+    border-top-color: #9ccc65;
 }
 
 .border-bottom-green-400 {
-    border-bottom-color: #9CCC65;
+    border-bottom-color: #9ccc65;
 }
 
 .border-left-green-400 {
-    border-left-color: #9CCC65;
+    border-left-color: #9ccc65;
 }
 
 .border-right-green-400 {
-    border-right-color: #9CCC65;
+    border-right-color: #9ccc65;
 }
 
 .text-green-600 {
-    color: #7CB342;
+    color: #7cb342;
 }
 
 .text-green-600[href]:hover,
@@ -2481,31 +2468,31 @@
 }
 
 .bg-green-600 {
-    background-color: #7CB342;
+    background-color: #7cb342;
 }
 
 .border-green-600 {
-    border-color: #7CB342;
+    border-color: #7cb342;
 }
 
 .border-top-green-600 {
-    border-top-color: #7CB342;
+    border-top-color: #7cb342;
 }
 
 .border-bottom-green-600 {
-    border-bottom-color: #7CB342;
+    border-bottom-color: #7cb342;
 }
 
 .border-left-green-600 {
-    border-left-color: #7CB342;
+    border-left-color: #7cb342;
 }
 
 .border-right-green-600 {
-    border-right-color: #7CB342;
+    border-right-color: #7cb342;
 }
 
 .text-green-700 {
-    color: #689F38;
+    color: #689f38;
 }
 
 .text-green-700[href]:hover,
@@ -2514,31 +2501,31 @@
 }
 
 .bg-green-700 {
-    background-color: #689F38;
+    background-color: #689f38;
 }
 
 .border-green-700 {
-    border-color: #689F38;
+    border-color: #689f38;
 }
 
 .border-top-green-700 {
-    border-top-color: #689F38;
+    border-top-color: #689f38;
 }
 
 .border-bottom-green-700 {
-    border-bottom-color: #689F38;
+    border-bottom-color: #689f38;
 }
 
 .border-left-green-700 {
-    border-left-color: #689F38;
+    border-left-color: #689f38;
 }
 
 .border-right-green-700 {
-    border-right-color: #689F38;
+    border-right-color: #689f38;
 }
 
 .text-green-800 {
-    color: #558B2F;
+    color: #558b2f;
 }
 
 .text-green-800[href]:hover,
@@ -2547,35 +2534,35 @@
 }
 
 .bg-green-800 {
-    background-color: #558B2F;
+    background-color: #558b2f;
 }
 
 .border-green-800 {
-    border-color: #558B2F;
+    border-color: #558b2f;
 }
 
 .border-top-green-800 {
-    border-top-color: #558B2F;
+    border-top-color: #558b2f;
 }
 
 .border-bottom-green-800 {
-    border-bottom-color: #558B2F;
+    border-bottom-color: #558b2f;
 }
 
 .border-left-green-800 {
-    border-left-color: #558B2F;
+    border-left-color: #558b2f;
 }
 
 .border-right-green-800 {
-    border-right-color: #558B2F;
+    border-right-color: #558b2f;
 }
 
 .alpha-orange {
-    background-color: #FFF3E0;
+    background-color: #fff3e0;
 }
 
 .text-orange {
-    color: #FF9800;
+    color: #ff9800;
 }
 
 .text-orange[href]:hover,
@@ -2584,31 +2571,31 @@
 }
 
 .bg-orange {
-    background-color: #FF9800;
+    background-color: #ff9800;
 }
 
 .border-orange {
-    border-color: #FF9800;
+    border-color: #ff9800;
 }
 
 .border-top-orange {
-    border-top-color: #FF9800;
+    border-top-color: #ff9800;
 }
 
 .border-bottom-orange {
-    border-bottom-color: #FF9800;
+    border-bottom-color: #ff9800;
 }
 
 .border-left-orange {
-    border-left-color: #FF9800;
+    border-left-color: #ff9800;
 }
 
 .border-right-orange {
-    border-right-color: #FF9800;
+    border-right-color: #ff9800;
 }
 
 .text-orange-300 {
-    color: #FFB74D;
+    color: #ffb74d;
 }
 
 .text-orange-300[href]:hover,
@@ -2617,31 +2604,31 @@
 }
 
 .bg-orange-300 {
-    background-color: #FFB74D;
+    background-color: #ffb74d;
 }
 
 .border-orange-300 {
-    border-color: #FFB74D;
+    border-color: #ffb74d;
 }
 
 .border-top-orange-300 {
-    border-top-color: #FFB74D;
+    border-top-color: #ffb74d;
 }
 
 .border-bottom-orange-300 {
-    border-bottom-color: #FFB74D;
+    border-bottom-color: #ffb74d;
 }
 
 .border-left-orange-300 {
-    border-left-color: #FFB74D;
+    border-left-color: #ffb74d;
 }
 
 .border-right-orange-300 {
-    border-right-color: #FFB74D;
+    border-right-color: #ffb74d;
 }
 
 .text-orange-400 {
-    color: #FFA726;
+    color: #ffa726;
 }
 
 .text-orange-400[href]:hover,
@@ -2650,31 +2637,31 @@
 }
 
 .bg-orange-400 {
-    background-color: #FFA726;
+    background-color: #ffa726;
 }
 
 .border-orange-400 {
-    border-color: #FFA726;
+    border-color: #ffa726;
 }
 
 .border-top-orange-400 {
-    border-top-color: #FFA726;
+    border-top-color: #ffa726;
 }
 
 .border-bottom-orange-400 {
-    border-bottom-color: #FFA726;
+    border-bottom-color: #ffa726;
 }
 
 .border-left-orange-400 {
-    border-left-color: #FFA726;
+    border-left-color: #ffa726;
 }
 
 .border-right-orange-400 {
-    border-right-color: #FFA726;
+    border-right-color: #ffa726;
 }
 
 .text-orange-600 {
-    color: #FB8C00;
+    color: #fb8c00;
 }
 
 .text-orange-600[href]:hover,
@@ -2683,31 +2670,31 @@
 }
 
 .bg-orange-600 {
-    background-color: #FB8C00;
+    background-color: #fb8c00;
 }
 
 .border-orange-600 {
-    border-color: #FB8C00;
+    border-color: #fb8c00;
 }
 
 .border-top-orange-600 {
-    border-top-color: #FB8C00;
+    border-top-color: #fb8c00;
 }
 
 .border-bottom-orange-600 {
-    border-bottom-color: #FB8C00;
+    border-bottom-color: #fb8c00;
 }
 
 .border-left-orange-600 {
-    border-left-color: #FB8C00;
+    border-left-color: #fb8c00;
 }
 
 .border-right-orange-600 {
-    border-right-color: #FB8C00;
+    border-right-color: #fb8c00;
 }
 
 .text-orange-700 {
-    color: #F57C00;
+    color: #f57c00;
 }
 
 .text-orange-700[href]:hover,
@@ -2716,31 +2703,31 @@
 }
 
 .bg-orange-700 {
-    background-color: #F57C00;
+    background-color: #f57c00;
 }
 
 .border-orange-700 {
-    border-color: #F57C00;
+    border-color: #f57c00;
 }
 
 .border-top-orange-700 {
-    border-top-color: #F57C00;
+    border-top-color: #f57c00;
 }
 
 .border-bottom-orange-700 {
-    border-bottom-color: #F57C00;
+    border-bottom-color: #f57c00;
 }
 
 .border-left-orange-700 {
-    border-left-color: #F57C00;
+    border-left-color: #f57c00;
 }
 
 .border-right-orange-700 {
-    border-right-color: #F57C00;
+    border-right-color: #f57c00;
 }
 
 .text-orange-800 {
-    color: #EF6C00;
+    color: #ef6c00;
 }
 
 .text-orange-800[href]:hover,
@@ -2749,31 +2736,31 @@
 }
 
 .bg-orange-800 {
-    background-color: #EF6C00;
+    background-color: #ef6c00;
 }
 
 .border-orange-800 {
-    border-color: #EF6C00;
+    border-color: #ef6c00;
 }
 
 .border-top-orange-800 {
-    border-top-color: #EF6C00;
+    border-top-color: #ef6c00;
 }
 
 .border-bottom-orange-800 {
-    border-bottom-color: #EF6C00;
+    border-bottom-color: #ef6c00;
 }
 
 .border-left-orange-800 {
-    border-left-color: #EF6C00;
+    border-left-color: #ef6c00;
 }
 
 .border-right-orange-800 {
-    border-right-color: #EF6C00;
+    border-right-color: #ef6c00;
 }
 
 .alpha-brown {
-    background-color: #EFEBE9;
+    background-color: #efebe9;
 }
 
 .text-brown {
@@ -2810,7 +2797,7 @@
 }
 
 .text-brown-300 {
-    color: #A1887F;
+    color: #a1887f;
 }
 
 .text-brown-300[href]:hover,
@@ -2819,31 +2806,31 @@
 }
 
 .bg-brown-300 {
-    background-color: #A1887F;
+    background-color: #a1887f;
 }
 
 .border-brown-300 {
-    border-color: #A1887F;
+    border-color: #a1887f;
 }
 
 .border-top-brown-300 {
-    border-top-color: #A1887F;
+    border-top-color: #a1887f;
 }
 
 .border-bottom-brown-300 {
-    border-bottom-color: #A1887F;
+    border-bottom-color: #a1887f;
 }
 
 .border-left-brown-300 {
-    border-left-color: #A1887F;
+    border-left-color: #a1887f;
 }
 
 .border-right-brown-300 {
-    border-right-color: #A1887F;
+    border-right-color: #a1887f;
 }
 
 .text-brown-400 {
-    color: #8D6E63;
+    color: #8d6e63;
 }
 
 .text-brown-400[href]:hover,
@@ -2852,31 +2839,31 @@
 }
 
 .bg-brown-400 {
-    background-color: #8D6E63;
+    background-color: #8d6e63;
 }
 
 .border-brown-400 {
-    border-color: #8D6E63;
+    border-color: #8d6e63;
 }
 
 .border-top-brown-400 {
-    border-top-color: #8D6E63;
+    border-top-color: #8d6e63;
 }
 
 .border-bottom-brown-400 {
-    border-bottom-color: #8D6E63;
+    border-bottom-color: #8d6e63;
 }
 
 .border-left-brown-400 {
-    border-left-color: #8D6E63;
+    border-left-color: #8d6e63;
 }
 
 .border-right-brown-400 {
-    border-right-color: #8D6E63;
+    border-right-color: #8d6e63;
 }
 
 .text-brown-600 {
-    color: #6D4C41;
+    color: #6d4c41;
 }
 
 .text-brown-600[href]:hover,
@@ -2885,31 +2872,31 @@
 }
 
 .bg-brown-600 {
-    background-color: #6D4C41;
+    background-color: #6d4c41;
 }
 
 .border-brown-600 {
-    border-color: #6D4C41;
+    border-color: #6d4c41;
 }
 
 .border-top-brown-600 {
-    border-top-color: #6D4C41;
+    border-top-color: #6d4c41;
 }
 
 .border-bottom-brown-600 {
-    border-bottom-color: #6D4C41;
+    border-bottom-color: #6d4c41;
 }
 
 .border-left-brown-600 {
-    border-left-color: #6D4C41;
+    border-left-color: #6d4c41;
 }
 
 .border-right-brown-600 {
-    border-right-color: #6D4C41;
+    border-right-color: #6d4c41;
 }
 
 .text-brown-700 {
-    color: #5D4037;
+    color: #5d4037;
 }
 
 .text-brown-700[href]:hover,
@@ -2918,31 +2905,31 @@
 }
 
 .bg-brown-700 {
-    background-color: #5D4037;
+    background-color: #5d4037;
 }
 
 .border-brown-700 {
-    border-color: #5D4037;
+    border-color: #5d4037;
 }
 
 .border-top-brown-700 {
-    border-top-color: #5D4037;
+    border-top-color: #5d4037;
 }
 
 .border-bottom-brown-700 {
-    border-bottom-color: #5D4037;
+    border-bottom-color: #5d4037;
 }
 
 .border-left-brown-700 {
-    border-left-color: #5D4037;
+    border-left-color: #5d4037;
 }
 
 .border-right-brown-700 {
-    border-right-color: #5D4037;
+    border-right-color: #5d4037;
 }
 
 .text-brown-800 {
-    color: #4E342E;
+    color: #4e342e;
 }
 
 .text-brown-800[href]:hover,
@@ -2951,31 +2938,31 @@
 }
 
 .bg-brown-800 {
-    background-color: #4E342E;
+    background-color: #4e342e;
 }
 
 .border-brown-800 {
-    border-color: #4E342E;
+    border-color: #4e342e;
 }
 
 .border-top-brown-800 {
-    border-top-color: #4E342E;
+    border-top-color: #4e342e;
 }
 
 .border-bottom-brown-800 {
-    border-bottom-color: #4E342E;
+    border-bottom-color: #4e342e;
 }
 
 .border-left-brown-800 {
-    border-left-color: #4E342E;
+    border-left-color: #4e342e;
 }
 
 .border-right-brown-800 {
-    border-right-color: #4E342E;
+    border-right-color: #4e342e;
 }
 
 .alpha-grey {
-    background-color: #FAFAFA;
+    background-color: #fafafa;
 }
 
 .text-grey {
@@ -3177,11 +3164,11 @@
 }
 
 .alpha-slate {
-    background-color: #ECEFF1;
+    background-color: #eceff1;
 }
 
 .text-slate {
-    color: #607D8B;
+    color: #607d8b;
 }
 
 .text-slate[href]:hover,
@@ -3190,31 +3177,31 @@
 }
 
 .bg-slate {
-    background-color: #607D8B;
+    background-color: #607d8b;
 }
 
 .border-slate {
-    border-color: #607D8B;
+    border-color: #607d8b;
 }
 
 .border-top-slate {
-    border-top-color: #607D8B;
+    border-top-color: #607d8b;
 }
 
 .border-bottom-slate {
-    border-bottom-color: #607D8B;
+    border-bottom-color: #607d8b;
 }
 
 .border-left-slate {
-    border-left-color: #607D8B;
+    border-left-color: #607d8b;
 }
 
 .border-right-slate {
-    border-right-color: #607D8B;
+    border-right-color: #607d8b;
 }
 
 .text-slate-300 {
-    color: #90A4AE;
+    color: #90a4ae;
 }
 
 .text-slate-300[href]:hover,
@@ -3223,31 +3210,31 @@
 }
 
 .bg-slate-300 {
-    background-color: #90A4AE;
+    background-color: #90a4ae;
 }
 
 .border-slate-300 {
-    border-color: #90A4AE;
+    border-color: #90a4ae;
 }
 
 .border-top-slate-300 {
-    border-top-color: #90A4AE;
+    border-top-color: #90a4ae;
 }
 
 .border-bottom-slate-300 {
-    border-bottom-color: #90A4AE;
+    border-bottom-color: #90a4ae;
 }
 
 .border-left-slate-300 {
-    border-left-color: #90A4AE;
+    border-left-color: #90a4ae;
 }
 
 .border-right-slate-300 {
-    border-right-color: #90A4AE;
+    border-right-color: #90a4ae;
 }
 
 .text-slate-400 {
-    color: #78909C;
+    color: #78909c;
 }
 
 .text-slate-400[href]:hover,
@@ -3256,31 +3243,31 @@
 }
 
 .bg-slate-400 {
-    background-color: #78909C;
+    background-color: #78909c;
 }
 
 .border-slate-400 {
-    border-color: #78909C;
+    border-color: #78909c;
 }
 
 .border-top-slate-400 {
-    border-top-color: #78909C;
+    border-top-color: #78909c;
 }
 
 .border-bottom-slate-400 {
-    border-bottom-color: #78909C;
+    border-bottom-color: #78909c;
 }
 
 .border-left-slate-400 {
-    border-left-color: #78909C;
+    border-left-color: #78909c;
 }
 
 .border-right-slate-400 {
-    border-right-color: #78909C;
+    border-right-color: #78909c;
 }
 
 .text-slate-600 {
-    color: #546E7A;
+    color: #546e7a;
 }
 
 .text-slate-600[href]:hover,
@@ -3289,31 +3276,31 @@
 }
 
 .bg-slate-600 {
-    background-color: #546E7A;
+    background-color: #546e7a;
 }
 
 .border-slate-600 {
-    border-color: #546E7A;
+    border-color: #546e7a;
 }
 
 .border-top-slate-600 {
-    border-top-color: #546E7A;
+    border-top-color: #546e7a;
 }
 
 .border-bottom-slate-600 {
-    border-bottom-color: #546E7A;
+    border-bottom-color: #546e7a;
 }
 
 .border-left-slate-600 {
-    border-left-color: #546E7A;
+    border-left-color: #546e7a;
 }
 
 .border-right-slate-600 {
-    border-right-color: #546E7A;
+    border-right-color: #546e7a;
 }
 
 .text-slate-700 {
-    color: #455A64;
+    color: #455a64;
 }
 
 .text-slate-700[href]:hover,
@@ -3322,31 +3309,31 @@
 }
 
 .bg-slate-700 {
-    background-color: #455A64;
+    background-color: #455a64;
 }
 
 .border-slate-700 {
-    border-color: #455A64;
+    border-color: #455a64;
 }
 
 .border-top-slate-700 {
-    border-top-color: #455A64;
+    border-top-color: #455a64;
 }
 
 .border-bottom-slate-700 {
-    border-bottom-color: #455A64;
+    border-bottom-color: #455a64;
 }
 
 .border-left-slate-700 {
-    border-left-color: #455A64;
+    border-left-color: #455a64;
 }
 
 .border-right-slate-700 {
-    border-right-color: #455A64;
+    border-right-color: #455a64;
 }
 
 .text-slate-800 {
-    color: #37474F;
+    color: #37474f;
 }
 
 .text-slate-800[href]:hover,
@@ -3355,27 +3342,27 @@
 }
 
 .bg-slate-800 {
-    background-color: #37474F;
+    background-color: #37474f;
 }
 
 .border-slate-800 {
-    border-color: #37474F;
+    border-color: #37474f;
 }
 
 .border-top-slate-800 {
-    border-top-color: #37474F;
+    border-top-color: #37474f;
 }
 
 .border-bottom-slate-800 {
-    border-bottom-color: #37474F;
+    border-bottom-color: #37474f;
 }
 
 .border-left-slate-800 {
-    border-left-color: #37474F;
+    border-left-color: #37474f;
 }
 
 .border-right-slate-800 {
-    border-right-color: #37474F;
+    border-right-color: #37474f;
 }
 
 .border-transparent {

@@ -35,7 +35,7 @@
         /* this affects the margin in the printer settings */
     }
     html {
-        background-color: #FFFFFF;
+        background-color: #ffffff;
         margin: 10px;
         /* this affects the margin on the html before sending to printer */
     }
@@ -50,6 +50,6 @@ td {
 }
 
 table.td-left td {
-    text-align: left!important;
+    text-align: left !important;
     padding: 5px;
 }
