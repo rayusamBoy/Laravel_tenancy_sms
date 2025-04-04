@@ -4,7 +4,7 @@ namespace App\Http\Requests\Grade;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class GradeUpdate extends FormRequest
+class GradeRequest extends FormRequest
 {
 
     public function authorize()
@@ -12,13 +12,19 @@ class GradeUpdate extends FormRequest
         return true;
     }
 
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
     public function rules()
     {
         return [
             'name' => 'required|string',
-            'mark_from' => 'required|numeric',
-            'mark_to' => 'required|numeric',
-            'point' => 'required|numeric',
+            'mark_from' => 'required|numeric|max:100|min:0',
+            'mark_to' => 'required|numeric|max:100|min:0',
+            'point' => 'required|numeric|max:50|min:1',
+            'credit' => 'required|numeric|max:50|min:1',
         ];
     }
 

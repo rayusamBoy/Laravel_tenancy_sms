@@ -16,9 +16,9 @@
                 <form method="post" action="{{ route('grades.update', $gr->id) }}">
                     @csrf @method('PUT')
                     <div class="form-group row">
-                        <label class="col-lg-3 col-form-label font-weight-semibold">Name <span class="text-danger">*</span></label>
+                        <label for="name" class="col-lg-3 col-form-label font-weight-semibold">Name <span class="text-danger">*</span></label>
                         <div class="col-lg-9">
-                            <input name="name" value="{{ $gr->name }}" required type="text" class="form-control" placeholder="Eg. C4">
+                            <input name="name" id="name" value="{{ $gr->name }}" required type="text" class="form-control" placeholder="Eg. C4">
                         </div>
                     </div>
 
@@ -35,33 +35,33 @@
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-lg-3 col-form-label font-weight-semibold">Mark From <span class="text-danger">*</span></label>
+                        <label for="mark_from" class="col-lg-3 col-form-label font-weight-semibold">Mark From <span class="text-danger">*</span></label>
                         <div class="col-lg-3">
-                            <input name="mark_from" min="0" max="100" value="{{ $gr->mark_from }}" required type="number" class="form-control" placeholder="E.g., 0">
+                            <input name="mark_from" id="mark_from" min="0" max="100" value="{{ $gr->mark_from }}" required type="number" class="form-control" placeholder="E.g., 0">
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-lg-3 col-form-label font-weight-semibold">Mark To <span class="text-danger">*</span></label>
+                        <label for="mark_to" class="col-lg-3 col-form-label font-weight-semibold">Mark To <span class="text-danger">*</span></label>
                         <div class="col-lg-3">
-                            <input name="mark_to" min="0" max="100" value="{{ $gr->mark_to }}" required type="number" class="form-control" placeholder="E.g., 35">
+                            <input name="mark_to" id="mark_to" min="0" max="100" value="{{ $gr->mark_to }}" required type="number" class="form-control" placeholder="E.g., 35">
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-lg-3 col-form-label font-weight-semibold">Point <span class="text-danger">*</span></label>
+                        <label for="point" class="col-lg-3 col-form-label font-weight-semibold">Point <span class="text-danger">*</span></label>
                         <div class="col-lg-3">
-                            <input name="point" min="1" max="7" value="{{ $gr->point }}" required type="number" class="form-control" placeholder="E.g., 1">
+                            <input name="point" id="point" min="1" value="{{ $gr->point }}" required type="number" class="form-control" placeholder="E.g., 1">
                         </div>
-                        <div class="col-lg-6"><span class="font-weight-bold font-italic text-info-800">This point will be used in calculating student division.</span></div>
+                        <div class="col-lg-6 m-lg-auto"><span class="font-weight-bold font-italic text-info-800">{{ __('msg.point_info') }}</span></div>
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-lg-3 col-form-label font-weight-semibold">Credit <span class="text-danger">*</span></label>
+                        <label for="credit" class="col-lg-3 col-form-label font-weight-semibold">Credit <span class="text-danger">*</span></label>
                         <div class="col-lg-3">
-                            <input name="credit" step=".1" min="0" max="10" value="{{ $gr->credit }}" required type="number" class="form-control" placeholder="E.g., 5">
+                            <input name="credit" id="credit" min="0" value="{{ $gr->credit }}" required type="number" class="form-control" placeholder="E.g., 5">
                         </div>
-                        <div class="col-lg-6"><span class="font-weight-bold font-italic text-info-800">This credit will be used in calculating subject GPA.</span></div>
+                        <div class="col-lg-6 m-lg-auto"><span class="font-weight-bold font-italic text-info-800">{{ __('msg.credit_info') }}</span></div>
                     </div>
 
                     <div class="form-group row">

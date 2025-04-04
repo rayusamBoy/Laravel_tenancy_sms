@@ -80,9 +80,9 @@
                         <form method="post" action="{{ route('grades.store') }}">
                             @csrf
                             <div class="form-group row">
-                                <label class="col-lg-3 col-form-label font-weight-semibold">Name <span class="text-danger">*</span></label>
+                                <label for="name" class="col-lg-3 col-form-label font-weight-semibold">Name <span class="text-danger">*</span></label>
                                 <div class="col-lg-9">
-                                    <input name="name" value="{{ old('name') }}" required type="text" class="form-control text-uppercase" placeholder="E.g., A">
+                                    <input name="name" id="name" value="{{ old('name') }}" required type="text" class="form-control text-uppercase" placeholder="E.g., A">
                                 </div>
                             </div>
 
@@ -99,38 +99,37 @@
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-lg-3 col-form-label font-weight-semibold">Mark From <span class="text-danger">*</span></label>
+                                <label for="mark_from" class="col-lg-3 col-form-label font-weight-semibold">Mark From <span class="text-danger">*</span></label>
                                 <div class="col-lg-3">
-                                    <input min="0" max="100" name="mark_from" value="{{ old('mark_from') }}" required type="number" class="form-control" placeholder="E.g., 0">
+                                    <input min="0" max="100" id="mark_from" name="mark_from" value="{{ old('mark_from') }}" required type="number" class="form-control" placeholder="E.g., 0">
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-lg-3 col-form-label font-weight-semibold">Mark To <span class="text-danger">*</span></label>
+                                <label for="mark_to" class="col-lg-3 col-form-label font-weight-semibold">Mark To <span class="text-danger">*</span></label>
                                 <div class="col-lg-3">
-                                    <input min="0" max="100" name="mark_to" value="{{ old('mark_to') }}" required type="number" class="form-control" placeholder="E.g., 35">
+                                    <input min="0" max="100" id="mark_to" name="mark_to" value="{{ old('mark_to') }}" required type="number" class="form-control" placeholder="E.g., 35">
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-lg-3 col-form-label font-weight-semibold">Point <span class="text-danger">*</span>
+                                <label for="point" class="col-lg-3 col-form-label font-weight-semibold">Point <span class="text-danger">*</span>
+                                    <i class="material-symbols-rounded float-right text-info" data-toggle="tooltip" title="Sample points: 1 &rArr; A, 2 &rArr; B, 3 &rArr; C, 4 &rArr; D, 5 &rArr; F, as well as 6 &rArr; S or 7 &rArr; F.">info</i>
                                 </label>
                                 <div class="col-lg-3">
-                                    <input name="point" min="0" max="10" required type="number" class="form-control" placeholder="E.g., 1">
+                                    <input name="point" id="point" min="0" required type="number" class="form-control" placeholder="E.g., 1">
                                 </div>
-                                <div class="col-lg-6"><span class="font-weight-bold font-italic text-info-800">This point will be used in calculating student division.</span>
-                                    <i class="material-symbols-rounded float-right text-info" data-toggle="tooltip" title="Sample points: 1 &rArr; A, 2 &rArr; B, 3 &rArr; C, 4 &rArr; D, 5 &rArr; F, as well as 6 &rArr; S or 7 &rArr; F.">info</i>
-                                </div>
+                                <div class="col-lg-6 m-lg-auto"><span class="font-weight-bold font-italic text-info-800">{{ __('msg.point_info') }}</span></div>
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-lg-3 col-form-label font-weight-semibold">Credit <span class="text-danger">*</span></label>
-                                <div class="col-lg-3">
-                                    <input name="credit" min="0" max="5" required type="number" class="form-control" placeholder="E.g., 5">
-                                </div>
-                                <div class="col-lg-6"><span class="font-weight-bold font-italic text-info-800">This weight calculates GPA, with the highest grade earning the most credit.</span>
+                                <label for="credit" class="col-lg-3 col-form-label font-weight-semibold">Credit <span class="text-danger">*</span>
                                     <i class="material-symbols-rounded float-right text-info" data-toggle="tooltip" title="Sample credits: 5 &rArr; A, 4 &rArr; B, 3 &rArr; C, 2 &rArr; D, 1 &rArr; E, 0 &rArr; F, as well as 0.5 &rArr; S.">info</i>
+                                </label>
+                                <div class="col-lg-3">
+                                    <input name="credit" id="credit" min="0" required type="number" class="form-control" placeholder="E.g., 5">
                                 </div>
+                                <div class="col-lg-6 m-lg-auto"><span class="font-weight-bold font-italic text-info-800">{{ __('msg.credit_info') }}</span></div>
                             </div>
 
                             <div class="form-group row">

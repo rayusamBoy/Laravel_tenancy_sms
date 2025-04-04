@@ -54,4 +54,6 @@ return
         'other_bs_logout_ok' => 'Other browser sessions logged out successfully.',
         'close_ticket_before_archive' => 'Please close the ticket before archiving it.',
         'all_book_copies_issued' => 'All copies of this book are already issued.',
+        'point_info' => 'This point will be used in calculating student division.',
+        'credit_info' => 'This weight calculates GPA, with the highest grade earning the most credit.',
     ];

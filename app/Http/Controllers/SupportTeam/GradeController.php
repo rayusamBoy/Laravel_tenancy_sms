@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\SupportTeam;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Grade\GradeCreate;
-use App\Http\Requests\Grade\GradeUpdate;
+use App\Http\Requests\Grade\GradeRequest;
 use App\Repositories\ExamRepo;
 use App\Repositories\MyClassRepo;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -39,7 +38,7 @@ class GradeController extends Controller implements HasMiddleware
         return view('pages.support_team.grades.index', $d);
     }
 
-    public function store(GradeCreate $req)
+    public function store(GradeRequest $req)
     {
         $data = $req->all();
         $this->exam->createGrade($data);
@@ -55,7 +54,7 @@ class GradeController extends Controller implements HasMiddleware
         return view('pages.support_team.grades.edit', $d);
     }
 
-    public function update(GradeUpdate $req, $id)
+    public function update(GradeRequest $req, $id)
     {
         $data = $req->all();
         $this->exam->updateGrade($id, $data);
