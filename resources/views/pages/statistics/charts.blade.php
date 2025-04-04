@@ -1,7 +1,7 @@
 @if(isset($last_exam))
 
-{{-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> --}}
-<script src="{{ asset('global_assets/js/plugins/charts/chart.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{{-- <script src="{{ asset('global_assets/js/plugins/charts/chart.js') }}"></script> --}}
 
 <script type="text/javascript">
     // Global variables
@@ -305,7 +305,7 @@
             <span>Change Chart Type</span><i class="material-symbols-rounded ml-1">keyboard_arrow_up</i>
         </button>
 
-        <div class="bg-dark-alpha bg-white dropdown-menu">
+        <div class="bg-dark-alpha dropdown-menu">
             @foreach($chart_options as $key => $value)
             <a href="javascript:;" id="{{ $key }}" class="dropdown-item chart-option">{{ $value }}</a>
             @endforeach
