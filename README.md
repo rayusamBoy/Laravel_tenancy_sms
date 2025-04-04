@@ -2,7 +2,7 @@
 
 ## About
 
-This is a multi-tenant school management system powered by technologies including the [Laravel framework](https://laravel.com), [Bootstrap](https://getbootstrap.com), [jQuery](https://jquery.com), and the [Tenancy package](https://tenancyforlaravel.com), among others. It is developed for educational institutions such as schools and colleges and is built on Laravel 11.
+This is a multi-tenant school management system powered by technologies including the [Laravel framework](https://laravel.com), [Bootstrap](https://getbootstrap.com), [jQuery](https://jquery.com), and the [Tenancy package](https://tenancyforlaravel.com), among others. It is developed for educational institutions such as schools and colleges and is built on Laravel 12.
 
 **Please refer to the [NOTICE](https://github.com/rayusamBoy/Laravel_tenancy_sms/blob/main/NOTICE.md) file for any changes you may be required to apply.**
 
