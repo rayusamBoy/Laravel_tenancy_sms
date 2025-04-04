@@ -376,7 +376,7 @@ input[type="text"].noui-height-helper:not(.noUi-target)[data-fouc] {
     font-size: 0.75rem;
     line-height: 1.6667;
     padding: 0.4375rem 0.875rem;
-    z-index: 1070;
+    z-index: 1040;
     border-bottom-right-radius: 0.1875rem;
     border-bottom-left-radius: 0.1875rem;
 }
