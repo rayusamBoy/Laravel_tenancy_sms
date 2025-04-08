@@ -26,8 +26,7 @@ class BookCreate extends FormRequest
             'author' => 'required|string|max:150',
             'book_type' => 'sometimes|nullable|max:100',
             'url' => 'sometimes|nullable|url',
-            'total_copies' => 'sometimes|nullable|integer|min:1',
-            'issued_copies' => 'sometimes|nullable|integer|min:1',
+            'total_copies' => 'required|integer|min:1',
             'location' => 'sometimes|nullable|string|max:250'
         ];
     }

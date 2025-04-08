@@ -86,8 +86,19 @@
                         {{-- Total Copies --}}
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="d-block">Total Copies:</label>
-                                <input value="{{ old('total_copies') }}" type="number" min="1" name="total_copies" class="form-control" placeholder="Eg., 123">
+                                <label class="d-block">Total Copies: <span class="text-danger">*</span></label>
+                                <input value="{{ old('total_copies') }}" type="number" min="1" name="total_copies" class="form-control" placeholder="Eg., 123" required>
+                            </div>
+                        </div>
+                        {{-- Status --}}
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="d-block">Status:</label>
+                                <select required data-placeholder="Select..." class="form-control select" name="status" id="class">
+                                    @foreach (Usr::getBookStatuses() as $key => $value)
+                                    <option title="{{ $value }}" @selected(old("status") == $key) value="{{ $key }}">{{ $key }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         {{--Location--}}
