@@ -4,6 +4,8 @@
 
 @section('content')
 
+@use('Database\Seeders\NonTenancySettingsTableSeeder')
+
 <div class="card">
     <div class="card-header header-elements-inline">
         <h6 class="card-title font-weight-semibold">Update System Settings </h6>
@@ -85,8 +87,8 @@
                         <label for="lock_exam" class="col-lg-3 col-form-label font-weight-semibold">Lock Exam</label>
                         <div class="col-lg-2">
                             <select class="form-control select" name="lock_exam" id="lock_exam">
-                                <option @selected($settings->where('type' , 'lock_exam')->value('description') !== null) value="1">Yes</option>
-                                <option @selected($settings->where('type' , 'lock_exam')->value('description') !== null) value="0">No</option>
+                                <option @selected($settings->where('type' , 'lock_exam')->value('description') == 1) value="1">Yes</option>
+                                <option @selected($settings->where('type' , 'lock_exam')->value('description') == 0) value="0">No</option>
                             </select>
                         </div>
                         <div class="col-lg-7 m-lg-auto mt-1">
@@ -103,8 +105,8 @@
                                     <label for="email_channel" class="col-form-label font-weight-semibold float-left">Email</label>
                                     <div class="form-group text-center">
                                         <select class="form-control select" name="enable_email_notification" id="email_channel">
-                                            <option @selected($settings->where('type' , 'enable_email_notification')->value('description') !== null) value="1">On</option>
-                                            <option @selected($settings->where('type' , 'enable_email_notification')->value('description') !== null) value="0">Off</option>
+                                            <option @selected($settings->where('type' , 'enable_email_notification')->value('description') == 1) value="1">On</option>
+                                            <option @selected($settings->where('type' , 'enable_email_notification')->value('description') == 0) value="0">Off</option>
                                         </select>
                                     </div>
                                 </div>
@@ -112,8 +114,8 @@
                                     <label for="push_channel" class="col-form-label font-weight-semibold float-left">Push</label>
                                     <div class="form-group text-center">
                                         <select class="form-control select" name="enable_push_notification" id="push_channel">
-                                            <option @selected($settings->where('type' , 'enable_push_notification')->value('description') !== null) value="1">On</option>
-                                            <option @selected($settings->where('type' , 'enable_push_notification')->value('description') !== null) value="0">Off</option>
+                                            <option @selected($settings->where('type' , 'enable_push_notification')->value('description') == 1) value="1">On</option>
+                                            <option @selected($settings->where('type' , 'enable_push_notification')->value('description') == 0) value="0">Off</option>
                                         </select>
                                     </div>
                                 </div>
@@ -121,8 +123,8 @@
                                     <label for="sms_channel" class="col-form-label font-weight-semibold float-left">SMS</label>
                                     <div class="form-group text-center">
                                         <select class="form-control select" name="enable_sms_notification" id="sms_channel">
-                                            <option @selected($settings->where('type' , 'enable_sms_notification')->value('description') !== null) value="1">On</option>
-                                            <option @selected($settings->where('type' , 'enable_sms_notification')->value('description') !== null) value="0">Off</option>
+                                            <option @selected($settings->where('type' , 'enable_sms_notification')->value('description') == 1) value="1">On</option>
+                                            <option @selected($settings->where('type' , 'enable_sms_notification')->value('description') == 0) value="0">Off</option>
                                         </select>
                                     </div>
                                 </div>
@@ -159,7 +161,6 @@
                         </div>
                         {{-- Login and related page background --}}
                         @php
-                        use Database\Seeders\NonTenancySettingsTableSeeder;
                         $settings_table_seeder = new NonTenancySettingsTableSeeder();
                         $bg = $settings->where('type', 'login_and_related_pages_bg')->value('description');
                         @endphp
@@ -201,8 +202,8 @@
                                     <label for="allow_marksheet_print" class="col-form-label font-weight-semibold float-left">Marksheet</label>
                                     <div class="form-group text-center">
                                         <select class="form-control select" name="allow_marksheet_print" id="allow_marksheet_print">
-                                            <option @selected($settings->where('type' , 'allow_marksheet_print')->value('description') !== null) value="1">Yes</option>
-                                            <option @selected($settings->where('type' , 'allow_marksheet_print')->value('description') !== null) value="0">No</option>
+                                            <option @selected($settings->where('type' , 'allow_marksheet_print')->value('description') == 1) value="1">Yes</option>
+                                            <option @selected($settings->where('type' , 'allow_marksheet_print')->value('description') == 0) value="0">No</option>
                                         </select>
                                     </div>
                                 </div>
@@ -210,8 +211,8 @@
                                     <label for="allow_assessmentsheet_print" class="col-form-label font-weight-semibold float-left">Assessmentsheet</label>
                                     <div class="form-group text-center">
                                         <select class="form-control select" name="allow_assessmentsheet_print" id="allow_assessmentsheet_print">
-                                            <option @selected($settings->where('type' , 'allow_assessmentsheet_print')->value('description') !== null) value="1">Yes</option>
-                                            <option @selected($settings->where('type' , 'allow_assessmentsheet_print')->value('description') !== null) value="0">No</option>
+                                            <option @selected($settings->where('type' , 'allow_assessmentsheet_print')->value('description') == 1) value="1">Yes</option>
+                                            <option @selected($settings->where('type' , 'allow_assessmentsheet_print')->value('description') == 0) value="0">No</option>
                                         </select>
                                     </div>
                                 </div>
