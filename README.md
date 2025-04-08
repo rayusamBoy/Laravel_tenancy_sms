@@ -69,7 +69,7 @@ This is a multi-tenant school management system powered by technologies includin
 
 * [composer](https://getcomposer.org/)
 * [npm](https://www.npmjs.com/)
-* [laravel requirements](https://laravel.com/docs/11.x/deployment#server-requirements)
+* [laravel requirements](https://laravel.com/docs/12.x/deployment#server-requirements)
 * Among others.
 
 ## Installation
