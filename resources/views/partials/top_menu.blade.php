@@ -19,7 +19,7 @@
         </div>
         @endif
 
-        <a href="javascript:;" class="m-auto text-default refresh mobile"><i class="material-symbols-rounded mt-auto mb-auto">refresh</i></a>
+        <a href="javascript:;" class="m-auto text-default refresh mobile pr-3"><i class="material-symbols-rounded mt-auto mb-auto">refresh</i></a>
 
         <a href="javascript:;" class="m-auto text-default border-0 color-mode-toggle" title="Switch to light mode" data-theme="light"><i class="material-symbols-rounded mr-1 mt-auto mb-auto">light_mode</i></a>
 
@@ -48,7 +48,7 @@
 
         <span class="navbar-text ml-md-3 mr-md-auto"></span>
 
-        <a href="javascript:;" class="navbar-nav-link d-none d-md-block refresh"><i class="material-symbols-rounded mt-auto mb-auto mr-1">refresh</i>Refresh</a>
+        <a href="javascript:;" class="navbar-nav-link d-none d-md-block refresh"><i class="material-symbols-rounded mt-auto mb-auto mr-1">refresh</i><span class="align-middle">Refresh</span></a>
 
         <a href="javascript:;" class="navbar-nav-link d-none d-md-block border-0 color-mode-toggle" title="Switch to light mode" data-theme="light"><i class="material-symbols-rounded mr-1 mt-auto mb-auto">light_mode</i></a>
 
