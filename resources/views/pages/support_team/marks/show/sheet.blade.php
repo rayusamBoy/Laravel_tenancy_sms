@@ -32,21 +32,21 @@
             @endforeach
         </tr>
         @endif
-       @endforeach
+        @endforeach
         <tr>
-            <td colspan="2"><strong>TOTAL SCORES: </strong> {{ $exr->total }}</td>
+            <td colspan="1"><strong>TOTAL SCORES: </strong> {{ $exr->total ?? 'N/A' }}</td>
             <td colspan="1"><strong>GPA: </strong> {{ $exr->gpa }} of 5</td>
-            <td colspan="2"><strong>FINAL AVERAGE: </strong> @if($exr->division == "") <em>N/A</em> @else {{ $exr->ave ?? '-' }} @endif</td>
-            <td colspan="1"><strong>CLASS AVERAGE: </strong> {{ $exr->class_ave }}</td>
-       </tr>
-        <tr>
-            <td colspan="2"><strong>DIVISION: </strong>@if($exr->division == "") <em>INCOMPLETE POINTS</em> @else Division <strong> {{ $exr->division->name ?? '-' }} </strong> of points <strong>{{ $exr->points }} @endif</strong></td>
-            <td colspan="2"><strong>FINAL AVERAGE GRADE: </strong>@if($exr->division == "") <em>N/A</em> @else {{ $exr->grade->name ?? '-' }} @endif</td>
-            <td colspan="2"><strong>CLASS AVERAGE GRADE: </strong> {{ Mk::getGrade($exr->class_ave) }}</td>
+            <td colspan="2"><strong>FINAL AVERAGE: </strong> {{ $exr->ave ?? 'N/A' }}</td>
+            <td colspan="2"><strong>CLASS AVERAGE: </strong> {{ $exr->class_ave ?? 'N/A' }}</td>
         </tr>
         <tr>
-            <td colspan="3"><strong>FINAL POSITION SECTIONWISE: </strong>@if($exr->division == "") <em>N/A</em> @else ({{ $exr->section->name }}){{ $exr->pos }} of {{ Mk::getSectionCount($ex->id, $exr->my_class_id, $exr->section_id) }} @endif</td>
-            <td colspan="3"><strong>FINAL POSITION CLASSWISE: </strong>@if($exr->division == "") <em>N/A</em> @else {{ $exr->class_pos }} of {{ Mk::getClassCount($ex->id, $exr->my_class_id) }}@endif</td>
+            <td colspan="2"><strong>DIVISION: </strong>{{ $exr->division->name ?? 'N/A' }} <strong> of points </strong>{{ $exr->points ?? 'N/A' }}</td>
+            <td colspan="2"><strong>FINAL AVERAGE GRADE: </strong> {{ $exr->grade?->name ?? 'N/A' }}</td>
+            <td colspan="2"><strong>CLASS AVERAGE GRADE: </strong> {{ Mk::getGrade($exr->class_ave) ?? 'N/A' }}</td>
+        </tr>
+        <tr>
+            <td colspan="3"><strong>FINAL POSITION SECTIONWISE ({{ $exr->section->name }}): </strong>{{ $exr->pos }} of {{ Mk::getSectionCount($ex->id, $exr->my_class_id, $exr->section_id) }}</td>
+            <td colspan="3"><strong>FINAL POSITION CLASSWISE: </strong>{{ $exr->class_pos }} of {{ Mk::getClassCount($ex->id, $exr->my_class_id) }}</td>
         </tr>
     </tbody>
 </table>

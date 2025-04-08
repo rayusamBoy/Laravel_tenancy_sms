@@ -35,22 +35,22 @@
             @foreach($subject_marks as $mk)
             <td>{{ $mk->$tex ?: '-'}}</td>
             <td>{{ $mk->grade ? $mk->grade->name : '-' }}</td>
-            <td>{!! ($mk->grade) ? Mk::getSuffix($mk->sub_pos) : '-' !!}</td>
+            <td>{!! $mk->grade ? Mk::getSuffix($mk->sub_pos) : '-' !!}</td>
             <td>{{ $mk->grade ? $mk->grade->remark : '-' }}</td>
             @endforeach
         </tr>
         @endif
         @endforeach
         <tr>
-            <td colspan="1"><strong>TOTAL SCORES: </strong> {{ $exr->total }}</td>
+            <td colspan="1"><strong>TOTAL SCORES: </strong> {{ $exr->total ?? 'N/A' }}</td>
             <td colspan="1"><strong>GPA: </strong> {{ $exr->gpa }} of 5</td>
-            <td colspan="2"><strong>FINAL AVERAGE: </strong> {{ $exr->ave }}</td>
-            <td colspan="2"><strong>CLASS AVERAGE: </strong> {{ $exr->class_ave }}</td>
+            <td colspan="2"><strong>FINAL AVERAGE: </strong> {{ $exr->ave ?? 'N/A' }}</td>
+            <td colspan="2"><strong>CLASS AVERAGE: </strong> {{ $exr->class_ave ?? 'N/A' }}</td>
         </tr>
         <tr>
-            <td colspan="2"><strong>DIVISION: </strong>@if($exr->division == "") <em>INCOMPLETE POINTS</em> @else Division <strong> {{ $exr->division->name ?? '-' }} </strong> of points <strong>{{ $exr->points }} @endif</strong></td>
-            <td colspan="2"><strong>FINAL AVERAGE GRADE: </strong> {{ $exr->grade->name }}</td>
-            <td colspan="2"><strong>CLASS AVERAGE GRADE: </strong> {{ MK::getGrade($exr->class_ave) }}</td>
+            <td colspan="2"><strong>DIVISION: </strong>{{ $exr->division->name ?? 'N/A' }} <strong> of points </strong>{{ $exr->points ?? 'N/A' }}</td>
+            <td colspan="2"><strong>FINAL AVERAGE GRADE: </strong> {{ $exr->grade?->name ?? 'N/A' }}</td>
+            <td colspan="2"><strong>CLASS AVERAGE GRADE: </strong> {{ Mk::getGrade($exr->class_ave) ?? 'N/A' }}</td>
         </tr>
         <tr>
             <td colspan="3"><strong>FINAL POSITION SECTIONWISE ({{ $exr->section->name }}): </strong>{{ $exr->pos }} of {{ Mk::getSectionCount($ex->id, $exr->my_class_id, $exr->section_id) }}</td>
