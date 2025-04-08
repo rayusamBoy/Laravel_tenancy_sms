@@ -74,7 +74,7 @@
                 @foreach($students as $s)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td><img class="rounded-circle" style="height: 40px; width: 40px;" src="{{ tenant_asset($s->user->photo) }}" alt="photo"></td>
+                    <td><img class="rounded-circle" style="height: 40px; width: 40px;" src="{{ Usr::getTenantAwarePhoto($s->user->photo) }}" alt="photo"></td>
                     <td>{{ $s->user->name }}</td>
                     <td>{{ $s->adm_no }}</td>
                     <td><a class="btn btn-danger" href="{{ route('marks.year_selector', Qs::hash($s->user_id)) }}">View Marksheet</a></td>

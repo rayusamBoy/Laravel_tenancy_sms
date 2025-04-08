@@ -21,7 +21,7 @@
                         <strong><span style="color: #000; font-size: 15px;">RESULT SHEET {{ '('.strtoupper($class_type->name).')' }}</span></strong>
                     </td>
                     <td style="width: 100px; height: 100px; float: left;">
-                        <img src="{{ tenant_asset($sr->user->photo) }}" alt="..." width="100" height="100">
+                        <img src="{{ Usr::getTenantAwarePhoto($sr->user->photo) }}" alt="..." width="100" height="100">
                     </td>
                 </tr>
             </table>
