@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 /**
  *-------------------------------------------------------------
@@ -16,11 +16,14 @@ $.ajaxSetup({
  * Initialize the float head plugin
  *-------------------------------------------------------------
  */
-$(() => $('table.float-head').floatThead());
+$(() => $("table.float-head").floatThead());
 
-$('table.float-head').on("floatThead", function (e, isFloated, $floatContainer) {
-    $("table tr.hide").toggle(!isFloated);
-});
+$("table.float-head").on(
+    "floatThead",
+    function (e, isFloated, $floatContainer) {
+        $("table tr.hide").toggle(!isFloated);
+    }
+);
 
 /**
  *-------------------------------------------------------------
@@ -52,7 +55,7 @@ $(window).on("load", unblockUI);
  * Initialize auto size plugin for textarea
  *-------------------------------------------------------------
  */
-autosize($('textarea'));
+autosize($("textarea"));
 
 /**
  *-------------------------------------------------------------
@@ -73,7 +76,7 @@ $(document).ready(() => {
     });
 
     /**
-     *------------------------------------------------------------- 
+     *-------------------------------------------------------------
      * Handle user type change on select.
      *-------------------------------------------------------------
      */
@@ -104,9 +107,13 @@ $(document).ready(() => {
             $stepsLineSeparator.removeClass("d-li-current-none");
             $parentDataInputs.attr("disabled", true);
 
-            const $nextBtn = $('.wizard > .actions > ul > li + li');
+            const $nextBtn = $(".wizard > .actions > ul > li + li");
             if ($nextBtn.hasClass("disabled")) {
-                $nextBtn.removeClass("disabled").removeAttr("disabled").children("a").removeClass("disabled");
+                $nextBtn
+                    .removeClass("disabled")
+                    .removeAttr("disabled")
+                    .children("a")
+                    .removeClass("disabled");
             }
         }
     });
@@ -215,7 +222,9 @@ $(document).ready(() => {
 
     const validateOutOfs = ($fromEl, $toEl) => {
         if (isEmpty($fromEl) || isEmpty($toEl)) {
-            isEmpty($fromEl) ? isRequired($fromEl) : removeIsInvalidClass($fromEl);
+            isEmpty($fromEl)
+                ? isRequired($fromEl)
+                : removeIsInvalidClass($fromEl);
             isEmpty($toEl) ? isRequired($toEl) : removeIsInvalidClass($toEl);
             return false;
         }
@@ -262,8 +271,8 @@ $(document).ready(() => {
 });
 
 /**
- *------------------------------------------------------------- 
- * Toggle full screen handler 
+ *-------------------------------------------------------------
+ * Toggle full screen handler
  *-------------------------------------------------------------
  */
 $(".full-screen-handle").on("click", function (event) {
@@ -281,7 +290,10 @@ $(".full-screen-handle").on("click", function (event) {
                 Element.ALLOW_KEYBOARD_INPUT
             );
         }
-        $(this).find("a").text("fullscreen_exit").attr("title", "Exit Full Screen");
+        $(this)
+            .find("a")
+            .text("fullscreen_exit")
+            .attr("title", "Exit Full Screen");
     } else {
         if (document.cancelFullScreen) {
             document.cancelFullScreen();
@@ -290,7 +302,10 @@ $(".full-screen-handle").on("click", function (event) {
         } else if (document.webkitCancelFullScreen) {
             document.webkitCancelFullScreen();
         }
-        $(this).find("a").text("fullscreen").attr("title", "Request Full Screen");
+        $(this)
+            .find("a")
+            .text("fullscreen")
+            .attr("title", "Request Full Screen");
     }
 });
 
@@ -338,7 +353,8 @@ $(document).ready(() => {
 $(".st-id-checkbox").on("click", function () {
     const $form = $("form.print-selected");
     const checkedCount = $(":checkbox:checked").length;
-    $form.find("button[type='submit']")
+    $form
+        .find("button[type='submit']")
         .prop("disabled", checkedCount === 0)
         .toggleClass("cursor-not-allowed", checkedCount === 0);
     $form.find("#checked-count").html(checkedCount);
@@ -392,12 +408,16 @@ $(document).on("change", "select#user_types-ids", function () {
     let count = 0;
 
     values.forEach((value) => {
-        if ([activeStudents, gradStudents, allStudents].includes(value)) count++;
+        if ([activeStudents, gradStudents, allStudents].includes(value))
+            count++;
     });
 
     if (count > 1) {
         $("#user_types-ids").val("").trigger("change");
-        pop({ msg: "Please, select only one option under students user type group.", type: "info" });
+        pop({
+            msg: "Please, select only one option under students user type group.",
+            type: "info",
+        });
     }
 });
 
@@ -417,16 +437,25 @@ $("button.opt-all-as-graduate").on("click", function () {
  * Do not show this again button handler.
  *-------------------------------------------------------------
  */
-const $doNotShowButton = $(`<button type="button" class="btn btn-sm btn-info pt-0 pb-0 pr-1 pl-1 position-absolute right-0 font-size-xs do-not-show-again" style="bottom: -10px;" onclick="doNotShowAgain(this)">Do not show again</button>`);
+const $doNotShowButton = $(
+    `<button type="button" class="btn btn-sm btn-info pt-0 pb-0 pr-1 pl-1 position-absolute right-0 font-size-xs do-not-show-again" style="bottom: -10px;" onclick="doNotShowAgain(this)">Do not show again</button>`
+);
 $(".has-do-not-show-again-button").append($doNotShowButton);
 
 const doNotShowAgain = (el) => {
     const $parent = $(el).closest(".has-do-not-show-again-button");
     const id = $parent.attr("id");
-    if (!id) return console.warn("Missing required unique id attribute for the element.");
+    if (!id)
+        return console.warn(
+            "Missing required unique id attribute for the element."
+        );
     if ($(`[id="${id}"]`).length > 1)
-        return console.warn(`Multiple ${id} id attributes were found. Id needs to be unique.`);
-    let ids = JSON.parse(Cookies.get("do_not_show_els_with_these_ids_again") || "[]");
+        return console.warn(
+            `Multiple ${id} id attributes were found. Id needs to be unique.`
+        );
+    let ids = JSON.parse(
+        Cookies.get("do_not_show_els_with_these_ids_again") || "[]"
+    );
     ids.push(id);
     Cookies.set("do_not_show_els_with_these_ids_again", JSON.stringify(ids));
     updateHiddenIDs(ids, $parent);
@@ -442,11 +471,17 @@ const updateHiddenIDs = (ids, $el) => {
         success: (resp) => {
             if (resp.ok && resp.msg) {
                 removeElement($el);
-                flash({ msg: 'Done. To view this again, go to <strong>My Account</strong> to reveal all hidden messages.', type: 'info' });
+                flash({
+                    msg: "Done. To view this again, go to <strong>My Account</strong> to reveal all hidden messages.",
+                    type: "info",
+                });
                 return console.log(resp.msg);
             }
             $btn.show(250);
-            flash({ msg: "Something went wrong, can't hide alert.", type: "warning" });
+            flash({
+                msg: "Something went wrong, can't hide alert.",
+                type: "warning",
+            });
             console.warn("Something went wrong.");
         },
         error: (xhr, status, error) => {
@@ -476,11 +511,21 @@ $("button#clear-do-not-show-again-alert-msgs").click(function () {
                 method: "POST",
                 success: (response) => {
                     Cookies.remove("do_not_show_els_with_these_ids_again");
-                    flash({ msg: "Success. All alert messages are now displayed.", type: "success" });
+                    flash({
+                        msg: "Success. All alert messages are now displayed.",
+                        type: "success",
+                    });
                 },
                 error: (xhr, status, error) => {
-                    flash({ msg: "Something went wrong, cannot clear IDs.", type: "error" });
-                    console.error("Failed to clear hidden alert IDs data.", status, error);
+                    flash({
+                        msg: "Something went wrong, cannot clear IDs.",
+                        type: "error",
+                    });
+                    console.error(
+                        "Failed to clear hidden alert IDs data.",
+                        status,
+                        error
+                    );
                 },
             });
         }
@@ -489,7 +534,9 @@ $("button#clear-do-not-show-again-alert-msgs").click(function () {
 
 const updatedoNotShowAgainElsState = () => {
     $(document).ready(() => {
-        const ids = JSON.parse(Cookies.get("do_not_show_els_with_these_ids_again") || "[]");
+        const ids = JSON.parse(
+            Cookies.get("do_not_show_els_with_these_ids_again") || "[]"
+        );
         ids.forEach((id) => {
             if (id) $(`#${id}`).remove();
         });
@@ -516,14 +563,14 @@ const removeElement = ($el) => {
  */
 $(function () {
     // Cache the "go to bottom" button element using a more modern variable name
-    const $goToBottomBtn = $('.go-to-bottom button');
+    const $goToBottomBtn = $(".go-to-bottom button");
 
-    $goToBottomBtn.on('click', (e) => {
+    $goToBottomBtn.on("click", (e) => {
         e.preventDefault();
         scrollToBottom();
     });
 
-    $(window).on('scroll', () => {
+    $(window).on("scroll", () => {
         const scrollBottom = $(window).scrollTop() + $(window).height();
         const scrollingElement = document.scrollingElement || document.body;
         const offsetFromBottom = 300;
@@ -558,9 +605,15 @@ $(document).on("change", "select#category", function () {
     if (ids) {
         const hasId = Object.values(ids).includes(parseInt(value, 10));
         if (hasId)
-            $(".ca-setup").show(150).find("input[type='number']").attr("required", "required");
+            $(".ca-setup")
+                .show(150)
+                .find("input[type='number']")
+                .attr("required", "required");
         else
-            $(".ca-setup").hide(150).find("input[type='number']").removeAttr("required");
+            $(".ca-setup")
+                .hide(150)
+                .find("input[type='number']")
+                .removeAttr("required");
     }
 });
 
@@ -574,7 +627,9 @@ const notificationSound = new Audio();
 
 const playNotificationSound = (soundName, condition = false) => {
     if (condition && $(errorSoundElement).data("allow_system_sounds") === 1) {
-        notificationSound.src = `${$(errorSoundElement).data("base_url")}/${soundName}`;
+        notificationSound.src = `${$(errorSoundElement).data(
+            "base_url"
+        )}/${soundName}`;
         notificationSound.play();
     }
 };
@@ -588,7 +643,10 @@ $(document).on("input", "table.data-table input", function () {
     if (value > maxVal) {
         playNotificationSound(soundName, true);
         sessionStorage.setItem(nameAttr, "");
-        $(this).val("").blur().attr("style", "border: 1px solid rgb(151, 23, 23) !important");
+        $(this)
+            .val("")
+            .blur()
+            .attr("style", "border: 1px solid rgb(151, 23, 23) !important");
         return;
     } else {
         $(this).removeAttr("style");
@@ -597,13 +655,23 @@ $(document).on("input", "table.data-table input", function () {
 });
 
 // Restore values on page reload
-const pageReloaded = window.performance.getEntriesByType("navigation").some((nav) => nav.type === "reload");
+const pageReloaded = window.performance
+    .getEntriesByType("navigation")
+    .some((nav) => nav.type === "reload");
 if ($("table.data-table input").length > 0 && pageReloaded) {
     Object.keys(sessionStorage).forEach((key) => {
-        if (key.startsWith("cw_") || key.startsWith("hw_") || key.startsWith("tt_"))
-            $('.ca-tbody').find(`input[name="${key}"]`).val(sessionStorage[key]);
+        if (
+            key.startsWith("cw_") ||
+            key.startsWith("hw_") ||
+            key.startsWith("tt_")
+        )
+            $(".ca-tbody")
+                .find(`input[name="${key}"]`)
+                .val(sessionStorage[key]);
         if (key.startsWith("exm_"))
-            $('.exam-tbody').find(`input[name="${key}"]`).val(sessionStorage[key]);
+            $(".exam-tbody")
+                .find(`input[name="${key}"]`)
+                .val(sessionStorage[key]);
     });
 }
 
@@ -630,7 +698,9 @@ $authPagesInput.on("change", function () {
  */
 $(document).on("click", ".refresh", function (e) {
     e.preventDefault();
-    $(this).html('<i class="material-symbols-rounded mt-auto mb-auto spinner">refresh</i>');
+    $(this).html(
+        '<i class="material-symbols-rounded mt-auto mb-auto spinner">refresh</i>'
+    );
     window.location.reload();
 });
 
@@ -644,21 +714,37 @@ $(document).on("click", ".refresh", function (e) {
     const date = new Date();
     const today = date.getDate();
     const months = [
-        "January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
     ];
 
     $(document).ready(function () {
         // Event listeners
         $(".right-button").on("click", () => nextYear(date));
         $(".left-button").on("click", () => prevYear(date));
-        $(".month").on("click", function () { monthClick($(this), date); });
+        $(".month").on("click", function () {
+            monthClick($(this), date);
+        });
         $("#add-button").on("click", () => newEvent(date));
         // Set the current month as active
         $(".months-row > td").eq(date.getMonth()).addClass("active-month");
         // Initialize the calendar and show events
         initCalendar(date);
-        const events = checkEvents(today, date.getMonth() + 1, date.getFullYear());
+        const events = checkEvents(
+            today,
+            date.getMonth() + 1,
+            date.getFullYear()
+        );
         showEvents(events, months[date.getMonth()], today);
     });
 
@@ -692,7 +778,9 @@ $(document).on("click", ".refresh", function (e) {
                     showEvents(events, months[month], day);
                 }
                 if (events.length !== 0) $currDate.addClass("event-date");
-                $currDate.on("click", (e) => dateClick(events, months[month], day, e));
+                $currDate.on("click", (e) =>
+                    dateClick(events, months[month], day, e)
+                );
             }
             $row.append($currDate);
         }
@@ -739,7 +827,9 @@ $(document).on("click", ".refresh", function (e) {
     const newEvent = (date) => {
         if ($(".active-date").length === 0) return;
         // Remove red error input on click
-        $("input").on("click", function () { $(this).removeClass("error-input"); });
+        $("input").on("click", function () {
+            $(this).removeClass("error-input");
+        });
         // Empty inputs and hide events
         $("#dialog input[type=text], #dialog textarea").val("");
         $(".events-container").hide(250);
@@ -751,22 +841,24 @@ $(document).on("click", ".refresh", function (e) {
             $(".events-container").show(250);
         });
 
-        $("#ok-button").off().on("click", () => {
-            const name = $("#name").val().trim();
-            const count = $("#count").val().trim();
-            const day = parseInt($(".active-date").text(), 10);
-            // Basic form validation
-            if (name.length === 0) {
-                $("#name").addClass("error-input");
-            } else if (count.length === 0) {
-                $("#count").addClass("error-input");
-            } else {
-                $("#dialog").hide(250);
-                newEventJson(name, count, date, day);
-                date.setDate(day);
-                initCalendar(date);
-            }
-        });
+        $("#ok-button")
+            .off()
+            .on("click", () => {
+                const name = $("#name").val().trim();
+                const count = $("#count").val().trim();
+                const day = parseInt($(".active-date").text(), 10);
+                // Basic form validation
+                if (name.length === 0) {
+                    $("#name").addClass("error-input");
+                } else if (count.length === 0) {
+                    $("#count").addClass("error-input");
+                } else {
+                    $("#dialog").hide(250);
+                    newEventJson(name, count, date, day);
+                    date.setDate(day);
+                    initCalendar(date);
+                }
+            });
     };
 
     const newEventJson = (name, count, date, day) => {
@@ -788,11 +880,13 @@ $(document).on("click", ".refresh", function (e) {
             dataType: "json",
             data: event,
             success: (data) => {
-                $(".events-container").html(data.msg).addClass('text-success');
+                $(".events-container").html(data.msg).addClass("text-success");
             },
             error: (errorThrown) => {
                 console.error(errorThrown);
-                $(".events-container").text("Something went wrong. Event add failed!").addClass('text-danger');
+                $(".events-container")
+                    .text("Something went wrong. Event add failed!")
+                    .addClass("text-danger");
             },
         });
     };
@@ -802,36 +896,66 @@ $(document).on("click", ".refresh", function (e) {
         const $container = $(".events-container").empty().show(250);
         if (events.length === 0) {
             const $card = $("<div class='event-card'></div>");
-            const $eventName = $("<div class='event-name'>There are no Events Planned for " + month + " " + day + ".</div>");
-            $card.css({ "border-left": "10px solid #FF1744" }).append($eventName);
+            const $eventName = $(
+                "<div class='event-name'>There are no Events Planned for " +
+                    month +
+                    " " +
+                    day +
+                    ".</div>"
+            );
+            $card
+                .css({ "border-left": "10px solid #FF1744" })
+                .append($eventName);
             $container.append($card);
         } else {
             events.forEach((event) => {
                 const $card = $("<div class='event-card'></div>");
-                const $eventName = $("<div class='event-name'>" + event.name + ":</div>");
-                const $eventDescription = $("<div class='event-description pl-1'>" + event.description + ".</div>");
+                const $eventName = $(
+                    "<div class='event-name'>" + event.name + ":</div>"
+                );
+                const $eventDescription = $(
+                    "<div class='event-description pl-1'>" +
+                        event.description +
+                        ".</div>"
+                );
                 let $eventStatus = "";
                 switch (event.status) {
                     case "cancelled":
-                        $eventStatus = $("<div class='event-cancelled text-danger pl-1'>(Cancelled)</div>");
+                        $eventStatus = $(
+                            "<div class='event-cancelled text-danger pl-1'>(Cancelled)</div>"
+                        );
                         break;
                     case "active":
-                        $eventStatus = $("<div class='event-active text-orange pl-1'>(Active now)</div>");
+                        $eventStatus = $(
+                            "<div class='event-active text-orange pl-1'>(Active now)</div>"
+                        );
                         break;
                     case "completed":
-                        $eventStatus = $("<div class='event-completed text-success pl-1'>(Completed)</div>");
+                        $eventStatus = $(
+                            "<div class='event-completed text-success pl-1'>(Completed)</div>"
+                        );
                         break;
                     default:
                         break;
                 }
-                $card.append($eventName).append($eventStatus).append($eventDescription);
+                $card
+                    .append($eventName)
+                    .append($eventStatus)
+                    .append($eventDescription);
                 $container.append($card);
             });
         }
     };
 
     const checkEvents = (day, month, year) => {
-        return typeof events_data !== 'undefined' ? events_data.events.filter(event => event.day === day && event.month === month && event.year === year) : [];
+        return typeof events_data !== "undefined"
+            ? events_data.events.filter(
+                  (event) =>
+                      event.day === day &&
+                      event.month === month &&
+                      event.year === year
+              )
+            : [];
     };
 })(jQuery);
 
@@ -856,8 +980,8 @@ const Toast = Swal.mixin({
     reverseButtons: true,
     timerProgressBar: true,
     didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer);
-        toast.addEventListener('mouseleave', Swal.resumeTimer);
+        toast.addEventListener("mouseenter", Swal.stopTimer);
+        toast.addEventListener("mouseleave", Swal.resumeTimer);
     },
 });
 
@@ -866,8 +990,7 @@ const Toast = Swal.mixin({
  * Capitalize first letter of a string
  *-------------------------------------------------------------
  */
-const capitalize = (string) =>
-    string.charAt(0).toUpperCase() + string.slice(1);
+const capitalize = (string) => string.charAt(0).toUpperCase() + string.slice(1);
 
 /**
  *-------------------------------------------------------------
@@ -875,9 +998,16 @@ const capitalize = (string) =>
  *-------------------------------------------------------------
  */
 const updateNoticeStatus = (el) => {
-    const $badge = $(el).closest("div.notices").siblings(".card-header").find(".card-title .badge");
+    const $badge = $(el)
+        .closest("div.notices")
+        .siblings(".card-header")
+        .find(".card-title .badge");
     // Remove class 'unviewed', turn off 'click' event handler, and remove iteration indicator.
-    $(`#${el.id}`).removeClass("unviewed").off("click").siblings(".iteration").remove();
+    $(`#${el.id}`)
+        .removeClass("unviewed")
+        .off("click")
+        .siblings(".iteration")
+        .remove();
     // Update Badge
     $badge.text($badge.text() == 0 ? 0 : $badge.text() - 1);
 };
@@ -906,7 +1036,14 @@ $(document).on("click", ".pagination a", function (event) {
 const getNoticesData = (url) => {
     const status = url.includes("unviewed") ? "unviewed" : "viewed";
     const $notices = $(".notices").find(`#${status}`);
-    $notices.empty().append(`<div class="notices-loading">${noticesLoadingSkin(4, status)}</div>`);
+    $notices
+        .empty()
+        .append(
+            `<div class="notices-loading">${noticesLoadingSkin(
+                4,
+                status
+            )}</div>`
+        );
     $.ajax({
         url,
         type: "get",
@@ -930,15 +1067,15 @@ $(window).on("hashchange", () => {
 
 const noticesLoadingSkin = (duplicateTimes, status) => {
     let template = "";
-    const a =
-        `<div class="card m-0 border-bottom-0 text-muted">
+    const a = `<div class="card m-0 border-bottom-0 text-muted">
         <div class="card-header position-relative">
-            <span class="float-left pr-10 status-styled">${capitalize(status)}</span><i class="text-muted float-right name skeleton"></i>
+            <span class="float-left pr-10 status-styled">${capitalize(
+                status
+            )}</span><i class="text-muted float-right name skeleton"></i>
         </div>
         <div class="card-body p-1">`;
-    // With iteration indicator 
-    const bb =
-        `<div class="card mb-1">
+    // With iteration indicator
+    const bb = `<div class="card mb-1">
                 <div class="card-header">
                     <h5 class="mb-0 d-flex">
                         <span class="text-muted iteration skeleton mr-1"></span>
@@ -949,8 +1086,7 @@ const noticesLoadingSkin = (duplicateTimes, status) => {
                 </div>
             </div>`;
     // Without iteration indicator
-    const cc =
-        `<div class="card mb-1">
+    const cc = `<div class="card mb-1">
                 <div class="card-header">
                     <h5 class="mb-0 d-flex">
                         <button class="btn btn-link w-100 pl-1 p-0 border-left-1 border-left-info">
@@ -959,8 +1095,7 @@ const noticesLoadingSkin = (duplicateTimes, status) => {
                     </h5>
                 </div>
             </div>`;
-    const d =
-        `<div class="position-relative pt-2">
+    const d = `<div class="position-relative pt-2">
                 <span class="float-right">
                     <nav>
                         <ul class="pagination">
@@ -976,7 +1111,8 @@ const noticesLoadingSkin = (duplicateTimes, status) => {
         </div>
     </div>`;
 
-    let b = "", c = "";
+    let b = "",
+        c = "";
     for (let i = 0; i < duplicateTimes; i++) {
         b += bb;
         c += cc;
@@ -1031,15 +1167,27 @@ function getTableColumns(tableName) {
         dataType: "json",
         url,
         success: (resp) => {
-            $where.empty().append('<option disabled selected>where</option><option value="none" selected>none (default)</option>');
+            $where
+                .empty()
+                .append(
+                    '<option disabled selected>where</option><option value="none" selected>none (default)</option>'
+                );
             $.each(resp, (i, data) => {
-                if (i !== "photo") $where.append($("<option>", { value: i, text: data }));
+                if (i !== "photo")
+                    $where.append($("<option>", { value: i, text: data }));
             });
-            $orderby.empty().append('<option value="id" selected>id (default)</option>');
+            $orderby
+                .empty()
+                .append('<option value="id" selected>id (default)</option>');
             $.each(resp, (i, data) => {
-                if (i !== "photo") $orderby.append($("<option>", { value: i, text: data }));
+                if (i !== "photo")
+                    $orderby.append($("<option>", { value: i, text: data }));
             });
-            $select.empty().append('<option disabled>select</option><option value="*" selected>all (default)</option>');
+            $select
+                .empty()
+                .append(
+                    '<option disabled>select</option><option value="*" selected>all (default)</option>'
+                );
             $.each(resp, (i, data) => {
                 $select.append($("<option>", { value: i, text: data }));
             });
@@ -1071,7 +1219,9 @@ function getState(nalId, destination) {
         success: (resp) => {
             $state.empty();
             $.each(resp, (i, data) => {
-                $state.append($("<option>", { value: data.id, text: data.name }));
+                $state.append(
+                    $("<option>", { value: data.id, text: data.name })
+                );
             });
         },
     });
@@ -1131,7 +1281,9 @@ function getClassStudents(classId, destination) {
         success: (resp) => {
             $section.empty();
             $.each(resp, (i, data) => {
-                $section.append($("<option>", { value: data.id, text: data.name }));
+                $section.append(
+                    $("<option>", { value: data.id, text: data.name })
+                );
             });
         },
     });
@@ -1151,13 +1303,19 @@ function getClassSections(classId, destination) {
         success: (resp) => {
             $section.empty();
             $.each(resp, (i, data) => {
-                $section.append($("<option>", { value: data.id, text: data.name }));
+                $section.append(
+                    $("<option>", { value: data.id, text: data.name })
+                );
             });
             if (destination) {
                 if (destination.includes("add_all"))
-                    $section.append('<option value="all" title="All Sections">All</option>');
+                    $section.append(
+                        '<option value="all" title="All Sections">All</option>'
+                    );
                 if (destination.includes("add_not_applicable"))
-                    $section.prepend('<option selected value=" ">Not Applicable</option>');
+                    $section.prepend(
+                        '<option selected value=" ">Not Applicable</option>'
+                    );
             }
         },
         error: () => {
@@ -1180,7 +1338,9 @@ function getTeacherClassSections(classId, destination) {
         success: (resp) => {
             $section.empty();
             $.each(resp, (i, data) => {
-                $section.append($("<option>", { value: data.id, text: data.name }));
+                $section.append(
+                    $("<option>", { value: data.id, text: data.name })
+                );
             });
         },
     });
@@ -1192,7 +1352,9 @@ function getTeacherClassSections(classId, destination) {
  *-------------------------------------------------------------
  */
 function getSubjectSectionTeacher(subjectId, sectionId, destination) {
-    let url = get_subject_section_teacher_url.replace(":sub_id", subjectId).replace(":sec_id", sectionId);
+    let url = get_subject_section_teacher_url
+        .replace(":sub_id", subjectId)
+        .replace(":sec_id", sectionId);
     const $section = destination ? $(destination) : $("#teacher_id");
     $.ajax({
         dataType: "json",
@@ -1201,7 +1363,9 @@ function getSubjectSectionTeacher(subjectId, sectionId, destination) {
             $section.children("option").each(function () {
                 if ($(this).val() == resp.id) {
                     $(this).attr("selected", "selected");
-                    $("#select2-teacher_id-container").text(resp.name).attr("title", resp.name);
+                    $("#select2-teacher_id-container")
+                        .text(resp.name)
+                        .attr("title", resp.name);
                 } else {
                     $(this).removeAttr("selected");
                 }
@@ -1216,7 +1380,7 @@ function getSubjectSectionTeacher(subjectId, sectionId, destination) {
  *-------------------------------------------------------------
  */
 function getYearExams(year) {
-    let url = get_year_exms_url.replace(":year", year);
+    let url = get_year_exams_url.replace(":year", year);
     const $exam = $("#exam_id");
     $.ajax({
         dataType: "json",
@@ -1224,7 +1388,9 @@ function getYearExams(year) {
         success: (resp) => {
             $exam.empty();
             $.each(resp, (i, data) => {
-                $exam.append($("<option>", { value: data.id, text: data.name }));
+                $exam.append(
+                    $("<option>", { value: data.id, text: data.name })
+                );
             });
         },
         error: () => {
@@ -1247,10 +1413,14 @@ function getClassSubjects(classId, destination) {
         success: (resp) => {
             $subject.empty();
             $.each(resp, (i, data) => {
-                $subject.append($("<option>", { value: data.id, text: data.name }));
+                $subject.append(
+                    $("<option>", { value: data.id, text: data.name })
+                );
             });
             if (destination && destination.includes("add_not_applicable")) {
-                $subject.prepend('<option selected value=" ">Not Applicable</option>');
+                $subject.prepend(
+                    '<option selected value=" ">Not Applicable</option>'
+                );
             }
         },
         error: () => {
@@ -1265,17 +1435,19 @@ function getClassSubjects(classId, destination) {
  *-------------------------------------------------------------
  */
 function hideShowSection(value, sectionId) {
-    return value === "class" ? unhideSection(sectionId) : hideSection(sectionId);
+    return value === "class"
+        ? unhideSection(sectionId)
+        : hideSection(sectionId);
 }
 
 function hideSection(sectionId) {
     const $section = sectionId ? $(sectionId) : $("#section_id");
-    return $section.closest('div.form-group').hide(150);
+    return $section.closest("div.form-group").hide(150);
 }
 
 function unhideSection(sectionId) {
     const $section = sectionId ? $(sectionId) : $("#section_id");
-    return $section.closest('div.form-group').show(150);
+    return $section.closest("div.form-group").show(150);
 }
 
 function popConfirm(data) {
@@ -1298,20 +1470,23 @@ function popConfirm(data) {
 $(document).on("click", "#do-not-show-for-this-session", function () {
     Swal.close();
     sessionStorage.setItem(this.value, "do-not-show-for-this-session");
-    flash({ msg: "Success. The message will not be shown again for this browser's tab session.", type: "success" });
+    flash({
+        msg: "Success. The message will not be shown again for this browser's tab session.",
+        type: "success",
+    });
 });
 
 function flash(data) {
     toastr.options = {
         closeButton: true,
-        closeMethod: 'hide',
+        closeMethod: "hide",
         closeDuration: 500,
         showEasing: getRandomEasingMethod(),
         hideEasing: getRandomEasingMethod(),
         closeEasing: getRandomEasingMethod(),
         showMethod: getRandomShowMethod(),
         hideMethod: getRandomHideMethod(),
-        positionClass: 'toast-top-right',
+        positionClass: "toast-top-right",
         preventDuplicates: true,
         progressBar: true,
     };
@@ -1320,10 +1495,8 @@ function flash(data) {
 }
 
 function displayToast(type, message) {
-    if (type === "success")
-        return toastr.success(message);
-    else if (type === "info")
-        return toastr.info(message);
+    if (type === "success") return toastr.success(message);
+    else if (type === "info") return toastr.info(message);
     else if (type === "error") {
         toastr.options = {
             timeOut: 0,
@@ -1332,8 +1505,7 @@ function displayToast(type, message) {
             closeButton: true,
         };
         return toastr.error(message);
-    } else if (type === "warning")
-        return toastr.info(message);
+    } else if (type === "warning") return toastr.info(message);
     else return false;
 }
 
@@ -1466,7 +1638,9 @@ function reverseCheckBoxAction(el) {
 
 function removeItemFromSessionStorageAndFlashErrMsg(item) {
     sessionStorage.removeItem(item);
-    const msg = sessionStorage.getItem("resp.msg") ?? "Something went wrong. Please try again.";
+    const msg =
+        sessionStorage.getItem("resp.msg") ??
+        "Something went wrong. Please try again.";
     flash({ msg, type: "error" });
 }
 
@@ -1565,7 +1739,9 @@ function updateUserBlockedState(user_id, el) {
             error: () => rollbackUpdateUserBlockedState(el),
         });
     } else {
-        removeItemFromSessionStorageAndFlashErrMsg("update-user-blocked-state-ok");
+        removeItemFromSessionStorageAndFlashErrMsg(
+            "update-user-blocked-state-ok"
+        );
     }
 }
 
@@ -1588,7 +1764,7 @@ function confirmReset(id, href = null) {
         customClass: { confirmButton: "bg-primary" },
     }).then((result) => {
         if (result.isConfirmed) {
-            if (id === null && href !== null) return window.location = href;
+            if (id === null && href !== null) return (window.location = href);
             $(`form#item-reset-${id}`).submit();
         }
     });
@@ -1611,22 +1787,22 @@ function confirmResetTwice(id, href = null) {
 function confirmResetPassword(href, default_pass) {
     Modal.fire({
         title: "Are you sure?",
-        text: `This will reset password to ${default_pass ?? 'user'}`,
+        text: `This will reset password to ${default_pass ?? "user"}`,
         icon: "warning",
         confirmButtonText: "Sure, Reset",
         customClass: { confirmButton: "bg-primary" },
     }).then((result) => {
         if (result.isConfirmed) {
-            if (href) return window.location = href;
-            flash({ msg: 'Oops! Invalid URL', type: 'info' });
+            if (href) return (window.location = href);
+            flash({ msg: "Oops! Invalid URL", type: "info" });
         }
     });
 }
 
-$('a.needs-reset-pass-confirmation').on('click', function (ev) {
+$("a.needs-reset-pass-confirmation").on("click", function (ev) {
     ev.preventDefault();
-    const href = $(this).data('href');
-    const default_pass = $(this).data('default_pass');
+    const href = $(this).data("href");
+    const default_pass = $(this).data("default_pass");
     confirmResetPassword(href, default_pass);
 });
 
@@ -1635,26 +1811,26 @@ $('a.needs-reset-pass-confirmation').on('click', function (ev) {
  * Payment pay handler on form submit
  *-------------------------------------------------------------
  */
-$('form.ajax-pay').on('submit', function (ev) {
+$("form.ajax-pay").on("submit", function (ev) {
     ev.preventDefault();
-    submitForm($(this), 'store');
+    submitForm($(this), "store");
     // Retrieve IDS
-    const formId = $(this).attr('id');
+    const formId = $(this).attr("id");
     const $tdAmt = $(`td#amt-${formId}`);
     const $tdAmtPaid = $(`td#amt_paid-${formId}`);
     const $tdBal = $(`td#bal-${formId}`);
     const $input = $(`#val-${formId}`);
     // Get Values
-    let amt = parseInt($tdAmt.data('amount'));
-    let amtPaid = parseInt($tdAmtPaid.data('amount'));
+    let amt = parseInt($tdAmt.data("amount"));
+    let amtPaid = parseInt($tdAmtPaid.data("amount"));
     const amtInput = parseInt($input.val());
     // Update Values
     amtPaid += amtInput;
     const bal = amt - amtPaid;
     $tdBal.text(`${bal}`);
-    $tdAmtPaid.text(`${amtPaid}`).data('amount', `${amtPaid}`);
-    $input.attr('max', bal);
-    if (bal < 1) $(`#${formId}`).fadeOut('slow').remove();
+    $tdAmtPaid.text(`${amtPaid}`).data("amount", `${amtPaid}`);
+    $input.attr("max", bal);
+    if (bal < 1) $(`#${formId}`).fadeOut("slow").remove();
 });
 
 /**
@@ -1662,18 +1838,25 @@ $('form.ajax-pay').on('submit', function (ev) {
  * Ajax store, update, and register form handler
  *-------------------------------------------------------------
  */
-$(document).on('submit', 'form.ajax-store, form.ajax-update, form#ajax-reg', function (ev) {
-    ev.preventDefault();
-    const formType = $(this).hasClass('ajax-store') || $(this).attr('id') === 'ajax-reg' ? 'store' : '';
-    submitForm($(this), formType);
-    const reloadDiv = $(this).data('reload');
-    if (reloadDiv) reloadDivFn(reloadDiv);
-});
+$(document).on(
+    "submit",
+    "form.ajax-store, form.ajax-update, form#ajax-reg",
+    function (ev) {
+        ev.preventDefault();
+        const formType =
+            $(this).hasClass("ajax-store") || $(this).attr("id") === "ajax-reg"
+                ? "store"
+                : "";
+        submitForm($(this), formType);
+        const reloadDiv = $(this).data("reload");
+        if (reloadDiv) reloadDivFn(reloadDiv);
+    }
+);
 
-$(document).on('click', '.download-receipt', function (ev) {
+$(document).on("click", ".download-receipt", function (ev) {
     ev.preventDefault();
-    $.get($(this).attr('href'));
-    flash({ msg: "Download in Progress", type: 'info' });
+    $.get($(this).attr("href"));
+    flash({ msg: "Download in Progress", type: "info" });
 });
 
 function reloadDivFn(div, url = window.location.href) {
@@ -1687,64 +1870,83 @@ function reloadDivFn(div, url = window.location.href) {
  */
 function submitForm($form, formType) {
     // Normal form Submit button
-    let $btn = $form.find('button[type=submit]');
+    let $btn = $form.find("button[type=submit]");
     // Wizard form - Steps validation Submit button
-    if (!$btn.length) $btn = $form.find('.actions li:last-child a');
+    if (!$btn.length) $btn = $form.find(".actions li:last-child a");
     const btnHtml = $btn.html();
-    if ($btn.hasClass('needs-time-counter')) setTimeCounter($btn);
+    if ($btn.hasClass("needs-time-counter")) setTimeCounter($btn);
     disableBtn($btn);
     const ajaxOptions = {
-        url: $form.attr('action'),
-        type: 'POST',
+        url: $form.attr("action"),
+        type: "POST",
         cache: false,
         processData: false,
-        dataType: 'json',
+        dataType: "json",
         contentType: false,
-        data: new FormData($form[0])
+        data: new FormData($form[0]),
     };
     $.ajax(ajaxOptions)
         .done((resp) => {
             closeConfirmMessageDeleteModal();
-            if ($btn.hasClass('needs-time-counter')) stopTimeCounter();
+            if ($btn.hasClass("needs-time-counter")) stopTimeCounter();
             hideAjaxAlert();
             enableBtn($btn, btnHtml);
             if (resp.ok && resp.msg) {
                 resp.pop
-                    ? pop({ msg: resp.msg, type: 'success', timer: resp.pop_timer })
-                    : flash({ msg: resp.msg, type: 'success' });
+                    ? pop({
+                          msg: resp.msg,
+                          type: "success",
+                          timer: resp.pop_timer,
+                      })
+                    : flash({ msg: resp.msg, type: "success" });
             } else {
                 resp.pop
-                    ? pop({ msg: resp.msg, type: 'success', timer: resp.pop_timer })
-                    : flash({ msg: resp.msg, type: 'error' });
+                    ? pop({
+                          msg: resp.msg,
+                          type: "success",
+                          timer: resp.pop_timer,
+                      })
+                    : flash({ msg: resp.msg, type: "error" });
             }
-            if (formType === 'store') clearForm($form);
+            if (formType === "store") clearForm($form);
             $btn.html(btnHtml);
             if (resp.scrollToBtn) return scrollTo($btn);
             if (resp.complete) return resp;
-            scrollTo('body');
+            scrollTo("body");
         })
         .fail((e) => {
             closeConfirmMessageDeleteModal();
             unblockUI();
-            if ($btn.hasClass('needs-time-counter')) stopTimeCounter();
+            if ($btn.hasClass("needs-time-counter")) stopTimeCounter();
             if (e.status === 422) displayAjaxErr(e.responseJSON.errors);
-            if (e.status === 500) displayAjaxErr([`${e.status} ${e.statusText} Please Check for Duplicate entry or Contact Administrator`]);
-            if (e.status === 404) displayAjaxErr([`${e.status} ${e.statusText} - Requested Resource Not Found`]);
+            if (e.status === 500)
+                displayAjaxErr([
+                    `${e.status} ${e.statusText} Please Check for Duplicate entry or Contact Administrator`,
+                ]);
+            if (e.status === 404)
+                displayAjaxErr([
+                    `${e.status} ${e.statusText} - Requested Resource Not Found`,
+                ]);
             enableBtn($btn, btnHtml);
             return e.status;
         });
 }
 
 function setTimeCounter($btn) {
-    $('<span id="time-counter" class="status-styled d-inline-block"></span>').insertAfter($btn);
+    $(
+        '<span id="time-counter" class="status-styled d-inline-block"></span>'
+    ).insertAfter($btn);
     startTimeCounter();
 }
 
-let sec = 0, time_interval;
+let sec = 0,
+    time_interval;
 const pad = (val) => (val > 9 ? val : `0${val}`);
 
 function updateTimer() {
-    $('#time-counter').html(`${pad(parseInt(sec / 60, 10))}:${pad(++sec % 60)} elapsed.`);
+    $("#time-counter").html(
+        `${pad(parseInt(sec / 60, 10))}:${pad(++sec % 60)} elapsed.`
+    );
 }
 
 function startTimeCounter() {
@@ -1756,51 +1958,73 @@ function stopTimeCounter() {
 }
 
 function closeConfirmMessageDeleteModal() {
-    return $('#confirm-message-delete .close').click();
+    return $("#confirm-message-delete .close").click();
 }
 
 function disableBtn($btn) {
-    const btnText = $btn.data('text') ? $btn.data('text') : 'Submitting...';
-    $btn.prop('disabled', true).html(`<i class="material-symbols-rounded mr-2 spinner">progress_activity</i>${btnText}`);
+    const btnText = $btn.data("text") ? $btn.data("text") : "Submitting...";
+    $btn.prop("disabled", true).html(
+        `<i class="material-symbols-rounded mr-2 spinner">progress_activity</i>${btnText}`
+    );
 }
 
 function enableBtn($btn, btnHtml) {
-    $btn.prop('disabled', false).html(btnHtml);
+    $btn.prop("disabled", false).html(btnHtml);
 }
 
 function displayAjaxErr(errors) {
-    $('#ajax-alert').show().html('<div class="alert alert-danger border-0 alert-dismissible" id="ajax-msg"><button type="button" class="close" data-dismiss="alert"><span>&times;</span></button></div>');
+    $("#ajax-alert")
+        .show()
+        .html(
+            '<div class="alert alert-danger border-0 alert-dismissible" id="ajax-msg"><button type="button" class="close" data-dismiss="alert"><span>&times;</span></button></div>'
+        );
     $.each(errors, (k, v) => {
-        $('#ajax-msg').append(`<span><i class="material-symbols-rounded pb-2px">hdr_strong</i> ${v}</span><br/>`);
+        $("#ajax-msg").append(
+            `<span><i class="material-symbols-rounded pb-2px">hdr_strong</i> ${v}</span><br/>`
+        );
     });
-    scrollTo('body');
+    scrollTo("body");
 }
 
 function scrollTo(el) {
-    $('html, body').animate({ scrollTop: $(el).offset().top }, 2000);
+    $("html, body").animate({ scrollTop: $(el).offset().top }, 2000);
 }
 
 function scrollToBottom() {
-    const scrollingElement = (document.scrollingElement || document.body);
-    $('html, body').animate({
-        scrollTop: scrollingElement.scrollHeight
-    }, 2000);
+    const scrollingElement = document.scrollingElement || document.body;
+    $("html, body").animate(
+        {
+            scrollTop: scrollingElement.scrollHeight,
+        },
+        2000
+    );
 }
 
 function hideAjaxAlert() {
-    $('#ajax-alert').hide();
+    $("#ajax-alert").hide();
 }
 
 function clearForm($form) {
-    $form.find('.checked').removeClass('checked');
-    $form.find('.select, .select-search').val([]).select2({ placeholder: 'Select...' });
+    $form.find(".checked").removeClass("checked");
+    $form
+        .find(".select, .select-search")
+        .val([])
+        .select2({ placeholder: "Select..." });
     $form[0].reset();
 }
 
-$('.print-this').addClass('position-relative').append('<button class="position-absolute btn btn-sm pb-1 pt-1 right-0 bottom-0 print-none this" type="button">Print</button>');
-$('.print-this button.this').on('click', function () {
-    const $parent = $(this).closest('.print-this');
-    if (getPreferredTheme() === "dark" || (getPreferredTheme() === "auto" && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+$(".print-this")
+    .addClass("position-relative")
+    .append(
+        '<button class="position-absolute btn btn-sm pb-1 pt-1 right-0 bottom-0 print-none this" type="button">Print</button>'
+    );
+$(".print-this button.this").on("click", function () {
+    const $parent = $(this).closest(".print-this");
+    if (
+        getPreferredTheme() === "dark" ||
+        (getPreferredTheme() === "auto" &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches)
+    ) {
         Modal.fire({
             text: "Please, print while in light color mode for best visual quality.",
             icon: "warning",
@@ -1812,7 +2036,7 @@ $('.print-this button.this').on('click', function () {
             if (result.isConfirmed) {
                 doElementPrint($parent);
             } else if (result.isDenied) {
-                scrollTo('body');
+                scrollTo("body");
             }
         });
     } else {
@@ -1821,8 +2045,8 @@ $('.print-this button.this').on('click', function () {
 });
 
 function doElementPrint($element) {
-    if ($element.hasClass('card-collapsed'))
-        $element.removeClass('card-collapsed');
+    if ($element.hasClass("card-collapsed"))
+        $element.removeClass("card-collapsed");
     $element.printThis({ base: "https://jasonday.github.io/printThis/" });
 }
 
@@ -1834,13 +2058,25 @@ function resizeChartInstances() {
 
 /**
  *-------------------------------------------------------------
- * Handle Offline Indicator
+ * Handle Offline Access
  *-------------------------------------------------------------
  */
 const offlineDiv = document.getElementById("offline-alert");
+const $submitBtns = $("button[type=submit]");
+const currentUrl = window.location.href;
 
 const updateOfflineStatus = () => {
-    offlineDiv.style.display = navigator.onLine ? 'none' : 'inline-flex';
+    if (!currentUrl.includes("localhost")) {
+        if (navigator.onLine) {
+            offlineDiv.style.display = "none";
+            $submitBtns
+                .prop("disabled", false)
+                .removeClass("cursor-not-allowed");
+        } else {
+            offlineDiv.style.display = "inline-flex";
+            $submitBtns.prop("disabled", true).addClass("cursor-not-allowed");
+        }
+    }
 };
 
 window.addEventListener("offline", updateOfflineStatus);

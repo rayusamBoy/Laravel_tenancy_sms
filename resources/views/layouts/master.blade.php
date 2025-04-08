@@ -74,7 +74,7 @@
     {{-- Notification Sounds --}}
     <span class="d-none" id="notification-sounds" data-allow_system_sounds="{{ auth()->user()->allow_system_sounds }}" data-base_url="{{ asset('global_assets/sounds') }}"></span>
     {{-- Offline Indicator --}}
-    <div id="offline-alert">Browsing Offline</div>
+    <div id="offline-alert">Application Offline</div>
 
     @include('partials.inc_bottom')
 
