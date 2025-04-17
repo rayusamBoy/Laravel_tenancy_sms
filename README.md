@@ -155,7 +155,7 @@ This is a multi-tenant school management system powered by technologies includin
 
 ## Usage
 
-1. Central app scope
+1. Central app scope <br>
    Once you have completed the installation, you can access the central app via the already running URL `http://localhost:8000` using the following credentials.
 
 
@@ -163,11 +163,10 @@ This is a multi-tenant school management system powered by technologies includin
    | ------------ | -------- | ------------------------------------- | -------- |
    | IT Guy       | itguy    | [itguy@sms.com](mailto:itguy@sms.com) | itguy    |
 
-
 > [!IMPORTANT]
 > When using a central domain other than `localhost` (e.g., `sms.edu`), you must add the domain to the `central_domains` key in the `tenancy` [configuration file](config/tenancy.php).
->
-2. Tenant app scope
+
+2. Tenant app scope <br>
    To access the tenant app, you need to create a tenant and tenant domain in the central app. Once that's done, you can use the created domain to access the system with the following credentials.
 
 
@@ -189,9 +188,9 @@ This is a multi-tenant school management system powered by technologies includin
 
 See [contributing](https://github.com/rayusamBoy/Laravel_tenancy_sms/blob/main/CONTRIBUTING.md).
 
-## Appreciation
+## Acknowledgement
 
-This project is based on the [lav_sms](https://github.com/4jean/lav_sms) project by [4jean](https://github.com/4jean). This is my personal modification and adaptation of the original project. I would like to express my appreciation to him and to everyone who contributes.
+This project is based on the [lav_sms](https://github.com/4jean/lav_sms) project by [4jean](https://github.com/4jean). It contains my personal modifications and adaptations of the original project. I would like to express my sincere gratitude to 4jean and to everyone who contributes.
 
 ## License
 
