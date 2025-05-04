@@ -74,7 +74,7 @@ This is a multi-tenant school management system powered by technologies includin
 
 ## Installation
 
-1. Clone this repository, or you can download the **zip** folder instead.
+1. Clone this repository, or you can download the [**zip**](https://github.com/rayusamBoy/Laravel_tenancy_sms/archive/refs/heads/main.zip) folder instead.
 
    ```bash
    git clone https://github.com/rayusamBoy/Laravel_tanancy_sms.git
@@ -194,4 +194,4 @@ This project is based on the [lav_sms](https://github.com/4jean/lav_sms) project
 
 ## License
 
-The School Management System is open-sourced software licensed under the [GPL-3.0 license](https://github.com/rayusamBoy/Laravel_tenancy_sms/blob/main/LICENSE).
+The School Management System is open-sourced software licensed under the [MIT License](https://github.com/rayusamBoy/Laravel_tenancy_sms/blob/main/LICENSE).
