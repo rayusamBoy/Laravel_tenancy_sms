@@ -113,12 +113,12 @@ class Qs
         return $hash->encode($id);
     }
 
-    public static function decodeHash($str, $toString = true)
+    public static function decodeHash($str, $to_string = true)
     {
-        $date = date('dMY') . tenant('id') ?? self::getAppCode();
-        $hash = new Hashids($date, 14);
+        $salt = date('dMY') . tenant('id') ?? config('app.name');
+        $hash = new Hashids($salt, 10);
         $decoded = $hash->decode($str);
-        return $toString ? implode(',', $decoded) : $decoded;
+        return $to_string ? implode(',', $decoded) : $decoded;
     }
 
     public static function getUserRecord($remove = [], $values_only = true)

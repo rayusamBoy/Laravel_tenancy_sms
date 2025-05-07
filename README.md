@@ -1,20 +1,40 @@
 <p align="center"><a href="https://github.com/rayusamBoy/Laravel_tenancy_sms" target="_blank"><img src="public/images/icons/icon-rounded.png" width="100" alt="SMS Logo"></a></p>
 
+<div align="center">
+    
+[![License](https://img.shields.io/github/license/rayusamBoy/Laravel_tenancy_sms?label=license)](https://github.com/rayusamBoy/Laravel_tenancy_sms/blob/main/LICENSE) [![GitHub issues](https://img.shields.io/github/issues/rayusamBoy/Laravel_tenancy_sms?label=issues)](https://github.com/rayusamBoy/Laravel_tenancy_sms/issues) [![Contributors](https://img.shields.io/github/contributors/rayusamBoy/Laravel_tenancy_sms?label=contributors)](https://github.com/rayusamBoy/Laravel_tenancy_sms/graphs/contributors) [![Last Commit](https://img.shields.io/github/last-commit/rayusamBoy/Laravel_tenancy_sms?label=last%20commit)](https://github.com/rayusamBoy/Laravel_tenancy_sms/commits) [![Languages](https://img.shields.io/github/languages/count/rayusamBoy/Laravel_tenancy_sms?label=languages)](https://github.com/rayusamBoy/Laravel_tenancy_sms) [![Sponsor](https://img.shields.io/github/sponsors/rayusamBoy?label=sponsor)](https://github.com/sponsors/rayusamBoy)
+
+</div>
+
 ## About
 
-This is a multi-tenant school management system powered by technologies including the [Laravel framework](https://laravel.com), [Bootstrap](https://getbootstrap.com), [jQuery](https://jquery.com), and the [Tenancy package](https://tenancyforlaravel.com), among others. It is developed for educational institutions such as schools and colleges and is built on Laravel 12.
+This is a multi-tenant, progressive web app (PWA) school management system powered by technologies including the [Laravel framework](https://laravel.com), [Bootstrap](https://getbootstrap.com), [jQuery](https://jquery.com), and the [Tenancy package](https://tenancyforlaravel.com), among others. It is developed for educational institutions such as schools and colleges and is built on Laravel 12.
 
-**Please refer to the [NOTICE](https://github.com/rayusamBoy/Laravel_tenancy_sms/blob/main/NOTICE.md) file for any changes you may be required to apply.**
+*Please show your support and appreciation by at least becoming one of the stargazers (starring this project) if you find it useful, or if any part of it is helpful.*
 
-## Features & Screenshots
+## Quick Start
+
+```bash
+git clone https://github.com/rayusamBoy/Laravel_tenancy_sms.git
+cd Laravel_tenancy_sms
+composer install && npm install && npm run build
+php artisan key:generate && php artisan migrate --seed --seeder=DatabaseSeederNonTenancy
+php artisan serve
+````
+
+## Getting Started
 
 ### Features
+
+<details>
+
+<summary>Details</summary>
 
 * Tenancy capability
 * Progressive Web App (PWA) features including Offline access
 * Color modes (dark and light)
 * Built-in messaging, notifications, and support tickets
-* An `IT Guy` account that can manage non-tenant operations
+* An `IT Guy` account that can manage nont-tenant operations
 * Eight (8) types of user accounts
   * `Super admin`
     * Create any user account
@@ -59,20 +79,22 @@ This is a multi-tenant school management system powered by technologies includin
     * View students
 * Among others.
 
+</details>
+
 #### Screenshots
 
-`Non tenancy` [browse files](/public/images/screenshots/non_tenancy/).
+`Non-tenancy` [browse files](/public/images/screenshots/non_tenancy/).
 
 `Tenancy` [browse files](/public/images/screenshots/tenancy/).
 
-## Requirements
+#### Requirements
 
 * [composer](https://getcomposer.org/)
 * [npm](https://www.npmjs.com/)
 * [laravel requirements](https://laravel.com/docs/12.x/deployment#server-requirements)
 * Among others.
 
-## Installation
+#### Installation
 
 1. Clone this repository, or you can download the [**zip**](https://github.com/rayusamBoy/Laravel_tenancy_sms/archive/refs/heads/main.zip) folder instead.
 
@@ -89,10 +111,13 @@ This is a multi-tenant school management system powered by technologies includin
    ```bash
    composer install
    ```
-4. Install and build the Node packages.
+4. Install then build the Node packages.
 
    ```bash
    npm install
+   ```
+
+   ```bash
    npm run build
    ```
 5. Create a `.env` file by copying the `.env.example` file.
@@ -112,11 +137,11 @@ This is a multi-tenant school management system powered by technologies includin
    ```
 8. Set values for specific keys in the `.env` file you created earlier.
 
-   * `DB_DATABASE` - Database name (make sure you have created one). *Default connection:* `mysql`.
+   * `DB_DATABASE` - Database name (make sure you have created one). Default connection: `mysql`.
    * `DB_USERNAME` - Database username.
    * `DB_PASSWORD` - Database password.
-   * `BROADCAST_CONNECTION` - *Default:* `reverb`. You can also opt for `pusher`. For `pusher`, make sure to set the appropriate values for any keys that start with `PUSHER_`, then you will need to activate the credentials [in this file](resources/js/bootstrap.js).
-   * `APP_URL` - Your full qualified domain with protocol `https://` included. *Default:* `http://localhost`
+   * `BROADCAST_CONNECTION` - Default: `reverb`. You can also opt for `pusher`. For `pusher`, make sure to set the appropriate values for any keys that start with `PUSHER_`, then you will need to activate the credentials [in this file](resources/js/bootstrap.js).
+   * `APP_URL` - Your full qualified domain with protocol `https://` included. Default: `http://localhost`
    * `VITE_VAPID_KEY` - **(optional)**. Firebase Cloud Messaging (FCM) push services access token. To get a key and more [check this out](https://firebase.google.com/docs/cloud-messaging).
 9. Migrate the database.
 
@@ -139,12 +164,6 @@ This is a multi-tenant school management system powered by technologies includin
     ```bash
     php artisan reverb:start
     ```
-14. **(local)**. Open a new terminal, then serve the `app` and access it via the link `http://localhost:8000` by running:
-
-    ```bash
-    php artisan serve
-    ```
-15. **(production)**. Try searching Google for information on how to deploy a Laravel app based on your hosting plan.
 
 > [!IMPORTANT]
 > Whenever you set or update any value in the `.env` file for keys that start with `VITE_` and/or change the `BROADCAST_CONNECTION`, you must rebuild the node packages by running:
@@ -153,33 +172,57 @@ This is a multi-tenant school management system powered by technologies includin
 > npm run build
 > ```
 
-## Usage
+## Usage & Deployment
+
+#### Development
+
+Open a new terminal, then serve the `app` and access it via url `http://localhost:8000` by running:
+
+```bash
+php artisan serve
+```
+
+#### Deployment
+
+Please review the official Laravel deployment guide at https://laravel.com/docs/12.x/deployment, and consider searching online for tutorials on deploying a Laravel application tailored to your specific hosting environment.
+
+#### Usage
 
 1. Central app scope <br>
    Once you have completed the installation, you can access the central app via the already running URL `http://localhost:8000` using the following credentials.
 
 
-   | Account Type | Username | Email                                 | Password |
-   | ------------ | -------- | ------------------------------------- | -------- |
-   | IT Guy       | itguy    | [itguy@sms.com](mailto:itguy@sms.com) | itguy    |
+
+   | Account Type | Username | Email                          | Password |
+   | ------------ | -------- | ------------------------------ | -------- |
+   | IT Guy       | `itguy`    | `itguy@sms.com` | `itguy`    |
 
 > [!IMPORTANT]
 > When using a central domain other than `localhost` (e.g., `sms.edu`), you must add the domain to the `central_domains` key in the `tenancy` [configuration file](config/tenancy.php).
+>
+> ```php
+> 'central_domains' => [
+>       '127.0.0.1',
+>       'localhost',
+>       'sms.edu' // Add your central domain here
+>   ],
+>
 
 2. Tenant app scope <br>
    To access the tenant app, you need to create a tenant and tenant domain in the central app. Once that's done, you can use the created domain to access the system with the following credentials.
 
 
+
    | Account Type | Username   | Email                                           | Password   |
    | ------------ | ---------- | ----------------------------------------------- | ---------- |
-   | Super Admin  | superadmin | [superadmin@sms.com](mailto:superadmin@sms.com) | superadmin |
-   | Admin        | admin      | [admin@sms.com](mailto:admin@sms.com)           | admin      |
-   | Teacher      | teacher    | [teacher@sms.com](mailto:teacher@sms.com)       | teacher    |
-   | Companion    | companion  | [companion@sms.com](mailto:companion@sms.com)   | companion  |
-   | Parent       | parent     | [parent@sms.com](mailto:parent@sms.com)         | parent     |
-   | Accountant   | accountant | [accountant@sms.com](mailto:accountant@sms.com) | accountant |
-   | Librarian    | librarian  | [librarian@sms.com](mailto:librarian@sms.com)   | librarian  |
-   | Student      | student    | [student@sms.com](mailto:student@sms.com)       | student    |
+   | Super Admin  | `superadmin` | `superadmin@sms.com` | `superadmin` |
+   | Admin        | `admin`      | `admin@sms.com`           | `admin`      |
+   | Teacher      | `teacher`    | `teacher@sms.com`       | `teacher`    |
+   | Companion    | `companion`  | `companion@sms.com`   | `companion`  |
+   | Parent       | `parent`     | `parent@sms.com`         | `parent`     |
+   | Accountant   | `accountant` | `accountant@sms.com` | `accountant` |
+   | Librarian    | `librarian`  | `librarian@sms.com`   | `librarian`  |
+   | Student      | `student`    | `student@sms.com`       | `student`    |
 
 > [!NOTE]
 > For more information please refer to this [documentation](https://tenancyforlaravel.com).
