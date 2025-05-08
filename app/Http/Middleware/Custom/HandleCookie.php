@@ -17,7 +17,7 @@ class HandleCookie
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $cookie = CookieController::setForever('do_not_show_els_with_these_ids_again', auth()->user()?->hidden_alert_ids ?? "", null, null, null, false);
+        $cookie = CookieController::setForever('do_not_show_els_with_these_ids_again', auth()->user()?->hidden_alert_ids ?? "", httpOnly: false);
         $response = $next($request);
 
         // Check if the response is an instance of Illuminate\Http\Response (HTTP responses)

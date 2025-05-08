@@ -106,18 +106,22 @@ class Qs
         return ['super_admin', 'accountant', 'admin'];
     }
 
+    protected static function getHashidsInstance()
+    {
+        $salt = date('dMY') . tenant('id') ?? config('app.name');
+        $hash = new Hashids($salt, 10);
+        return $hash;
+    }
+
     public static function hash($id)
     {
-        $date = date('dMY') . tenant('id') ?? self::getAppCode();
-        $hash = new Hashids($date, 14);
-        return $hash->encode($id);
+        return self::getHashidsInstance()->encode($id);
     }
 
     public static function decodeHash($str, $to_string = true)
     {
-        $salt = date('dMY') . tenant('id') ?? config('app.name');
-        $hash = new Hashids($salt, 10);
-        $decoded = $hash->decode($str);
+
+        $decoded = self::getHashidsInstance()->decode($str);
         return $to_string ? implode(',', $decoded) : $decoded;
     }
 
