@@ -6,8 +6,8 @@
         <img src="{{ $logo }}" style="max-width: 60px; max-height: 60px;" />
     </div>
     {{--Headings--}}
-    <h2 style="text-align: center;">KNOW OUR STAFF {{ Qs::getSetting('system_name') }}</h2>
-    <h3 style="text-align: center;">STAFF INFORMATIONS</h3>
+    <h2 style="text-align: center;">KNOW OUR STAFF {{ strtoupper(Qs::getSetting('system_name')) }}</h2>
+    <h3 style="text-align: center;">STAFF INFORMATION</h3>
     {{--Table Data--}}
     <table style="width: 100%; border-collapse: collapse; border: 1px solid #000; margin: 10px auto; table-layout: fixed" border="1">
         <tbody>

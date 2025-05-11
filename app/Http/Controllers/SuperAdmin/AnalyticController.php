@@ -25,7 +25,7 @@ class AnalyticController extends Controller
         $d['google_analytic_tag_id'] = $settings->where('type', 'google_analytic_tag_id')->value('description');
 
         $credential_file = storage_path('/app/public/' . $settings->where('type', 'google_analytic_service_account_credential_file')->value('description'));
-        $gtag_code_structure_file = __DIR__ . '/../../../../storage/app/analytics/google-tag-manager-code-structure.php';
+        $gtag_code_structure_file = __DIR__ . '/../../../../storage/app/private/analytics/google-tag-manager-code-structure.php';
 
         // These are usually configured statically; meaning they are not expected to change (see the analytic config file)
         // For multitenant scope we will update accordingly during runtime

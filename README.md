@@ -2,7 +2,7 @@
 
 <div align="center">
     
-[![License](https://img.shields.io/github/license/rayusamBoy/Laravel_tenancy_sms?label=license)](https://github.com/rayusamBoy/Laravel_tenancy_sms/blob/main/LICENSE) [![GitHub issues](https://img.shields.io/github/issues/rayusamBoy/Laravel_tenancy_sms?label=issues)](https://github.com/rayusamBoy/Laravel_tenancy_sms/issues) [![Contributors](https://img.shields.io/github/contributors/rayusamBoy/Laravel_tenancy_sms?label=contributors)](https://github.com/rayusamBoy/Laravel_tenancy_sms/graphs/contributors) [![Last Commit](https://img.shields.io/github/last-commit/rayusamBoy/Laravel_tenancy_sms?label=last%20commit)](https://github.com/rayusamBoy/Laravel_tenancy_sms/commits) [![Languages](https://img.shields.io/github/languages/count/rayusamBoy/Laravel_tenancy_sms?label=languages)](https://github.com/rayusamBoy/Laravel_tenancy_sms) [![Sponsor](https://img.shields.io/github/sponsors/rayusamBoy?label=sponsor)](https://github.com/sponsors/rayusamBoy)
+[![License](https://img.shields.io/github/license/rayusamBoy/Laravel_tenancy_sms?label=license&style=flat-square)](https://github.com/rayusamBoy/Laravel_tenancy_sms/blob/main/LICENSE) [![GitHub issues](https://img.shields.io/github/issues/rayusamBoy/Laravel_tenancy_sms?label=issues&style=flat-square)](https://github.com/rayusamBoy/Laravel_tenancy_sms/issues) [![Contributors](https://img.shields.io/github/contributors/rayusamBoy/Laravel_tenancy_sms?label=contributors&style=flat-square)](https://github.com/rayusamBoy/Laravel_tenancy_sms/graphs/contributors) [![Last Commit](https://img.shields.io/github/last-commit/rayusamBoy/Laravel_tenancy_sms?label=last%20commit&style=flat-square)](https://github.com/rayusamBoy/Laravel_tenancy_sms/commits) [![Languages](https://img.shields.io/github/languages/count/rayusamBoy/Laravel_tenancy_sms?label=languages&style=flat-square)](https://github.com/rayusamBoy/Laravel_tenancy_sms)
 
 </div>
 
@@ -10,17 +10,34 @@
 
 This is a multi-tenant, progressive web app (PWA) school management system powered by technologies including the [Laravel framework](https://laravel.com), [Bootstrap](https://getbootstrap.com), [jQuery](https://jquery.com), and the [Tenancy package](https://tenancyforlaravel.com), among others. It is developed for educational institutions such as schools and colleges and is built on Laravel 12.
 
-*Please show your support and appreciation by at least becoming one of the stargazers (starring this project) if you find it useful, or if any part of it is helpful.*
-
 ## Quick Start
+> Run these commands to launch the app locally:
 
 ```bash
+# 1. Clone repository
 git clone https://github.com/rayusamBoy/Laravel_tenancy_sms.git
+
+# 2. Navigate into project
 cd Laravel_tenancy_sms
-composer install && npm install && npm run build
-php artisan key:generate && php artisan migrate --seed --seeder=DatabaseSeederNonTenancy
+
+# 3. Install PHP dependencies
+composer install
+
+# 4. Install JS dependencies
+npm install
+
+# 5. Build frontend assets
+npm run build
+
+# 6. Prepare database
+php artisan key:generate
+php artisan storage:link
+php artisan migrate --seed --seeder=DatabaseSeederNonTenancy
+
+# 7. Serve locally
 php artisan serve
 ````
+> For full setup instructions, see [Installation](https://github.com/rayusamBoy/Laravel_tenancy_sms/edit/main/README.md#installation).
 
 ## Getting Started
 
@@ -82,24 +99,29 @@ php artisan serve
 </details>
 
 #### Screenshots
+<img src="/public/images/screenshots/non_tenancy/delete-tenant-with-success-msg-dark.png">
+<img src="/public/images/screenshots/non_tenancy/system-settings-light.PNG">
 
-`Non-tenancy` [browse files](/public/images/screenshots/non_tenancy/).
+`Non-tenancy` [more screenshots](/public/images/screenshots/non_tenancy/).
+<hr>
 
-`Tenancy` [browse files](/public/images/screenshots/tenancy/).
+<img src="/public/images/screenshots/tenancy/superadmin-dashboard-dark.png">
+<img src="/public/images/screenshots/tenancy/login-dark.png">
 
-#### Requirements
+`Tenancy` [more screenshots](/public/images/screenshots/tenancy/).
+
+#### Prerequisites
 
 * [composer](https://getcomposer.org/)
 * [npm](https://www.npmjs.com/)
 * [laravel requirements](https://laravel.com/docs/12.x/deployment#server-requirements)
-* Among others.
 
 #### Installation
 
 1. Clone this repository, or you can download the [**zip**](https://github.com/rayusamBoy/Laravel_tenancy_sms/archive/refs/heads/main.zip) folder instead.
 
    ```bash
-   git clone https://github.com/rayusamBoy/Laravel_tanancy_sms.git
+   git clone https://github.com/rayusamBoy/Laravel_tenancy_sms.git
    ```
 2. Change to the app installation directory.
 
@@ -184,7 +206,7 @@ php artisan serve
 
 #### Deployment
 
-Please review the official Laravel deployment guide at https://laravel.com/docs/12.x/deployment, and consider searching online for tutorials on deploying a Laravel application tailored to your specific hosting environment.
+Please review the official [Laravel deployment guide](https://laravel.com/docs/12.x/deployment), and consider searching online for tutorials on deploying a Laravel application tailored to your specific hosting environment.
 
 #### Usage
 
@@ -229,11 +251,11 @@ Please review the official Laravel deployment guide at https://laravel.com/docs/
 
 ## Contributing
 
-See [contributing](https://github.com/rayusamBoy/Laravel_tenancy_sms/blob/main/CONTRIBUTING.md).
+Please see [contributing](https://github.com/rayusamBoy/Laravel_tenancy_sms/blob/main/CONTRIBUTING.md) for details. Also, show your support by at least becoming one of the stargazers (starring this project) if you find it useful, or if any part of it is helpful.
 
 ## Acknowledgement
 
-This project is based on the [lav_sms](https://github.com/4jean/lav_sms) project by [4jean](https://github.com/4jean). It contains my personal modifications and adaptations of the original project. I would like to express my sincere gratitude to 4jean and to everyone who contributes.
+This project is based on the [lav_sms](https://github.com/4jean/lav_sms) project by [4jean](https://github.com/4jean). I would like to express my sincere gratitude to 4jean, to everyone whose code was used, and to all contributors.
 
 ## License
 

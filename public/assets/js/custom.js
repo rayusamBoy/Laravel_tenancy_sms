@@ -1033,15 +1033,30 @@ $(document).on("click", ".pagination a", function (event) {
     getNoticesData($(this).attr("href"));
 });
 
+let hashChangedProgrammatically = false;
+
 const getNoticesData = (url) => {
     const status = url.includes("unviewed") ? "unviewed" : "viewed";
     const $notices = $(".notices").find(`#${status}`);
+    const paginationMeta = $notices.data("pagination-meta") || "0:0:0";
+    const [total, perPage, lastPage] = paginationMeta.split(":").map(Number);
+    const pageParam = url.split("=")[1];
+    const currentPage = pageParam ? parseInt(pageParam, 10) : 1;
+    let to = perPage * currentPage;
+    const from = currentPage === 1 ? 0 : to - perPage;
+    to = currentPage === lastPage ? total : to;
+    const duplicateTimes = to - from;
+
+    // Create a deep clone of the notices for fallback
+    const tempNotices = $notices.clone(true, true);
+
     $notices
         .empty()
         .append(
             `<div class="notices-loading">${noticesLoadingSkin(
-                4,
-                status
+                duplicateTimes,
+                status,
+                lastPage
             )}</div>`
         );
     $.ajax({
@@ -1051,75 +1066,92 @@ const getNoticesData = (url) => {
     })
         .done((data) => {
             $notices.replaceWith(data);
+            hashChangedProgrammatically = true;
             window.location.hash = url;
         })
         .fail(() => {
+            $notices.replaceWith(tempNotices);
             flash({ msg: "Sorry, something went wrong.", type: "error" });
         });
 };
 
 $(window).on("hashchange", () => {
-    if (window.location.hash) {
+    if (window.location.hash && !hashChangedProgrammatically) {
         const url = window.location.hash.replace("#", "");
         getNoticesData(url);
     }
 });
 
-const noticesLoadingSkin = (duplicateTimes, status) => {
-    let template = "";
-    const a = `<div class="card m-0 border-bottom-0 text-muted">
+function noticesLoadingSkin(duplicateTimes, status, linksCount) {
+    const linkTpl = `<li class="page-item disabled">
+                       <a class="page-link skeleton"></a>
+                     </li>`;
+
+    const links = Array(linksCount).fill(linkTpl).join("");
+
+    const header = `
+      <div class="card m-0 border-bottom-0 text-muted">
         <div class="card-header position-relative">
-            <span class="float-left pr-10 status-styled">${capitalize(
-                status
-            )}</span><i class="text-muted float-right name skeleton"></i>
+          <span class="float-left pr-10 status-styled">
+            ${capitalize(status)}
+          </span>
+          <i class="text-muted float-right name skeleton"></i>
         </div>
         <div class="card-body p-1">`;
-    // With iteration indicator
-    const bb = `<div class="card mb-1">
-                <div class="card-header">
-                    <h5 class="mb-0 d-flex">
-                        <span class="text-muted iteration skeleton mr-1"></span>
-                        <button class="btn btn-link w-100 pl-1 p-0 border-left-1 border-left-info">
-                            <span class="float-left pr-10 title skeleton"></span><i class="text-muted float-right time skeleton"></i>
-                        </button>
-                    </h5>
-                </div>
-            </div>`;
-    // Without iteration indicator
-    const cc = `<div class="card mb-1">
-                <div class="card-header">
-                    <h5 class="mb-0 d-flex">
-                        <button class="btn btn-link w-100 pl-1 p-0 border-left-1 border-left-info">
-                            <span class="float-left pr-10 title skeleton"></span><i class="text-muted float-right time skeleton"></i>
-                        </button>
-                    </h5>
-                </div>
-            </div>`;
-    const d = `<div class="position-relative pt-2">
-                <span class="float-right">
-                    <nav>
-                        <ul class="pagination">
-                            <li class="page-item disabled"><span class="page-link skeleton">‹</span></li>
-                            <li class="page-item disabled"><span class="page-link skeleton"></span></li>
-                            <li class="page-item disabled"><a class="page-link skeleton"></a></li>
-                            <li class="page-item disabled"><a class="page-link skeleton">›</a></li>
-                        </ul>
-                    </nav>
-                </span>
-                <span class="float-left showing skeleton"></span>
-            </div>
+
+    // Card with iteration indicator
+    const iterationTpl = `
+      <div class="card mb-1">
+        <div class="card-header">
+          <h5 class="mb-0 d-flex">
+            <span class="text-muted iteration skeleton mr-1"></span>
+            <button class="btn btn-link w-100 pl-1 p-0 border-left-1 border-left-info">
+              <span class="float-left pr-10 title skeleton"></span>
+              <i class="text-muted float-right time skeleton"></i>
+            </button>
+          </h5>
         </div>
+      </div>`;
+
+    // Card without iteration indicator
+    const noIterationTpl = `
+      <div class="card mb-1">
+        <div class="card-header">
+          <h5 class="mb-0 d-flex">
+            <button class="btn btn-link w-100 pl-1 p-0 border-left-1 border-left-info">
+              <span class="float-left pr-10 title skeleton"></span>
+              <i class="text-muted float-right time skeleton"></i>
+            </button>
+          </h5>
+        </div>
+      </div>`;
+
+    const footer = `
+        <div class="position-relative pt-2">
+          <span class="float-left showing skeleton mb-1"></span>
+          <span class="float-right">
+            <nav>
+              <ul class="pagination">
+                <li class="page-item disabled">
+                  <a class="page-link skeleton">‹</a>
+                </li>
+                ${links}
+                <li class="page-item disabled">
+                  <a class="page-link skeleton">›</a>
+                </li>
+              </ul>
+            </nav>
+          </span>
+        </div>
+      </div>
     </div>`;
 
-    let b = "",
-        c = "";
-    for (let i = 0; i < duplicateTimes; i++) {
-        b += bb;
-        c += cc;
-    }
-    template += status === "unviewed" ? a + b + d : a + c + d;
-    return template;
-};
+    // Build body by repeating the chosen template
+    const bodyTpl = status === "unviewed" ? iterationTpl : noIterationTpl;
+    const body = bodyTpl.repeat(duplicateTimes);
+
+    return `${header}${body}${footer}`;
+}
 
 /**
  *-------------------------------------------------------------

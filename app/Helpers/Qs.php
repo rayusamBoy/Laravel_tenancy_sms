@@ -27,7 +27,7 @@ class Qs
         return '<div class="alert alert-danger alert-styled-left alert-dismissible">
 				    <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
 				    <span class="font-weight-semibold">Oops!</span> ' . implode(' ', $data) .
-            '</div>';
+                '</div>';
     }
 
     public static function getAppCode()
@@ -53,7 +53,7 @@ class Qs
 
     public static function displaySuccess($msg)
     {
-        return "<div class=\"alert alert-success alert-bordered\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\"><span>&times;</span><span class=\"sr-only\">Close</span></button> $msg </div>";
+        return '<div class="alert alert-success alert-bordered"><button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button> $msg </div>';
     }
 
     public static function getTeamSA()

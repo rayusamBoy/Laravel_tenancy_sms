@@ -1,5 +1,4 @@
 *
-!analytics/
-!firebase/
+!private/
 !public/
 !.gitignore

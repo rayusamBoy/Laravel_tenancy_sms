@@ -21,8 +21,8 @@
             <div class="alert alert-info border-0 alert-dismissible">
                 <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
                 <span>
-                    First you need to create a google account if you do not have one. Then you configure it for use with analytics (You may google on how to do it). Then follow this link
-                    <a target="_blank" href="https://github.com/spatie/laravel-analytics"> How to obtain the credentials to communicate with Google Analytics</a> to get finished.<br>
+                    First you need to create a google account if you do not have one, then you <a target="_blank" href="https://support.google.com/analytics/answer/9304153?hl=en">configure it for use with analytics</a>, and then follow this link
+                    <a target="_blank" href="https://github.com/spatie/laravel-analytics#how-to-obtain-the-credentials-to-communicate-with-google-analytics"> how to obtain the credentials to communicate with Google Analytics</a>.<br>
                 </span>
             </div>
         </div>
@@ -39,7 +39,7 @@
                     <span class="display-i-on-hover float-right text-info"><span class="material-symbols-rounded">info</span>
                         <i class="float-right text-info display-none dropdown-menu position-absolute top-auto p-2">
                             <div>
-                                <span class="ml-3">A Google tag ID is a series of letters and numbers that usually starts with "G-".</span>
+                                <span>A Google tag ID is a series of letters and numbers that usually starts with "G-".</span><br>
                                 @php
                                 highlight_file($gtag_code_structure_file)
                                 @endphp
@@ -48,9 +48,9 @@
                     </span>
                     @endif
 
-                    <input name="google_analytic_tag_id" type="text" data-mask="G-wwwwwwwww?www" class="form-control" placeholder="Ie., G-4BCDFR6HGE">
+                    <input name="google_analytic_tag_id" type="text" value="{{ old('google_analytic_tag_id') ?? '' }}" data-mask="G-wwwwwwwww?www" class="form-control" placeholder="Ie., G-4BCDFR6HGE">
                     @if(empty($google_analytic_tag_id))
-                    <em class="form-text text-warning-800">No Tag ID found.</em>
+                    <span class="form-text text-warning-800">No Tag ID found.</span>
                     @else
                     <span class="form-text text-green-800">Found Tag ID: {{ $google_analytic_tag_id }}</span>
                     @endif
@@ -58,9 +58,9 @@
                 {{-- Analytic Property ID --}}
                 <div class="col-lg-4">
                     <label for="" class="d-block">Analytic Property ID</label>
-                    <input id="google_analytic_property_id" name="google_analytic_property_id" type="text" data-mask="999999999" class="form-control" placeholder="Ie., 123456789">
+                    <input id="google_analytic_property_id" name="google_analytic_property_id" value="{{ old('google_analytic_property_id') ?? '' }}" type="text" data-mask="999999999" class="form-control" placeholder="Ie., 123456789">
                     @if(empty($google_analytic_property_id))
-                    <em class="form-text text-warning-800">No Property ID found.</em>
+                    <span class="form-text text-warning-800">No Property ID found.</span>
                     @else
                     <span class="form-text text-green-800">Found Property ID: {{ $google_analytic_property_id }}</span>
                     @endif
@@ -82,7 +82,7 @@
                         </i>
                     </span>
                     @else
-                    <em class="form-text text-warning-800">No Credential File found.</em>
+                    <span class="form-text text-warning-800">No Credential File found.</span>
                     @endif
                 </div>
             </div>

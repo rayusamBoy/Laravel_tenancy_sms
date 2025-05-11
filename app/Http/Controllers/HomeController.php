@@ -99,12 +99,14 @@ class HomeController extends Controller
                 $d["viewed_notices"] = $vn_paginated;
 
             $d['current_url'] = $request->url();
+            $d['is_ajax_req'] = true;
 
             return view('pages/support_team/notices/show', $d);
         }
 
         $d["unviewed_notices"] = $un_paginated;
         $d["viewed_notices"] = $vn_paginated;
+        $d["is_ajax_req"] = false;
 
         return view('pages.support_team.dashboard', $d);
     }
