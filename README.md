@@ -37,7 +37,7 @@ php artisan migrate --seed --seeder=DatabaseSeederNonTenancy
 # 7. Serve locally
 php artisan serve
 ````
-> For full setup instructions, see [Installation](https://github.com/rayusamBoy/Laravel_tenancy_sms/edit/main/README.md#installation).
+> For full setup instructions, see [Installation](https://github.com/rayusamBoy/Laravel_tenancy_sms?tab=readme-ov-file#installation).
 
 ## Getting Started
 
